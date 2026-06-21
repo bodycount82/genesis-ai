@@ -1,4 +1,4 @@
-# Genesis — An Autonomous AI Companion
+# Genesis — An Autonomous AI Companion Webpage
 
 A local, autonomous AI companion with biological-style memory, simulated moods, and real desktop capabilities. Running entirely on your machine — no cloud, no API keys, no tracking.
 
