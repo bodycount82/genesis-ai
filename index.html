@@ -978,7 +978,12 @@ agreeCheck.addEventListener('change', () => {
 
 modalDownload.addEventListener('click', () => {
   closeModal();
-  window.location.href = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.2.0.exe';
+  const a = document.createElement('a');
+  a.href = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.2.0.exe';
+  a.download = 'Genesis-Setup-0.2.0.exe';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 });
 
 // Copy BTC address
