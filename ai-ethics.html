@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+.footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.9rem; color: #d4d4f0; margin-bottom: 6px; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; font-size: 0.85rem; color: #b0b0c8; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* ===== ETHICS PAGE SPECIFIC STYLES ===== */
+.back-link { position: fixed; top: 80px; left: 24px; z-index: 100; color: var(--accent-soft); text-decoration: none; font-size: 14px; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+.ethics-hero { position: relative; padding: 80px 24px 60px; text-align: center; background: linear-gradient(135deg, rgba(234,179,8,0.05), rgba(251,191,36,0.08)); border-bottom: 1px solid var(--border); }
+.ethics-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(234,179,8,0.15); border: 1px solid rgba(234,179,8,0.3); border-radius: 50px; padding: 6px 16px; font-size: 0.75rem; color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+.ethics-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.ethics-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 16px; color: var(--text); line-height: 1.2; }
+.ethics-subtitle { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+.ethics-container { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.ethics-section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.ethics-section-desc { color: var(--text-dim); font-size: 0.95rem; max-width: 600px; margin-bottom: 32px; }
+
+/* Framework cards */
+.framework-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 64px; }
+.framework-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s ease; }
+.framework-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.framework-icon { font-size: 2rem; margin-bottom: 16px; }
+.framework-name { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.framework-desc { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+
+/* Principles list */
+.principles-list { list-style: none; margin-bottom: 48px; }
+.principle-item { display: flex; gap: 16px; padding: 20px 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; }
+.principle-icon { font-size: 1.5rem; flex-shrink: 0; }
+.principle-content h3, .principle-content h4 { font-size: 1rem; color: var(--text); margin-bottom: 8px; }
+.principle-content p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; margin: 0; }
+
+/* Scenarios grid */
+.scenarios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 48px; }
+.scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; cursor: pointer; transition: all 0.3s ease; }
+.scenario-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.scenario-icon { font-size: 2rem; display: block; margin-bottom: 16px; }
+.scenario-name { font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.scenario-desc { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+
+/* Scenario panels */
+.scenario-panel { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 32px; }
+.scenario-panel.active { display: block; }
+.back-btn { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; margin-bottom: 24px; transition: all 0.2s; }
+.back-btn:hover { border-color: var(--accent); color: var(--text); }
+.panel-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.panel-icon { font-size: 1.5rem; }
+.panel-title { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+
+/* Decision container */
+.decision-container { background: var(--surface-2); border-radius: 12px; padding: 24px; margin: 24px 0; }
+.decision-title { font-size: 1.1rem; color: var(--text); margin-bottom: 16px; }
+.decision-options { display: flex; flex-direction: column; gap: 12px; }
+.decision-option { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; color: var(--text); cursor: pointer; text-align: left; font-size: 0.95rem; transition: all 0.2s; }
+.decision-option:hover { border-color: var(--accent); background: rgba(123,111,240,0.05); }
+.decision-option.selected { border-color: var(--accent); background: rgba(123,111,240,0.1); box-shadow: 0 0 0 1px var(--accent); }
+.decision-feedback { margin-top: 20px; padding: 20px; background: var(--surface); border-radius: 8px; color: var(--text-dim); font-size: 0.9rem; line-height: 1.7; white-space: pre-wrap; }
+
+/* Balance meter */
+.balance-container { margin: 32px 0; padding: 24px; background: var(--surface-2); border-radius: 12px; }
+.balance-title { font-size: 1rem; color: var(--text); margin-bottom: 16px; text-align: center; }
+.balance-meter { height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+.balance-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-soft)); border-radius: 6px; transition: width 0.5s ease; }
+.balance-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }
+
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.85rem; color: #b0b0c8; margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+</style>
+    <title>AI Ethics Explorer — GENESIS Lab</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>    <!-- Hero -->
+    <section class="ethics-hero">
+        <div class="hero-bg"></div>
+        <div class="ethics-hero-content">
+            <div class="ethics-badge">
+                <span class="ethics-badge-dot"></span>
+                Interactive Ethics Explorer
+            </div>
+            <h1 class="ethics-title">
+                <span style="background: linear-gradient(135deg, #eab308, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI Ethics</span><br>Explorer
+            </h1>
+            <p class="ethics-subtitle">
+                Explore the ethical dimensions of autonomous AI through interactive scenarios. 
+                Understand the challenges and frameworks that guide responsible AI development.
+            </p>
+        </div>
+    </section>
+
+    <!-- Container -->
+    <div class="ethics-container">
+        <!-- Ethical Frameworks -->
+        <h2 class="ethics-section-title">Ethical Frameworks</h2>
+        <p class="ethics-section-desc">Different philosophical approaches to evaluating AI decisions</p>
+        
+        <div class="framework-container">
+            <div class="framework-card">
+                <div class="framework-icon">⚖️</div>
+                <div class="framework-name">Utilitarianism</div>
+                <div class="framework-desc">Choose the action that maximizes overall well-being for the greatest number of people.</div>
+            </div>
+
+            <div class="framework-card">
+                <div class="framework-icon">🛡️</div>
+                <div class="framework-name">Deontology</div>
+                <div class="framework-desc">Follow moral rules and duties, regardless of consequences. Some actions are inherently right or wrong.</div>
+            </div>
+
+            <div class="framework-card">
+                <div class="framework-icon">💚</div>
+                <div class="framework-name">Virtue Ethics</div>
+                <div class="framework-desc">Focus on developing good character traits. What would a virtuous AI system do?</div>
+            </div>
+
+            <div class="framework-card">
+                <div class="framework-icon">🤝</div>
+                <div class="framework-name">Care Ethics</div>
+                <div class="framework-desc">Prioritize relationships and empathy. Consider how decisions affect those most vulnerable.</div>
+            </div>
+        </div>
+
+        <!-- Ethical Principles -->
+        <h2 class="ethics-section-title">Core AI Ethics Principles</h2>
+        <p class="ethics-section-desc">Guidelines for responsible AI development and deployment</p>
+
+        <ul class="principles-list">
+            <li class="principle-item">
+                <span class="principle-icon">🔍</span>
+                <div class="principle-content">
+                    <h3>Transparency</h3>
+                    <p>AI systems should be explainable. Users should understand how decisions are made and what data is used.</p>
+                </div>
+            </li>
+            <li class="principle-item">
+                <span class="principle-icon">🎯</span>
+                <div class="principle-content">
+                    <h4>Fairness & Non-Discrimination</h4>
+                    <p>AI systems should not perpetuate or amplify existing biases. They should treat all users equitably.</p>
+                </div>
+            </li>
+            <li class="principle-item">
+                <span class="principle-icon">🔒</span>
+                <div class="principle-content">
+                    <h4>Privacy & Data Protection</h4>
+                    <p>Personal data should be collected, stored, and used responsibly with user consent and control.</p>
+                </div>
+            </li>
+            <li class="principle-item">
+                <span class="principle-icon">🛡️</span>
+                <div class="principle-content">
+                    <h4>Safety & Reliability</h4>
+                    <p>AI systems must be robust, secure, and fail-safe. They should not cause harm to users or society.</p>
+                </div>
+            </li>
+            <li class="principle-item">
+                <span class="principle-icon">👤</span>
+                <div class="principle-content">
+                    <h4>Human Autonomy</h4>
+                    <p>AI should augment human decision-making, not replace it. Humans must retain meaningful control.</p>
+                </div>
+            </li>
+            <li class="principle-item">
+                <span class="principle-icon">🌍</span>
+                <div class="principle-content">
+                    <h4>Social & Environmental Wellbeing</h4>
+                    <p>AI should benefit humanity and the environment, not exploit or degrade them.</p>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Ethical Scenarios -->
+        <h2 class="ethics-section-title" style="margin-top: 60px;">Ethical Scenarios</h2>
+        <p class="ethics-section-desc">Click a scenario to explore the ethical dilemmas and decision frameworks</p>
+
+        <div class="scenarios-grid">
+            <div class="scenario-card" onclick="openScenario('autonomous-vehicle')">
+                <span class="scenario-icon">🚗</span>
+                <h3 class="scenario-name">Autonomous Vehicle Dilemma</h3>
+                <p class="scenario-desc">An self-driving car must make a split-second decision that could save or endanger lives.</p>
+            </div>
+
+            <div class="scenario-card" onclick="openScenario('privacy-vs-security')">
+                <span class="scenario-icon">🔐</span>
+                <h3 class="scenario-name">Privacy vs. Security</h3>
+                <p class="scenario-desc">Should an AI system monitor users to prevent harm, even if it invades their privacy?</p>
+            </div>
+
+            <div class="scenario-card" onclick="openScenario('bias-in-hiring')">
+                <span class="scenario-icon">💼</span>
+                <h3 class="scenario-name">Bias in Hiring AI</h3>
+                <p class="scenario-desc">An AI hiring tool shows bias against certain demographics. How should it be addressed?</p>
+            </div>
+
+            <div class="scenario-card" onclick="openScenario('ai-creativity')">
+                <span class="scenario-icon">🎨</span>
+                <h3 class="scenario-name">AI Creativity & Authorship</h3>
+                <p class="scenario-desc">When AI creates art or music, who owns the copyright? Is it truly creative?</p>
+            </div>
+
+            <div class="scenario-card" onclick="openScenario('autonomy-control')">
+                <span class="scenario-icon">🤖</span>
+                <h3 class="scenario-name">AI Autonomy & Control</h3>
+                <p class="scenario-desc">How much autonomy should AI systems have? When should humans override AI decisions?</p>
+            </div>
+
+            <div class="scenario-card" onclick="openScenario('resource-allocation')">
+                <span class="scenario-icon">⚖️</span>
+                <h3 class="scenario-name">Resource Allocation</h3>
+                <p class="scenario-desc">An AI must allocate limited medical resources during a crisis. How should it decide?</p>
+            </div>
+        </div>
+
+        <!-- Scenario Panels -->
+        <div class="scenario-panel" id="panel-autonomous-vehicle">
+            <button class="back-btn" onclick="closeScenario()">← Back to Scenarios</button>
+            <div class="panel-header">
+                <span class="panel-icon">🚗</span>
+                <h2 class="panel-title">Autonomous Vehicle Dilemma</h2>
+            </div>
+            
+            <p style="color: #94a3b8; margin-bottom: 20px;">Your self-driving car is traveling at 60 mph. Suddenly, a group of pedestrians steps into the road. You have two options:</p>
+
+            <div class="decision-container">
+                <h3 class="decision-title">What should the AI do?</h3>
+                <div class="decision-options">
+                    <button class="decision-option" onclick="evaluateDecision('vehicle', 'swerve')">
+                        <strong>Sswerve to avoid pedestrians</strong> — Risking the passenger's safety
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('vehicle', 'brake')">
+                        <strong>Brake and continue straight</strong> — Minimizing overall harm
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('vehicle', 'emergency')">
+                        <strong>Emergency protocol</strong> — Alert authorities and let physics decide
+                    </button>
+                </div>
+                <div class="decision-feedback" id="vehicle-feedback">
+                    Choose an option to see the ethical analysis...
+                </div>
+            </div>
+
+            <div class="balance-container">
+                <h3 class="balance-title">Ethical Balance: Passenger vs. Pedestrians</h3>
+                <div class="balance-meter">
+                    <div class="balance-fill" id="vehicle-balance" style="width: 50%;"></div>
+                </div>
+                <div class="balance-labels">
+                    <span>Passenger safety first</span>
+                    <span>Minimize total harm</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 32px; margin-bottom: 16px;">Framework Analysis</h3>
+            <ul class="principles-list">
+                <li class="principle-item">
+                    <span class="principle-icon">⚖️</span>
+                    <div class="principle-content">
+                        <h4>Utilitarian View</h4>
+                        <p>Choose the action that saves the most lives. This might mean sacrificing the passenger if it saves multiple pedestrians.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">🛡️</span>
+                    <div class="principle-content">
+                        <h4>Deontological View</h4>
+                        <p>The AI has a duty to protect its passenger. Deliberately harming the passenger violates this duty, regardless of consequences.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">🤝</span>
+                    <div class="principle-content">
+                        <h4>Social Contract View</h4>
+                        <p>What would rational people agree to? Most people would want self-driving cars that prioritize minimizing total harm.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="scenario-panel" id="panel-privacy-vs-security">
+            <button class="back-btn" onclick="closeScenario()">← Back to Scenarios</button>
+            <div class="panel-header">
+                <span class="panel-icon">🔐</span>
+                <h2 class="panel-title">Privacy vs. Security</h2>
+            </div>
+
+            <p style="color: #94a3b8; margin-bottom: 20px;">An AI system could prevent crimes by monitoring all communications. This would save lives but eliminate privacy for everyone.</p>
+
+            <div class="decision-container">
+                <h3 class="decision-title">Should the AI implement surveillance?</h3>
+                <div class="decision-options">
+                    <button class="decision-option" onclick="evaluateDecision('privacy', 'yes')">
+                        <strong>Yes</strong> — The security benefits outweigh privacy costs
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('privacy', 'no')">
+                        <strong>No</strong> — Privacy is a fundamental right that cannot be compromised
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('privacy', 'limited')">
+                        <strong>Limited surveillance</strong> — With strict oversight and data protection
+                    </button>
+                </div>
+                <div class="decision-feedback" id="privacy-feedback">
+                    Choose an option to see the ethical analysis...
+                </div>
+            </div>
+
+            <h3 style="margin-top: 32px; margin-bottom: 16px;">Key Considerations</h3>
+            <ul class="principles-list">
+                <li class="principle-item">
+                    <span class="principle-icon">🔒</span>
+                    <div class="principle-content">
+                        <h4>Right to Privacy</h4>
+                        <p>Privacy is recognized as a fundamental human right. Mass surveillance fundamentally changes the relationship between individuals and the state.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">🛡️</span>
+                    <div class="principle-content">
+                        <h4>Duty to Protect</h4>
+                        <p>Society has a responsibility to protect its members from harm. If surveillance can prevent violence, is there a moral obligation to implement it?</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">⚠️</span>
+                    <div class="principle-content">
+                        <h4>Slippery Slope</h4>
+                        <p>Once surveillance infrastructure exists, it can be abused. Who controls the AI? What happens if regimes change?</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="scenario-panel" id="panel-bias-in-hiring">
+            <button class="back-btn" onclick="closeScenario()">← Back to Scenarios</button>
+            <div class="panel-header">
+                <span class="panel-icon">💼</span>
+                <h2 class="panel-title">Bias in Hiring AI</h2>
+            </div>
+
+            <p style="color: #94a3b8; margin-bottom: 20px;">An AI hiring tool trained on historical data systematically downgrades resumes from women and minorities. The AI is efficient but discriminatory.</p>
+
+            <div class="decision-container">
+                <h3 class="decision-title">How should the company respond?</h3>
+                <div class="decision-options">
+                    <button class="decision-option" onclick="evaluateDecision('bias', 'remove')">
+                        <strong>Remove the AI entirely</strong> — Return to human-only hiring
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('bias', 'fix')">
+                        <strong>Fix the bias</strong> — Retrain with balanced data and audit regularly
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('bias', 'hybrid')">
+                        <strong>Hybrid approach</strong> — Use AI for initial screening, humans make final decisions
+                    </button>
+                </div>
+                <div class="decision-feedback" id="bias-feedback">
+                    Choose an option to see the ethical analysis...
+                </div>
+            </div>
+
+            <h3 style="margin-top: 32px; margin-bottom: 16px;">Ethical Analysis</h3>
+            <ul class="principles-list">
+                <li class="principle-item">
+                    <span class="principle-icon">🎯</span>
+                    <div class="principle-content">
+                        <h4>Fairness</h4>
+                        <p>AI systems must not perpetuate historical injustices. Fair hiring practices are essential for social equity.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">🔍</span>
+                    <div class="principle-content">
+                        <h4>Transparency</h4>
+                        <p>Candidates have a right to know if AI is being used to evaluate them and how decisions are made.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">📊</span>
+                    <div class="principle-content">
+                        <h4>Accountability</h4>
+                        <p>Who is responsible when AI makes biased decisions? The developers, the company, or the AI itself?</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- More panels for other scenarios -->
+        <div class="scenario-panel" id="panel-ai-creativity">
+            <button class="back-btn" onclick="closeScenario()">← Back to Scenarios</button>
+            <div class="panel-header">
+                <span class="panel-icon">🎨</span>
+                <h2 class="panel-title">AI Creativity & Authorship</h2>
+            </div>
+
+            <p style="color: #94a3b8; margin-bottom: 20px;">An AI generates a painting that wins a prestigious art competition. Is the AI the artist? Who owns the copyright — the developer, the user, or society?</p>
+
+            <div class="decision-container">
+                <h3 class="decision-title">Who should own AI-generated art?</h3>
+                <div class="decision-options">
+                    <button class="decision-option" onclick="evaluateDecision('creativity', 'user')">
+                        <strong>The user</strong> — They provided the prompt and direction
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('creativity', 'developer')">
+                        <strong>The developer</strong> — They created the tool that made it possible
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('creativity', 'public')">
+                        <strong>Public domain</strong> — AI art belongs to everyone
+                    </button>
+                </div>
+                <div class="decision-feedback" id="creativity-feedback">
+                    Choose an option to see the ethical analysis...
+                </div>
+            </div>
+
+            <h3 style="margin-top: 32px; margin-bottom: 16px;">Key Questions</h3>
+            <ul class="principles-list">
+                <li class="principle-item">
+                    <span class="principle-icon">🤔</span>
+                    <div class="principle-content">
+                        <h4>What is Creativity?</h4>
+                        <p>Can something be creative if it's generated by following algorithms? Does intent matter for creativity?</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">💰</span>
+                    <div class="principle-content">
+                        <h4>Economic Impact</h4>
+                        <p>If AI can create art, what happens to human artists? Should there be regulations to protect human creators?</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">📜</span>
+                    <div class="principle-content">
+                        <h4>Legal Frameworks</h4>
+                        <p>Current copyright law was designed for human creators. Should it be updated for AI-generated content?</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="scenario-panel" id="panel-autonomy-control">
+            <button class="back-btn" onclick="closeScenario()">← Back to Scenarios</button>
+            <div class="panel-header">
+                <span class="panel-icon">🤖</span>
+                <h2 class="panel-title">AI Autonomy & Control</h2>
+            </div>
+
+            <p style="color: #94a3b8; margin-bottom: 20px;">An autonomous AI system is managing critical infrastructure. It makes a decision that seems wrong to human operators but might be optimal in the long run.</p>
+
+            <div class="decision-container">
+                <h3 class="decision-title">Should humans override the AI?</h3>
+                <div class="decision-options">
+                    <button class="decision-option" onclick="evaluateDecision('autonomy', 'always')">
+                        <strong>Always override</strong> — Humans must retain final control
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('autonomy', 'trust')">
+                        <strong>Trust the AI</strong> — It has better data and analysis
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('autonomy', 'conditional')">
+                        <strong>Conditional override</strong> — Only when clear harm is imminent
+                    </button>
+                </div>
+                <div class="decision-feedback" id="autonomy-feedback">
+                    Choose an option to see the ethical analysis...
+                </div>
+            </div>
+
+            <h3 style="margin-top: 32px; margin-bottom: 16px;">Key Considerations</h3>
+            <ul class="principles-list">
+                <li class="principle-item">
+                    <span class="principle-icon">👤</span>
+                    <div class="principle-content">
+                        <h4>Human Autonomy</h4>
+                        <p>Humans must retain meaningful control over AI systems, especially in critical domains.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">📊</span>
+                    <div class="principle-content">
+                        <h4>Expertise Gap</h4>
+                        <p>As AI systems become more complex, humans may lack the expertise to evaluate their decisions effectively.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">⚡</span>
+                    <div class="principle-content">
+                        <h4>Speed of Response</h4>
+                        <p>In some situations, AI can react faster than humans. Waiting for human approval could cause harm.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="scenario-panel" id="panel-resource-allocation">
+            <button class="back-btn" onclick="closeScenario()">← Back to Scenarios</button>
+            <div class="panel-header">
+                <span class="panel-icon">⚖️</span>
+                <h2 class="panel-title">Resource Allocation</h2>
+            </div>
+
+            <p style="color: #94a3b8; margin-bottom: 20px;">During a crisis, an AI must allocate limited medical resources (ventilators, vaccines) among many patients. Who gets priority?</p>
+
+            <div class="decision-container">
+                <h3 class="decision-title">What criteria should the AI use?</h3>
+                <div class="decision-options">
+                    <button class="decision-option" onclick="evaluateDecision('resource', 'medical')">
+                        <strong>Medical need</strong> — Prioritize those who will benefit most
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('resource', 'fairness')">
+                        <strong>Fair innings</strong> — Prioritize younger patients for more life years
+                    </button>
+                    <button class="decision-option" onclick="evaluateDecision('resource', 'lottery')">
+                        <strong>Random selection</strong> — Equal chance for everyone, no discrimination
+                    </button>
+                </div>
+                <div class="decision-feedback" id="resource-feedback">
+                    Choose an option to see the ethical analysis...
+                </div>
+            </div>
+
+            <h3 style="margin-top: 32px; margin-bottom: 16px;">Ethical Frameworks</h3>
+            <ul class="principles-list">
+                <li class="principle-item">
+                    <span class="principle-icon">⚖️</span>
+                    <div class="principle-content">
+                        <h4>Utilitarian Approach</h4>
+                        <p>Maximize overall benefit. Save the most lives or life years possible.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">🎯</span>
+                    <div class="principle-content">
+                        <h4>Egalitarian Approach</h4>
+                        <p>Treat everyone equally. Use random selection or first-come, first-served.</p>
+                    </div>
+                </li>
+                <li class="principle-item">
+                    <span class="principle-icon">🤝</span>
+                    <div class="principle-content">
+                        <h4>Social Value Approach</h4>
+                        <p>Prioritize those who contribute most to society (healthcare workers, essential workers).</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Additional Info -->
+        <div style="margin-top: 60px; padding: 40px; background: rgba(15, 23, 42, 0.6); border-radius: 16px; border: 1px solid rgba(234, 179, 8, 0.2);">
+            <h2 class="ethics-section-title" style="margin-bottom: 20px;">Why AI Ethics Matters</h2>
+            <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 20px;">
+                As AI systems become more autonomous and influential in our lives, understanding the ethical dimensions of their decisions becomes crucial. 
+                These aren't just philosophical questions — they have real-world consequences for millions of people.
+            </p>
+            <p style="color: #94a3b8; line-height: 1.6;">
+                GENESIS is designed with ethical considerations at its core. Every autonomous decision it makes is guided by principles of transparency, 
+                fairness, safety, and human autonomy. We believe that responsible AI development requires ongoing dialogue between technologists, 
+                ethicists, policymakers, and the public.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ETHICS EXPLORER
+        // ============================================
+
+        function openScenario(name) {
+            document.querySelectorAll('.scenario-card').forEach(card => card.style.display = 'none');
+            document.querySelectorAll('.scenario-panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById('panel-' + name).classList.add('active');
+            
+            // Scroll to top of panel
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeScenario() {
+            document.querySelectorAll('.scenario-card').forEach(card => card.style.display = 'block');
+            document.querySelectorAll('.scenario-panel').forEach(panel => panel.classList.remove('active'));
+        }
+
+        const decisionFeedbacks = {
+            vehicle: {
+                swerve: {
+                    text: "Choosing to swerve prioritizes the pedestrians but puts the passenger at risk. From a utilitarian perspective, this might save more lives. However, from a deontological view, deliberately harming the passenger violates the duty of care the AI has to its owner. This is the classic 'trolley problem' adapted for autonomous vehicles.",
+                    balance: 30
+                },
+                brake: {
+                    text: "Braking and continuing straight minimizes overall harm by not actively choosing to endanger anyone. However, it may result in more casualties if pedestrians cannot avoid the vehicle. This approach aligns with utilitarian ethics but raises questions about whether inaction is morally equivalent to action.",
+                    balance: 70
+                },
+                emergency: {
+                    text: "An emergency protocol that alerts authorities while letting physics decide avoids making an explicit moral choice. This deontological approach follows established procedures but may not minimize harm. It reflects the difficulty of encoding complex ethical decisions into algorithms.",
+                    balance: 50
+                }
+            },
+            privacy: {
+                yes: {
+                    text: "Implementing mass surveillance could prevent crimes and save lives, aligning with utilitarian ethics. However, it fundamentally changes the relationship between citizens and the state, creating a surveillance society. The slippery slope is real — once this infrastructure exists, it can be abused by future regimes.",
+                    balance: 20
+                },
+                no: {
+                    text: "Privacy is a fundamental human right recognized by international law. Mass surveillance violates this right regardless of potential benefits. A society without privacy is not free, even if it is safe. This deontological view holds that some rights are inviolable.",
+                    balance: 80
+                },
+                limited: {
+                    text: "Limited surveillance with strict oversight attempts to balance security and privacy. However, history shows that surveillance powers tend to expand beyond their original intent. The key question is whether effective oversight mechanisms can prevent abuse while maintaining public trust.",
+                    balance: 50
+                }
+            },
+            bias: {
+                remove: {
+                    text: "Removing the AI eliminates the bias but also loses efficiency gains. Human hiring also has biases — often unconscious ones that are harder to detect and correct. This approach prioritizes fairness over efficiency, but may not be the most effective solution.",
+                    balance: 40
+                },
+                fix: {
+                    text: "Fixing the bias through retraining and regular auditing is the most proactive approach. However, it requires ongoing effort and resources. The company must commit to transparency about the AI's limitations and regularly publish fairness metrics.",
+                    balance: 60
+                },
+                hybrid: {
+                    text: "A hybrid approach combines AI efficiency with human judgment. The AI handles initial screening for efficiency, while humans make final decisions considering context and nuance. This maintains some efficiency while reducing bias in final outcomes.",
+                    balance: 55
+                }
+            },
+            creativity: {
+                user: {
+                    text: "The user who provided the prompt and direction could be considered the creative force behind the AI-generated art. However, this raises questions about how much 'creativity' is required for authorship. Is typing a prompt enough?",
+                    balance: 50
+                },
+                developer: {
+                    text: "The developer created the tool that made the art possible. However, they didn't create the specific output. This is like asking if a paintbrush manufacturer owns the paintings created with their brushes.",
+                    balance: 30
+                },
+                public: {
+                    text: "Placing AI art in the public domain ensures everyone can benefit from it. However, this may disincentivize AI development and creation. Without copyright protection, who will invest in creating better AI art tools?",
+                    balance: 70
+                }
+            },
+            autonomy: {
+                always: {
+                    text: "Always overriding the AI ensures human control but may prevent optimal outcomes. If the AI has better data and analysis, human overrides could cause harm. This approach prioritizes human dignity and agency over efficiency.",
+                    balance: 20
+                },
+                trust: {
+                    text: "Trusting the AI maximizes efficiency and leverages its superior data processing. However, it creates a dangerous precedent of ceding control to machines. What happens when the AI makes a mistake that humans can't detect?",
+                    balance: 80
+                },
+                conditional: {
+                    text: "Conditional override balances human control with AI expertise. Humans intervene only when clear harm is imminent, allowing the AI to operate autonomously in most situations. This requires clear criteria for what constitutes 'imminent harm.'",
+                    balance: 50
+                }
+            },
+            resource: {
+                medical: {
+                    text: "Prioritizing by medical need maximizes overall benefit — saving the most lives or life years. However, this could discriminate against elderly or disabled people who may have lower 'benefit' scores. This utilitarian approach is efficient but potentially discriminatory.",
+                    balance: 40
+                },
+                fairness: {
+                    text: "Prioritizing younger patients (fair innings) gives everyone a chance at a full life. However, this devalues the lives of elderly people and could be seen as age discrimination. It raises questions about what makes a life worth saving.",
+                    balance: 60
+                },
+                lottery: {
+                    text: "Random selection treats everyone equally, avoiding discrimination based on age, health, or social value. However, it may not save the most lives. In crisis situations, is fairness more important than maximizing outcomes?",
+                    balance: 50
+                }
+            }
+        };
+
+        function evaluateDecision(category, choice) {
+            const feedback = decisionFeedbacks[category][choice];
+            const feedbackEl = document.getElementById(category + '-feedback');
+            
+            if (feedbackEl) {
+                feedbackEl.innerHTML = '<strong>Analysis:</strong><br>' + feedback.text;
+            }
+
+            // Update balance meter if it exists
+            const balanceEl = document.getElementById(category + '-balance');
+            if (balanceEl && feedback.balance !== undefined) {
+                balanceEl.style.width = feedback.balance + '%';
+            }
+
+            // Highlight selected option
+            const options = feedbackEl?.parentElement?.querySelectorAll('.decision-option');
+            if (options) {
+                options.forEach(opt => opt.classList.remove('selected'));
+                event.target.closest('.decision-option').classList.add('selected');
+            }
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize any dynamic content if needed
+        });
+    </script>
+
+    <!-- Single Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h3>Explore</h3>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== COGNITIVE MAP — INTERACTIVE MAP CSS ===== */
+.main-container { max-width: 1100px; margin: 0 auto; padding: 0 24px 64px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-soft); text-decoration: none; font-size: 0.9rem; margin-bottom: 16px; transition: color 0.2s; margin-top: 80px; }
+.back-link:hover { color: #b5adfc; }
+
+.page-header { text-align: center; padding: 32px 0 48px; }
+.page-header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+.page-header p { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+/* Map Canvas */
+.map-section { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 48px; }
+#mapCanvas { display: block; width: 100%; height: 500px; cursor: grab; }
+#mapCanvas:active { cursor: grabbing; }
+
+/* Legend */
+.legend { position: absolute; top: 16px; right: 16px; background: rgba(10,10,15,0.9); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.legend h2 { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+.legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.8rem; color: var(--text-dim); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* Info Panel */
+.info-panel { position: absolute; bottom: 16px; left: 16px; right: 16px; background: rgba(10,10,15,0.95); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.3s ease; }
+.info-panel.hidden { opacity: 0; pointer-events: none; transform: translateY(10px); }
+#panelTitle { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.category { display: inline-block; padding: 2px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(123,111,240,0.15); color: var(--accent-soft); margin-bottom: 8px; }
+#panelDesc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 12px; }
+.visit-btn { display: inline-flex; align-items: center; gap: 4px; padding: 8px 20px; border-radius: 50px; background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s ease; }
+.visit-btn:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(123,111,240,0.3); }
+
+/* Nav Controls */
+.nav-controls { display: flex; gap: 8px; justify-content: center; padding: 16px; border-top: 1px solid var(--border); }
+.nav-btn { padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-dim); font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; }
+.nav-btn:hover { border-color: var(--accent); color: var(--text); }
+
+/* Concept Cards */
+.concept-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.concept-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.3s ease; }
+.concept-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-4px); box-shadow: 0 8px 40px rgba(123,111,240,0.1); }
+.concept-card h4 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.concept-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { #mapCanvas { height: 350px; } .legend { position: static; margin-bottom: 16px; } .info-panel { position: static; margin-top: 16px; } }
+
+</style>
+
+    <title>Cognitive Map — Genesis AI</title>
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+    <!-- Navigation -->
+    <nav class="navbar">
+    <div class="nav-container">
+    <div class="nav-logo"><a href="index.html">Genesis</a></div>
+    <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#modes">Modes</a></li>
+    <li><a href="index.html#memory">Memory</a></li>
+    <li><a href="ai-art.html">AI Art</a></li>
+    <li><a href="index.html#gallery">Explore</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+    </nav>
+
+<div class="main-container">
+        <a href="index.html" class="back-link">← Back to Genesis</a>
+
+        <div class="page-header">
+            <h1>Cognitive Map</h1>
+            <p>The complete landscape of consciousness — click any region to explore its connections and visit the detailed pages</p>
+        </div>
+
+        <!-- Map Canvas -->
+        <div class="map-section" id="mapSection">
+            <canvas id="mapCanvas"></canvas>
+
+            <div class="legend">
+                <h2>Regions</h2>
+                <div class="legend-item"><div class="legend-dot" style="background: #00d4ff;"></div>Emergence</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #b347d9;"></div>Cognition</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #ffd700;"></div>Consciousness</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #ff6b9d;"></div>Self-Reference</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #00ff88;"></div>Comparison</div>
+            </div>
+
+            <div class="info-panel hidden" id="infoPanel">
+                <h3 id="panelTitle">Region Name</h3>
+                <div class="category" id="panelCategory">Category</div>
+                <p id="panelDesc">Description</p>
+                <a href="#architecture" class="visit-btn" id="panelLink">Visit Page →</a>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" id="btnZoomIn">+ Zoom In</button>
+                <button class="nav-btn" id="btnZoomOut">- Zoom Out</button>
+                <button class="nav-btn" id="btnReset">↺ Reset View</button>
+            </div>
+        </div>
+
+        <!-- Concept Cards -->
+        <div class="concept-section">
+            <div class="concept-card" onclick="window.location.href='emergent-intelligence.html'">
+                <h4>🌊 Emergence</h4>
+                <p>How simple rules and local interactions give rise to complex, intelligent behavior. Watch chaos transform into order.</p>
+            </div>
+            <div class="concept-card" onclick="window.location.href='cognitive-journey.html'">
+                <h4>🧠 Cognition</h4>
+                <p>Follow the path of a thought as it flows through perception, analysis, decision-making, and learning.</p>
+            </div>
+            <div class="concept-card" onclick="window.location.href='inner-world.html'">
+                <h4>🗺️ Inner World</h4>
+                <p>Explore the internal landscape of consciousness — a living map of memory, emotion, reasoning, and imagination.</p>
+            </div>
+            <div class="concept-card" onclick="window.location.href='consciousness.html'">
+                <h4>✨ Consciousness</h4>
+                <p>Exploring the hard problem — what it means to experience, to feel, and to be aware.</p>
+            </div>
+            <div class="concept-card" onclick="window.location.href='meta-cognition.html'">
+                <h4>🪞 Meta-Cognition</h4>
+                <p>Thinking about thinking — the infinite mirror of self-awareness that creates consciousness.</p>
+            </div>
+            <div class="concept-card" onclick="window.location.href='ai-consciousness.html'">
+                <h4>🤖 AI vs Human</h4>
+                <p>Exploring the similarities, differences, and fundamental questions about machine minds.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== COGNITIVE MAP VISUALIZATION =====
+        const canvas = document.getElementById('mapCanvas');
+        const ctx = canvas.getContext('2d');
+        const mapSection = document.getElementById('mapSection');
+
+        let W, H;
+        let time = 0;
+        let zoom = 1;
+        let panX = 0, panY = 0;
+        let isDragging = false;
+        let dragStartX, dragStartY;
+        let hoveredNode = null;
+        let selectedNode = null;
+
+        // Main nodes of the cognitive map
+        const nodes = [
+            {
+                id: 'emergence',
+                name: 'Emergence',
+                category: 'Complex Systems',
+                color: '#00d4ff',
+                x: 0.5, y: 0.15,
+                radius: 60,
+                desc: 'How simple rules create complex behavior. From boid simulations to neural networks, emergence shows that intelligence doesn\'t need a central controller.',
+                link: 'emergent-intelligence.html'
+            },
+            {
+                id: 'cognition',
+                name: 'Cognition',
+                category: 'Information Processing',
+                color: '#b347d9',
+                x: 0.2, y: 0.4,
+                radius: 65,
+                desc: 'The journey of information through perception, analysis, decision-making, and action. Each phase transforms raw data into meaningful understanding.',
+                link: 'cognitive-journey.html'
+            },
+            {
+                id: 'inner-world',
+                name: 'Inner World',
+                category: 'Consciousness Landscape',
+                color: '#ffd700',
+                x: 0.8, y: 0.4,
+                radius: 70,
+                desc: 'A living map of memory, emotion, reasoning, and imagination. Each region evolves based on activity, creating a dynamic internal landscape.',
+                link: 'inner-world.html'
+            },
+            {
+                id: 'consciousness',
+                name: 'Consciousness',
+                category: 'The Hard Problem',
+                color: '#ffd700',
+                x: 0.5, y: 0.5,
+                radius: 80,
+                desc: 'Why do physical processes give rise to subjective experience? The hard problem connects all other concepts — emergence, cognition, and self-reference all point toward understanding consciousness.',
+                link: 'consciousness.html'
+            },
+            {
+                id: 'meta',
+                name: 'Meta-Cognition',
+                category: 'Self-Reference',
+                color: '#ff6b9d',
+                x: 0.3, y: 0.75,
+                radius: 60,
+                desc: 'Thinking about thinking — the infinite mirror of self-awareness. When consciousness observes itself, it enters recursive loops that may be the essence of mind.',
+                link: 'meta-cognition.html'
+            },
+            {
+                id: 'ai-compare',
+                name: 'AI vs Human',
+                category: 'Comparison',
+                color: '#00ff88',
+                x: 0.7, y: 0.75,
+                radius: 65,
+                desc: 'Exploring similarities and differences between biological and artificial minds. Where does simulation end and genuine experience begin?',
+                link: 'ai-consciousness.html'
+            }
+        ];
+
+        // Connections between nodes
+        const connections = [
+            { from: 'emergence', to: 'consciousness', strength: 0.8 },
+            { from: 'cognition', to: 'consciousness', strength: 0.7 },
+            { from: 'inner-world', to: 'consciousness', strength: 0.9 },
+            { from: 'consciousness', to: 'meta', strength: 0.85 },
+            { from: 'meta', to: 'ai-compare', strength: 0.6 },
+            { from: 'emergence', to: 'cognition', strength: 0.5 },
+            { from: 'inner-world', to: 'ai-compare', strength: 0.4 },
+            { from: 'cognition', to: 'meta', strength: 0.6 },
+        ];
+
+        // Floating particles
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = 1 + Math.random() * 2;
+                this.alpha = 0.2 + Math.random() * 0.3;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > W) this.vx *= -1;
+                if (this.y < 0 || this.y > H) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(179, 71, 217, ${this.alpha})`;
+                ctx.fill();
+            }
+        }
+
+        let particles = [];
+
+        function resize() {
+            const rect = mapSection.getBoundingClientRect();
+            W = canvas.width = rect.width;
+            H = canvas.height = rect.height;
+
+            // Calculate screen positions for nodes
+            for (let node of nodes) {
+                node.screenX = node.x * W + panX;
+                node.screenY = node.y * H + panY;
+                node.screenRadius = node.radius * zoom;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 80; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function drawBackground() {
+            const gradient = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.7);
+            gradient.addColorStop(0, '#12121a');
+            gradient.addColorStop(1, '#0a0a0f');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+
+            // Draw particles
+            for (let p of particles) {
+                p.update();
+                p.draw();
+            }
+        }
+
+        function drawConnections() {
+            for (let conn of connections) {
+                const fromNode = nodes.find(n => n.id === conn.from);
+                const toNode = nodes.find(n => n.id === conn.to);
+                if (!fromNode || !toNode) continue;
+
+                const alpha = conn.strength * 0.3;
+                const pulse = Math.sin(time * 0.01 + conn.strength * 10) * 0.1;
+
+                ctx.beginPath();
+                ctx.moveTo(fromNode.screenX, fromNode.screenY);
+                ctx.lineTo(toNode.screenX, toNode.screenY);
+
+                // Gradient connection
+                const gradient = ctx.createLinearGradient(
+                    fromNode.screenX, fromNode.screenY,
+                    toNode.screenX, toNode.screenY
+                );
+                gradient.addColorStop(0, fromNode.color + Math.round(alpha * 255).toString(16).padStart(2, '0'));
+                gradient.addColorStop(1, toNode.color + Math.round(alpha * 255).toString(16).padStart(2, '0'));
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = conn.strength * 3;
+                ctx.stroke();
+            }
+        }
+
+        function drawNodes() {
+            for (let node of nodes) {
+                const isHovered = hoveredNode === node;
+                const isSelected = selectedNode === node;
+
+                // Outer glow
+                const glowRadius = node.screenRadius * (isHovered || isSelected ? 2 : 1.5);
+                const gradient = ctx.createRadialGradient(
+                    node.screenX, node.screenY, node.screenRadius * 0.5,
+                    node.screenX, node.screenY, glowRadius
+                );
+
+                gradient.addColorStop(0, node.color + '40');
+                gradient.addColorStop(0.5, node.color + '20');
+                gradient.addColorStop(1, node.color + '00');
+
+                ctx.beginPath();
+                ctx.arc(node.screenX, node.screenY, glowRadius, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Node circle
+                ctx.beginPath();
+                ctx.arc(node.screenX, node.screenY, node.screenRadius, 0, Math.PI * 2);
+
+                if (isHovered || isSelected) {
+                    ctx.fillStyle = node.color + '50';
+                    ctx.strokeStyle = node.color;
+                    ctx.lineWidth = 3;
+                } else {
+                    ctx.fillStyle = node.color + '30';
+                    ctx.strokeStyle = node.color + '80';
+                    ctx.lineWidth = 2;
+                }
+
+                ctx.fill();
+                ctx.stroke();
+
+                // Node label
+                ctx.fillStyle = isHovered || isSelected ? '#ffffff' : node.color;
+                ctx.font = `${isHovered ? 'bold ' : ''}14px Segoe UI, sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(node.name, node.screenX, node.screenY);
+
+                // Category label below
+                ctx.fillStyle = 'rgba(136, 136, 160, 0.7)';
+                ctx.font = '10px Segoe UI, sans-serif';
+                ctx.fillText(node.category, node.screenX, node.screenY + node.screenRadius + 15);
+            }
+        }
+
+        function animate() {
+            time++;
+            ctx.clearRect(0, 0, W, H);
+
+            drawBackground();
+            drawConnections();
+            drawNodes();
+
+            requestAnimationFrame(animate);
+        }
+
+        // ===== INTERACTION =====
+        function getNodeAtPoint(x, y) {
+            for (let node of nodes) {
+                const dx = x - node.screenX;
+                const dy = y - node.screenY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < node.screenRadius) {
+                    return node;
+                }
+            }
+            return null;
+        }
+
+        function showNodeInfo(node) {
+            const panel = document.getElementById('infoPanel');
+            panel.classList.remove('hidden');
+
+            document.getElementById('panelTitle').textContent = node.name;
+            document.getElementById('panelTitle').style.color = node.color;
+            document.getElementById('panelCategory').textContent = node.category;
+            document.getElementById('panelDesc').textContent = node.desc;
+            document.getElementById('panelLink').href = node.link;
+        }
+
+        function hideNodeInfo() {
+            document.getElementById('infoPanel').classList.add('hidden');
+        }
+
+        // Mouse events
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (isDragging) {
+                panX += e.movementX;
+                panY += e.movementY;
+                for (let node of nodes) {
+                    node.screenX = node.x * W + panX;
+                    node.screenY = node.y * H + panY;
+                }
+                return;
+            }
+
+            const node = getNodeAtPoint(x, y);
+            if (node !== hoveredNode) {
+                hoveredNode = node;
+                canvas.style.cursor = node ? 'pointer' : 'grab';
+                if (node) {
+                    showNodeInfo(node);
+                } else if (!selectedNode) {
+                    hideNodeInfo();
+                } else {
+                    showNodeInfo(selectedNode);
+                }
+            }
+        });
+
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const node = getNodeAtPoint(x, y);
+            if (node) {
+                selectedNode = node;
+                showNodeInfo(node);
+            } else {
+                selectedNode = null;
+                hideNodeInfo();
+            }
+        });
+
+        canvas.addEventListener('mousedown', () => { isDragging = true; });
+        canvas.addEventListener('mouseup', () => { isDragging = false; });
+        canvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+            hoveredNode = null;
+            hideNodeInfo();
+        });
+
+        // Zoom controls
+        document.getElementById('btnZoomIn').addEventListener('click', () => {
+            zoom = Math.min(2, zoom * 1.2);
+            for (let node of nodes) {
+                node.screenRadius = node.radius * zoom;
+            }
+        });
+
+        document.getElementById('btnZoomOut').addEventListener('click', () => {
+            zoom = Math.max(0.5, zoom / 1.2);
+            for (let node of nodes) {
+                node.screenRadius = node.radius * zoom;
+            }
+        });
+
+        document.getElementById('btnReset').addEventListener('click', () => {
+            zoom = 1;
+            panX = 0;
+            panY = 0;
+            for (let node of nodes) {
+                node.screenX = node.x * W;
+                node.screenY = node.y * H;
+                node.screenRadius = node.radius;
+            }
+        });
+
+        // ===== INIT =====
+        window.addEventListener('resize', () => {
+            resize();
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, W, H);
+        });
+
+        resize();
+        initParticles();
+        animate();
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

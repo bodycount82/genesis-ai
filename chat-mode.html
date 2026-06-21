@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+</style>
+
+    <title>Chat Mode — Documentation</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#features">Architecture</a></li>
+                <li><a href="index.html#how-it-works">Get Started</a></li>
+                <li><a href="index.html#gallery">Docs</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <section class="doc-page">
+        <div class="doc-container">
+            <a href="index.html" class="doc-back">← Back to Website</a>
+            <div class="doc-content">
+                <h1>💬 Chat Mode Guide</h1>
+                
+                <div class="doc-highlight">
+                    <p><strong>Chat Mode</strong> is GENESIS's default conversational interface. It's the most interactive mode — you guide the conversation step by step, ask questions, request tasks, and receive immediate responses. Think of it as having a skilled assistant at your fingertips.</p>
+                </div>
+
+                <h2>How to Start Chat Mode</h2>
+                
+                <h3>Method 1: Using the GUI</h3>
+                <ol>
+                    <li>Click the <strong>💬 CHAT MODE</strong> button in the mode toggle row (it will highlight green)</li>
+                    <li>Type your message in the chat input field at the bottom of the window</li>
+                    <li>Press Enter or click Send to submit your message</li>
+                </ol>
+
+                <h3>Method 2: Default State</h3>
+                <p>GENESIS starts in Chat Mode by default. If you haven't switched to Autonomy or Work mode, you're already in Chat Mode.</p>
+
+                <h2>What You Can Do in Chat Mode</h2>
+
+                <h3>Ask Questions</h3>
+                <ul>
+                    <li><strong>General knowledge:</strong> "Explain quantum computing in simple terms"</li>
+                    <li><strong>Research:</strong> "What are the latest trends in renewable energy?"</li>
+                    <li><strong>Analysis:</strong> "Compare the pros and cons of these three approaches..."</li>
+                </ul>
+
+                <h3>Request Tasks</h3>
+                <ul>
+                    <li><strong>File operations:</strong> "Create a summary document from these notes"</li>
+                    <li><strong>Code generation:</strong> "Write a Python script to parse CSV files"</li>
+                    <li><strong>Research:</strong> "Research the best practices for React state management"</li>
+                    <li><strong>Data analysis:</strong> "Analyze this dataset and find trends"</li>
+                </ul>
+
+                <h3>Manage Projects</h3>
+                <ul>
+                    <li><strong>Create tasks:</strong> "Create a task in the backlog called 'Fix login bug'"</li>
+                    <li><strong>Update tasks:</strong> "Move task #123 to inProgress"</li>
+                    <li><strong>Check status:</strong> "What's on my todo list?"</li>
+                </ul>
+
+                <h3>Access Memory</h3>
+                <ul>
+                    <li><strong>Search memories:</strong> "What did I work on last week?"</li>
+                    <li><strong>Save facts:</strong> "Remember that my API key is in the .env file"</li>
+                    <li><strong>Retrieve strategies:</strong> "Show me all saved debugging strategies"</li>
+                </ul>
+
+                <h2>Chat Mode vs Other Modes</h2>
+
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Chat Mode</th>
+                            <th>Autonomy Mode</th>
+                            <th>Work Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Control</td>
+                            <td>You guide each step</td>
+                            <td>GENESIS sets its own goals</td>
+                            <td>Schedule-driven execution</td>
+                        </tr>
+                        <tr>
+                            <td>Interaction</td>
+                            <td>Real-time conversation</td>
+                            <td>Goal submission, then wait</td>
+                            <td>Task queue management</td>
+                        </tr>
+                        <tr>
+                            <td>Best For</td>
+                            <td>Quick questions, small tasks</td>
+                            <td>Complex, multi-step projects</td>
+                            <td>Scheduled, recurring work</td>
+                        </tr>
+                        <tr>
+                            <td>Autonomy Level</td>
+                            <td>Low (you steer)</td>
+                            <td>High (GENESIS steers)</td>
+                            <td>Medium (schedule steers)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Tips for Effective Chat Mode Usage</h2>
+
+                <h3>Be Specific</h3>
+                <p>The more specific your request, the better the result. Instead of "help me with code," try "write a Python function that reads a JSON file and returns the top 10 entries by date."</p>
+
+                <h3>Use Follow-ups</h3>
+                <p>You can build on previous responses. If GENESIS generates code, you can say "add error handling" or "refactor this to use async/await" without re-explaining the context.</p>
+
+                <h3>Leverage Memory</h3>
+                <p>GENESIS remembers past conversations and facts. You can reference previous work: "Based on the research I did last week, create a summary document."</p>
+
+                <h3>Combine with Other Modes</h3>
+                <p>Use Chat Mode to plan, then switch to Autonomy Mode to execute. Or use Work Mode for scheduled tasks while keeping Chat Mode for ad-hoc requests.</p>
+
+                <h2>Queue Behavior in Chat Mode</h2>
+                <p>In Chat Mode, messages are processed in FIFO (First In, First Out) order. If you send multiple messages quickly, they'll be queued and processed sequentially. This ensures responses are coherent and don't overlap.</p>
+
+                <div class="doc-highlight">
+                    <p><strong>Note:</strong> If the queue grows too large, use ⏸ STOP to clear it and reassess. This is especially useful if you've sent too many messages too quickly.</p>
+                </div>
+
+                <h2>Troubleshooting</h2>
+
+                <h3>Response Taking Too Long</h3>
+                <ul>
+                    <li>Check the state indicator — if "Processing," GENESIS is working on your request</li>
+                    <li>If it's been several minutes, try ⏸ STOP and resubmit with a more specific request</li>
+                    <li>Complex tasks (like web research or code generation) naturally take longer</li>
+                </ul>
+
+                <h3>Response Doesn't Match Your Request</h3>
+                <ul>
+                    <li>Be more specific in your next message — GENESIS will adjust based on feedback</li>
+                    <li>Use examples: "Like this: [example]" to clarify your expectations</li>
+                    <li>Break complex requests into smaller, focused questions</li>
+                </ul>
+
+                <h3>Chat Mode Not Responding</h3>
+                <ul>
+                    <li>Check the state indicator — if "Halted" (red), GENESIS has stopped. Use ⏸ STOP to clear and restart</li>
+                    <li>If "Idle" but not responding, try refreshing the page or checking logs for errors</li>
+                    <li>Ensure you're in Chat mode (green highlight on 💬 button)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span><p>Autonomous AI Agent System<br>Built for intelligent, self-directed work.</p></div>
+                <div class="footer-links"><h4>Quick Links</h4><a href="index.html#features">Features</a><a href="index.html#modes">Modes</a><a href="index.html#features">Architecture</a><a href="index.html#how-it-works">Get Started</a></div>
+                <div class="footer-links"><h5>Documentation</h5><a href="what-is-genesis.html">Overview</a><a href="buttons-features.html">GUI Guide</a><a href="autonomy-mode.html">Autonomy Mode</a><a href="chat-mode.html">Chat Mode</a></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p></div>
+        </div>
+    </footer>
+</body>
+</html>

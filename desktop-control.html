@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desktop Control — Genesis</title>
+<meta name="description" content="Genesis can see your screen, control your mouse and keyboard, browse the web, read files, send emails, and operate applications — all in real time.">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* Capability Cards */
+.capability-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 48px; }
+.capability-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease; }
+.capability-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-3px); }
+.capability-card .cap-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+.capability-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.capability-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.capability-card .cap-list { list-style: none; padding: 0; }
+.capability-card .cap-list li { color: var(--text-dim); font-size: 0.9rem; padding: 4px 0; padding-left: 20px; position: relative; }
+.capability-card .cap-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent-soft); font-size: 0.85rem; }
+
+/* Toggle Switch */
+.toggle-demo { display: inline-flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 32px; margin-top: 32px; }
+.toggle-switch { position: relative; width: 56px; height: 30px; cursor: pointer; }
+.toggle-switch input { display: none; }
+.toggle-slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--surface-2); border-radius: 50px; transition: 0.3s; border: 2px solid var(--border); }
+.toggle-slider::before { content: ''; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--text-dim); top: 2px; left: 3px; transition: 0.3s; }
+.toggle-switch input:checked + .toggle-slider { background: var(--accent); border-color: var(--accent); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(26px); background: #fff; }
+.toggle-label { font-size: 0.95rem; color: var(--text-dim); }
+.toggle-label strong { color: var(--text); }
+
+/* Status Indicators */
+.status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 32px; }
+.status-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; align-items: center; gap: 14px; }
+.status-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--text-dim); transition: 0.3s; }
+.status-dot.active { background: var(--green); box-shadow: 0 0 8px rgba(74, 222, 128, 0.5); }
+.status-item span { color: var(--text-dim); font-size: 0.9rem; }
+
+/* Security Cards */
+.security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 32px; }
+.security-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 28px; text-align: center; }
+.security-card .sec-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.security-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.security-card p { color: var(--text-dim); font-size: 0.9rem; }
+
+/* How It Works */
+.how-steps { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 48px; justify-content: center; }
+.how-step { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 24px; flex: 1; min-width: 200px; max-width: 260px; text-align: center; }
+.how-step .step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; margin: 0 auto 16px; }
+.how-step h4 { font-size: 1rem; margin-bottom: 8px; }
+.how-step p { color: var(--text-dim); font-size: 0.9rem; }
+
+.highlight-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 24px 28px; margin: 32px 0; }
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; padding: 0 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+
+@media (max-width: 768px) { nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .capability-grid { grid-template-columns: 1fr; }
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Real Desktop Control</h1>
+    <p class="subtitle">Genesis can see your screen, control your mouse and keyboard, browse the web, read files, send emails, and operate applications — all in real time. Toggle it on or off at any moment.</p>
+  </div>
+</section>
+
+<!-- Toggle Demo -->
+<section>
+  <div class="container" style="text-align: center;">
+    <span class="section-label fade-in">Always Under Your Control</span>
+    <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Turn desktop control on or off with one click</h2>
+    <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Genesis never acts without your permission. Desktop control is a feature you enable when you want it and disable the moment you don't.</p>
+
+    <div class="toggle-demo fade-in">
+      <label class="toggle-switch">
+        <input type="checkbox" id="desktop-toggle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+      <span class="toggle-label"><strong>Desktop Control</strong> — Currently <strong style="color: var(--green);">Active</strong></span>
+    </div>
+
+    <div class="status-grid fade-in" id="status-grid">
+      <div class="status-item"><div class="status-dot active"></div><span>Screen Capture</span></div>
+      <div class="status-item"><div class="status-dot active"></div><span>Mouse Control</span></div>
+      <div class="status-item"><div class="status-dot active"></div><span>Keyboard Input</span></div>
+      <div class="status-item"><div class="status-dot active"></div><span>App Launch</span></div>
+      <div class="status-item"><div class="status-dot active"></div><span>Browser Automation</span></div>
+      <div class="status-item"><div class="status-dot active"></div><span>File Operations</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Capabilities -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">What Genesis Can Do</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Your AI's eyes and hands</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Six core capabilities that let Genesis interact with your computer the way a human assistant would — but faster, more precisely, and without getting tired.</p>
+    </div>
+
+    <div class="capability-grid">
+      <div class="capability-card fade-in">
+        <span class="cap-icon">&#128065;</span>
+        <h3>Screen Observation</h3>
+        <p>Genesis watches what's on your screen using a combination of accessibility trees, OCR, and vision models.</p>
+        <ul class="cap-list">
+          <li>Read UI elements by name and position</li>
+          <li>OCR any text visible on screen</li>
+          <li>Analyze icons, images, and visual layouts</li>
+          <li>Identify buttons, forms, menus, and dialogs</li>
+        </ul>
+      </div>
+
+      <div class="capability-card fade-in">
+        <span class="cap-icon">&#128074;</span>
+        <h3>Mouse Control</h3>
+        <p>Precise DPI-correct mouse movements, clicks, drags, and scrolls — down to the exact pixel.</p>
+        <ul class="cap-list">
+          <li>Click, double-click, right-click at any coordinate</li>
+          <li>Drag and drop elements between locations</li>
+          <li>Scroll pages and content with controlled speed</li>
+          <li>Move cursor to specific screen positions</li>
+        </ul>
+      </div>
+
+      <div class="capability-card fade-in">
+        <span class="cap-icon">&#9000;</span>
+        <h3>Keyboard Input</h3>
+        <p>Type text or execute keyboard shortcuts with full fidelity — no key-by-key timing issues.</p>
+        <ul class="cap-list">
+          <li>Type any text into any focused field</li>
+          <li>Execute hotkeys: Ctrl+C, Alt+Tab, Win+D, etc.</li>
+          <li>Press Enter, Escape, Tab, and function keys</li>
+          <li>Controlled typing speed for compatibility</li>
+        </ul>
+      </div>
+
+      <div class="capability-card fade-in">
+        <span class="cap-icon">&#128230;</span>
+        <h3>Application Control</h3>
+        <p>Launch, switch between, and interact with any application on your system.</p>
+        <ul class="cap-list">
+          <li>Open apps by name or path (Notepad, Word, Excel, etc.)</li>
+          <li>Open files directly in their default applications</li>
+          <li>Switch between open windows and applications</li>
+          <li>Interact with native desktop app UI elements</li>
+        </ul>
+      </div>
+
+      <div class="capability-card fade-in">
+        <span class="cap-icon">&#127760;</span>
+        <h3>Browser Automation</h3>
+        <p>Full browser control — navigate, read pages, fill forms, click elements, manage tabs and cookies.</p>
+        <ul class="cap-list">
+          <li>Navigate to any URL and read page content</li>
+          <li>Fill web forms by field label (To, Subject, Body)</li>
+          <li>Click buttons, links, and menu items reliably</li>
+          <li>Accept cookies, manage multiple tabs</li>
+        </ul>
+      </div>
+
+      <div class="capability-card fade-in">
+        <span class="cap-icon">&#127906;</span>
+        <h3>Macro Recorder</h3>
+        <p>Record any sequence of mouse and keyboard actions, then replay them — perfect for repeating workflows.</p>
+        <ul class="cap-list">
+          <li>Record desktop actions step by step</li>
+          <li>Save macros with custom names</li>
+          <li>Replay macros with configurable iterations</li>
+          <li>Insert delays between repetitions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">The Process</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">How desktop control works</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Every desktop action follows a four-step cycle: see, plan, act, verify.</p>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step fade-in">
+        <div class="step-num">1</div>
+        <h3>Capture &amp; Understand</h3>
+        <p>Genesis captures the screen state using multiple methods — UI automation trees, OCR, and vision analysis — building a complete picture of what's visible.</p>
+      </div>
+      <div class="how-step fade-in">
+        <div class="step-num">2</div>
+        <h4>Plan the Action</h4>
+        <p>Based on the goal and current screen state, Genesis determines which tool to use (click_element, browser_fill, mouse_click, etc.) and calculates exact coordinates.</p>
+      </div>
+      <div class="how-step fade-in">
+        <div class="step-num">3</div>
+        <h4>Execute Precisely</h4>
+        <p>The action is performed using DPI-correct coordinates. Every click, keypress, and scroll is placed with pixel-level accuracy on your actual screen.</p>
+      </div>
+      <div class="how-step fade-in">
+        <div class="step-num">4</div>
+        <h4>Verify &amp; Adapt</h4>
+        <p>After each action, Genesis re-reads the screen to confirm the result. If something went wrong, it adapts and tries a different approach.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box fade-in" style="max-width: 640px; margin: 48px auto 0;">
+      <p><strong>Important:</strong> Every desktop action is visible to you. Genesis doesn't hide what it's doing — you can watch it work in real time, pause it at any point, or take back control with a keyboard shortcut.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Security -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Safety &amp; Privacy</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Built for your safety</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Desktop control is powerful, and power requires safeguards.</p>
+    </div>
+
+    <div class="security-grid">
+      <div class="security-card fade-in">
+        <span class="sec-icon">&#128264;</span>
+        <h3>One-Click On/Off</h3>
+        <p>Toggle desktop control completely on or off at any time. When disabled, Genesis cannot interact with your screen or applications in any way.</p>
+      </div>
+      <div class="security-card fade-in">
+        <span class="sec-icon">&#128065;</span>
+        <h3>You're Always Watching</h3>
+        <p>Every action Genesis takes is visible on your screen. You see exactly what it's doing, where it's clicking, and what it's typing — in real time.</p>
+      </div>
+      <div class="security-card fade-in">
+        <span class="sec-icon">&#128274;</span>
+        <h3>Local Only</h3>
+        <p>All desktop control runs locally on your machine. No screen data is sent to any cloud service, and no actions are relayed through external servers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Genesis</h4>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 Genesis. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+// Toggle demo
+const toggle = document.getElementById('desktop-toggle');
+const dots = document.querySelectorAll('.status-dot');
+const label = document.querySelector('.toggle-label strong:last-of-type, .toggle-label strong:nth-child(2)');
+
+function updateLabel() {
+  const isActive = toggle.checked;
+  dots.forEach(d => d.classList.toggle('active', isActive));
+  const statusText = isActive ? 'Active' : 'Disabled';
+  const statusColor = isActive ? 'var(--green)' : 'var(--orange)';
+  const labelHTML = `<strong>Desktop Control</strong> — Currently <strong style="color: ${statusColor};">${statusText}</strong>`;
+  document.querySelector('.toggle-label').innerHTML = labelHTML;
+}
+
+if (toggle) {
+  toggle.addEventListener('change', updateLabel);
+}
+
+// Fade-in observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

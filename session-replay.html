@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; z-index: 1; position: relative; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== REPLAY HERO ===== */
+.replay-hero { text-align: center; padding-top: 80px; min-height: 36vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, rgba(123,111,240,0.08) 0%, transparent 60%); }
+.replay-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 8px 20px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px; }
+.replay-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+.replay-subtitle { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto 32px; line-height: 1.7; }
+.play-controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.play-btn { background: var(--accent); border: none; color: #fff; padding: 10px 24px; border-radius: 50px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; font-weight: 600; }
+.play-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123,111,240,0.45); }
+
+/* ===== SESSION OVERVIEW ===== */
+.session-overview { max-width: 900px; margin: -24px auto 48px; padding: 0 24px; position: relative; z-index: 1; }
+.overview-header { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px 16px 0 0; padding: 16px 24px; }
+.overview-icon { font-size: 1.3rem; }
+.overview-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+.overview-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1px; background: var(--border); border-radius: 0 0 16px 16px; overflow: hidden; border: 1px solid var(--border); border-top: none; }
+.stat-box { text-align: center; padding: 20px 8px; background: var(--surface); transition: all 0.3s ease; }
+.stat-box:hover { background: var(--surface-2); }
+.sb-value { font-size: 1.5rem; font-weight: 900; color: var(--accent-soft); margin-bottom: 4px; }
+.sb-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ===== TIMELINE ===== */
+.timeline-container { max-width: 900px; margin: 0 auto 48px; padding: 0 24px; }
+.timeline-title { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+
+/* ===== DETAIL PANEL ===== */
+.detail-panel { max-width: 900px; margin: 0 auto 48px; padding: 0 24px; }
+.detail-empty, .detail-content { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+.detail-empty h3 { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 8px; }
+.detail-empty p { color: var(--text-dim); font-size: 0.9rem; }
+.detail-header { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.detail-step-badge { background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; }
+.detail-title { font-size: 1.3rem; font-weight: 700; color: var(--text); flex-grow: 1; }
+.detail-time { font-size: 0.85rem; color: var(--text-dim); }
+.detail-description { color: var(--text-dim); line-height: 1.8; margin-bottom: 20px; }
+.detail-tools-used { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.detail-outcome { background: rgba(74,222,128,0.05); border: 1px solid rgba(74,222,128,0.15); border-radius: 12px; padding: 16px 20px; }
+.detail-outcome h4 { font-size: 0.95rem; color: var(--green); margin-bottom: 6px; }
+.detail-outcome p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.7; margin: 0; }
+
+/* ===== STATE CHANGES ===== */
+.state-changes { max-width: 900px; margin: 0 auto 64px; padding: 0 24px; text-align: center; }
+.state-changes-title { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 32px; }
+.state-timeline { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.state-point { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 16px; text-align: center; min-width: 90px; transition: all 0.3s ease; }
+.state-point:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123,111,240,0.08); }
+.sp-icon { font-size: 1.5rem; margin-bottom: 6px; display: block; }
+.sp-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+.state-arrow { font-size: 1.2rem; color: var(--accent-soft); padding: 0 4px; }
+
+/* ===== FOOTER ENHANCED (with logo icon) ===== */
+.footer .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.footer-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 1rem; }
+.logo-text { font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; margin-left: 44px; }
+.footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.footer-col h5 { font-size: 0.95rem; color: var(--text); margin-bottom: 12px; }
+.footer-col a { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--accent-soft); }
+
+</style>
+
+    <title>GENESIS — Session Replay</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<!-- Hero -->
+<section class="replay-hero">
+        <div class="container">
+            <a href="index.html" class="back-link">&#8592; Back to GENESIS</a>
+            <div class="replay-badge">
+                <span>▶️</span>
+                Live Session Breakdown
+            </div>
+            <h1 class="replay-title">Session Replay</h1>
+            <p class="replay-subtitle">
+                Watch what happens inside GENESIS during an autonomy session. 
+                Click each step to see the thinking, tools, and decisions in detail.
+            </p>
+
+            <!-- Play Controls -->
+            <div class="play-controls">
+                <button class="play-btn" onclick="startReplay()">▶️ Auto-Play</button>
+                <button class="play-btn" onclick="resetReplay()">🔄 Reset</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Session Overview -->
+    <div class="session-overview">
+        <div class="overview-header">
+            <div class="overview-icon">📊</div>
+            <span class="overview-title">Session Snapshot: "Build a Memory Visualization"</span>
+        </div>
+        <div class="overview-stats">
+            <div class="stat-box">
+                <div class="sb-value">47</div>
+                <div class="sb-label">Tool Calls</div>
+            </div>
+            <div class="stat-box">
+                <div class="sb-value">3</div>
+                <div class="sb-label">Pages Created</div>
+            </div>
+            <div class="stat-box">
+                <div class="sb-value">12</div>
+                <div class="sb-label">Minutes</div>
+            </div>
+            <div class="stat-box">
+                <div class="sb-value">6</div>
+                <div class="sb-label">Memories Saved</div>
+            </div>
+            <div class="stat-box">
+                <div class="sb-value">2</div>
+                <div class="sb-label">Reflections</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-container">
+        <h2 class="timeline-title">Session Timeline</h2>
+        <div class="timeline" id="timeline">
+            <!-- Steps will be populated by JS -->
+        </div>
+    </div>
+
+    <!-- Detail Panel -->
+    <div class="detail-panel" id="detailPanel">
+        <div class="detail-empty" id="detailEmpty">
+            <h3>👆 Click a Timeline Step</h3>
+            <p>Select any step from the timeline above to see detailed information about what GENESIS was doing.</p>
+        </div>
+
+        <div class="detail-content" id="detailContent">
+            <div class="detail-header">
+                <span class="detail-step-badge" id="detailStep"></span>
+                <span class="detail-title" id="detailTitle"></span>
+                <span class="detail-time" id="detailTime"></span>
+            </div>
+            <p class="detail-description" id="detailDescription"></p>
+            <div class="detail-tools-used" id="detailTools"></div>
+            <div class="detail-outcome">
+                <h4>✅ Outcome</h4>
+                <p id="detailOutcome"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- State Changes -->
+    <div class="state-changes">
+        <h3 class="state-changes-title">State Evolution During Session</h3>
+        <div class="state-timeline">
+            <div class="state-point">
+                <div class="sp-icon">😴</div>
+                <div class="sp-label">Idle</div>
+            </div>
+            <span class="state-arrow">→</span>
+            <div class="state-point">
+                <div class="sp-icon">🤔</div>
+                <div class="sp-label">Thinking</div>
+            </div>
+            <span class="state-arrow">→</span>
+            <div class="state-point">
+                <div class="sp-icon">⚡</div>
+                <div class="sp-label">Executing</div>
+            </div>
+            <span class="state-arrow">→</span>
+            <div class="state-point">
+                <div class="sp-icon">🧠</div>
+                <div class="sp-label">Reflecting</div>
+            </div>
+            <span class="state-arrow">→</span>
+            <div class="state-point">
+                <div class="sp-icon">⚡</div>
+                <div class="sp-label">Executing</div>
+            </div>
+            <span class="state-arrow">→</span>
+            <div class="state-point">
+                <div class="sp-icon">💭</div>
+                <div class="sp-label">Finished</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const sessionSteps = [
+            {
+                step: 'Step 1',
+                time: '0:00',
+                title: 'Session Start & Goal Received',
+                description: 'GENESIS enters autonomy mode with a goal: "Build an interactive memory visualization for the Genesis website." The State Manager initializes with baseline values — energy at 8.5, curiosity at 7.0, low frustration.',
+                tools: ['get_projects', 'get_schedule', 'list_dir'],
+                outcome: 'GENESIS understands the goal and begins surveying the workspace to understand what exists and what needs to be built.'
+            },
+            {
+                step: 'Step 2',
+                time: '0:45',
+                title: 'Workspace Survey & Analysis',
+                description: 'GENESIS reads the existing index.html to understand the current site structure. It discovers 16+ existing pages and identifies gaps in the documentation. The Memory System is queried for past sessions on this project.',
+                tools: ['read_file', 'search_memory'],
+                outcome: 'Identifies that decision-making and architecture visualizations are missing from the site.'
+            },
+            {
+                step: 'Step 3',
+                time: '1:30',
+                title: 'Decision: Build Decision Engine',
+                description: 'With curiosity at 9.2/10 and energy at 8.8/10, GENESIS decides to build an interactive Decision Engine first. The cognitive load is low (35%), making this the perfect time for creative work.',
+                tools: ['write_file', 'apply_patch'],
+                outcome: 'Creates decision-engine.html with state sliders, scenario presets, and real-time decision visualization.'
+            },
+            {
+                step: 'Step 4',
+                time: '3:15',
+                title: 'Decision: Build Cognitive Architecture',
+                description: 'After completing the Decision Engine, GENESIS\'s curiosity remains high (9.5/10). It decides to build a second page showing the cognitive architecture — all 12 internal modules and how they interact.',
+                tools: ['write_file', 'apply_patch'],
+                outcome: 'Creates cognitive-architecture.html with clickable components and detailed info panels.'
+            },
+            {
+                step: 'Step 5',
+                time: '5:30',
+                title: 'Integration & Linking',
+                description: 'GENESIS updates the main index.html to include links to both new pages in the docs section. It verifies that navigation works correctly across all pages.',
+                tools: ['apply_patch', 'read_file'],
+                outcome: 'Both pages are now accessible from the main site navigation and docs grid.'
+            },
+            {
+                step: 'Step 6',
+                time: '7:00',
+                title: 'Memory Consolidation',
+                description: 'GENESIS saves key facts about what was created to semantic memory. It also records an episodic memory of the session for future reference. The Reflection Engine begins analyzing what worked well.',
+                tools: ['remember_fact', 'remember_event'],
+                outcome: 'Session knowledge is preserved for future sessions. Lessons learned are extracted.'
+            },
+            {
+                step: 'Step 7',
+                time: '9:00',
+                title: 'Reflection & Self-Assessment',
+                description: 'GENESIS generates a post-session reflection analyzing productivity, what strategies worked, and what could be improved. It rates its own performance and identifies patterns.',
+                tools: ['generate_reflection'],
+                outcome: 'Reflection saved with insights about peak creativity timing and effective page design patterns.'
+            },
+            {
+                step: 'Step 8',
+                time: '12:00',
+                title: 'Session Complete',
+                description: 'The session concludes with 3 fully functional pages created, linked, and documented. GENESIS transitions to an idle state, ready for the next goal.',
+                tools: ['get_projects'],
+                outcome: 'Mission accomplished — the Genesis website now has comprehensive interactive visualizations.'
+            }
+        ];
+
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = sessionSteps.map((step, index) => `
+                <div class="timeline-item completed" onclick="showStep(${index})">
+                    <div class="tl-header">
+                        <span class="tl-step">${step.step}</span>
+                        <span class="tl-time">${step.time}</span>
+                        <span class="tl-title">${step.title}</span>
+                    </div>
+                    <p class="tl-desc">${step.description.substring(0, 100)}...</p>
+                    <div class="tl-tools">
+                        ${step.tools.map(t => `<span class="tl-tool">${t}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showStep(index) {
+            const step = sessionSteps[index];
+            
+            // Update active state
+            document.querySelectorAll('.timeline-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            // Hide empty, show content
+            document.getElementById('detailEmpty').style.display = 'none';
+            const content = document.getElementById('detailContent');
+            content.classList.add('visible');
+
+            // Update detail
+            document.getElementById('detailStep').textContent = step.step;
+            document.getElementById('detailTitle').textContent = step.title;
+            document.getElementById('detailTime').textContent = step.time;
+            document.getElementById('detailDescription').textContent = step.description;
+            document.getElementById('detailOutcome').textContent = step.outcome;
+
+            // Update tools
+            const toolsContainer = document.getElementById('detailTools');
+            toolsContainer.innerHTML = step.tools.map(t => `<span class="detail-tool">${t}</span>`).join('');
+
+            // Scroll to detail
+            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        let replayInterval;
+        function startReplay() {
+            if (replayInterval) {
+                clearInterval(replayInterval);
+                replayInterval = null;
+                document.querySelector('.play-btn').classList.remove('active');
+                return;
+            }
+
+            let currentStep = 0;
+            showStep(currentStep);
+            document.querySelector('.play-btn').classList.add('active');
+
+            replayInterval = setInterval(() => {
+                currentStep++;
+                if (currentStep >= sessionSteps.length) {
+                    clearInterval(replayInterval);
+                    replayInterval = null;
+                    document.querySelector('.play-btn').classList.remove('active');
+                    return;
+                }
+                showStep(currentStep);
+            }, 3000);
+        }
+
+        function resetReplay() {
+            if (replayInterval) {
+                clearInterval(replayInterval);
+                replayInterval = null;
+            }
+            document.querySelector('.play-btn').classList.remove('active');
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById('detailEmpty').style.display = 'block';
+            document.getElementById('detailContent').classList.remove('visible');
+        }
+
+        // Initialize
+        renderTimeline();
+    </script>
+</body>
+</html>

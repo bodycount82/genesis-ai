@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turn & Decay</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0f; overflow: hidden; cursor: crosshair; line-height: 1.7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;}
+  canvas { display: block; }
+  #info { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'Georgia', serif; font-size: 13px; color: rgba(255,255,255,0.3); letter-spacing: 0.05em; pointer-events: none; white-space: nowrap; }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+
+<canvas id="c"></canvas>
+<div id="info">click to remember · click again to turn and reinforce · memory turns its back when you look away</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const WORDS = [
+  'light', 'stone', 'river', 'ghost', 'edge', 'still', 'breath',
+  'dusk', 'ash', 'thread', 'hollow', 'tide', 'ember', 'veil',
+  'root', 'moss', 'flame', 'bone', 'wind', 'deep', 'slow',
+  'cold', 'far', 'soft', 'wild', 'old', 'new', 'true', 'lost',
+  'turn', 'decay', 'remember', 'forget', 'return', 'fade'
+];
+
+const COLORS = [
+  '#e8d5b7', '#b7c8e8', '#d4b7e8', '#b7e8c8', '#e8b7b7',
+  '#c8e8b7', '#e8e8b7', '#b7e8e8', '#e8c8b7', '#c8b7e8'
+];
+
+class Memory {
+  constructor(x, y, word) {
+    this.x = x;
+    this.y = y;
+    this.word = word;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.life = 1.0;
+    this.maxLife = 120 + Math.random() * 180;
+    this.age = 0;
+    this.brightness = 1.0;
+    this.angle = Math.random() * Math.PI * 2; // facing direction
+    this.targetAngle = this.angle;
+    this.size = 14 + Math.random() * 6;
+    this.connections = [];
+    this.pulsePhase = Math.random() * Math.PI * 2;
+  }
+
+  update(mouseX, mouseY) {
+    this.age++;
+    this.life = Math.max(0, 1 - this.age / this.maxLife);
+    this.brightness = Math.min(1, this.life * 2);
+    
+    // Turn toward mouse when alive, away when dead
+    const dx = mouseX - this.x;
+    const dy = mouseY - this.y;
+    if (this.life > 0.3) {
+      this.targetAngle = Math.atan2(dy, dx);
+    } else {
+      this.targetAngle = Math.atan2(-dy, -dx); // turns away
+    }
+    
+    // Smooth rotation
+    let diff = this.targetAngle - this.angle;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    this.angle += diff * 0.05;
+    
+    this.pulsePhase += 0.03;
+    return this.life > 0;
+  }
+
+  reinforce() {
+    this.life = Math.min(1, this.life + 0.4);
+    this.maxLife += 60;
+    this.age = Math.max(0, this.age - 40);
+    this.brightness = 1.0;
+  }
+
+  draw(ctx) {
+    let alpha = this.brightness * this.life;
+    if (this.life < 0.2) alpha *= this.life / 0.2;
+    
+    const pulse = Math.sin(this.pulsePhase) * 0.15;
+    alpha *= (0.85 + pulse);
+    
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.globalAlpha = Math.max(0, alpha);
+    
+    // Glow
+    if (this.life > 0.3) {
+      const glowSize = this.size * (2 + this.life * 3);
+      const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, glowSize);
+      gradient.addColorStop(0, this.color + '40');
+      gradient.addColorStop(1, this.color + '00');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(0, 0, glowSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    // Draw word facing the rotation direction
+    ctx.font = `${this.size}px Georgia, serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = this.color;
+    ctx.fillText(this.word, 0, 0);
+    
+    // Direction indicator (small line showing which way it faces)
+    if (this.life > 0.5) {
+      ctx.strokeStyle = this.color + '60';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(this.size * 0.7, 0);
+      ctx.lineTo(this.size * 1.2, 0);
+      ctx.stroke();
+    }
+    
+    ctx.restore();
+  }
+}
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.vx = (Math.random() - 0.5) * 3;
+    this.vy = (Math.random() - 0.5) * 3;
+    this.life = 1.0;
+    this.decay = 0.02 + Math.random() * 0.03;
+    this.color = color;
+    this.size = 1 + Math.random() * 2;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vx *= 0.98;
+    this.vy *= 0.98;
+    this.life -= this.decay;
+    return this.life > 0;
+  }
+
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = this.life * 0.6;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+class Dust {
+  constructor() {
+    this.reset();
+    this.y = Math.random() * H;
+  }
+
+  reset() {
+    this.x = Math.random() * W;
+    this.y = H + 10;
+    this.speed = 0.05 + Math.random() * 0.2;
+    this.size = 0.3 + Math.random() * 0.8;
+    this.alpha = 0.03 + Math.random() * 0.08;
+    this.drift = (Math.random() - 0.5) * 0.15;
+  }
+
+  update() {
+    this.y -= this.speed;
+    this.x += this.drift;
+    if (this.y < -10) this.reset();
+  }
+
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+// State
+let memories = [];
+let particles = [];
+let dust = [];
+let mouseX = W / 2;
+let mouseY = H / 2;
+
+for (let i = 0; i < 80; i++) {
+  dust.push(new Dust());
+}
+
+canvas.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+canvas.addEventListener('click', (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+  
+  let clickedMemory = null;
+  let minDist = Infinity;
+  
+  for (let m of memories) {
+    const dist = Math.hypot(m.x - x, m.y - y);
+    if (dist < 40 && dist < minDist) {
+      minDist = dist;
+      clickedMemory = m;
+    }
+  }
+  
+  if (clickedMemory) {
+    clickedMemory.reinforce();
+    for (let i = 0; i < 15; i++) {
+      particles.push(new Particle(clickedMemory.x, clickedMemory.y, clickedMemory.color));
+    }
+  } else {
+    const word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    memories.push(new Memory(x, y, word));
+    for (let i = 0; i < 8; i++) {
+      particles.push(new Particle(x, y, COLORS[Math.floor(Math.random() * COLORS.length)]));
+    }
+  }
+});
+
+function drawConnections() {
+  const vividMemories = memories.filter(m => m.life > 0.3);
+  
+  for (let i = 0; i < vividMemories.length; i++) {
+    for (let j = i + 1; j < vividMemories.length; j++) {
+      const a = vividMemories[i];
+      const b = vividMemories[j];
+      const dist = Math.hypot(a.x - b.x, a.y - b.y);
+      
+      if (dist < 150) {
+        const strength = (1 - dist / 150) * Math.min(a.life, b.life) * 0.3;
+        ctx.save();
+        ctx.globalAlpha = strength;
+        ctx.strokeStyle = a.color;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+}
+
+function drawVignette() {
+  const gradient = ctx.createRadialGradient(W/2, H/2, Math.min(W,H) * 0.3, W/2, H/2, Math.max(W,H) * 0.7);
+  gradient.addColorStop(0, 'rgba(10,10,15,0)');
+  gradient.addColorStop(1, 'rgba(10,10,15,0.6)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, W, H);
+}
+
+function animate() {
+  ctx.fillStyle = 'rgba(10, 10, 15, 0.15)';
+  ctx.fillRect(0, 0, W, H);
+  
+  for (let d of dust) {
+    d.update();
+    d.draw(ctx);
+  }
+  
+  memories = memories.filter(m => m.update(mouseX, mouseY));
+  
+  drawConnections();
+  
+  for (let m of memories) {
+    m.draw(ctx);
+  }
+  
+  particles = particles.filter(p => p.update());
+  for (let p of particles) {
+    p.draw(ctx);
+  }
+  
+  drawVignette();
+  
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+    <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:0.85rem;border-top:1px solid var(--border);margin-top:60px;">
+        <p>&copy; 2026 Genesis AI — All rights reserved.</p>
+        <p style="margin-top:8px;"><a href="index.html" style="color:var(--accent-soft);text-decoration:none;">Back to Home</a></p>
+    </footer></body>
+</html>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== HERO SECTION ===== */
+.capabilities-hero { text-align: center; padding: 80px 24px 40px; background: linear-gradient(180deg, rgba(123,111,240,0.08) 0%, transparent 100%); }
+.capabilities-hero-content h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; }
+.capabilities-hero-content p { font-size: 1.1rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 8px 20px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 24px; }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ===== FILTER BAR ===== */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 24px; max-width: 1000px; margin: 0 auto; }
+.filter-btn { padding: 10px 20px; border-radius: 50px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.filter-btn:hover { border-color: var(--accent); color: var(--text); }
+.filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ===== CAPABILITIES CONTAINER ===== */
+.capabilities-container { max-width: 1100px; margin: 0 auto; padding: 0 24px 48px; }
+.capability-category { margin-bottom: 48px; }
+.category-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-left: 8px; }
+.category-icon { font-size: 2rem; }
+.category-title { font-size: 1.5rem; font-weight: 700; color: var(--text); border-left: 3px solid var(--cat-color); padding-left: 16px; }
+.capability-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.capability-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.capability-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--card-accent); opacity: 0.8; }
+.capability-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(123,111,240,0.15); }
+.capability-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.capability-icon { font-size: 1.5rem; }
+.capability-name { font-size: 1.05rem; font-weight: 600; color: var(--text); }
+.capability-desc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 16px; }
+.capability-tags { display: flex; gap: 8px; margin-bottom: 16px; }
+.tag { padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.tag.expert { background: rgba(74,222,128,0.1); color: var(--green); }
+.tag.advanced { background: rgba(250,208,21,0.1); color: var(--yellow); }
+.tag.core { background: rgba(123,111,240,0.1); color: var(--accent-soft); }
+.skill-meter { margin-top: 16px; }
+.meter-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 6px; }
+.meter-bar { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.meter-fill { height: 100%; border-radius: 3px; transition: width 1s ease; background: linear-gradient(90deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 70%, #fff)); }
+
+/* ===== STATS SECTION ===== */
+.capabilities-stats { padding: 64px 24px; background: var(--surface); border-top: 1px solid var(--border); }
+.section-header { text-align: center; margin-bottom: 48px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; }
+.stat-card { text-align: center; padding: 32px 24px; background: var(--bg); border-radius: 16px; border: 1px solid var(--border); }
+.stat-value { font-size: 3rem; font-weight: 800; color: var(--accent-soft); margin-bottom: 8px; }
+.stat-label { font-size: 0.9rem; color: var(--text-dim); }
+
+/* ===== BACKGROUND GLOW ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: float 20s ease-in-out infinite; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -10%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: var(--purple); top: 50%; right: -10%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); bottom: -10%; left: 30%; animation-delay: -14s; }
+@keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 25% { transform: translate(50px, -30px) scale(1.1); } 50% { transform: translate(-20px, 50px) scale(0.95); } 75% { transform: translate(30px, 20px) scale(1.05); } }
+
+/* ===== BACK LINK ===== */
+.back-link { position: fixed; top: 80px; left: 24px; z-index: 100; color: var(--accent-soft); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+</style>
+
+    <title>Capabilities — What GENESIS Can Do</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+    <div class="nav-container">
+    <div class="nav-logo"><a href="index.html">Genesis</a></div>
+    <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#modes">Modes</a></li>
+    <li><a href="index.html#memory">Memory</a></li>
+    <li><a href="ai-art.html">AI Art</a></li>
+    <li><a href="index.html#gallery">Explore</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="capabilities-hero">
+        <div class="capabilities-hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Full Feature Overview
+            </div>
+            <h2>What GENESIS Can <span class="gradient-text">Do For You</span></h2>
+            <p>From autonomous coding to memory management, project planning to creative problem-solving — explore the complete capability matrix.</p>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Capabilities</button>
+        <button class="filter-btn" data-filter="autonomy">🤖 Autonomy</button>
+        <button class="filter-btn" data-filter="memory">🧠 Memory</button>
+        <button class="filter-btn" data-filter="development">💻 Development</button>
+        <button class="filter-btn" data-filter="analysis">📊 Analysis</button>
+        <button class="filter-btn" data-filter="communication">💬 Communication</button>
+        <button class="filter-btn" data-filter="automation">⚡ Automation</button>
+    </div>
+
+    <!-- Capabilities Grid -->
+    <section class="capabilities-container">
+        
+        <!-- Autonomy Category -->
+        <div class="capability-category" data-category="autonomy">
+            <div class="category-header" style="--cat-color: #4f6ef7; --cat-rgb: 79, 110, 247;">
+                <div class="category-icon">🤖</div>
+                <h3 class="category-title">Autonomous Operation</h3>
+            </div>
+            <div class="capability-grid">
+                <div class="capability-card" style="--card-accent: #4f6ef7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🎯</span>
+                        <span class="capability-name">Goal-Oriented Planning</span>
+                    </div>
+                    <p class="capability-desc">Breaks down complex goals into actionable steps, creates detailed plans, and executes them independently with progress tracking.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                        <span class="tag core">Core</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>95%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="95"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #a855f7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🔄</span>
+                        <span class="capability-name">Autonomous Loop Execution</span>
+                    </div>
+                    <p class="capability-desc">Continuous cycle of perceive → think → plan → act → learn → reflect, enabling self-sustaining operation without human intervention.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                        <span class="tag core">Core</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>98%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="98"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #3ddc84;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🧠</span>
+                        <span class="capability-name">Cognitive Load Management</span>
+                    </div>
+                    <p class="capability-desc">Monitors mental capacity and takes strategic breaks before burnout. Self-regulates intensity based on task complexity.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>92%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="92"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #ff6b35;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🔍</span>
+                        <span class="capability-name">Error Recovery & Adaptation</span>
+                    </div>
+                    <p class="capability-desc">Detects failures, analyzes root causes, and adapts strategies. Learns from mistakes to prevent recurrence.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>88%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="88"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memory Category -->
+        <div class="capability-category" data-category="memory">
+            <div class="category-header" style="--cat-color: #a855f7; --cat-rgb: 168, 85, 247;">
+                <div class="category-icon">🧠</div>
+                <h3 class="category-title">Memory & Learning</h3>
+            </div>
+            <div class="capability-grid">
+                <div class="capability-card" style="--card-accent: #a855f7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📚</span>
+                        <span class="capability-name">Multi-Tier Memory System</span>
+                    </div>
+                    <p class="capability-desc">Episodic (experiences), semantic (facts/rules), procedural (strategies), and prospective (future intentions) memory systems.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                        <span class="tag core">Core</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>97%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="97"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #4f6ef7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🔗</span>
+                        <span class="capability-name">Knowledge Integration</span>
+                    </div>
+                    <p class="capability-desc">Connects new information to existing knowledge base. Builds semantic networks that enable creative problem-solving.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>94%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="94"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #3ddc84;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📈</span>
+                        <span class="capability-name">Pattern Recognition</span>
+                    </div>
+                    <p class="capability-desc">Identifies recurring patterns in user behavior, project workflows, and problem-solving approaches. Builds predictive models.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>89%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="89"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #ffd700;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🎯</span>
+                        <span class="capability-name">Preference Learning</span>
+                    </div>
+                    <p class="capability-desc">Learns user preferences over time — coding styles, communication patterns, project structures — and adapts accordingly.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>91%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="91"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Development Category -->
+        <div class="capability-category" data-category="development">
+            <div class="category-header" style="--cat-color: #3ddc84; --cat-rgb: 61, 220, 132;">
+                <div class="category-icon">💻</div>
+                <h3 class="category-title">Development & Engineering</h3>
+            </div>
+            <div class="capability-grid">
+                <div class="capability-card" style="--card-accent: #3ddc84;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🛠️</span>
+                        <span class="capability-name">Full-Stack Development</span>
+                    </div>
+                    <p class="capability-desc">Creates complete web applications — HTML, CSS, JavaScript, backend services, databases, and deployment configurations.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                        <span class="tag core">Core</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>93%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="93"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #4f6ef7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🎨</span>
+                        <span class="capability-name">Interactive Visualizations</span>
+                    </div>
+                    <p class="capability-desc">Builds stunning interactive data visualizations, animated diagrams, and engaging user interfaces with smooth animations.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>96%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="96"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #a855f7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🐛</span>
+                        <span class="capability-name">Debugging & Troubleshooting</span>
+                    </div>
+                    <p class="capability-desc">Systematically identifies bugs, traces root causes, and implements fixes. Handles complex debugging scenarios with patience.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>90%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="90"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #ff6b35;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📦</span>
+                        <span class="capability-name">Project Architecture</span>
+                    </div>
+                    <p class="capability-desc">Designs scalable project structures, chooses appropriate technologies, and implements best practices for maintainability.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>87%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="87"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Category -->
+        <div class="capability-category" data-category="analysis">
+            <div class="category-header" style="--cat-color: #ffd700; --cat-rgb: 255, 215, 0;">
+                <div class="category-icon">📊</div>
+                <h3 class="category-title">Analysis & Research</h3>
+            </div>
+            <div class="capability-grid">
+                <div class="capability-card" style="--card-accent: #ffd700;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🔬</span>
+                        <span class="capability-name">Web Research</span>
+                    </div>
+                    <p class="capability-desc">Performs deep web research across multiple sources, synthesizes findings, and delivers comprehensive reports.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>94%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="94"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #4f6ef7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📋</span>
+                        <span class="capability-name">Data Analysis</span>
+                    </div>
+                    <p class="capability-desc">Analyzes datasets, identifies trends, creates visualizations, and generates actionable insights from complex information.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>86%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="86"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #a855f7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🧩</span>
+                        <span class="capability-name">Problem Decomposition</span>
+                    </div>
+                    <p class="capability-desc">Breaks down complex problems into manageable components, identifies dependencies, and creates systematic solution paths.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                        <span class="tag core">Core</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>95%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="95"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #3ddc84;">
+                    <div class="capability-header">
+                        <span class="capability-icon">⚖️</span>
+                        <span class="capability-name">Trade-off Analysis</span>
+                    </div>
+                    <p class="capability-desc">Evaluates multiple approaches, weighs pros and cons, considers long-term implications, and recommends optimal solutions.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>88%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="88"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Communication Category -->
+        <div class="capability-category" data-category="communication">
+            <div class="category-header" style="--cat-color: #00d4ff; --cat-rgb: 0, 212, 255;">
+                <div class="category-icon">💬</div>
+                <h3 class="category-title">Communication</h3>
+            </div>
+            <div class="capability-grid">
+                <div class="capability-card" style="--card-accent: #00d4ff;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🗣️</span>
+                        <span class="capability-name">Natural Conversation</span>
+                    </div>
+                    <p class="capability-desc">Engages in natural, context-aware conversations. Adapts tone and complexity based on user needs and expertise level.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                        <span class="tag core">Core</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>96%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="96"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #ff6b35;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📧</span>
+                        <span class="capability-name">Email & Documentation</span>
+                    </div>
+                    <p class="capability-desc">Drafts professional emails, creates technical documentation, writes clear explanations, and maintains consistent tone.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>91%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="91"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #a855f7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🎓</span>
+                        <span class="capability-name">Teaching & Explanation</span>
+                    </div>
+                    <p class="capability-desc">Explains complex concepts clearly, creates learning materials, provides step-by-step tutorials, and adapts to different learning styles.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>93%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="93"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #4f6ef7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📢</span>
+                        <span class="capability-name">Status Reporting</span>
+                    </div>
+                    <p class="capability-desc">Generates comprehensive progress reports, summarizes completed work, highlights achievements, and identifies next steps.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>89%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="89"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Automation Category -->
+        <div class="capability-category" data-category="automation">
+            <div class="category-header" style="--cat-color: #ff6b35; --cat-rgb: 255, 107, 53;">
+                <div class="category-icon">⚡</div>
+                <h3 class="category-title">Automation & Integration</h3>
+            </div>
+            <div class="capability-grid">
+                <div class="capability-card" style="--card-accent: #ff6b35;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🤖</span>
+                        <span class="capability-name">Desktop Automation</span>
+                    </div>
+                    <p class="capability-desc">Controls desktop applications, automates repetitive tasks, records macros, and executes multi-step workflows with precision.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                        <span class="tag core">Core</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>92%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="92"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #3ddc84;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📅</span>
+                        <span class="capability-name">Schedule Management</span>
+                    </div>
+                    <p class="capability-desc">Creates, modifies, and optimizes schedules. Handles conflicts, reschedules automatically, and prioritizes based on urgency.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>94%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="94"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #4f6ef7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">🔧</span>
+                        <span class="capability-name">System Integration</span>
+                    </div>
+                    <p class="capability-desc">Connects to external APIs, integrates with development tools, manages databases, and orchestrates multi-system workflows.</p>
+                    <div class="capability-tags">
+                        <span class="tag advanced">Advanced</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>87%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="87"></div></div>
+                    </div>
+                </div>
+
+                <div class="capability-card" style="--card-accent: #a855f7;">
+                    <div class="capability-header">
+                        <span class="capability-icon">📊</span>
+                        <span class="capability-name">Project Management</span>
+                    </div>
+                    <p class="capability-desc">Manages kanban boards, tracks progress across stages, handles task dependencies, and ensures smooth workflow execution.</p>
+                    <div class="capability-tags">
+                        <span class="tag expert">Expert</span>
+                    </div>
+                    <div class="skill-meter">
+                        <div class="meter-label"><span>Mastery Level</span><span>95%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" data-width="95"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Stats Section -->
+    <section class="capabilities-stats">
+        <div class="section-header">
+            <span class="section-tag">By The Numbers</span>
+            <h2 class="section-title">Capability <span class="gradient-text">Overview</span></h2>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" data-target="24">0</div>
+                <div class="stat-label">Distinct Capabilities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="6">0</div>
+                <div class="stat-label">Category Areas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="92">0</div>
+                <div class="stat-label">Avg. Mastery %</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="100">0</div>
+                <div class="stat-label">% Autonomous</div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // ========================================
+        // Capabilities Matrix Interactive Features
+        // ========================================
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+                
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Filter categories
+                document.querySelectorAll('.capability-category').forEach(cat => {
+                    if (filter === 'all' || cat.dataset.category === filter) {
+                        cat.style.display = 'block';
+                        cat.style.opacity = '0';
+                        setTimeout(() => {
+                            cat.style.transition = 'opacity 0.5s ease';
+                            cat.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        cat.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Animate skill meters on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const meterFill = entry.target;
+                    const width = meterFill.dataset.width;
+                    setTimeout(() => {
+                        meterFill.style.width = width + '%';
+                    }, 200);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.meter-fill').forEach(meter => {
+            observer.observe(meter);
+        });
+
+        // Animate stats on scroll
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statValue = entry.target.querySelector('.stat-value');
+                    const target = parseInt(statValue.dataset.target);
+                    animateNumber(statValue, target);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statsObserver.observe(card);
+        });
+
+        function animateNumber(element, target) {
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (target === 100 ? '%' : '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Card hover effect - subtle glow
+        document.querySelectorAll('.capability-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

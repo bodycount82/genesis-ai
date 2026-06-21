@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonomy Mode — Genesis</title>
+<meta name="description" content="Give Genesis a goal and step away. It plans, executes tasks, browses the web, manages files, and works toward objectives on its own using its full set of tools and memory.">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a;
+  --text: #e4e4ec; --text-dim: #8888a0;
+  --accent: #7b6ff0; --accent-glow: rgba(123, 111, 240, 0.15); --accent-soft: #9d93f5;
+  --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --cyan: #06b6d4;
+  --yellow: #fbbf24;
+  --radius: 12px; --radius-lg: 20px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden;
+}
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+.bg-glow {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-glow .orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--orange); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 0 24px;
+}
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* Cycle Diagram */
+.cycle-container {
+  display: flex; gap: 16px; justify-content: center; align-items: stretch;
+  flex-wrap: wrap; margin-top: 48px;
+}
+.cycle-step {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 28px 20px; flex: 1; min-width: 160px; max-width: 200px; text-align: center; transition: all 0.3s ease;
+}
+.cycle-step:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-3px); }
+.cycle-step .cycle-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--accent);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; font-weight: 700; margin: 0 auto 14px;
+}
+.cycle-step h4 { font-size: 0.95rem; margin-bottom: 6px; }
+.cycle-step p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.5; }
+
+/* Feature Cards */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+.feature-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease;
+}
+.feature-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.feature-card .feat-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.feature-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.feature-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.feature-card ul { list-style: none; padding: 0; }
+.feature-card ul li { color: var(--text-dim); font-size: 0.9rem; padding: 4px 0; padding-left: 20px; position: relative; }
+.feature-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent-soft); font-size: 0.85rem; }
+
+/* Example Box */
+.example-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 32px; margin-top: 48px;
+}
+.example-box h3 { font-size: 1.1rem; margin-bottom: 16px; color: var(--accent-soft); }
+.example-step { display: flex; gap: 16px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.example-step:last-child { border-bottom: none; }
+.example-step .step-label { font-size: 0.8rem; font-weight: 600; color: var(--text-dim); min-width: 80px; }
+.example-step .step-content { color: var(--text-dim); font-size: 0.9rem; }
+.example-step .step-content strong { color: var(--text); }
+
+/* Highlight Box */
+.highlight-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius); padding: 24px 28px; margin: 32px 0;
+}
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .cycle-container { flex-direction: column; align-items: center; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Autonomy Mode</h1>
+    <p class="subtitle">Give Genesis a goal and step away. It plans, executes tasks, browses the web, manages files, and works toward objectives on its own — using its full set of tools and memory.</p>
+  </div>
+</section>
+
+<!-- Autonomous Cycle -->
+<section>
+  <div class="container" style="text-align: center;">
+    <span class="section-label fade-in">The Loop</span>
+    <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">How autonomous work flows</h2>
+    <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Genesis doesn't follow a rigid script. It enters a continuous cycle of perception, planning, execution, and adaptation — repeating until the goal is achieved.</p>
+
+    <div class="cycle-container fade-in">
+      <div class="cycle-step">
+        <div class="cycle-num">1</div>
+        <h4>Analyze Goal</h4>
+        <p>Breaks down the objective into manageable sub-tasks</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-num">2</div>
+        <h4>Plan Actions</h4>
+        <p>Creates an ordered sequence of steps to complete the goal</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-num">3</div>
+        <h4>Execute</h4>
+        <p>Performs each action using available tools and memory</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-num">4</div>
+        <h4>Track Progress</h4>
+        <p>Monitors what's done and what remains</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-num">5</div>
+        <h4>Adapt</h4>
+        <p>Adjusts the plan if obstacles are encountered</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What It Can Do -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Capabilities</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">What Genesis does while you're away</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">In Autonomy mode, Genesis operates as an independent worker. It has access to its full toolset and memory system.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128269;</span>
+        <h3>Web Research</h3>
+        <p>Searches the web, reads articles, extracts key information, and synthesizes findings into structured reports.</p>
+        <ul>
+          <li>Multi-source research with comparison</li>
+          <li>Extracts and summarizes long documents</li>
+          <li>Finds current events and live data</li>
+          <li>Cites sources and provides URLs</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128196;</span>
+        <h3>File Operations</h3>
+        <p>Reads, creates, edits, and organizes files across your entire system — documents, code, spreadsheets, PDFs.</p>
+        <ul>
+          <li>Writes and edits Markdown, HTML, Python, and more</li>
+          <li>Creates Excel spreadsheets with formatting</li>
+          <li>Reads PDFs and Word documents</li>
+          <li>Organizes project folders and files</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128230;</span>
+        <h3>Application Control</h3>
+        <p>Launches applications, interacts with their UI, and automates workflows across your desktop.</p>
+        <ul>
+          <li>Opens apps, reads files, manages windows</li>
+          <li>Controls browsers for web-based tasks</li>
+          <li>Records and replays macros</li>
+          <li>Interacts with native app UI elements</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128231;</span>
+        <h3>Email &amp; Communication</h3>
+        <p>Checks inbox, searches emails, and composes messages — all autonomously when given permission.</p>
+        <ul>
+          <li>Reads and organizes incoming emails</li>
+          <li>Sends replies with attachments</li>
+          <li>Searches past conversations for context</li>
+          <li>Manages contact lists and outreach</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128200;</span>
+        <h3>Project Management</h3>
+        <p>Creates projects, breaks them into tasks, tracks progress through columns, and maintains living documentation.</p>
+        <ul>
+          <li>Creates project boards with prioritized tasks</li>
+          <li>Moves tasks through workflow automatically</li>
+          <li>Writes detailed progress notes for each task</li>
+          <li>Submits completed projects for review</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#129302;</span>
+        <h3>Code &amp; Scripts</h3>
+        <p>Writes, tests, and debugs code in multiple languages. Creates tools, automation scripts, and data processing pipelines.</p>
+        <ul>
+          <li>Python, JavaScript, HTML/CSS, and more</li>
+          <li>Creates custom tools for itself</li>
+          <li>Debugs errors and iterates on solutions</li>
+          <li>Builds and runs scripts directly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Example Session -->
+<section>
+  <div class="container">
+    <div class="example-box fade-in">
+      <h3>&#128214; Example: What happens when you give Genesis a goal</h3>
+      <p style="color: var(--text); font-size: 1rem; margin-bottom: 20px; font-style: italic;">"Research the top 10 AI agent platforms and compare their pricing, features, and target audiences."</p>
+
+      <div class="example-step">
+        <span class="step-label">Step 1</span>
+        <span class="step-content"><strong>Analysis:</strong> Genesis breaks this into: search for platforms, collect details for each, compare pricing, analyze features, identify target audiences.</span>
+      </div>
+      <div class="example-step">
+        <span class="step-label">Step 2</span>
+        <span class="step-content"><strong>Planning:</strong> Creates an ordered plan — search web for platforms → visit top results → extract data → build comparison table → write summary.</span>
+      </div>
+      <div class="example-step">
+        <span class="step-label">Step 3</span>
+        <span class="step-content"><strong>Execution:</strong> Searches multiple sources, fetches pages, extracts pricing tables, reads documentation, and compiles findings.</span>
+      </div>
+      <div class="example-step">
+        <span class="step-label">Step 4</span>
+        <span class="step-content"><strong>Adaptation:</strong> Notices some sites require login — pivots to alternative sources. Finds incomplete data for one platform — marks it as "limited info available."</span>
+      </div>
+      <div class="example-step">
+        <span class="step-label">Step 5</span>
+        <span class="step-content"><strong>Deliverable:</strong> Creates a structured comparison document with pricing tiers, feature matrices, and audience analysis. Summarizes key findings and recommendations.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Controls & Safety -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">Control</span>
+      <h2 class="section-title">You're always in control</h2>
+      <p>Autonomy doesn't mean uncontrolled. Genesis operates within boundaries you define, and you can monitor or intervene at any time.</p>
+
+      <div class="highlight-box">
+        <p><strong>Time limits:</strong> You set how long Genesis works autonomously before reporting back. It won't run indefinitely — it stops when the goal is complete or the time limit is reached.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Interrupt at any time:</strong> Send a message, switch modes, or close the application. Genesis stops immediately and reports what it was doing.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Visible progress:</strong> Watch Genesis work in real time. See each task as it's completed, review files as they're created, and read progress notes as they're written.</p>
+      </div>
+
+      <h3 style="margin-top: 48px;">When to use Autonomy mode</h3>
+      <ul>
+        <li><strong style="color: var(--text);">Research tasks:</strong> "Find me information about X" — Genesis searches, reads, and synthesizes while you do something else.</li>
+        <li><strong style="color: var(--text);">Multi-step projects:</strong> "Build a competitor analysis" — Genesis creates the project, researches each competitor, and delivers a report.</li>
+        <li><strong style="color: var(--text);">Repetitive work:</strong> "Organize these files" or "Send follow-up emails to these contacts" — Genesis handles the grunt work.</li>
+        <li><strong style="color: var(--text);">Exploration:</strong> "Look into this topic and tell me what's interesting" — Genesis investigates broadly and shares discoveries.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>Genesis</h5>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 Genesis. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

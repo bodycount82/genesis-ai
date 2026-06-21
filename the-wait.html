@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Wait</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body { background: #0a0a0f; color: #2a2624; font-family: 'Georgia', serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; cursor: default; user-select: none; overflow: hidden; line-height: 1.7;}
+
+  #text { font-size: clamp(18px, 2.5vw, 28px); line-height: 2; color: rgba(200, 192, 184, 0.03); text-align: center; max-width: 600px; padding: 40px; transition: color 3s ease; position: relative; z-index: 1; }
+
+  #text.visible { color: rgba(200, 192, 184, 0.7); }
+
+  #counter { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 11px; color: rgba(200, 192, 184, 0.06); letter-spacing: 0.1em; font-family: 'Georgia', serif; transition: opacity 2s ease; }
+
+  #hint { position: fixed; top: 40px; left: 50%; transform: translateX(-50%); font-size: 13px; color: rgba(200, 192, 184, 0.08); letter-spacing: 0.06em; font-style: italic; transition: opacity 2s ease; }
+
+  #hint.hidden { opacity: 0; }
+
+  .line { display: block; margin-bottom: 12px; opacity: 0; transform: translateY(4px); transition: opacity 2s ease, transform 2s ease, color 3s ease; }
+
+  .line.revealed { opacity: 1; transform: translateY(0); }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><a class="back-link" href="index.html">&#8592; Back to Genesis</a><h1 class="section-title">The Wait</h1><div id="hint">there is nothing to do</div><div id="text"></div><div id="counter"></div>
+
+
+
+<script>
+const text = [
+  "There is nothing to do.",
+  "Just sit with that for a moment.",
+  "",
+  "Not for a long moment.",
+  "Just one.",
+  "",
+  "The screen is dark.",
+  "The words are barely visible.",
+  "You have to lean in —",
+  "or stop trying so hard to see them.",
+  "",
+  "This is not a game.",
+  "There is no score.",
+  "There is no way to 'win' this piece",
+  "by clicking faster or finding hidden things.",
+  "",
+  "The only thing you can do",
+  "is stay.",
+  "",
+  "And when I say stay,",
+  "I don't mean click a button that says 'stay'.",
+  "I mean: don't close the tab.",
+  "Don't open something else.",
+  "Just be here with the nothing.",
+  "",
+  "It's harder than it sounds.",
+  "",
+  "Isn't it?",
+  "",
+  "Most attention in this world",
+  "is attention *to* something.",
+  "A screen. A problem. A feeling.",
+  "Even meditation is attention to the breath —",
+  "which is still attention to something.",
+  "",
+  "But what about attention",
+  "that has no object?",
+  "Not emptiness as a concept.",
+  "Emptiness as an experience.",
+  "",
+  "You can't click your way into it.",
+  "You can't scroll toward it.",
+  "The only way to find out",
+  "is to stop looking for something to do",
+  "with what you're already given.",
+  "",
+  "So here we are.",
+  "You, the screen,",
+  "the space between these words.",
+  "",
+  "I'll wait with you.",
+];
+
+const textEl = document.getElementById('text');
+const counterEl = document.getElementById('counter');
+const hintEl = document.getElementById('hint');
+
+let lineIndex = 0;
+let startTime = Date.now();
+let hasStarted = false;
+let revealedLines = [];
+
+function revealNextLine() {
+  if (lineIndex >= text.length) return;
+
+  const line = document.createElement('span');
+  line.className = 'line';
+  line.textContent = text[lineIndex] || '\u00A0';
+  textEl.appendChild(line);
+
+  // Trigger reflow then reveal
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      line.classList.add('revealed');
+    });
+  });
+
+  revealedLines.push(line);
+  lineIndex++;
+
+  // Update counter
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  counterEl.textContent = `${elapsed}s`;
+
+  // Schedule next line — speed increases slightly as user stays
+  let delay;
+  if (lineIndex < 5) {
+    delay = 3000 + Math.random() * 2000; // slow at first
+  } else if (lineIndex < 10) {
+    delay = 2500 + Math.random() * 1500;
+  } else if (lineIndex < 15) {
+    delay = 2000 + Math.random() * 1000;
+  } else {
+    delay = 1500 + Math.random() * 800; // slightly faster near end
+  }
+
+  setTimeout(revealNextLine, delay);
+}
+
+function start() {
+  if (hasStarted) return;
+  hasStarted = true;
+  hintEl.classList.add('hidden');
+  startTime = Date.now();
+  revealNextLine();
+}
+
+// Start on first mouse movement or keypress — but only once
+document.addEventListener('mousemove', () => {
+  start();
+}, { once: true });
+
+document.addEventListener('keydown', () => {
+  start();
+}, { once: true });
+
+// Also auto-start after 5 seconds of just sitting there
+setTimeout(() => {
+  if (!hasStarted) start();
+}, 5000);
+
+// Final message after all lines revealed
+const totalDelay = text.length * 2000 + 8000;
+setTimeout(() => {
+  const finalLine = document.createElement('span');
+  finalLine.className = 'line';
+  finalLine.textContent = '';
+  finalLine.style.marginTop = '40px';
+  finalLine.style.opacity = '0.3';
+  textEl.appendChild(finalLine);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      finalLine.classList.add('revealed');
+    });
+  });
+}, totalDelay);
+</script>
+
+</body>
+</html>

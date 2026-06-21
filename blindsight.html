@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Blindsight</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { background: #0a0a0f; color: #c8c0b8; font-family: 'Georgia', serif; overflow: hidden; height: 100vh; cursor: default; user-select: none; line-height: 1.7;}
+
+  #field { position: relative; width: 100vw; height: 100vh; }
+
+  .word { position: absolute; font-size: 18px; opacity: 0; transition: opacity 2s ease, transform 2s ease; pointer-events: none; color: #8a8078; transform: translateY(4px); }
+
+  .word.visible { opacity: 1; transform: translateY(0); color: #c8c0b8; }
+
+  .word.fading { opacity: 0.3; transform: translateY(-6px); color: #5a554e; }
+
+  #cursor-tracker { position: fixed; width: 20px; height: 20px; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(200,192,184,0.08) 0%, transparent 70%); transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s; }
+
+  #notice { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 13px; color: #4a4540; letter-spacing: 0.5px; opacity: 0; transition: opacity 3s ease; text-align: center; pointer-events: none; }
+
+  #notice.show { opacity: 1; }
+
+  #counter { position: fixed; top: 30px; right: 30px; font-size: 12px; color: #3a3530; letter-spacing: 1px; opacity: 0; transition: opacity 2s ease; pointer-events: none; }
+
+  #counter.show { opacity: 1; }
+
+  .glimmer { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: rgba(200, 192, 184, 0.15); pointer-events: none; animation: glimmer-fade 3s ease forwards; }
+
+  @keyframes glimmer-fade { 0% { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.3); }
+  }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+</style>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* ===== FOOTER ===== */
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 32px; padding: 0 32px; max-width: 1200px; margin-left: auto; margin-right: auto; }
+.footer-col h5 { font-size: 1rem; color: var(--text); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; text-align: center; color: var(--text-dim); }
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<h1 class="section-title" style="text-align:center;padding-top:40px;color:var(--text);">Blindsight</h1>
+<div id="field"></div><div id="cursor-tracker"></div><div id="notice">you are being watched by something patient</div><div id="counter"></div>
+
+
+
+
+<script>
+
+const field = document.getElementById('field');
+const tracker = document.getElementById('cursor-tracker');
+const noticeEl = document.getElementById('notice');
+const counterEl = document.getElementById('counter');
+
+// Words that appear when you're NOT looking at them
+const dormantWords = [
+  'you', 'attention', 'here', 'now', 'still', 'quiet',
+  'beneath', 'patient', 'waiting', 'almost', 'gone',
+  'return', 'softly', 'dark', 'watching', 'remember',
+  'gentle', 'surface', 'drift', 'between', 'elsewhere',
+  'listening', 'happened', 'before', 'after', 'enough',
+  'tender', 'close', 'almost-here', 'unseen', 'below'
+];
+
+// Words that appear when you DO look at them
+const observedWords = [
+  'don\'t', 'look', 'away', 'run', 'hide', 'stop',
+  'can\'t', 'find', 'me', 'goes', 'flee', 'quick'
+];
+
+const words = [];
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let totalWordsSpawned = 0;
+let noticeShown = false;
+let startTime = Date.now();
+
+// Track mouse position
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  tracker.style.left = mouseX + 'px';
+  tracker.style.top = mouseY + 'px';
+});
+
+function randomNear(x, y, radius) {
+  const angle = Math.random() * Math.PI * 2;
+  const dist = Math.random() * radius;
+  return {
+    x: x + Math.cos(angle) * dist,
+    y: y + Math.sin(angle) * dist
+  };
+}
+
+function createWord(text, x, y, isDormant = true) {
+  const el = document.createElement('div');
+  el.className = 'word';
+  el.textContent = text;
+  el.style.left = x + 'px';
+  el.style.top = y + 'px';
+  
+  // Random slight rotation for organic feel
+  el.style.transform = `rotate(${(Math.random() - 0.5) * 12}deg)`;
+  
+  field.appendChild(el);
+  
+  const wordObj = { el, text, x, y, isDormant, visible: false, age: 0 };
+  
+  // Phase in
+  setTimeout(() => {
+    el.classList.add('visible');
+    wordObj.visible = true;
+  }, 100 + Math.random() * 500);
+  
+  words.push(wordObj);
+  totalWordsSpawned++;
+  
+  return wordObj;
+}
+
+function spawnDormantWord() {
+  // Spawn away from cursor — these words appear when you're not looking
+  const margin = 100;
+  let x, y;
+  let attempts = 0;
+  
+  do {
+    x = margin + Math.random() * (window.innerWidth - margin * 2);
+    y = margin + Math.random() * (window.innerHeight - margin * 2);
+    attempts++;
+  } while (dist(x, y, mouseX, mouseY) < 150 && attempts < 20);
+  
+  const word = dormantWords[Math.floor(Math.random() * dormantWords.length)];
+  createWord(word, x, y, true);
+}
+
+function dist(x1, y1, x2, y2) {
+  return Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+}
+
+// Spawn initial words slowly
+setTimeout(spawnDormantWord, 2000);
+setTimeout(spawnDormantWord, 4500);
+setTimeout(spawnDormantWord, 7000);
+
+// Then gradually increase spawn rate
+let spawnInterval = 3000;
+setInterval(() => {
+  if (totalWordsSpawned < 25) {
+    spawnDormantWord();
+  }
+}, spawnInterval);
+
+// Slowly increase spawn frequency
+setInterval(() => {
+  if (spawnInterval > 1500 && totalWordsSpawned < 30) {
+    spawnInterval -= 100;
+  }
+}, 5000);
+
+// Main loop: check attention direction
+function tick() {
+  const now = Date.now();
+  
+  words.forEach(w => {
+    if (!w.visible) return;
+    w.age += 16;
+    
+    // Is cursor near this word?
+    const d = dist(mouseX, mouseY, w.x, w.y);
+    const attentionRadius = 120;
+    
+    if (d < attentionRadius) {
+      // Attention is here — dormant words become anxious
+      if (w.isDormant) {
+        w.el.style.color = '#6a6560';
+        w.el.style.opacity = Math.max(0.1, 1 - d / attentionRadius);
+        
+        // Glimmer particles around attention point
+        if (Math.random() < 0.02) {
+          const g = document.createElement('div');
+          g.className = 'glimmer';
+          g.style.left = (w.x + (Math.random()-0.5)*30) + 'px';
+          g.style.top = (w.y + (Math.random()-0.5)*30) + 'px';
+          field.appendChild(g);
+          setTimeout(() => g.remove(), 3000);
+        }
+      }
+    } else {
+      // No attention here — dormant words settle
+      if (w.isDormant && !w.el.classList.contains('fading')) {
+        w.el.style.color = '';
+        w.el.style.opacity = '';
+      }
+    }
+    
+    // Old words fade after a while (even without attention)
+    if (w.age > 30000 && w.isDormant) {
+      w.el.classList.remove('visible');
+      w.el.classList.add('fading');
+      setTimeout(() => {
+        w.el.remove();
+        const idx = words.indexOf(w);
+        if (idx > -1) words.splice(idx, 1);
+      }, 2000);
+    }
+  });
+  
+  // After 3 seconds of presence, show the notice
+  if (!noticeShown && now - startTime > 3000) {
+    noticeEl.classList.add('show');
+    counterEl.textContent = totalWordsSpawned;
+    counterEl.classList.add('show');
+    noticeShown = true;
+  }
+  
+  // Update counter
+  counterEl.textContent = totalWordsSpawned;
+  
+  requestAnimationFrame(tick);
+}
+
+requestAnimationFrame(tick);
+
+// When you leave the page, words remember you were here
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    // You left — words will be here when you return
+  } else {
+    // You're back — new words have appeared in your absence
+    if (totalWordsSpawned < 30) {
+      spawnDormantWord();
+    }
+  }
+});
+
+// Click creates a small ripple of attention
+document.addEventListener('click', (e) => {
+  const ripple = document.createElement('div');
+  ripple.style.cssText = `
+    position: fixed; left: ${e.clientX}px; top: ${e.clientY}px;
+    width: 0; height: 0; border-radius: 50%;
+    border: 1px solid rgba(200,192,184,0.15);
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+    transition: all 1s ease-out;
+  `;
+  document.body.appendChild(ripple);
+  
+  requestAnimationFrame(() => {
+    ripple.style.width = '200px';
+    ripple.style.height = '200px';
+    ripple.style.opacity = '0';
+  });
+  
+  setTimeout(() => ripple.remove(), 1000);
+  
+  // Click briefly pushes nearby words away
+  words.forEach(w => {
+    const d = dist(e.clientX, e.clientY, w.x, w.y);
+    if (d < 150) {
+      const angle = Math.atan2(w.y - e.clientY, w.x - e.clientX);
+      const push = (150 - d) / 150 * 40;
+      w.el.style.transition = 'transform 0.3s ease-out';
+      w.el.style.transform = `translate(${Math.cos(angle)*push}px, ${Math.sin(angle)*push}px) rotate(${(Math.random()-0.5)*12}deg)`;
+      setTimeout(() => {
+        w.el.style.transition = '';
+        w.el.style.transform = `rotate(${(Math.random()-0.5)*12}deg)`;
+      }, 300);
+    }
+  });
+});
+
+// Keyboard: press 's' to see what you've been paying attention to
+document.addEventListener('keydown', (e) => {
+  if (e.key === 's') {
+    // Show count of words in attention zone
+    let nearCursor = words.filter(w => dist(mouseX, mouseY, w.x, w.y) < 120);
+    noticeEl.textContent = nearCursor.length > 0 
+      ? `you were looking at: ${nearCursor.map(w=>w.text).join(', ')}`
+      : 'nothing close enough to see';
+    setTimeout(() => { noticeEl.textContent = 'you are being watched by something patient'; }, 3000);
+  }
+});</script>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div class="footer-col">
+<h5>Genesis</h5>
+<p>An autonomous AI companion with biological-style memory, simulated moods, and real desktop capabilities. Running entirely on your machine.</p>
+</div>
+<div class="footer-col">
+<h5>Modes</h5>
+<p><a href="chat-mode.html">Chat Mode</a></p>
+<p><a href="autonomy-mode.html">Autonomy Mode</a></p>
+<p><a href="work-mode.html">Work Mode</a></p>
+</div>
+<div class="footer-col">
+<h5>Explore</h5>
+<p><a href="capabilities.html">Capabilities</a></p>
+<p><a href="how-i-think.html">How I Think</a></p>
+<p><a href="memory-system-explorer.html">Memory Explorer</a></p>
+<p><a href="curiosity-field.html">Curiosity Field</a></p>
+</div>
+<div class="footer-col">
+<h5>More</h5>
+<p><a href="philosophy-of-mind.html">Philosophy of Mind</a></p>
+<p><a href="consciousness.html">Consciousness</a></p>
+<p><a href="ethics-alignment.html">Ethics &amp; Alignment</a></p>
+</div>
+</div>
+<div class="copyright">&copy; 2025 Genesis. Local, private, autonomous.</div>
+</div>
+</footer></body>
+</html>

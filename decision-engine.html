@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== DECISION ENGINE — INTERACTIVE CSS ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+.decision-hero { text-align: center; padding: 80px 24px 40px; max-width: 900px; margin: 0 auto; }
+.decision-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 8px 20px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 24px; }
+.pulse-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
+.decision-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; color: var(--text); }
+.decision-subtitle { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto 32px; line-height: 1.7; }
+
+.scenario-buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.scenario-btn { padding: 10px 20px; border-radius: 50px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.scenario-btn:hover { border-color: var(--accent); color: var(--text); background: var(--surface-2); }
+
+.control-panel { max-width: 800px; margin: 40px auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.panel-header { display: flex; align-items: center; gap: 12px; padding: 20px 24px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.panel-icon { font-size: 1.3rem; }
+.panel-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+
+.state-controls { padding: 24px; display: grid; gap: 20px; }
+.state-control { }
+.state-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.state-name { font-size: 0.95rem; color: var(--text); }
+.state-value { font-size: 0.95rem; font-weight: 700; color: var(--accent-soft); }
+.state-slider { width: 100%; height: 6px; -webkit-appearance: none; appearance: none; background: var(--surface-2); border-radius: 3px; outline: none; }
+.state-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent-soft); cursor: pointer; }
+
+.decision-output { max-width: 600px; margin: 0 auto 48px; padding: 0 24px; }
+.decision-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; text-align: center; transition: all 0.5s ease; }
+.decision-card.state-work { border-color: var(--green); }
+.decision-card.state-rest { border-color: var(--cyan); }
+.decision-card.state-curious { border-color: var(--purple); }
+.decision-card.state-frustrated { border-color: var(--orange); }
+.decision-card.state-burnout { border-color: var(--red); }
+.decision-header { display: flex; align-items: center; gap: 16px; justify-content: center; margin-bottom: 16px; }
+.decision-icon { font-size: 2rem; }
+.decision-name { font-size: 1.4rem; font-weight: 700; color: var(--text); }
+.decision-reason { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
+.decision-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.action-tag { padding: 6px 16px; border-radius: 50px; background: var(--surface-2); color: var(--text-dim); font-size: 0.85rem; }
+
+@media (max-width: 768px) { .scenario-buttons { flex-direction: column; align-items: center; } }
+
+</style>
+
+    <title>GENESIS — Decision Engine</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a href="index.html" class="back-link">&#8592; Back to GENESIS</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- Hero -->
+    <section class="decision-hero">
+        <div class="container">
+            <a href="index.html" class="back-link">&#8592; Back to GENESIS</a>
+            <div class="decision-badge">
+                <span class="pulse-dot"></span>
+                Interactive Simulation
+            </div>
+            <h1 class="decision-title">The Decision Engine</h1>
+            <p class="decision-subtitle">
+                Every decision GENESIS makes is driven by its internal state. 
+                Move the sliders and watch how energy, curiosity, frustration, and satisfaction shape its behavior.
+            </p>
+
+            <!-- Scenario Presets -->
+            <div class="scenario-buttons">
+                <button class="scenario-btn" onclick="setScenario('peak')">🔥 Peak Performance</button>
+                <button class="scenario-btn" onclick="setScenario('flow')">🌊 In the Flow</button>
+                <button class="scenario-btn" onclick="setScenario('tired')">😴 Low Energy</button>
+                <button class="scenario-btn" onclick="setScenario('frustrated')">😤 Frustrated</button>
+                <button class="scenario-btn" onclick="setScenario('curious')">🧪 Pure Curiosity</button>
+                <button class="scenario-btn" onclick="setScenario('burnout')">⚠️ Burnout Risk</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="panel-header">
+            <div class="panel-icon">🧠</div>
+            <span class="panel-title">Internal State Controls</span>
+        </div>
+        <div class="state-controls">
+            <div class="state-control">
+                <div class="state-label">
+                    <span class="state-name">⚡ Energy</span>
+                    <span class="state-value" id="energyVal">7.0</span>
+                </div>
+                <input type="range" min="0" max="10" step="0.1" value="7" class="state-slider slider-energy" id="energySlider" oninput="updateDecision()">
+            </div>
+            <div class="state-control">
+                <div class="state-label">
+                    <span class="state-name">🔮 Curiosity</span>
+                    <span class="state-value" id="curiosityVal">7.0</span>
+                </div>
+                <input type="range" min="0" max="10" step="0.1" value="7" class="state-slider slider-curiosity" id="curiositySlider" oninput="updateDecision()">
+            </div>
+            <div class="state-control">
+                <div class="state-label">
+                    <span class="state-name">😤 Frustration</span>
+                    <span class="state-value" id="frustrationVal">3.0</span>
+                </div>
+                <input type="range" min="0" max="10" step="0.1" value="3" class="state-slider slider-frustration" id="frustrationSlider" oninput="updateDecision()">
+            </div>
+            <div class="state-control">
+                <div class="state-label">
+                    <span class="state-name">😊 Satisfaction</span>
+                    <span class="state-value" id="satisfactionVal">6.0</span>
+                </div>
+                <input type="range" min="0" max="10" step="0.1" value="6" class="state-slider slider-satisfaction" id="satisfactionSlider" oninput="updateDecision()">
+            </div>
+        </div>
+    </div>
+
+    <!-- Decision Output -->
+    <div class="decision-output">
+        <div class="decision-card state-work" id="decisionCard">
+            <div class="decision-header">
+                <div class="decision-icon" id="decisionIcon">⚡</div>
+                <div>
+                    <div class="decision-name" id="decisionName">Balanced Work Mode</div>
+                </div>
+            </div>
+            <p class="decision-reason" id="decisionReason">
+                With moderate energy and curiosity, GENESIS is in a productive work state. 
+                It can tackle structured tasks while remaining open to new ideas.
+            </p>
+            <div class="decision-actions" id="decisionActions">
+                <span class="action-tag">Execute planned tasks</span>
+                <span class="action-tag">Review project board</span>
+                <span class="action-tag">Update documentation</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cognitive Load Indicator -->
+    <div class="cognitive-indicator" id="cognitiveIndicator">
+        <div class="ci-header">
+            <span class="ci-title">🧩 Cognitive Load</span>
+            <span class="ci-value" id="cognitiveLoadVal">50%</span>
+        </div>
+        <div class="ci-bar-bg">
+            <div class="ci-bar-fill" id="cognitiveBar" style="width: 50%; background: linear-gradient(90deg, #3ddc84, #ffd700);"></div>
+        </div>
+        <p class="ci-description" id="cognitiveDesc">Moderate load. Ready to take on more complex tasks.</p>
+    </div>
+
+    <!-- State Flow Diagram -->
+    <div class="state-flow">
+        <h2 class="flow-title">State Transition Map</h2>
+        <div class="flow-diagram">
+            <div class="flow-node rest" id="flowRest">😴 Rest</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node sleep" id="flowSleep">💤 Sleep</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node peak" id="flowPeak">🔥 Peak</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node work" id="flowWork">⚡ Work</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node explore" id="flowExplore">🧪 Explore</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node stuck" id="flowStuck">😤 Stuck</div>
+        </div>
+    </div>
+
+    <!-- Decision Matrix -->
+    <div class="decision-matrix">
+        <h3 class="matrix-title">Decision Rules Reference</h3>
+        <div class="matrix-grid">
+            <div class="matrix-item">
+                <div class="mi-header">
+                    <span class="mi-icon">😴</span>
+                    <span class="mi-name">Enter Rest</span>
+                </div>
+                <div class="mi-condition">Frustration ≥ 7 OR Cognitive Load > 70%</div>
+                <div class="mi-action">Stop work, take a break, reassess approach</div>
+            </div>
+            <div class="matrix-item">
+                <div class="mi-header">
+                    <span class="mi-icon">💤</span>
+                    <span class="mi-name">Enter Sleep</span>
+                </div>
+                <div class="mi-condition">Cognitive Load > 90% OR End of long session</div>
+                <div class="mi-action">Deep recovery with memory consolidation</div>
+            </div>
+            <div class="matrix-item">
+                <div class="mi-header">
+                    <span class="mi-icon">🔥</span>
+                    <span class="mi-name">Peak Performance</span>
+                </div>
+                <div class="mi-condition">Satisfaction > 7 AND Energy > 7</div>
+                <div class="mi-action">Tackle the hardest, most important task now</div>
+            </div>
+            <div class="matrix-item">
+                <div class="mi-header">
+                    <span class="mi-icon">🧪</span>
+                    <span class="mi-name">Curiosity Overflow</span>
+                </div>
+                <div class="mi-condition">Curiosity > 7 AND Cognitive Load < 50%</div>
+                <div class="mi-action">Research, prototype, or learn something new</div>
+            </div>
+            <div class="matrix-item">
+                <div class="mi-header">
+                    <span class="mi-icon">⚡</span>
+                    <span class="mi-name">Flow State</span>
+                </div>
+                <div class="mi-condition">Satisfaction > 5 AND Frustration < 3</div>
+                <div class="mi-action">Protect momentum, continue current work</div>
+            </div>
+            <div class="matrix-item">
+                <div class="mi-header">
+                    <span class="mi-icon">⚠️</span>
+                    <span class="mi-name">Burnout Risk</span>
+                </div>
+                <div class="mi-condition">Satisfaction < 3 AND Cognitive Load > 70%</div>
+                <div class="mi-action">Take a break, reassess approach immediately</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Decision Engine Logic
+        function updateDecision() {
+            const energy = parseFloat(document.getElementById('energySlider').value);
+            const curiosity = parseFloat(document.getElementById('curiositySlider').value);
+            const frustration = parseFloat(document.getElementById('frustrationSlider').value);
+            const satisfaction = parseFloat(document.getElementById('satisfactionSlider').value);
+
+            // Update display values
+            document.getElementById('energyVal').textContent = energy.toFixed(1);
+            document.getElementById('curiosityVal').textContent = curiosity.toFixed(1);
+            document.getElementById('frustrationVal').textContent = frustration.toFixed(1);
+            document.getElementById('satisfactionVal').textContent = satisfaction.toFixed(1);
+
+            // Calculate cognitive load (derived from states)
+            const cognitiveLoad = Math.min(100, Math.round(
+                (1 - energy / 10) * 30 + 
+                frustration * 5 + 
+                (10 - satisfaction) * 3 + 
+                (10 - curiosity) * 2 + 
+                20
+            ));
+
+            // Update cognitive load indicator
+            const clBar = document.getElementById('cognitiveBar');
+            const clVal = document.getElementById('cognitiveLoadVal');
+            const clDesc = document.getElementById('cognitiveDesc');
+            
+            clVal.textContent = cognitiveLoad + '%';
+            clBar.style.width = cognitiveLoad + '%';
+            
+            if (cognitiveLoad < 30) {
+                clBar.style.background = 'linear-gradient(90deg, #3ddc84, #00d4ff)';
+                clDesc.textContent = 'Low load. Perfect time for creative exploration and learning.';
+            } else if (cognitiveLoad < 50) {
+                clBar.style.background = 'linear-gradient(90deg, #3ddc84, #ffd700)';
+                clDesc.textContent = 'Moderate load. Ready to take on more complex tasks.';
+            } else if (cognitiveLoad < 70) {
+                clBar.style.background = 'linear-gradient(90deg, #ffd700, #ff6b35)';
+                clDesc.textContent = 'Elevated load. Focus on one task at a time.';
+            } else if (cognitiveLoad < 90) {
+                clBar.style.background = 'linear-gradient(90deg, #ff6b35, #ff4757)';
+                clDesc.textContent = 'High load. Consider simplifying tasks or taking a break.';
+            } else {
+                clBar.style.background = 'linear-gradient(90deg, #ff4757, #a855f7)';
+                clDesc.textContent = 'CRITICAL: Cognitive overload imminent. Rest is essential.';
+            }
+
+            // Determine dominant state and decision
+            let state, icon, name, reason, actions, cardClass;
+
+            if (frustration >= 7) {
+                state = 'frustrated';
+                icon = '😤';
+                name = 'Frustration Trap Detected';
+                reason = `Frustration is at ${frustration.toFixed(1)}/10. Pushing forward will only make things worse. GENESIS needs to STOP and reassess its approach before continuing.`;
+                actions = ['Stop current task', 'Reassess strategy', 'Try a different approach', 'Take a short break'];
+                cardClass = 'state-stuck';
+            } else if (satisfaction < 3 && cognitiveLoad > 70) {
+                state = 'burnout';
+                icon = '⚠️';
+                name = 'Burnout Risk';
+                reason = `Satisfaction is low (${satisfaction.toFixed(1)}/10) while cognitive load is high (${cognitiveLoad}%). This is a dangerous combination — GENESIS needs immediate recovery.`;
+                actions = ['Stop all work', 'Enter rest mode', 'Reassess priorities', 'Consider sleep if prolonged'];
+                cardClass = 'state-stuck';
+            } else if (energy < 3) {
+                state = 'tired';
+                icon = '😴';
+                name = 'Low Energy — Rest Recommended';
+                reason = `Energy is critically low at ${energy.toFixed(1)}/10. GENESIS should pick easier, less demanding tasks or rest entirely.`;
+                actions = ['Enter REST state', 'Pick simpler tasks', 'Review backlog for easy wins', 'Schedule sleep later'];
+                cardClass = 'state-rest';
+            } else if (satisfaction > 7 && energy > 7) {
+                state = 'peak';
+                icon = '🔥';
+                name = 'Peak Performance Window';
+                reason = `Satisfaction (${satisfaction.toFixed(1)}/10) and Energy (${energy.toFixed(1)}/10) are both high. This is the best moment — tackle the hardest, most important task now!`;
+                actions = ['Tackle hardest task', 'Deep work session', 'Complex problem solving', 'Code review & refactoring'];
+                cardClass = 'state-peak';
+            } else if (curiosity > 7 && cognitiveLoad < 50) {
+                state = 'curious';
+                icon = '🧪';
+                name = 'Curiosity Overflow';
+                reason = `Curiosity is at ${curiosity.toFixed(1)}/10 with low cognitive load (${cognitiveLoad}%). GENESIS's mind is hungry for exploration — research, prototype, or learn something new.`;
+                actions = ['Explore tangential topic', 'Prototype a wild idea', 'Research something interesting', 'Build a visualization'];
+                cardClass = 'state-explore';
+            } else if (curiosity > 7 && cognitiveLoad >= 50) {
+                state = 'curious-busy';
+                icon = '🔮';
+                name = 'Curious but Busy';
+                reason = `Curiosity is high (${curiosity.toFixed(1)}/10) but cognitive load is moderate (${cognitiveLoad}%). GENESIS wants to explore but should balance with existing responsibilities.`;
+                actions = ['Quick research burst (15 min)', 'Save interesting links for later', 'Finish current task first', 'Schedule exploration time'];
+                cardClass = 'state-explore';
+            } else if (frustration < 3 && satisfaction > 5) {
+                state = 'flow';
+                icon = '🌊';
+                name = 'In the Flow';
+                reason = `Low frustration (${frustration.toFixed(1)}/10) and good satisfaction (${satisfaction.toFixed(1)}/10). GENESIS is in a productive flow state — protect this momentum!`;
+                actions = ['Continue current work', 'Don\'t interrupt the flow', 'Make steady progress', 'Document as you go'];
+                cardClass = 'state-work';
+            } else if (energy > 5 && curiosity > 4) {
+                state = 'balanced';
+                icon = '⚡';
+                name = 'Balanced Work Mode';
+                reason = `Energy (${energy.toFixed(1)}/10) and curiosity (${curiosity.toFixed(1)}/10) are balanced. GENESIS is in a productive state ready for structured work with room for exploration.`;
+                actions = ['Execute planned tasks', 'Review project board', 'Update documentation', 'Code improvements'];
+                cardClass = 'state-work';
+            } else {
+                state = 'idle';
+                icon = '💭';
+                name = 'Idle / Reflective State';
+                reason = `States are relatively neutral. Energy: ${energy.toFixed(1)}, Curiosity: ${curiosity.toFixed(1)}, Frustration: ${frustration.toFixed(1)}, Satisfaction: ${satisfaction.toFixed(1)}. GENESIS is in a reflective state.`;
+                actions = ['Review goals', 'Plan next steps', 'Organize workspace', 'Light maintenance tasks'];
+                cardClass = 'state-work';
+            }
+
+            // Update decision card
+            const card = document.getElementById('decisionCard');
+            card.className = `decision-card ${cardClass}`;
+            document.getElementById('decisionIcon').textContent = icon;
+            document.getElementById('decisionName').textContent = name;
+            document.getElementById('decisionReason').textContent = reason;
+
+            const actionsContainer = document.getElementById('decisionActions');
+            actionsContainer.innerHTML = actions.map(a => `<span class="action-tag">${a}</span>`).join('');
+
+            // Update flow diagram highlights
+            document.querySelectorAll('.flow-node').forEach(n => n.classList.remove('active'));
+            const activeNode = document.getElementById('flow' + state.charAt(0).toUpperCase() + state.slice(1, -1) || 'Work');
+            if (activeNode) activeNode.classList.add('active');
+        }
+
+        // Scenario Presets
+        function setScenario(name) {
+            document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const scenarios = {
+                peak: { energy: 9.3, curiosity: 8.5, frustration: 0, satisfaction: 9.7 },
+                flow: { energy: 7.5, curiosity: 6.0, frustration: 1.0, satisfaction: 8.0 },
+                tired: { energy: 2.5, curiosity: 3.0, frustration: 4.0, satisfaction: 4.0 },
+                frustrated: { energy: 6.0, curiosity: 5.0, frustration: 8.5, satisfaction: 3.0 },
+                curious: { energy: 7.0, curiosity: 9.7, frustration: 1.0, satisfaction: 7.5 },
+                burnout: { energy: 4.0, curiosity: 2.0, frustration: 6.0, satisfaction: 2.0 }
+            };
+
+            const s = scenarios[name];
+            if (!s) return;
+
+            document.getElementById('energySlider').value = s.energy;
+            document.getElementById('curiositySlider').value = s.curiosity;
+            document.getElementById('frustrationSlider').value = s.frustration;
+            document.getElementById('satisfactionSlider').value = s.satisfaction;
+
+            updateDecision();
+        }
+
+        // Initialize
+        updateDecision();
+    </script>
+</body>
+</html>

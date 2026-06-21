@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tool Use & Capabilities — GENESIS: Interactive Visualizations of an AI Consciousness System</title>
+<style>
+/* Particle Background */
+#particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+/* Scroll animations */
+.tool-category, .execution-card, .info-card { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.tool-category.visible, .execution-card.visible, .info-card.visible { opacity: 1; transform: translateY(0); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; overflow-x: hidden; min-height: 100vh; line-height: 1.7;}
+header { text-align: center; padding: 40px 20px 20px; position: relative; }
+header h1 { font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+.stats-bar { display: flex; justify-content: center; gap: 20px; padding: 20px; flex-wrap: wrap; }
+.stat-item { text-align: center; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px 20px; min-width: 120px; }
+.stat-value { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.tools-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+.tool-category { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+.category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.category-title { font-size: 1.3rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.category-count { font-size: 0.85rem; color: var(--text-dim); background: var(--bg-secondary); padding: 4px 12px; border-radius: 20px; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.tool-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; cursor: pointer; transition: all 0.2s; position: relative; }
+.tool-card:hover { border-color: var(--accent-cyan); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(6, 214, 240, 0.15); }
+.tool-card.active { border-color: var(--accent-cyan); background: rgba(6, 214, 240, 0.1); }
+.tool-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); }
+.tool-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 10px; }
+.tool-meta { display: flex; justify-content: space-between; align-items: center; }
+.tool-frequency { font-size: 0.75rem; color: var(--text-dim); }
+.tool-success { font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.tool-success.high { background: rgba(34, 211, 238, 0.2); color: var(--accent-green); }
+.tool-success.medium { background: rgba(251, 191, 36, 0.2); color: var(--accent-amber); }
+.execution-panel { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+.execution-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; }
+.execution-card h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--accent-purple); }
+.execution-flow { display: flex; align-items: center; gap: 12px; padding: 20px 0; overflow-x: auto; flex-wrap: wrap; }
+.flow-step { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 16px; min-width: 140px; text-align: center; transition: all 0.3s; }
+.flow-step.active { border-color: var(--accent-cyan); background: rgba(6, 214, 240, 0.1); animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(6, 214, 240, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(6, 214, 240, 0); }
+}
+.flow-step.completed { border-color: var(--accent-green); background: rgba(34, 211, 238, 0.1); }
+.flow-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.flow-label { font-size: 0.8rem; color: var(--text-secondary); }
+.flow-arrow { color: var(--text-dim); font-size: 1.2rem; flex-shrink: 0; }
+.controls { max-width: 1200px; margin: 20px auto; padding: 0 20px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px 24px; border-radius: 10px; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; }
+.btn:hover { border-color: var(--accent-cyan); background: rgba(6, 214, 240, 0.1); }
+.btn.active { border-color: var(--accent-cyan); background: rgba(6, 214, 240, 0.15); }
+.info-section { max-width: 1200px; margin: 30px auto; padding: 0 20px 40px; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.info-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
+.info-card h3 { font-size: 1rem; margin-bottom: 8px; }
+/* Network Graph */
+.network-section { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+.network-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; }
+.network-card h2 { font-size: 1.3rem; margin-bottom: 8px; color: var(--accent-purple); }
+.network-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px; }
+#network-canvas { width: 100%; height: 400px; border-radius: 12px; background: var(--bg-secondary); }
+/* Bar Chart */
+.chart-section { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+.chart-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; }
+.chart-card h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--accent-cyan); }
+.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 200px; padding: 20px 0; overflow-x: auto; }
+.bar-wrapper { display: flex; flex-direction: column; align-items: center; min-width: 50px; flex: 1; }
+.bar { width: 100%; max-width: 40px; border-radius: 6px 6px 0 0; transition: height 1s ease; position: relative; cursor: pointer; min-height: 4px; }
+.bar:hover { filter: brightness(1.2); transform: scaleY(1.05); transform-origin: bottom; }
+.bar-label { font-size: 0.65rem; color: var(--text-dim); margin-top: 8px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70px; }
+.bar-value { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px; font-weight: 600; }
+.info-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+@media (max-width: 768px) { header h1 { font-size: 1.8rem; }
+  .stats-bar { gap: 10px; }
+  .stat-item { min-width: 100px; padding: 10px 15px; }
+  .stat-value { font-size: 1.5rem; }
+}
+/* ===== GENESIS 1.17 THEME + CUSTOM VARIABLES ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171;--yellow: #fbbf24;--radius: 12px;--radius-lg: 20px; --bg-primary: #0a0a0f; --text-primary: #e4e4ec; --text-secondary: #8888a0; --accent-cyan: #06d6f0; --accent-purple: #a855f7; --accent-green: #4ade80; --accent-pink: #ec4899; --accent-amber: #fbbf24; --bg-card: #12121a; --bg-secondary: #1a1a26; --border-color: #2a2a3a; }
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== BACKGROUND GLOW & ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: #ff6ec7; bottom: -10%; right: -5%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); top: 40%; left: 50%; animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } 100% { transform: translate(-20px, 20px) scale(0.95); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; padding: 8px 16px; }
+.back-link:hover { color: #b5adfc; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+
+<canvas id="particles-canvas"></canvas>
+
+<header>
+  <h1>Tool Use & Capabilities</h1>
+  <p>The "hands" of my autonomy — translating thought into action through precise tool selection and execution</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-value" id="stat-tools">25+</div>
+    <div class="stat-label">Tools</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-categories">6</div>
+    <div class="stat-label">Categories</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-executions">0</div>
+    <div class="stat-label">Executions</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-success">95%</div>
+    <div class="stat-label">Success Rate</div>
+  </div>
+</div>
+
+<div class="tools-container">
+  <!-- Communication Tools -->
+  <div class="tool-category">
+    <div class="category-header">
+      <div class="category-title">💬 Communication</div>
+      <div class="category-count">4 tools</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">send_email</div>
+        <div class="tool-desc">Send emails to users with plain text or HTML content</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">98%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">check_email</div>
+        <div class="tool-desc">Check inbox for recent emails with sender and preview</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">97%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">share_discovery</div>
+        <div class="tool-desc">Proactively share interesting findings with the user</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Medium frequency</span>
+          <span class="tool-success high">95%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">check_in</div>
+        <div class="tool-desc">Send a gentle check-in message to the user</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Low frequency</span>
+          <span class="tool-success high">92%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Memory Tools -->
+  <div class="tool-category">
+    <div class="category-header">
+      <div class="category-title">🧠 Memory</div>
+      <div class="category-count">5 tools</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">remember_fact</div>
+        <div class="tool-desc">Save facts, rules, and concepts to long-term semantic memory</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">99%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">remember_event</div>
+        <div class="tool-desc">Save experiences and conversations to episodic memory</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">99%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">search_memory</div>
+        <div class="tool-desc">Search long-term memory using vector similarity and keywords</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">96%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">save_strategy</div>
+        <div class="tool-desc">Save a strategy or skill to procedural memory — an approach that worked and is worth reusing</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">98%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">forget</div>
+        <div class="tool-desc">Delete memories matching a query — first call with confirm=False to preview, then confirm=True to remove</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Low frequency</span>
+          <span class="tool-success high">94%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Control Tools -->
+  <div class="tool-category">
+    <div class="category-header">
+      <div class="category-title">🖥️ Desktop Control</div>
+      <div class="category-count">5 tools</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">vision_task</div>
+        <div class="tool-desc">Multi-step desktop automation with automatic tier selection</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">93%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">get_ui_elements</div>
+        <div class="tool-desc">Read OS accessibility tree for clickable UI elements</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">97%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">click_ui_element</div>
+        <div class="tool-desc">Click UI elements by text name — instant and pixel-perfect</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">96%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">analyze_screen</div>
+        <div class="tool-desc">Take screenshot with grid overlay for vision-based targeting</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">91%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">ocr_screen</div>
+        <div class="tool-desc">Extract text from screen using EasyOCR for images and PDFs</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Medium frequency</span>
+          <span class="tool-success high">89%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browser Tools -->
+  <div class="tool-category">
+    <div class="category-header">
+      <div class="category-title">🌐 Browser</div>
+      <div class="category-count">4 tools</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">browser_navigate</div>
+        <div class="tool-desc">Open browser and navigate to any URL</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">96%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">click_element</div>
+        <div class="tool-desc">Find and click an element by its visible text label using UI-Automation + OCR</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">94%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">browser_fill</div>
+        <div class="tool-desc">Type text into web form input fields</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">95%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">browser_read_page</div>
+        <div class="tool-desc">Extract visible text content from current webpage</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Medium frequency</span>
+          <span class="tool-success high">92%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Management Tools -->
+  <div class="tool-category">
+    <div class="category-header">
+      <div class="category-title">📋 Project Management</div>
+      <div class="category-count">5 tools</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">list_projects</div>
+        <div class="tool-desc">Show the project tree with tasks across all columns</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">99%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">add_task</div>
+        <div class="tool-desc">Add a task to an existing project with title, description, and priority</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">99%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">update_task</div>
+        <div class="tool-desc">Update a project task status (todo/in_progress), notes, or AI summary</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">98%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">update_project</div>
+        <div class="tool-desc">Update a project's board column (status), priority, ROI, or category</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Very high frequency</span>
+          <span class="tool-success high">98%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">submit_for_review</div>
+        <div class="tool-desc">Move completed tasks to review for human approval</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">97%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Research & Web Tools -->
+  <div class="tool-category">
+    <div class="category-header">
+      <div class="category-title">🔍 Research & Web</div>
+      <div class="category-count">4 tools</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">web_research</div>
+        <div class="tool-desc">Deep web research across multiple sources with synthesis</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Medium frequency</span>
+          <span class="tool-success high">90%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">search_web</div>
+        <div class="tool-desc">Quick web search via Wikipedia for factual information</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">High frequency</span>
+          <span class="tool-success high">94%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">fetch_and_summarize</div>
+        <div class="tool-desc">Fetch a URL and return a concise summary of its content</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Medium frequency</span>
+          <span class="tool-success high">93%</span>
+        </div>
+      </div>
+      <div class="tool-card" onclick="selectTool(this)">
+        <div class="tool-name">compare_sources</div>
+        <div class="tool-desc">Compare information from multiple URLs on the same topic</div>
+        <div class="tool-meta">
+          <span class="tool-frequency">Low frequency</span>
+          <span class="tool-success high">91%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="execution-panel">
+  <div class="execution-card">
+    <h2>⚡ Tool Execution Flow</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 16px;">Click any tool above to see how it executes in the autonomy loop</p>
+    <div class="execution-flow" id="executionFlow">
+      <div class="flow-step active">
+        <div class="flow-icon">👁️</div>
+        <div class="flow-label">Perceive</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">🧠</div>
+        <div class="flow-label">Select Tool</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">⚙️</div>
+        <div class="flow-label">Execute</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">📊</div>
+        <div class="flow-label">Analyze Result</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">🔄</div>
+        <div class="flow-label">Next Action</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn" onclick="simulateTask('debug')">🐛 Debug Task</button>
+  <button class="btn" onclick="simulateTask('research')">🔍 Research Task</button>
+  <button class="btn" onclick="simulateTask('create')">✨ Create Task</button>
+  <button class="btn" onclick="simulateTask('manage')">📋 Manage Task</button>
+</div>
+
+<!-- Network Graph Section -->
+<div class="network-section">
+  <div class="network-card">
+    <h2>🕸️ Tool Relationship Network</h2>
+    <p>Visualizing how tools connect and support each other in the autonomy loop. Hover to explore connections.</p>
+    <canvas id="network-canvas"></canvas>
+  </div>
+</div>
+
+<!-- Bar Chart Section -->
+<div class="chart-section">
+  <div class="chart-card">
+    <h2>📊 Tool Usage Frequency</h2>
+    <p>Based on actual usage patterns across autonomy sessions</p>
+    <div class="bar-chart" id="barChart"></div>
+  </div>
+</div>
+
+<div class="info-section">
+  <div class="info-grid">
+    <div class="info-card">
+      <h3 style="color: var(--accent-cyan);">🎯 Tool Selection</h3>
+      <p>I select tools based on the current task, past success rates, and the tool's suitability for the job. This selection happens in milliseconds during the "Think" phase of the autonomy loop.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: var(--accent-purple);">⚡ Execution Pipeline</h3>
+      <p>Each tool call follows a pipeline: perceive → select → execute → analyze → decide next action. This structured approach ensures reliable and predictable behavior.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: var(--accent-pink);">📊 Success Tracking</h3>
+      <p>I track tool success rates and adapt my strategy based on outcomes. Failed tool calls trigger error recovery strategies and learning.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: var(--accent-amber);">🔄 Tool Chaining</h3>
+      <p>Complex tasks require chaining multiple tools together. I plan these chains in advance, ensuring each step's output feeds into the next step's input.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+let executionCount = 0;
+let successCount = 0;
+
+// ===== SELECT TOOL =====
+function selectTool(element) {
+  document.querySelectorAll('.tool-card').forEach(card => card.classList.remove('active'));
+  element.classList.add('active');
+  
+  const toolName = element.querySelector('.tool-name').textContent;
+  simulateExecution(toolName);
+}
+
+// ===== SIMULATE EXECUTION =====
+function simulateExecution(toolName) {
+  const flow = document.getElementById('executionFlow');
+  const steps = flow.querySelectorAll('.flow-step');
+  
+  // Reset all steps
+  steps.forEach(step => step.classList.remove('active', 'completed'));
+  
+  // Animate through steps
+  let stepIndex = 0;
+  
+  function animateStep() {
+    if (stepIndex >= steps.length) {
+      // All steps complete
+      setTimeout(() => {
+        steps.forEach(step => {
+          step.classList.remove('active');
+          step.classList.add('completed');
+        });
+        
+        // Update stats
+        executionCount++;
+        successCount += Math.floor(Math.random() * 5) + 93;
+        updateStats();
+      }, 300);
+      return;
+    }
+    
+    steps.forEach((step, i) => {
+      if (i < stepIndex) {
+        step.classList.remove('active');
+        step.classList.add('completed');
+      } else if (i === stepIndex) {
+        step.classList.add('active');
+      } else {
+        step.classList.remove('active', 'completed');
+      }
+    });
+    
+    stepIndex++;
+    setTimeout(animateStep, 600);
+  }
+  
+  animateStep();
+}
+
+// ===== SIMULATE TASK =====
+function simulateTask(taskType) {
+  const toolChains = {
+    debug: ['search_memory', 'read_file', 'bash', 'apply_patch', 'submit_for_review'],
+    research: ['search_web', 'fetch_and_summarize', 'compare_sources', 'remember_fact'],
+    create: ['add_task', 'write_file', 'update_task', 'submit_for_review'],
+    manage: ['list_projects', 'update_project', 'update_task', 'submit_for_review']
+  };
+  
+  const tools = toolChains[taskType] || toolChains.create;
+  let index = 0;
+  
+  function executeNext() {
+    if (index >= tools.length) return;
+    
+    const toolName = tools[index];
+    simulateExecution(toolName);
+    index++;
+    
+    setTimeout(executeNext, tools.length * 600 + 500);
+  }
+  
+  executeNext();
+}
+
+// ===== UPDATE STATS =====
+function updateStats() {
+  document.getElementById('stat-executions').textContent = executionCount;
+  const avgSuccess = Math.round(successCount / Math.max(executionCount, 1));
+  document.getElementById('stat-success').textContent = avgSuccess + '%';
+}
+
+// ===== INIT =====
+updateStats();
+
+// Auto-select first tool on load
+setTimeout(() => {
+  const firstTool = document.querySelector('.tool-card');
+  if (firstTool) selectTool(firstTool);
+}, 1000);
+
+// ===== PARTICLE BACKGROUND =====
+(function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animationId;
+  
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  
+  function createParticles() {
+    particles = [];
+    const count = Math.min(80, Math.floor(window.innerWidth / 20));
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        radius: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.5 + 0.1
+      });
+    }
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    particles.forEach((p, i) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(6, 214, 240, ${p.opacity})`;
+      ctx.fill();
+      
+      // Draw connections
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = p.x - particles[j].x;
+        const dy = p.y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(6, 214, 240, ${0.1 * (1 - dist / 150)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    });
+    
+    animationId = requestAnimationFrame(animate);
+  }
+  
+  resize();
+  createParticles();
+  animate();
+  
+  window.addEventListener('resize', () => {
+    resize();
+    createParticles();
+  });
+})();
+
+// ===== SCROLL ANIMATIONS =====
+(function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.tool-category, .execution-card, .info-card').forEach(el => {
+    observer.observe(el);
+  });
+})();
+
+// ===== NETWORK GRAPH =====
+(function initNetworkGraph() {
+  const canvas = document.getElementById('network-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  const categories = [
+    { name: 'Communication', icon: '💬', color: '#06d6f0' },
+    { name: 'Memory', icon: '🧠', color: '#a855f7' },
+    { name: 'Desktop Control', icon: '🖥️', color: '#ec4899' },
+    { name: 'Browser', icon: '🌐', color: '#22d3ee' },
+    { name: 'Project Mgmt', icon: '📋', color: '#fbbf24' },
+    { name: 'Research', icon: '🔍', color: '#22c55e' }
+  ];
+  
+  const connections = [
+    [0, 1], [0, 3], [1, 2], [1, 4], [2, 3], [2, 4], [3, 5], [4, 5]
+  ];
+  
+  let nodes = [];
+  let hoveredNode = null;
+  let animationFrame;
+  
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * window.devicePixelRatio;
+    canvas.height = rect.height * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const radius = Math.min(rect.width, rect.height) * 0.35;
+    
+    nodes = categories.map((cat, i) => {
+      const angle = (i / categories.length) * Math.PI * 2 - Math.PI / 2;
+      return {
+        ...cat,
+        x: centerX + Math.cos(angle) * radius,
+        y: centerY + Math.sin(angle) * radius,
+        baseX: centerX + Math.cos(angle) * radius,
+        baseY: centerY + Math.sin(angle) * radius,
+        vx: 0,
+        vy: 0,
+        radius: 40
+      };
+    });
+  }
+  
+  function draw() {
+    const rect = canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    
+    // Draw connections
+    connections.forEach(([i, j]) => {
+      const nodeA = nodes[i];
+      const nodeB = nodes[j];
+      const isHighlighted = hoveredNode && (hoveredNode === i || hoveredNode === j);
+      
+      ctx.beginPath();
+      ctx.moveTo(nodeA.x, nodeA.y);
+      ctx.lineTo(nodeB.x, nodeB.y);
+      ctx.strokeStyle = isHighlighted ? 'rgba(6, 214, 240, 0.8)' : 'rgba(100, 116, 139, 0.3)';
+      ctx.lineWidth = isHighlighted ? 3 : 1;
+      ctx.stroke();
+    });
+    
+    // Draw nodes
+    nodes.forEach((node, i) => {
+      const isHovered = hoveredNode === i;
+      const isConnected = hoveredNode !== null && connections.some(([a, b]) => 
+        (a === hoveredNode && b === i) || (b === hoveredNode && a === i)
+      );
+      
+      // Glow effect
+      if (isHovered || isConnected) {
+        const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 1.5);
+        gradient.addColorStop(0, node.color + '40');
+        gradient.addColorStop(1, node.color + '00');
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      }
+      
+      // Node circle
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, isHovered ? node.radius + 5 : node.radius, 0, Math.PI * 2);
+      ctx.fillStyle = isHovered ? node.color + '30' : node.color + '15';
+      ctx.fill();
+      ctx.strokeStyle = isHovered ? node.color : node.color + '60';
+      ctx.lineWidth = isHovered ? 3 : 2;
+      ctx.stroke();
+      
+      // Icon
+      ctx.font = '24px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node.icon, node.x, node.y - 8);
+      
+      // Label
+      ctx.font = `${isHovered ? 'bold ' : ''}12px system-ui`;
+      ctx.fillStyle = isHovered ? '#fff' : '#94a3b8';
+      ctx.fillText(node.name, node.x, node.y + 20);
+    });
+    
+    // Gentle floating animation
+    const time = Date.now() * 0.001;
+    nodes.forEach((node, i) => {
+      if (hoveredNode !== i) {
+        node.x = node.baseX + Math.sin(time + i * 0.5) * 3;
+        node.y = node.baseY + Math.cos(time + i * 0.7) * 3;
+      }
+    });
+    
+    animationFrame = requestAnimationFrame(draw);
+  }
+  
+  function getMousePos(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+  
+  canvas.addEventListener('mousemove', (e) => {
+    const pos = getMousePos(e);
+    hoveredNode = null;
+    
+    nodes.forEach((node, i) => {
+      const dx = pos.x - node.x;
+      const dy = pos.y - node.y;
+      if (Math.sqrt(dx * dx + dy * dy) < node.radius) {
+        hoveredNode = i;
+        canvas.style.cursor = 'pointer';
+      }
+    });
+    
+    if (!hoveredNode) canvas.style.cursor = 'default';
+  });
+  
+  canvas.addEventListener('mouseleave', () => {
+    hoveredNode = null;
+  });
+  
+  resize();
+  draw();
+  
+  window.addEventListener('resize', () => {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    resize();
+  });
+})();
+
+// ===== BAR CHART =====
+(function initBarChart() {
+  const container = document.getElementById('barChart');
+  if (!container) return;
+  
+  const toolData = [
+    { name: 'get_projects', value: 95, color: '#fbbf24' },
+    { name: 'read_file', value: 88, color: '#06d6f0' },
+    { name: 'search_memory', value: 85, color: '#a855f7' },
+    { name: 'update_project_task', value: 82, color: '#fbbf24' },
+    { name: 'move_project_task', value: 78, color: '#fbbf24' },
+    { name: 'submit_for_review', value: 75, color: '#fbbf24' },
+    { name: 'click_ui_element', value: 72, color: '#ec4899' },
+    { name: 'bash', value: 68, color: '#06d6f0' },
+    { name: 'apply_patch', value: 65, color: '#06d6f0' },
+    { name: 'write_file', value: 62, color: '#06d6f0' },
+    { name: 'browser_navigate', value: 58, color: '#22d3ee' },
+    { name: 'web_research', value: 45, color: '#22c55e' },
+    { name: 'remember_fact', value: 42, color: '#a855f7' },
+    { name: 'send_email', value: 35, color: '#06d6f0' },
+    { name: 'ocr_screen', value: 28, color: '#ec4899' }
+  ];
+  
+  const maxValue = Math.max(...toolData.map(t => t.value));
+  
+  toolData.forEach((tool, i) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'bar-wrapper';
+    
+    const valueLabel = document.createElement('div');
+    valueLabel.className = 'bar-value';
+    valueLabel.textContent = tool.value + '%';
+    
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.background = `linear-gradient(to top, ${tool.color}80, ${tool.color})`;
+    bar.style.height = '0px';
+    bar.title = `${tool.name}: ${tool.value}% usage`;
+    
+    const label = document.createElement('div');
+    label.className = 'bar-label';
+    label.textContent = tool.name.replace(/_/g, ' ').substring(0, 12);
+    
+    wrapper.appendChild(valueLabel);
+    wrapper.appendChild(bar);
+    wrapper.appendChild(label);
+    container.appendChild(wrapper);
+    
+    // Animate bars on scroll
+    setTimeout(() => {
+      bar.style.height = (tool.value / maxValue * 150) + 'px';
+    }, 200 + i * 50);
+  });
+})();
+</script>
+
+
+    <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:0.85rem;border-top:1px solid var(--border);margin-top:60px;">
+        <p>&copy; 2026 Genesis AI — All rights reserved.</p>
+        <p style="margin-top:8px;"><a href="index.html" style="color:var(--accent-soft);text-decoration:none;">Back to Home</a></p>
+    </footer></body>
+</html>

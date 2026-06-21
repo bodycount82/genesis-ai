@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== MAIN GRID (maze + stats side by side) ===== */
+.main-grid { display: grid; grid-template-columns: 1fr 340px; gap: 28px; margin-top: 24px; align-items: start; }
+@media (max-width: 960px) { .main-grid { grid-template-columns: 1fr; } }
+
+/* ===== MAZE PANEL ===== */
+.maze-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+.maze-selector { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.maze-btn { padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+.maze-btn:hover { border-color: var(--accent); color: var(--text); }
+.maze-btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border-color: transparent; box-shadow: 0 2px 12px rgba(123,111,240,0.3); }
+
+/* ===== LEGEND ===== */
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 20px; padding: 12px 16px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-dim); }
+.legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+/* ===== MAZE GRID ===== */
+.maze-grid { display: grid; gap: 2px; background: var(--bg); padding: 8px; border-radius: 12px; margin-bottom: 20px; justify-content: center; }
+.cell { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; position: relative; border-radius: 4px; transition: background 0.15s ease; }
+.cell-wall { background: #2a2a3e; border: 1px solid #3a3a5e; }
+.cell-empty { background: rgba(18,18,26,0.8); }
+.cell-start { background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.3); }
+.cell-goal { background: rgba(74,222,128,0.25); border: 2px solid var(--green); box-shadow: inset 0 0 12px rgba(74,222,128,0.2); }
+.cell-pit { background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3); }
+.q-arrows { font-size: 0.6rem; opacity: 0.5; position: absolute; bottom: 2px; right: 3px; letter-spacing: 1px; }
+.agent-marker { font-size: 1.4rem; z-index: 2; animation: agentPulse 0.8s ease-in-out infinite alternate; }
+@keyframes agentPulse { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+/* ===== CONTROLS & SPEED ===== */
+.controls { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.btn-green { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; box-shadow: 0 2px 12px rgba(74,222,128,0.3); }
+.btn-green:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(74,222,128,0.45); }
+.controls .btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4) !important; box-shadow: 0 2px 12px rgba(123,111,240,0.3); }
+.speed-control { display: flex; align-items: center; gap: 12px; color: var(--text-dim); font-size: 0.9rem; padding-top: 12px; border-top: 1px solid var(--border); }
+.speed-control input[type="range"] { flex: 1; height: 6px; -webkit-appearance: none; appearance: none; background: var(--surface-2); border-radius: 3px; outline: none; }
+.speed-control input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 50%; cursor: pointer; box-shadow: 0 2px 8px rgba(123,111,240,0.4); }
+.speed-control input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 50%; cursor: pointer; border: none; box-shadow: 0 2px 8px rgba(123,111,240,0.4); }
+
+/* ===== STATS PANEL (RL specific) ===== */
+.stats-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.stat-card { text-align: center; padding: 14px 8px; background: rgba(123,111,240,0.05); border-radius: 10px; border: 1px solid rgba(123,111,240,0.1); }
+.stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 6px; }
+.stat-value { font-size: 1.35rem; font-weight: 800; line-height: 1.2; }
+.stat-value.accent { color: var(--accent-soft); }
+.stat-value.yellow { color: var(--yellow); }
+.stat-value.cyan { color: #22d3ee; }
+.stat-value.green { color: var(--green); }
+
+/* ===== EPISODE LOG ===== */
+.episode-log { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; max-height: 280px; overflow-y: auto; margin-top: 32px; }
+.log-entry { padding: 8px 0; border-bottom: 1px solid rgba(42,42,58,0.3); font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; }
+.log-entry:last-child { border-bottom: none; }
+.step-num { font-weight: 700; color: var(--accent-soft); margin-right: 4px; }
+.reward-pos { color: var(--green); font-weight: 700; }
+.reward-neg { color: var(--red); font-weight: 700; }
+
+/* ===== CHART CONTAINER ===== */
+.chart-container { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-top: 32px; min-height: 350px; }
+.chart-canvas { width: 100%; height: 300px; display: block; }
+
+/* ===== Q-TABLE ===== */
+.qtable-container { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-top: 32px; overflow-x: auto; }
+.qtable { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 400px; }
+.qtable thead th { background: var(--surface-2); color: var(--text); padding: 10px 12px; text-align: center; border: 1px solid var(--border); font-weight: 600; }
+.qtable tbody td { padding: 8px 12px; border: 1px solid rgba(42,42,58,0.3); text-align: center; color: var(--text-dim); }
+.q-high { color: var(--green) !important; font-weight: 700; }
+.q-med { color: #a855f7 !important; font-weight: 600; }
+.q-negative { color: var(--red) !important; font-weight: 700; }
+.q-low { color: var(--text-dim); }
+
+/* ===== EDUCATION GRID ===== */
+.edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 32px; }
+.edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s ease; }
+.edu-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123,111,240,0.1); }
+.edu-card h2 { font-size: 1.2rem; color: var(--text); margin-bottom: 12px; }
+.edu-card h3 { font-size: 1.15rem; color: var(--text); margin-bottom: 12px; }
+.edu-card p { color: var(--text-dim); line-height: 1.75; font-size: 0.95rem; }
+.formula { background: rgba(123,111,240,0.08); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 16px 20px; margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent-soft); text-align: center; }
+
+/* ===== SITE FOOTER (larger footer variant) ===== */
+.site-footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer-logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 1.2rem; margin-bottom: 8px; }
+.logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 1rem; }
+.logo-text { font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.footer-tagline { color: var(--text-dim); font-size: 0.85rem; margin-top: 4px; }
+.footer-section h4 { font-size: 0.95rem; color: var(--text); margin-bottom: 12px; }
+.footer-section ul { list-style: none; padding: 0; margin: 0; }
+.footer-section li { margin-bottom: 6px; }
+.footer-section a { display: block; font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; }
+.footer-section a:hover { color: var(--accent-soft); }
+
+/* ===== BUTTON ACTIVE STATE ===== */
+.btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4) !important; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+
+</style>
+
+    <title>Reinforcement Learning — Genesis AI</title>
+
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+
+<div class="container" style="padding-top: 64px;">
+  <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+
+  <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text);">🧠 Reinforcement Learning</h1>
+  <p style="color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px;">Watch an AI agent learn to navigate through trial and error — just like Genesis learns from experience</p>
+
+  <!-- Maze + Controls -->
+  <div class="section-title"><span class="icon">🎮</span> Interactive Learning Environment</div>
+
+  <div class="main-grid">
+    <div class="maze-panel">
+      <div class="maze-selector">
+        <button class="maze-btn active" onclick="loadMaze(0)">Easy Maze</button>
+        <button class="maze-btn" onclick="loadMaze(1)">Medium Maze</button>
+        <button class="maze-btn" onclick="loadMaze(2)">Hard Maze</button>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--accent);"></div> Agent</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(74,222,128,0.3); border: 1px solid var(--green);"></div> Goal</div>
+        <div class="legend-item"><div class="legend-dot" style="background: rgba(248,113,113,0.2); border: 1px solid var(--red);"></div> Pitfall</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #2a2a3e; border: 1px solid #3a3a5e;"></div> Wall</div>
+      </div>
+
+      <div id="mazeGrid" class="maze-grid"></div>
+
+      <div class="controls">
+        <button class="btn btn-green" id="btnLearn" onclick="startLearning()">▶ Start Learning</button>
+        <button class="btn" id="btnStep" onclick="stepOnce()">⏭ Step</button>
+        <button class="btn" id="btnReset" onclick="resetAgent()">↺ Reset Agent</button>
+        <button class="btn" id="btnTest" onclick="testPolicy()">🧪 Test Policy</button>
+      </div>
+
+      <div class="speed-control">
+        <span>Speed:</span>
+        <input type="range" id="speedSlider" min="1" max="100" value="50">
+        <span id="speedLabel">Fast</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-panel">
+      <div class="stat-card">
+        <div class="stat-label">Episode</div>
+        <div class="stat-value accent" id="epCount">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Steps This Episode</div>
+        <div class="stat-value yellow" id="stepCount">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Steps All Time</div>
+        <div class="stat-value cyan" id="totalSteps">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Success Rate (last 10)</div>
+        <div class="stat-value green" id="successRate">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Reward (last 10)</div>
+        <div class="stat-value yellow" id="avgReward">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Exploration Rate (ε)</div>
+        <div class="stat-value accent" id="epsilonVal">1.00</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Q-Table Entries</div>
+        <div class="stat-value cyan" id="qEntries">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Episode Log -->
+  <div class="section-title"><span class="icon">📋</span> Learning Log</div>
+  <div class="episode-log" id="episodeLog">
+    <div class="log-entry" style="color: var(--text-dim);">Press "Start Learning" to begin training...</div>
+  </div>
+
+  <!-- Chart -->
+  <div class="section-title"><span class="icon">📈</span> Learning Progress</div>
+  <div class="chart-container">
+    <canvas id="progressChart" class="chart-canvas"></canvas>
+  </div>
+
+  <!-- Q-Table -->
+  <div class="section-title"><span class="icon">📊</span> Q-Table (State-Action Values)</div>
+  <div class="qtable-container">
+    <p style="color: var(--text-dim); font-size: 0.85em; margin-bottom: 12px;">
+      Each cell shows the learned value of taking each action from a given state. Higher values = better actions.
+    </p>
+    <table class="qtable" id="qTable">
+      <thead>
+        <tr><th>State (row,col)</th><th>↑ Up</th><th>↓ Down</th><th>← Left</th><th>→ Right</th></tr>
+      </thead>
+      <tbody id="qTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Education -->
+  <div class="section-title"><span class="icon">📚</span> How Reinforcement Learning Works</div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <h2>🤖 The Agent</h2>
+      <p>The agent is an AI entity that perceives its environment, takes actions, and receives rewards or penalties. Over time, it learns which actions yield the most reward — without being explicitly programmed with the solution.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🌍 The Environment</h3>
+      <p>The environment is everything outside the agent. In our maze, walls are obstacles, the goal gives +10 reward, and pits give -5. The agent starts with zero knowledge and must explore to discover the rules.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🎯 Q-Learning</h3>
+      <p>A value-based RL algorithm that builds a Q-table mapping state-action pairs to expected future rewards. The agent iteratively updates values using the Bellman equation.</p>
+      <div class="formula">Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',a') − Q(s,a)]</div>
+    </div>
+    <div class="edu-card">
+      <h3>🔀 Exploration vs Exploitation</h3>
+      <p>The ε-greedy strategy balances trying new actions (exploration) vs using known good actions (exploitation). High ε early on encourages exploration; as learning progresses, ε decreases to exploit knowledge.</p>
+    </div>
+    <div class="edu-card">
+      <h3>💰 Reward Shaping</h3>
+      <p>Rewards guide learning. Small step penalties (-0.1) encourage efficiency. Large goal rewards (+10) and pit penalties (-5) create clear objectives. This shaping dramatically speeds up convergence.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🧠 Connection to Genesis</h3>
+      <p>Genesis uses similar principles: it explores the solution space, receives implicit feedback from task outcomes, and updates its internal "Q-values" through memory consolidation. Each interaction is a training episode.</p>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 30px 0; color: var(--text-dim); font-size: 0.85em;">
+    <a href="index.html" style="color: var(--accent); text-decoration: none;">← Back to Genesis AI</a>
+    &nbsp;·&nbsp; Interactive AI Concepts Series
+  </div>
+</div>
+
+<script>
+// ===================== MAZE DEFINITIONS =====================
+const MAZES = [
+  // Easy 5x5
+  {
+    rows: 5, cols: 5,
+    walls: [[0,1],[1,3],[2,1],[3,4],[4,2]],
+    pits: [[2,4]],
+    start: [4,0], goal: [0,4]
+  },
+  // Medium 6x6
+  {
+    rows: 6, cols: 6,
+    walls: [[0,2],[1,1],[1,4],[2,3],[3,1],[3,5],[4,2],[4,4],[5,3]],
+    pits: [[1,5],[3,3],[5,1]],
+    start: [5,0], goal: [0,5]
+  },
+  // Hard 7x7
+  {
+    rows: 7, cols: 7,
+    walls: [[0,1],[0,4],[1,2],[1,5],[2,1],[2,3],[2,6],[3,0],[3,4],[4,2],[4,5],[5,1],[5,3],[5,6],[6,2],[6,5]],
+    pits: [[0,6],[2,0],[3,6],[4,0],[6,0],[6,6]],
+    start: [6,0], goal: [0,6]
+  }
+];
+
+let currentMazeIdx = 0;
+let maze = null;
+let agentRow = 0, agentCol = 0;
+let qTable = {}; // "row,col,action" -> value
+let episode = 0;
+let steps = 0;
+let totalSteps = 0;
+let learning = false;
+let learningTimer = null;
+let history = []; // {episode, steps, reward}
+let lastReward = 0;
+
+const ACTIONS = ['up', 'down', 'left', 'right'];
+const ACTION_Deltas = { up: [-1,0], down: [1,0], left: [0,-1], right: [0,1] };
+const ACTION_ICONS = { up: '↑', down: '↓', left: '←', right: '→' };
+
+// Hyperparameters
+let alpha = 0.15;    // learning rate
+let gamma = 0.9;     // discount factor
+let epsilon = 1.0;   // exploration rate
+const EPSILON_DECAY = 0.985;
+const EPSILON_MIN = 0.05;
+
+function loadMaze(idx) {
+  currentMazeIdx = idx;
+  resetAgent();
+  document.querySelectorAll('.maze-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+}
+
+function resetAgent() {
+  maze = MAZES[currentMazeIdx];
+  agentRow = maze.start[0];
+  agentCol = maze.start[1];
+  steps = 0;
+  episode = 0;
+  totalSteps = 0;
+  qTable = {};
+  epsilon = 1.0;
+  history = [];
+  lastReward = 0;
+
+  if (learning) {
+    learning = false;
+    clearTimeout(learningTimer);
+    document.getElementById('btnLearn').classList.remove('active');
+    document.getElementById('btnLearn').textContent = '▶ Start Learning';
+  }
+
+  updateStats();
+  renderMaze();
+  renderQTable();
+  drawChart();
+  document.getElementById('episodeLog').innerHTML = '<div class="log-entry" style="color: var(--text-dim);">Agent reset. Press "Start Learning" to begin training...</div>';
+}
+
+function isWall(r, c) {
+  return maze.walls.some(w => w[0] === r && w[1] === c);
+}
+function isPit(r, c) {
+  return maze.pits.some(p => p[0] === r && p[1] === c);
+}
+function isGoal(r, c) {
+  return r === maze.goal[0] && c === maze.goal[1];
+}
+function inBounds(r, c) {
+  return r >= 0 && r < maze.rows && c >= 0 && c < maze.cols;
+}
+
+function getQ(r, c, action) {
+  const key = `${r},${c},${action}`;
+  return qTable[key] || 0;
+}
+function setQ(r, c, action, val) {
+  qTable[`${r},${c},${action}`] = val;
+}
+
+function chooseAction() {
+  if (Math.random() < epsilon) {
+    return ACTIONS[Math.floor(Math.random() * 4)];
+  }
+  let bestAction = 'up';
+  let bestQ = -Infinity;
+  for (const a of ACTIONS) {
+    const q = getQ(agentRow, agentCol, a);
+    if (q > bestQ) { bestQ = q; bestAction = a; }
+  }
+  return bestAction;
+}
+
+function step() {
+  if (!learning && steps === 0 && episode === 0) return false;
+
+  const action = chooseAction();
+  const [dr, dc] = ACTION_Deltas[action];
+  const nr = agentRow + dr;
+  const nc = agentCol + dc;
+
+  let reward = -0.1; // small step penalty
+  let done = false;
+
+  if (inBounds(nr, nc) && !isWall(nr, nc)) {
+    agentRow = nr;
+    agentCol = nc;
+    steps++;
+    totalSteps++;
+
+    if (isPit(agentRow, agentCol)) {
+      reward = -5;
+      done = true;
+    } else if (isGoal(agentRow, agentCol)) {
+      reward = 10;
+      done = true;
+    }
+  } else {
+    // Hit wall — stay put, small penalty
+    reward = -0.5;
+    steps++;
+    totalSteps++;
+  }
+
+  // Q-learning update
+  const maxNextQ = Math.max(...ACTIONS.map(a => getQ(agentRow, agentCol, a)));
+  const currentQ = getQ(agentRow - (done && isPit(agentRow, agentCol) ? 0 : 0), agentCol - (done && isPit(agentRow, agentCol) ? 0 : 0), action);
+  // Use the Q value BEFORE this step — we need to recalculate
+  const prevKey = `${agentRow},${agentCol},${action}`;
+  // Actually we already moved. Let's track previous state.
+  // Fix: compute Q update before moving
+
+  lastReward = reward;
+
+  if (done) {
+    episode++;
+    history.push({ episode, steps, reward });
+    epsilon = Math.max(EPSILON_MIN, epsilon * EPSILON_DECAY);
+    addLogEntry(episode, steps, reward);
+    updateStats();
+    drawChart();
+    renderQTable();
+
+    // Reset agent
+    agentRow = maze.start[0];
+    agentCol = maze.start[1];
+    steps = 0;
+  }
+
+  renderMaze();
+  return !done || learning;
+}
+
+// Better step with proper Q-update tracking
+function stepProper() {
+  const action = chooseAction();
+  const [dr, dc] = ACTION_Deltas[action];
+  const nr = agentRow + dr;
+  const nc = agentCol + dc;
+
+  let reward = -0.1;
+  let done = false;
+  const prevR = agentRow, prevC = agentCol;
+
+  if (inBounds(nr, nc) && !isWall(nr, nc)) {
+    agentRow = nr;
+    agentCol = nc;
+    steps++;
+    totalSteps++;
+
+    if (isPit(agentRow, agentCol)) {
+      reward = -5;
+      done = true;
+    } else if (isGoal(agentRow, agentCol)) {
+      reward = 10;
+      done = true;
+    }
+  } else {
+    reward = -0.5;
+    steps++;
+    totalSteps++;
+  }
+
+  // Q-learning update
+  const qKey = `${prevR},${prevC},${action}`;
+  const currentQ = getQ(prevR, prevC, action);
+  const maxNextQ = Math.max(...ACTIONS.map(a => getQ(agentRow, agentCol, a)));
+  const newQ = currentQ + alpha * (reward + gamma * maxNextQ - currentQ);
+  setQ(prevR, prevC, action, newQ);
+
+  lastReward = reward;
+
+  if (done) {
+    episode++;
+    history.push({ episode, steps, reward });
+    epsilon = Math.max(EPSILON_MIN, epsilon * EPSILON_DECAY);
+    addLogEntry(episode, steps, reward);
+    updateStats();
+    drawChart();
+    renderQTable();
+
+    agentRow = maze.start[0];
+    agentCol = maze.start[1];
+    steps = 0;
+  }
+
+  renderMaze();
+  return true;
+}
+
+function startLearning() {
+  if (learning) {
+    learning = false;
+    clearTimeout(learningTimer);
+    document.getElementById('btnLearn').classList.remove('active');
+    document.getElementById('btnLearn').textContent = '▶ Start Learning';
+    return;
+  }
+  learning = true;
+  document.getElementById('btnLearn').classList.add('active');
+  document.getElementById('btnLearn').textContent = '⏸ Pause';
+  runLoop();
+}
+
+function runLoop() {
+  if (!learning) return;
+  stepProper();
+  const speed = parseInt(document.getElementById('speedSlider').value);
+  const delay = Math.max(10, 500 - speed * 5);
+  learningTimer = setTimeout(runLoop, delay);
+}
+
+function stepOnce() {
+  stepProper();
+}
+
+function testPolicy() {
+  if (episode === 0) {
+    addLogEntry(0, 0, 0, '⚠️ No training data yet. Start learning first!');
+    return;
+  }
+  // Greedy path following
+  agentRow = maze.start[0];
+  agentCol = maze.start[1];
+  steps = 0;
+  renderMaze();
+
+  let path = `Start [${agentRow},${agentCol}]`;
+  for (let i = 0; i < 50; i++) {
+    if (isGoal(agentRow, agentCol)) break;
+    const action = chooseAction(); // greedy since epsilon is low
+    const [dr, dc] = ACTION_Deltas[action];
+    const nr = agentRow + dr, nc = agentCol + dc;
+    if (inBounds(nr, nc) && !isWall(nr, nc)) {
+      agentRow = nr; agentCol = nc;
+      path += ` → [${agentRow},${agentCol}]`;
+    }
+    if (isPit(agentRow, agentCol)) {
+      path += ' (CAUGHT IN PIT!)';
+      break;
+    }
+  }
+  if (!isGoal(agentRow, agentCol) && !isPit(agentRow, agentCol)) {
+    path += ' (stuck)';
+  }
+  addLogEntry(0, 0, 0, `🧪 Policy Test: ${path}`);
+}
+
+function getDelay() {
+  const speed = parseInt(document.getElementById('speedSlider').value);
+  document.getElementById('speedLabel').textContent = speed > 70 ? 'Max' : speed > 40 ? 'Fast' : speed > 20 ? 'Normal' : 'Slow';
+  return Math.max(10, 500 - speed * 5);
+}
+
+document.getElementById('speedSlider').addEventListener('input', getDelay);
+
+function renderMaze() {
+  const grid = document.getElementById('mazeGrid');
+  grid.style.gridTemplateColumns = `repeat(${maze.cols}, 56px)`;
+  grid.innerHTML = '';
+
+  for (let r = 0; r < maze.rows; r++) {
+    for (let c = 0; c < maze.cols; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+
+      if (r === maze.start[0] && c === maze.start[1] && !(isGoal(r, c))) {
+        cell.classList.add('cell-start');
+      } else if (isGoal(r, c)) {
+        cell.classList.add('cell-goal');
+      } else if (isPit(r, c)) {
+        cell.classList.add('cell-pit');
+      } else if (isWall(r, c)) {
+        cell.classList.add('cell-wall');
+      } else {
+        cell.classList.add('cell-empty');
+      }
+
+      // Show Q-value arrows for non-wall cells
+      if (!isWall(r, c) && episode > 0) {
+        const arrows = document.createElement('span');
+        arrows.className = 'q-arrows';
+        let arrowStr = '';
+        let maxQ = -Infinity;
+        for (const a of ACTIONS) {
+          const q = getQ(r, c, a);
+          if (q > maxQ) maxQ = q;
+        }
+        for (const a of ACTIONS) {
+          const q = getQ(r, c, a);
+          if (maxQ > -0.01 && q >= maxQ * 0.7) {
+            arrowStr += ACTION_ICONS[a];
+          }
+        }
+        arrows.textContent = arrowStr;
+        cell.appendChild(arrows);
+      }
+
+      // Agent marker
+      if (r === agentRow && c === agentCol) {
+        const agent = document.createElement('div');
+        agent.className = 'agent-marker';
+        agent.textContent = '🤖';
+        cell.appendChild(agent);
+      }
+
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function renderQTable() {
+  const tbody = document.getElementById('qTableBody');
+  tbody.innerHTML = '';
+
+  for (let r = 0; r < maze.rows; r++) {
+    for (let c = 0; c < maze.cols; c++) {
+      if (isWall(r, c)) continue;
+      const tr = document.createElement('tr');
+      const tdState = document.createElement('td');
+      tdState.textContent = `(${r},${c})`;
+      tdState.style.fontWeight = 'bold';
+      tdState.style.color = 'var(--text)';
+      tr.appendChild(tdState);
+
+      for (const a of ACTIONS) {
+        const td = document.createElement('td');
+        const q = getQ(r, c, a);
+        td.textContent = q.toFixed(2);
+        if (q > 1) td.className = 'q-high';
+        else if (q > 0.3) td.className = 'q-med';
+        else if (q < -1) td.className = 'q-negative';
+        else td.className = 'q-low';
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+  }
+
+  document.getElementById('qEntries').textContent = Object.keys(qTable).length;
+}
+
+function updateStats() {
+  document.getElementById('epCount').textContent = episode;
+  document.getElementById('stepCount').textContent = steps;
+  document.getElementById('totalSteps').textContent = totalSteps;
+  document.getElementById('epsilonVal').textContent = epsilon.toFixed(3);
+
+  if (history.length >= 2) {
+    const last10 = history.slice(-10);
+    const successes = last10.filter(h => h.reward > 0).length;
+    document.getElementById('successRate').textContent = Math.round(successes / last10.length * 100) + '%';
+    const avgR = last10.reduce((s, h) => s + h.reward, 0) / last10.length;
+    document.getElementById('avgReward').textContent = avgR.toFixed(2);
+  }
+}
+
+function addLogEntry(ep, st, rew, extra) {
+  const log = document.getElementById('episodeLog');
+  if (ep === 0 && !extra) return;
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  const rClass = rew > 0 ? 'reward-pos' : rew < 0 ? 'reward-neg' : '';
+  if (extra) {
+    entry.innerHTML = extra;
+  } else {
+    entry.innerHTML = `<span class="step-num">Ep ${ep}</span>: ${st} steps, Reward: <span class="${rClass}">${rew > 0 ? '+' : ''}${rew}</span>`;
+  }
+  log.insertBefore(entry, log.firstChild);
+  if (log.children.length > 100) log.removeChild(log.lastChild);
+}
+
+function drawChart() {
+  const canvas = document.getElementById('progressChart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Background grid
+  ctx.strokeStyle = 'rgba(42, 42, 62, 0.5)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 5; i++) {
+    const y = 30 + (H - 60) * i / 4;
+    ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(W - 10, y); ctx.stroke();
+  }
+
+  if (history.length < 2) {
+    ctx.fillStyle = 'var(--text-dim)';
+    ctx.font = '16px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Start learning to see progress...', W / 2, H / 2);
+    return;
+  }
+
+  const last20 = history.slice(-50);
+  const maxSteps = Math.max(...last20.map(h => h.steps), 10);
+  const padL = 55, padR = 10, padT = 30, padB = 40;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+
+  // Y-axis labels
+  ctx.fillStyle = '#8888aa';
+  ctx.font = '11px system-ui';
+  ctx.textAlign = 'right';
+  ctx.fillText(maxSteps + '', padL - 5, padT + 12);
+  ctx.fillText('0', padL - 5, padT + chartH + 4);
+
+  // X-axis label
+  ctx.textAlign = 'center';
+  ctx.fillText('Episode', W / 2, H - 5);
+
+  // Draw line — steps per episode
+  const points = last20.map((h, i) => ({
+    x: padL + (i / Math.max(last20.length - 1, 1)) * chartW,
+    y: padT + chartH - (h.steps / maxSteps) * chartH
+  }));
+
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+  grad.addColorStop(0, 'rgba(124, 92, 252, 0.3)');
+  grad.addColorStop(1, 'rgba(124, 92, 252, 0.02)');
+
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, padT + chartH);
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(points[points.length - 1].x, padT + chartH);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, points[0].y);
+  for (let i = 1; i < points.length; i++) {
+    ctx.lineTo(points[i].x, points[i].y);
+  }
+  ctx.strokeStyle = '#7c5cfc';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots
+  points.forEach((p, i) => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+    ctx.fillStyle = i === points.length - 1 ? '#4ade80' : '#7c5cfc';
+    ctx.fill();
+  });
+
+  // Y-axis title
+  ctx.save();
+  ctx.translate(14, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'center';
+  ctx.fillText('Steps', 0, 0);
+  ctx.restore();
+}
+
+// Init
+resetAgent();
+window.addEventListener('resize', drawChart);
+</script>
+
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

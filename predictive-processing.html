@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 960px; margin: 0 auto; padding: 64px 32px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; padding: 12px 0; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.6rem; font-weight: 700; margin-top: 64px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(42,42,58,0.4); color: var(--text); }
+.doc-content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: var(--text); }
+.doc-content p { margin-bottom: 20px; color: var(--text-dim); line-height: 1.85; }
+.doc-content ul, .doc-content ol { margin-bottom: 20px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 10px; line-height: 1.75; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 24px 28px; margin-bottom: 36px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 36px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; overflow-x: auto; margin-bottom: 28px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 40px 20px; }
+  .footer-content { grid-template-columns: 1fr; gap: 28px; }
+}
+
+/* ===== PREDICTIVE PROCESSING SPECIFIC STYLES ===== */
+.header { text-align: center; margin-bottom: 56px; padding-top: 48px; max-width: 700px; margin-left: auto; margin-right: auto; }
+.header h1 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; background: linear-gradient(135deg, var(--text), var(--accent-soft)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.85; }
+
+.nav-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 56px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.nav-bar a { color: var(--accent-soft); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+.nav-bar a:hover { color: #b5adfc; }
+
+.section-title { font-size: clamp(1.3rem, 2.5vw, 1.6rem); font-weight: 700; margin-bottom: 40px; color: var(--text); display: flex; align-items: center; gap: 12px; padding-top: 8px; }
+.section-title .icon { font-size: 1.3rem; }
+
+.arch-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 72px; position: relative; align-items: center; justify-items: center; }
+.arch-node { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: all 0.3s ease; width: 100%; max-width: 280px; }
+.arch-node:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(123,111,240,0.15); }
+.arch-node .icon { font-size: 2.5rem; margin-bottom: 18px; display: block; }
+.arch-node h2, .arch-node h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text); line-height: 1.4; }
+.arch-node p { color: var(--text-dim); font-size: 0.92rem; line-height: 1.7; }
+
+.arch-arrow { display: flex; align-items: center; justify-content: center; position: relative; width: 60px; height: auto; min-height: 80px; }
+.arch-arrow .line { width: 3px; height: 50px; border-radius: 2px; margin-bottom: 4px; }
+.arch-arrow .label { color: var(--text-dim); font-size: 0.78rem; text-align: center; display: block; line-height: 1.4; }
+
+.sim-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 56px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+.controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+
+.btn-green { background: linear-gradient(135deg, var(--green), #22c55e) !important; color: #000 !important; font-weight: 600; padding: 12px 24px; border-radius: 8px; }
+.btn-green:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,222,128,0.3); }
+
+.pattern-row { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; padding: 8px 0; }
+.pattern-label { font-size: 0.9rem; color: var(--text-dim); min-width: 90px; font-weight: 500; flex-shrink: 0; }
+.pattern-sequence { display: flex; gap: 10px; flex-wrap: wrap; }
+.pattern-item { width: 44px; height: 44px; border-radius: 10px; background: var(--surface-2); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: all 0.3s ease; }
+.pattern-item.show { opacity: 1; }
+.pattern-item.correct { background: rgba(74,222,128,0.15); border-color: var(--green); box-shadow: 0 0 12px rgba(74,222,128,0.2); }
+.pattern-item.wrong { background: rgba(248,113,113,0.15); border-color: var(--red); box-shadow: 0 0 12px rgba(248,113,113,0.2); }
+.pattern-item.predicted { opacity: 0.6; }
+
+.error-viz { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--border); }
+.error-bar-container { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.error-label { font-size: 0.85rem; color: var(--text-dim); min-width: 90px; flex-shrink: 0; }
+.error-bar-track { flex: 1; height: 26px; background: var(--surface-2); border-radius: 13px; overflow: hidden; position: relative; box-shadow: inset 0 1px 4px rgba(0,0,0,0.2); }
+.error-bar-fill { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #fff; font-weight: 600; border-radius: 13px; transition: width 0.4s ease; min-width: 44px; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; margin-bottom: 56px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 16px; text-align: center; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.stat-card:hover { transform: translateY(-3px); border-color: var(--accent-soft); box-shadow: 0 6px 24px rgba(123,111,240,0.12); }
+.stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; font-weight: 600; }
+.stat-value { font-size: 1.4rem; font-weight: 700; color: var(--accent-soft); font-family: 'JetBrains Mono', monospace; }
+
+.chart-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 56px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+.chart-canvas { width: 100%; height: 320px; display: block; border-radius: var(--radius); overflow: hidden; }
+
+.log-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; max-height: 450px; overflow-y: auto; margin-bottom: 72px; font-family: 'JetBrains Mono', monospace; font-size: 0.83rem; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+.log-entry { padding: 12px 0; border-bottom: 1px solid rgba(42,42,58,0.3); color: var(--text-dim); line-height: 1.7; }
+.log-entry:last-child { border-bottom: none; }
+.step-num { color: var(--accent-soft); font-weight: 600; margin-right: 8px; }
+.log-correct { color: var(--green); font-weight: 600; }
+.log-wrong { color: var(--red); font-weight: 600; }
+
+.edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; margin-bottom: 56px; }
+.edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.edu-card:hover { transform: translateY(-4px); border-color: var(--accent-soft); box-shadow: 0 12px 40px rgba(123,111,240,0.12); }
+.edu-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 14px; color: var(--text); display: flex; align-items: center; gap: 8px; line-height: 1.5; }
+.edu-card p { color: var(--text-dim); line-height: 1.82; font-size: 0.93rem; margin-bottom: 0; }
+.formula { background: linear-gradient(135deg, var(--surface-2), rgba(123,111,240,0.05)); border-left: 3px solid var(--accent); padding: 18px 22px; border-radius: 10px; margin-top: 16px; font-family: 'JetBrains Mono', monospace; color: var(--accent-soft); font-size: 0.95rem; }
+
+</style>
+
+    <title>Predictive Processing — Genesis AI</title>
+
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<div class="container">
+  <div class="header">
+    <h1>🔮 Predictive Processing</h1>
+    <p>Discover how brains and AI generate predictions, learn from errors, and build understanding — one prediction at a time</p>
+  </div>
+
+  <div class="nav-bar">
+    <a href="index.html">← Back to Genesis</a>
+    <span style="color: var(--text-dim); font-size: 0.9em;">Interactive AI Concepts</span>
+  </div>
+
+  <!-- Architecture -->
+  <div class="section-title"><span class="icon">🏗️</span> The Predictive Processing Loop</div>
+  <div class="arch-flow">
+    <div class="arch-node" style="border-color: var(--pink);">
+      <div class="icon">🧠</div>
+      <h2 style="color: var(--pink);">Top-Down Prediction</h2>
+      <p>The brain generates predictions about what it expects to perceive next</p>
+    </div>
+    <div class="arch-arrow">
+      <div class="line" style="background: var(--pink);"></div>
+      <span class="label">↓ Prediction</span>
+    </div>
+    <div class="arch-node" style="border-color: var(--yellow);">
+      <div class="icon">⚡</div>
+      <h3 style="color: var(--yellow);">Error Signal</h3>
+      <p>Compares prediction with actual input — the "prediction error"</p>
+    </div>
+    <div class="arch-arrow">
+      <div class="line" style="background: var(--yellow);"></div>
+      <span class="label">↑ Error</span>
+    </div>
+    <div class="arch-node" style="border-color: var(--green);">
+      <div class="icon">🔄</div>
+      <h3 style="color: var(--green);">Model Update</h3>
+      <p>Adjusts internal model to reduce future prediction errors</p>
+    </div>
+  </div>
+
+  <!-- Simulation -->
+  <div class="section-title"><span class="icon">🎮</span> Interactive Prediction Engine</div>
+  <div class="sim-container">
+    <p style="color: var(--text-dim); font-size: 0.9em; margin-bottom: 15px;">
+      Watch the agent learn to predict patterns. It generates top-down predictions, compares them with reality, and updates its model based on prediction errors.
+    </p>
+
+    <div class="controls">
+      <button class="btn btn-green" id="btnTrain" onclick="startTraining()">▶ Train</button>
+      <button class="btn" id="btnStep" onclick="stepOnce()">⏭ Step</button>
+      <button class="btn" onclick="resetSim()">↺ Reset</button>
+    </div>
+
+    <!-- Pattern display -->
+    <div style="margin-top: 20px;">
+      <div class="pattern-row">
+        <span class="pattern-label">Reality:</span>
+        <div class="pattern-sequence" id="realityPattern"></div>
+      </div>
+      <div class="pattern-row">
+        <span class="pattern-label">Prediction:</span>
+        <div class="pattern-sequence" id="predPattern"></div>
+      </div>
+    </div>
+
+    <!-- Error visualization -->
+    <div class="error-viz">
+      <h4 style="color: var(--text-dim); font-size: 0.85em; margin-bottom: 10px;">Prediction Error Over Time</h4>
+      <div class="error-bar-container">
+        <span class="error-label">Current Error:</span>
+        <div class="error-bar-track">
+          <div class="error-bar-fill" id="currentError" style="width: 0%; background: var(--red);">0%</div>
+        </div>
+      </div>
+      <div class="error-bar-container">
+        <span class="error-label">Avg Error:</span>
+        <div class="error-bar-track">
+          <div class="error-bar-fill" id="avgError" style="width: 0%; background: var(--yellow);">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Predictions</div>
+      <div class="stat-value" style="color: var(--pink);" id="predCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Correct</div>
+      <div class="stat-value" style="color: var(--green);" id="correctCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Accuracy</div>
+      <div class="stat-value" style="color: var(--yellow);" id="accuracy">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Model Updates</div>
+      <div class="stat-value" style="color: var(--orange);" id="updateCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Learning Rate</div>
+      <div class="stat-value" style="color: var(--cyan);" id="lrValue">0.10</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Pattern Learned</div>
+      <div class="stat-value" style="color: var(--accent); font-size: 1em;" id="patternStatus">None</div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="section-title"><span class="icon">📈</span> Error Reduction Over Time</div>
+  <div class="chart-container">
+    <canvas id="errorChart" class="chart-canvas"></canvas>
+  </div>
+
+  <!-- Log -->
+  <div class="section-title"><span class="icon">📋</span> Prediction Log</div>
+  <div class="log-container" id="logContainer">
+    <div class="log-entry" style="color: var(--text-dim);">Press "Train" to begin the prediction learning cycle...</div>
+  </div>
+
+  <!-- Education -->
+  <div class="section-title"><span class="icon">📚</span> What is Predictive Processing?</div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <h3>🧠 The Brain as Prediction Machine</h3>
+      <p>Predictive processing theory proposes that the brain doesn't passively receive information — it actively generates predictions about what it expects to perceive. Every sensation is compared against these predictions, and only the "surprise" (prediction error) is processed further.</p>
+    </div>
+    <div class="edu-card">
+      <h3>⚡ Prediction Error</h3>
+      <p>When reality differs from prediction, a prediction error signal is generated. This error drives learning — the brain updates its internal model to reduce future errors. The smaller the error, the better the model matches reality.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🔄 Two-Way Processing</h3>
+      <p><strong>Top-down:</strong> Predictions flow from higher-level models to lower sensory areas.<br>
+      <strong>Bottom-up:</strong> Prediction errors flow upward, telling the model where it's wrong. Learning happens by adjusting weights to minimize these errors.</p>
+    </div>
+    <div class="edu-card">
+      <h3>📐 The Math</h3>
+      <p>At its core, predictive processing minimizes a "free energy" function — essentially the prediction error. The update rule is similar to gradient descent:</p>
+      <div class="formula">Δw = η × (prediction_error) × (input_signal)</div>
+    </div>
+    <div class="edu-card">
+      <h3>🌟 Why It Matters</h3>
+      <p>This theory unifies perception, action, and learning under one framework. It explains why familiar patterns feel "easy" to process (low error) while novel situations demand attention (high error). It's considered one of the most promising theories of brain function.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🧬 Genesis Connection</h3>
+      <p>Genesis uses predictive processing principles: it predicts user intent, generates responses, compares them against feedback, and updates its understanding. Every conversation is a cycle of prediction → error → learning.</p>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 30px 0; color: var(--text-dim); font-size: 0.85em;">
+    <a href="index.html" style="color: var(--pink); text-decoration: none;">← Back to Genesis AI</a>
+    &nbsp;·&nbsp; Interactive AI Concepts Series
+  </div>
+</div>
+
+<script>
+// Pattern sequences for the agent to learn
+const PATTERNS = [
+  { name: 'Alternating', seq: ['🔴','🔵','🔴','🔵','🔴','🔵'], len: 6 },
+  { name: 'Increasing', seq: ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣'], len: 6 },
+  { name: 'Repeating', seq: ['🟢','🟢','🟡','🟢','🟢','🟡'], len: 6 },
+];
+
+let currentPattern = 0;
+let currentStep = 0;
+let predictions = [];
+let correctCount = 0;
+let updateCount = 0;
+let errorHistory = [];
+let modelWeights = []; // Simple predictive model
+let training = false;
+let trainTimer = null;
+
+const LEARNING_RATE = 0.15;
+
+function init() {
+  currentStep = 0;
+  predictions = [];
+  correctCount = 0;
+  updateCount = 0;
+  errorHistory = [];
+  modelWeights = new Array(PATTERNS[currentPattern].len).fill(0);
+  renderPatterns();
+  updateStats();
+  drawChart();
+}
+
+function getPattern() { return PATTERNS[currentPattern]; }
+
+function renderPatterns() {
+  const pat = getPattern();
+  const realityDiv = document.getElementById('realityPattern');
+  const predDiv = document.getElementById('predPattern');
+  realityDiv.innerHTML = '';
+  predDiv.innerHTML = '';
+
+  for (let i = 0; i < pat.len; i++) {
+    // Reality
+    const rItem = document.createElement('div');
+    rItem.className = 'pattern-item show';
+    if (i <= currentStep) {
+      rItem.textContent = pat.seq[i];
+      if (predictions[i] !== undefined) {
+        rItem.classList.add(predictions[i].correct ? 'correct' : 'wrong');
+      }
+    } else {
+      rItem.textContent = '?';
+      rItem.style.opacity = '0.3';
+    }
+    realityDiv.appendChild(rItem);
+
+    // Prediction
+    const pItem = document.createElement('div');
+    pItem.className = 'pattern-item';
+    if (i <= currentStep) {
+      if (predictions[i] !== undefined) {
+        pItem.textContent = predictions[i].pred;
+        pItem.classList.add(predictions[i].correct ? 'correct' : 'wrong');
+      } else {
+        pItem.textContent = '?';
+        pItem.classList.add('predicted');
+      }
+    } else {
+      pItem.textContent = '?';
+      pItem.style.opacity = '0.3';
+    }
+    predDiv.appendChild(pItem);
+  }
+}
+
+function predict() {
+  const pat = getPattern();
+  if (currentStep >= pat.len) return false;
+
+  // Simple prediction: use model weights to predict next item
+  let predIdx;
+  if (currentStep < 2 || modelWeights[currentStep] < 0.5) {
+    // Early steps or low confidence: guess based on simple pattern detection
+    predIdx = Math.floor(Math.random() * pat.len);
+  } else {
+    // Use learned weights
+    predIdx = modelWeights.indexOf(Math.max(...modelWeights));
+  }
+
+  const predicted = pat.seq[predIdx];
+  const actual = pat.seq[currentStep];
+  const correct = predicted === actual;
+
+  if (correct) correctCount++;
+
+  predictions[currentStep] = { pred: predicted, correct };
+
+  // Calculate error (1 - accuracy so far)
+  const error = 1 - (correctCount / (currentStep + 1));
+  errorHistory.push(error);
+
+  // Update model weights
+  if (!correct) {
+    updateCount++;
+    // Boost the weight for the correct answer
+    modelWeights[predIdx] -= LEARNING_RATE;
+    modelWeights[pat.seq.indexOf(actual)] += LEARNING_RATE;
+  } else {
+    modelWeights[predIdx] += LEARNING_RATE * 0.5;
+  }
+
+  return true;
+}
+
+function stepOnce() {
+  if (currentStep >= getPattern().len) {
+    // Move to next pattern
+    currentPattern = (currentPattern + 1) % PATTERNS.length;
+    currentStep = 0;
+    modelWeights = new Array(PATTERNS[currentPattern].len).fill(0);
+    addLogEntry(`🔄 New pattern: <strong>${getPattern().name}</strong>`);
+  }
+
+  predict();
+  renderPatterns();
+  updateStats();
+  drawChart();
+
+  currentStep++;
+}
+
+function startTraining() {
+  if (training) {
+    training = false;
+    clearTimeout(trainTimer);
+    document.getElementById('btnTrain').classList.remove('active');
+    document.getElementById('btnTrain').textContent = '▶ Train';
+    return;
+  }
+  training = true;
+  document.getElementById('btnTrain').classList.add('active');
+  document.getElementById('btnTrain').textContent = '⏸ Pause';
+  addLogEntry('🚀 Training started...');
+  runLoop();
+}
+
+function runLoop() {
+  if (!training) return;
+  stepOnce();
+  trainTimer = setTimeout(runLoop, 400);
+}
+
+function resetSim() {
+  training = false;
+  clearTimeout(trainTimer);
+  currentPattern = 0;
+  document.getElementById('btnTrain').classList.remove('active');
+  document.getElementById('btnTrain').textContent = '▶ Train';
+  init();
+  document.getElementById('logContainer').innerHTML = '<div class="log-entry" style="color: var(--text-dim);">Press "Train" to begin the prediction learning cycle...</div>';
+}
+
+function updateStats() {
+  const total = predictions.length;
+  document.getElementById('predCount').textContent = total;
+  document.getElementById('correctCount').textContent = correctCount;
+  document.getElementById('updateCount').textContent = updateCount;
+
+  if (total > 0) {
+    document.getElementById('accuracy').textContent = Math.round(correctCount / total * 100) + '%';
+  }
+
+  // Error bars
+  const currentErr = total > 0 ? (1 - correctCount / total) : 0;
+  const avgErr = errorHistory.length > 0 ? errorHistory.reduce((a,b) => a+b, 0) / errorHistory.length : 0;
+
+  const curBar = document.getElementById('currentError');
+  curBar.style.width = (currentErr * 100) + '%';
+  curBar.textContent = Math.round(currentErr * 100) + '%';
+  curBar.style.background = currentErr > 0.5 ? 'var(--red)' : currentErr > 0.2 ? 'var(--yellow)' : 'var(--green)';
+
+  const avgBar = document.getElementById('avgError');
+  avgBar.style.width = (avgErr * 100) + '%';
+  avgBar.textContent = Math.round(avgErr * 100) + '%';
+
+  // Pattern status
+  if (total >= getPattern().len) {
+    const learned = correctCount === total;
+    document.getElementById('patternStatus').textContent = learned ? '✅ Mastered!' : '🔄 Learning...';
+  } else {
+    document.getElementById('patternStatus').textContent = '⏳ In progress';
+  }
+}
+
+function drawChart() {
+  const canvas = document.getElementById('errorChart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const padL = 55, padR = 10, padT = 30, padB = 40;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(42, 42, 62, 0.5)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + chartH * i / 4;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    ctx.fillStyle = '#8888aa';
+    ctx.font = '11px system-ui';
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round((1 - i/4) * 100) + '%', padL - 5, y + 4);
+  }
+
+  if (errorHistory.length < 2) {
+    ctx.fillStyle = '#8888aa';
+    ctx.font = '16px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Start training to see error reduction...', W / 2, H / 2);
+    return;
+  }
+
+  const maxErr = Math.max(...errorHistory, 0.1);
+  const points = errorHistory.map((e, i) => ({
+    x: padL + (i / Math.max(errorHistory.length - 1, 1)) * chartW,
+    y: padT + chartH * (e / maxErr)
+  }));
+
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+  grad.addColorStop(0, 'rgba(236, 72, 153, 0.3)');
+  grad.addColorStop(1, 'rgba(236, 72, 153, 0.02)');
+
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, padT + chartH);
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(points[points.length - 1].x, padT + chartH);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, points[0].y);
+  for (let i = 1; i < points.length; i++) {
+    ctx.lineTo(points[i].x, points[i].y);
+  }
+  ctx.strokeStyle = '#ec4899';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots
+  points.forEach((p, i) => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+    ctx.fillStyle = i === points.length - 1 ? '#4ade80' : '#ec4899';
+    ctx.fill();
+  });
+
+  // Labels
+  ctx.fillStyle = '#8888aa';
+  ctx.font = '11px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('Prediction Step', W / 2, H - 5);
+
+  ctx.save();
+  ctx.translate(14, H / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Error Rate', 0, 0);
+  ctx.restore();
+}
+
+function addLogEntry(text) {
+  const log = document.getElementById('logContainer');
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = text;
+  log.insertBefore(entry, log.firstChild);
+  if (log.children.length > 50) log.removeChild(log.lastChild);
+}
+
+// Log prediction results
+const origStepOnce = stepOnce;
+stepOnce = function() {
+  const pat = getPattern();
+  const prevLen = predictions.length;
+  origStepOnce();
+  if (predictions.length > prevLen) {
+    const p = predictions[predictions.length - 1];
+    const cls = p.correct ? 'log-correct' : 'log-wrong';
+    const icon = p.correct ? '✅' : '❌';
+    addLogEntry(`<span class="step-num">Step ${predictions.length}</span>: Predicted <strong>${p.pred}</strong>, was <strong>${pat.seq[predictions.length-1]}</strong> — <span class="${cls}">${p.correct ? 'Correct!' : 'Error! Model updated.'}</span>`);
+  }
+};
+
+init();
+window.addEventListener('resize', drawChart);
+</script>
+
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+
+ </script>
+</body>
+</html>

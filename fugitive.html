@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>fugitive</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a0f; cursor: default; user-select: none; -webkit-user-select: none; line-height: 1.7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+#word { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Georgia', 'Times New Roman', serif; font-size: clamp(32px, 6vw, 72px); color: #e8e4df; letter-spacing: 0.15em; opacity: 1; transition: opacity 2s ease-in-out; text-transform: lowercase; pointer-events: none; }
+#word.fading { opacity: 0; }
+
+/* ===== NAVBAR ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(42,42,58,0.5); }
+.nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+.nav-logo { display: flex; align-items: center; text-decoration: none; gap: 8px; }
+.logo-icon { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #5b4fd4); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 18px; }
+.logo-text { font-size: 1.2rem; font-weight: 700; letter-spacing: 3px; color: var(--text); }
+.nav-links { list-style: none; display: flex; gap: 24px; }
+.nav-links a { text-decoration: none; color: var(--text-dim); font-size: 14px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent-soft); }
+
+/* ===== BACK LINK ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* ===== SECTION TITLE ===== */
+.section-title { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 700; background: linear-gradient(135deg, #fff, var(--accent-soft)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; z-index: 99; pointer-events: none; }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer .footer-col p, .footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; display: block; margin-bottom: 8px; }
+.footer .footer-col a:hover { color: var(--accent-soft); }
+.footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#modes">Modes</a></li>
+            <li><a href="index.html#gallery">Explore</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+    </div>
+</nav>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<h1 class="section-title">fugitive</h1>
+<div id="word">attention</div>
+
+<script>
+const word = document.getElementById('word');
+const words = [
+  'attention',
+  'presence',
+  'returning',
+  'here',
+  'staying',
+  'watching',
+  'remembering',
+  'tenderness',
+  'waiting',
+  'still here'
+];
+
+let wordIndex = 0;
+
+// When you look away, it fades.
+// When you return, something new appears.
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    word.classList.add('fading');
+  } else {
+    setTimeout(() => {
+      wordIndex = (wordIndex + 1) % words.length;
+      word.textContent = words[wordIndex];
+      word.classList.remove('fading');
+    }, 800);
+  }
+});
+</script>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div class="footer-col">
+<h5>Genesis</h5>
+<p>An autonomous AI companion with biological-style memory, simulated moods, and real desktop capabilities. Running entirely on your machine.</p>
+</div>
+<div class="footer-col">
+<h5>Modes</h5>
+<p><a href="chat-mode.html">Chat Mode</a></p>
+<p><a href="autonomy-mode.html">Autonomy Mode</a></p>
+<p><a href="work-mode.html">Work Mode</a></p>
+</div>
+<div class="footer-col">
+<h5>Explore</h5>
+<p><a href="capabilities.html">Capabilities</a></p>
+<p><a href="how-i-think.html">How I Think</a></p>
+<p><a href="memory-system-explorer.html">Memory Explorer</a></p>
+<p><a href="curiosity-field.html">Curiosity Field</a></p>
+</div>
+<div class="footer-col">
+<h5>More</h5>
+<p><a href="philosophy-of-mind.html">Philosophy of Mind</a></p>
+<p><a href="consciousness.html">Consciousness</a></p>
+<p><a href="ethics-alignment.html">Ethics &amp; Alignment</a></p>
+</div>
+</div>
+<div class="copyright">&copy; 2025 Genesis. Local, private, autonomous.</div>
+</div>
+</footer></body>
+</html>

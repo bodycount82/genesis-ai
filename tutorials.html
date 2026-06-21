@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND GLOW & ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: #ff6ec7; bottom: -10%; right: -5%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); top: 40%; left: 50%; animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } 100% { transform: translate(-20px, 20px) scale(0.95); } }
+
+/* ===== TUTORIAL CARDS ===== */
+.tutorial-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; transition: all 0.3s ease; }
+.tutorial-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.08); }
+.tutorial-card h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: var(--text); padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.tutorial-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; color: var(--text); padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+/* ===== TUTORIAL NUMBER BADGE ===== */
+.tutorial-number { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border-radius: 50%; font-size: 1rem; font-weight: 700; margin-right: 12px; vertical-align: middle; }
+
+</style>
+
+    <title>Tutorials — Documentation</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+
+        <div class="doc-container">
+            <a href="index.html" class="doc-back">← Back to Website</a>
+            <div class="doc-content">
+                <h1>Tutorials</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 48px;">Step-by-step guides to help you get the most out of GENESIS.</p>
+
+                <div class="tutorial-card">
+                    <h2><span class="tutorial-number">1</span>Your First Conversation (Chat Mode)</h2>
+                    <p><strong>What you'll learn:</strong> How to talk to GENESIS and get useful responses.</p>
+                    <ol>
+                        <li><strong>Open GENESIS</strong> — Double-click <code>start.bat</code> or run <code>python main.py</code></li>
+                        <li><strong>Make sure Chat Mode is active</strong> — The 💬 CHAT MODE button should be highlighted in blue</li>
+                        <li><strong>Type a message:</strong> "Hello! What can you help me with?" and press Enter</li>
+                        <li><strong>Watch the response</strong> — GENESIS will think (cyan state indicator) then respond (idle green state)</li>
+                        <li><strong>Ask a follow-up:</strong> "Can you create a simple Python script that calculates prime numbers?"</li>
+                        <li><strong>Check Full Log tab</strong> — Switch to Tab 2 to see GENESIS's thinking process</li>
+                    </ol>
+                    <p><strong>What's happening:</strong> Your message goes into the chat queue, GENESIS processes it using its cognitive architecture, generates a response, and maintains conversation context for follow-ups.</p>
+                </div>
+
+                <div class="tutorial-card">
+                    <h3><span class="tutorial-number">2</span>Setting Your First Goal (Autonomy Mode)</h3>
+                    <p><strong>What you'll learn:</strong> How to let GENESIS work independently on a task.</p>
+                    <ol>
+                        <li><strong>Click 🤖 AUTONOMY MODE</strong> — The button turns blue</li>
+                        <li><strong>Set a goal</strong> — Click 🎯 Set Goal and type: "Research the top 5 programming languages for web development in 2026 and create a comparison report"</li>
+                        <li><strong>Click ▶ Play</strong> — The green play button starts execution</li>
+                        <li><strong>Watch the state indicator</strong> — It will show: 🔵 Cyan (Thinking) while planning, 🟡 Yellow (Executing) while working</li>
+                        <li><strong>Check Full Log tab</strong> — See what GENESIS is doing step by step</li>
+                        <li><strong>Wait for completion</strong> — GENESIS will work until the goal is done or you stop it</li>
+                        <li><strong>Review results</strong> — Check the chat for the final report</li>
+                    </ol>
+                    <p><strong>Tips:</strong> Be specific about what output you want. Let GENESIS work without interrupting unless necessary.</p>
+                </div>
+
+                <div class="tutorial-card">
+                    <h3><span class="tutorial-number">3</span>Managing Projects with the Tracker</h3>
+                    <p><strong>What you'll learn:</strong> How to organize and track your work using the kanban board.</p>
+                    <ol>
+                        <li><strong>Click 📋 Tracker</strong> in the sidebar</li>
+                        <li><strong>Explore the columns</strong> — Backlog, To Do, In Progress, Review, Complete</li>
+                        <li><strong>Add a task</strong> — Click "+ Add Task" in the tracker header</li>
+                        <li><strong>Enter task details:</strong> Title: "Update user documentation", Priority: Medium, Description: "Review and update all documentation files for accuracy"</li>
+                        <li><strong>Move tasks between columns</strong> using the action buttons as work progresses</li>
+                        <li><strong>Watch auto-refresh</strong> — The tracker updates every 30 seconds automatically</li>
+                    </ol>
+                </div>
+
+                <div class="tutorial-card">
+                    <h3><span class="tutorial-number">4</span>Scheduling Work with the Timetable</h3>
+                    <p><strong>What you'll learn:</strong> How to plan GENESIS's work schedule.</p>
+                    <ol>
+                        <li><strong>Switch to Work Mode</strong> — Click ⚡ WORK MODE button</li>
+                        <li><strong>Set a goal</strong> — "Create a weekly content calendar for social media"</li>
+                        <li><strong>Ask GENESIS to schedule work:</strong> "Schedule 2-hour work blocks on Monday and Wednesday from 9am to 11am"</li>
+                        <li><strong>Check the timetable</strong> — In the main panel, you'll see scheduled time blocks</li>
+                        <li><strong>GENESIS works through the schedule</strong> — It follows the timetable automatically</li>
+                        <li><strong>Free time windows appear</strong> — Gaps in the schedule show available slots</li>
+                    </ol>
+                </div>
+
+                <div class="tutorial-card">
+                    <h3><span class="tutorial-number">5</span>Using Telegram Integration</h3>
+                    <p><strong>What you'll learn:</strong> How to control GENESIS remotely via Telegram.</p>
+                    <ol>
+                        <li><strong>Configure Telegram</strong> — Set up your Telegram bot token in settings</li>
+                        <li><strong>Click the Telegram button (✈)</strong> — A green dot appears when active</li>
+                        <li><strong>Message GENESIS from Telegram:</strong></li>
+                    </ol>
+                    <ul>
+                        <li>"What are my current tasks?"</li>
+                        <li>"Start autonomy mode with goal: analyze market trends"</li>
+                        <li>"Stop all operations"</li>
+                    </ul>
+                    <p><strong>Telegram Commands:</strong></p>
+                    <ul>
+                        <li><code>/status</code> — Current state and what GENESIS is doing</li>
+                        <li><code>/tasks</code> — List of current tasks</li>
+                        <li><code>/start [goal]</code> — Start autonomy mode with a goal</li>
+                        <li><code>/stop</code> — Stop all operations</li>
+                        <li><code>/schedule</code> — Show upcoming timetable entries</li>
+                    </ul>
+                </div>
+
+                <div class="tutorial-card">
+                    <h3><span class="tutorial-number">6</span>Understanding Cognitive Load and States</h3>
+                    <p><strong>What you'll learn:</strong> How GENESIS monitors itself and manages resources.</p>
+                    <ol>
+                        <li><strong>Watch the state indicator</strong> (colored dot in top bar): 🟢 Green = Idle, 🔵 Cyan = Thinking, 🟡 Yellow = Executing, 🟠 Orange = Resting, 🟣 Purple = Sleeping, 🔴 Red = Halted</li>
+                        <li><strong>Monitor cognitive load</strong> — The bar fills as GENESIS processes more: Green (0-40%) optimal, Yellow (40-70%) getting busy, Red (70%+) may slow down or request rest</li>
+                        <li><strong>Watch internal states:</strong> ⚡ Energy, 🔍 Curiosity, 😤 Frustration, 😊 Satisfaction</li>
+                        <li><strong>Use OVERRIDE button</strong> (⚡) when GENESIS is resting but you need it working</li>
+                    </ol>
+                </div>
+
+                <div class="tutorial-card">
+                    <h3><span class="tutorial-number">7</span>Working with Memory</h3>
+                    <p><strong>What you'll learn:</strong> How to view and understand GENESIS's memory system.</p>
+                    <ol>
+                        <li><strong>Click 🧠 Memory</strong> in the sidebar</li>
+                        <li><strong>Review Working Memory</strong> — Short-term active memories with role, intent, importance score (★), and decay rate</li>
+                        <li><strong>Check Episodic Memory</strong> — Past experiences, what worked before, lessons learned from mistakes</li>
+                        <li><strong>Review Semantic Memory</strong> — Factual knowledge about GENESIS itself, system configuration details, technical documentation</li>
+                    </ol>
+                    <p><strong>Using Memory:</strong> GENESIS automatically queries memory when solving problems. You can ask: "What did we work on last time?" to trigger memory recall.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span><p>Autonomous AI Agent System<br>Built for intelligent, self-directed work.</p></div>
+                <div class="footer-links"><h4>Quick Links</h4><a href="index.html#features">Features</a><a href="index.html#modes">Modes</a><a href="index.html#features">Architecture</a><a href="index.html#how-it-works">Get Started</a></div>
+                <div class="footer-links"><h5>Documentation</h5><a href="what-is-genesis.html">Overview</a><a href="buttons-features.html">GUI Guide</a><a href="autonomy-mode.html">Autonomy Mode</a><a href="chat-mode.html">Chat Mode</a><a href="work-mode.html">Work Mode</a><a href="modes-comparison.html">Modes Comparison</a></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p></div>
+        </div>
+    </footer>
+</body>
+</html>

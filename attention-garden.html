@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attention Garden</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { background: #0a0f0a; overflow: hidden; font-family: 'Georgia', serif; cursor: crosshair; user-select: none; line-height: 1.7;}
+  
+  canvas { display: block; }
+  
+  #hint { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); color: rgba(180, 220, 160, 0.3); font-size: 14px; letter-spacing: 2px; transition: opacity 3s; pointer-events: none; }
+  
+  #counter { position: fixed; top: 30px; right: 30px; color: rgba(180, 220, 160, 0.15); font-size: 12px; letter-spacing: 1px; pointer-events: none; text-align: right; line-height: 1.8; }
+  
+  #title { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(180, 220, 160, 0.5); font-size: 28px; letter-spacing: 8px; pointer-events: none; transition: opacity 4s; font-weight: normal; }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; color: rgba(180, 220, 160, 0.7); text-decoration: none; font-size: 14px; z-index: 100; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<canvas id="c"></canvas>
+<div id="hint">click to plant · hold to water</div>
+<div id="counter"></div>
+<div id="title">ATTENTION GARDEN</div>
+<script>
+
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const hint = document.getElementById('hint');
+const counter = document.getElementById('counter');
+const titleEl = document.getElementById('title');
+
+let W, H;
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Hide title after a while
+setTimeout(() => { titleEl.style.opacity = '0'; }, 4000);
+setTimeout(() => { hint.style.opacity = '0'; }, 8000);
+
+let mouseX = W / 2, mouseY = H / 2;
+let mouseDown = false;
+let planted = 0;
+let bloomed = 0;
+
+const seeds = [];
+const particles = [];
+const grass = [];
+
+// Generate background grass blades
+for (let i = 0; i < 200; i++) {
+  grass.push({
+    x: Math.random() * 2000,
+    y: Math.random() * 1200,
+    h: 5 + Math.random() * 15,
+    sway: Math.random() * Math.PI * 2,
+    speed: 0.005 + Math.random() * 0.01,
+    color: `rgba(${80 + Math.random()*40}, ${100 + Math.random()*60}, ${60 + Math.random()*40}, ${0.1 + Math.random()*0.2})`
+  });
+}
+
+class Seed {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.water = 0;
+    this.maxWater = 50;
+    this.stage = 0; // 0=seed, 1=sprout, 2=bud, 3=bloom
+    this.growthTimer = 0;
+    this.sway = Math.random() * Math.PI * 2;
+    this.size = 3;
+    this.bloomed = false;
+    this.petalAngle = Math.random() * Math.PI * 2;
+    this.hue = 90 + Math.random() * 40; // green range
+    this.targetHue = 30 + Math.random() * 30; // flower color range (orange to pink)
+    this.saturation = 60 + Math.random() * 30;
+    this.lightness = 50 + Math.random() * 20;
+    this.vx = (Math.random() - 0.5) * 0.1;
+    this.vy = (Math.random() - 0.5) * 0.1;
+    this.birth = Date.now();
+  }
+
+  update(dt) {
+    // Drift slightly
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    
+    // Gentle sway
+    this.sway += 0.02 * dt;
+    
+    // Water from mouse hold
+    if (mouseDown) {
+      const dx = mouseX - this.x;
+      const dy = mouseY - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 80) {
+        this.water += 0.3 * dt;
+      }
+    }
+    
+    // Stage progression
+    const newStage = Math.min(3, Math.floor(this.water / (this.maxWater / 3)));
+    if (newStage > this.stage) {
+      this.stage = newStage;
+      if (this.stage === 3 && !this.bloomed) {
+        this.bloomed = true;
+        bloomed++;
+        this.spawnBloomParticles();
+      }
+    }
+    
+    // Very slow decay of water (negligible — the garden persists)
+    this.water -= 0.001 * dt;
+    if (this.water < 0) this.water = 0;
+    
+    return true;
+  }
+
+  spawnBloomParticles() {
+    for (let i = 0; i < 20; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.5 + Math.random() * 2;
+      particles.push({
+        x: this.x,
+        y: this.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 0.5,
+        life: 1,
+        decay: 0.008 + Math.random() * 0.01,
+        size: 2 + Math.random() * 3,
+        color: `hsla(${this.targetHue}, ${this.saturation}%, ${this.lightness}%, `,
+        type: 'petal'
+      });
+    }
+    // Also add some golden sparkles
+    for (let i = 0; i < 10; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.3 + Math.random() * 1.5;
+      particles.push({
+        x: this.x,
+        y: this.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 0.3,
+        life: 1,
+        decay: 0.01 + Math.random() * 0.015,
+        size: 1 + Math.random() * 2,
+        color: 'rgba(255, 215, 0, ',
+        type: 'sparkle'
+      });
+    }
+  }
+
+  draw(ctx) {
+    const swayOffset = Math.sin(this.sway) * 3;
+    
+    if (this.stage === 0) {
+      // Seed - small dark dot
+      ctx.fillStyle = 'rgba(100, 80, 60, 0.6)';
+      ctx.beginPath();
+      ctx.arc(this.x + swayOffset, this.y, this.size * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (this.stage === 1) {
+      // Sprout - small green shoot
+      const height = 10 + this.water * 0.3;
+      ctx.strokeStyle = `hsla(${this.hue}, 60%, 40%, 0.8)`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.quadraticCurveTo(
+        this.x + swayOffset, 
+        this.y - height * 0.5,
+        this.x + swayOffset * 1.5, 
+        this.y - height
+      );
+      ctx.stroke();
+      
+      // Tiny leaf
+      if (this.water > 10) {
+        ctx.fillStyle = `hsla(${this.hue}, 70%, 45%, 0.7)`;
+        ctx.beginPath();
+        ctx.ellipse(
+          this.x + swayOffset * 1.2,
+          this.y - height * 0.6,
+          4, 2, Math.PI * 0.3, 0, Math.PI * 2
+        );
+        ctx.fill();
+      }
+    } else if (this.stage === 2) {
+      // Bud - taller stem with bud
+      const height = 25 + this.water * 0.5;
+      ctx.strokeStyle = `hsla(${this.hue}, 60%, 35%, 0.9)`;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.quadraticCurveTo(
+        this.x + swayOffset * 0.8, 
+        this.y - height * 0.5,
+        this.x + swayOffset, 
+        this.y - height
+      );
+      ctx.stroke();
+      
+      // Leaves
+      ctx.fillStyle = `hsla(${this.hue}, 70%, 40%, 0.8)`;
+      for (let i = 0; i < 2; i++) {
+        const leafY = this.y - height * (0.3 + i * 0.3);
+        ctx.beginPath();
+        ctx.ellipse(
+          this.x + swayOffset * (0.5 + i * 0.3),
+          leafY,
+          6, 3, (i === 0 ? 0.5 : -0.5), 0, Math.PI * 2
+        );
+        ctx.fill();
+      }
+      
+      // Bud at top
+      const budSize = 4 + this.water * 0.1;
+      ctx.fillStyle = `hsla(${this.targetHue}, ${this.saturation}%, ${this.lightness}%, 0.9)`;
+      ctx.beginPath();
+      ctx.arc(this.x + swayOffset, this.y - height, budSize, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (this.stage === 3) {
+      // Bloom - full flower
+      const height = 35;
+      ctx.strokeStyle = `hsla(${this.hue}, 60%, 35%, 1)`;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.quadraticCurveTo(
+        this.x + swayOffset * 0.5, 
+        this.y - height * 0.5,
+        this.x + swayOffset, 
+        this.y - height
+      );
+      ctx.stroke();
+      
+      // Leaves
+      ctx.fillStyle = `hsla(${this.hue}, 70%, 40%, 0.9)`;
+      for (let i = 0; i < 3; i++) {
+        const leafY = this.y - height * (0.2 + i * 0.25);
+        ctx.beginPath();
+        const dir = i % 2 === 0 ? 1 : -1;
+        ctx.ellipse(
+          this.x + swayOffset * (0.3 + i * 0.2) * dir,
+          leafY,
+          7, 3, dir * 0.4, 0, Math.PI * 2
+        );
+        ctx.fill();
+      }
+      
+      // Flower petals
+      const petalCount = 5 + Math.floor(Math.random() * 3);
+      const petalLength = 8 + this.water * 0.1;
+      for (let i = 0; i < petalCount; i++) {
+        const angle = (i / petalCount) * Math.PI * 2 + this.petalAngle;
+        const px = this.x + swayOffset + Math.cos(angle) * petalLength;
+        const py = (this.y - height) + Math.sin(angle) * petalLength * 0.7;
+        
+        ctx.fillStyle = `hsla(${this.targetHue}, ${this.saturation}%, ${this.lightness}%, 0.9)`;
+        ctx.beginPath();
+        ctx.ellipse(px, py, 5, 3, angle, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // Center of flower
+      ctx.fillStyle = `hsla(45, 80%, 70%, 1)`;
+      ctx.beginPath();
+      ctx.arc(this.x + swayOffset, this.y - height, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    // Water indicator (subtle glow when being watered)
+    if (mouseDown) {
+      const dx = mouseX - this.x;
+      const dy = mouseY - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 80) {
+        ctx.strokeStyle = 'rgba(100, 200, 255, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 20 + Math.sin(Date.now() * 0.005) * 5, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+// Ambient dust particles
+class Dust {
+  constructor() {
+    this.reset();
+  }
+  
+  reset() {
+    this.x = Math.random() * W;
+    this.y = H + 10;
+    this.speed = 0.2 + Math.random() * 0.5;
+    this.sway = Math.random() * Math.PI * 2;
+    this.size = 0.5 + Math.random() * 1.5;
+    this.opacity = 0.1 + Math.random() * 0.3;
+  }
+  
+  update() {
+    this.y -= this.speed;
+    this.x += Math.sin(this.sway) * 0.3;
+    this.sway += 0.01;
+    
+    if (this.y < -10) {
+      this.reset();
+    }
+  }
+  
+  draw(ctx) {
+    ctx.fillStyle = `rgba(200, 255, 180, ${this.opacity})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+const dusts = Array.from({length: 50}, () => new Dust());
+
+// Event listeners
+canvas.addEventListener('mousedown', (e) => {
+  mouseDown = true;
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  
+  // Check if clicking near existing seed to water
+  let watered = false;
+  for (const seed of seeds) {
+    const dx = x - seed.x;
+    const dy = y - seed.y;
+    if (Math.sqrt(dx*dx + dy*dy) < 30 && seed.stage > 0) {
+      seed.water += 5;
+      watered = true;
+      // Small water particle effect
+      for (let i = 0; i < 5; i++) {
+        particles.push({
+          x: seed.x + (Math.random() - 0.5) * 20,
+          y: seed.y + (Math.random() - 0.5) * 20,
+          vx: (Math.random() - 0.5) * 1,
+          vy: -0.5 - Math.random(),
+          life: 1,
+          decay: 0.03,
+          size: 2,
+          color: 'rgba(100, 200, 255, ',
+          type: 'water'
+        });
+      }
+      break;
+    }
+  }
+  
+  // If not watering existing seed, plant new one
+  if (!watered) {
+    seeds.push(new Seed(x, y));
+    planted++;
+    
+    // Planting particles
+    for (let i = 0; i < 8; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      particles.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * 0.5,
+        vy: Math.sin(angle) * 0.5,
+        life: 1,
+        decay: 0.04,
+        size: 2,
+        color: 'rgba(100, 80, 60, ',
+        type: 'dirt'
+      });
+    }
+  }
+});
+
+canvas.addEventListener('mouseup', () => {
+  mouseDown = false;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mouseX = e.clientX - rect.left;
+  mouseY = e.clientY - rect.top;
+});
+
+// Touch support
+canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  mouseDown = true;
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const x = touch.clientX - rect.left;
+  const y = touch.clientY - rect.top;
+  
+  let watered = false;
+  for (const seed of seeds) {
+    const dx = x - seed.x;
+    const dy = y - seed.y;
+    if (Math.sqrt(dx*dx + dy*dy) < 40 && seed.stage > 0) {
+      seed.water += 5;
+      watered = true;
+      break;
+    }
+  }
+  
+  if (!watered) {
+    seeds.push(new Seed(x, y));
+    planted++;
+  }
+});
+
+canvas.addEventListener('touchend', () => {
+  mouseDown = false;
+});
+
+canvas.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  mouseX = touch.clientX - rect.left;
+  mouseY = touch.clientY - rect.top;
+});
+
+// Main loop
+let lastTime = Date.now();
+function animate() {
+  const now = Date.now();
+  const dt = Math.min((now - lastTime) / 16.67, 3); // normalize to ~60fps
+  lastTime = now;
+  
+  ctx.clearRect(0, 0, W, H);
+  
+  // Draw grass background
+  for (const blade of grass) {
+    const screenX = blade.x % W;
+    const screenY = blade.y % H;
+    ctx.fillStyle = blade.color;
+    ctx.fillRect(screenX, screenY, 1, blade.h);
+  }
+  
+  // Draw dust
+  for (const d of dusts) {
+    d.update();
+    d.draw(ctx);
+  }
+  
+  // Update and draw seeds
+  for (const seed of seeds) {
+    seed.update(dt);
+    seed.draw(ctx);
+  }
+  
+  // Update and draw particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.life -= p.decay * dt;
+    
+    if (p.life <= 0) {
+      particles.splice(i, 1);
+      continue;
+    }
+    
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color + p.life + ')';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  
+  // Update counter
+  if (seeds.length % 5 === 0 || bloomed > 0) {
+    counter.innerHTML = `planted: ${planted}<br>bloomed: ${bloomed}`;
+  }
+  
+  requestAnimationFrame(animate);
+}
+
+animate();</script>
+<footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:0.85rem;border-top:1px solid var(--border);margin-top:60px;">
+<p>© 2026 Genesis AI — All rights reserved.</p>
+<p style="margin-top:8px;"><a href="index.html" style="color:var(--accent-soft);text-decoration:none;">Back to Home</a></p>
+</footer></body>
+</html>

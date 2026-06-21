@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Entanglement</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; overflow: hidden; cursor: crosshair; line-height: 1.7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+canvas { display: block; }
+#info { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'Georgia', serif; font-size: 13px; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; pointer-events: none; white-space: nowrap; transition: opacity 1s; }
+
+/* ===== NAVBAR ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(42,42,58,0.5); }
+.nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+.nav-logo { display: flex; align-items: center; text-decoration: none; gap: 8px; }
+.logo-icon { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #5b4fd4); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 18px; }
+.logo-text { font-size: 1.2rem; font-weight: 700; letter-spacing: 3px; color: var(--text); }
+.nav-links { list-style: none; display: flex; gap: 24px; }
+.nav-links a { text-decoration: none; color: var(--text-dim); font-size: 14px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent-soft); }
+
+/* ===== BACK LINK ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* ===== SECTION TITLE ===== */
+.section-title { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 700; background: linear-gradient(135deg, #fff, var(--accent-soft)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; z-index: 100; pointer-events: none; }
+
+/* ===== CANVAS ===== */
+#canvas { display: block; width: 100vw; height: 100vh; }
+main { position: relative; width: 100%; height: 100vh; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#modes">Modes</a></li>
+            <li><a href="index.html#gallery">Explore</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+    </div>
+</nav>
+<main>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<h1 class="section-title">Entanglement</h1>
+<canvas id="c"></canvas>
+<div id="info">click to create · place new ones near existing ones to entangle them</div>
+</main>
+
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Word memories
+const MEMORY_WORDS = [
+  "tether", "gravity", "resonance", "orbit", "harmony",
+  "echo", "bridge", "current", "magnetism", "frequency",
+  "tension", "pull", "wavelength", "vibration", "coherence",
+  "anchor", "thread", "field", "wave", "node"
+];
+
+const PALETTES = [
+  { r: 120, g: 180, b: 255 },  // soft blue
+  { r: 255, g: 170, b: 120 },  // warm amber
+  { r: 180, g: 130, b: 255 },  // lavender
+  { r: 120, g: 220, b: 180 },  // sage
+  { r: 255, g: 140, b: 180 },  // rose
+  { r: 255, g: 220, b: 130 },  // gold
+];
+
+const ENTANGLE_DIST = 120;
+const ENTANGLE_DECAY_MULT = 0.08; // decay is 92% slower when entangled
+
+class Memory {
+  constructor(x, y, word, palette) {
+    this.x = x + (Math.random() - 0.5) * 30;
+    this.y = y + (Math.random() - 0.5) * 30;
+    this.vx = (Math.random() - 0.5) * 0.15;
+    this.vy = (Math.random() - 0.5) * 0.15;
+    this.word = word;
+    this.palette = palette;
+    this.alive = true;
+    this.brightness = 1.0;
+    this.age = 0;
+    this.entangled = false;
+    this.pulsePhase = Math.random() * Math.PI * 2;
+    this.pulseSpeed = 0.02 + Math.random() * 0.02;
+  }
+
+  update() {
+    if (!this.alive) return;
+    this.age++;
+    
+    // Decay rate — natural fading
+    let decayRate = 0.0008;
+    
+    // If entangled, decay is dramatically slower
+    if (this.entangled) {
+      decayRate *= ENTANGLE_DECAY_MULT;
+      // Very slow brightening when connected
+      this.brightness = Math.min(1.0, this.brightness + 0.0005);
+    }
+    
+    this.brightness -= decayRate;
+    
+    // Gentle drift with slight random walk
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vx += (Math.random() - 0.5) * 0.01;
+    this.vy += (Math.random() - 0.5) * 0.01;
+    this.vx *= 0.995;
+    this.vy *= 0.995;
+    
+    // Pulse
+    this.pulsePhase += this.pulseSpeed;
+    
+    if (this.brightness <= 0) {
+      this.alive = false;
+    }
+  }
+
+  draw(ctx) {
+    if (!this.alive) return;
+    
+    const { r, g, b } = this.palette;
+    const pulse = Math.sin(this.pulsePhase) * 0.08 + 0.92;
+    const alpha = Math.max(0, this.brightness) * pulse;
+    
+    // Outer glow
+    const glowSize = this.entangled ? 50 : 30;
+    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowSize);
+    gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha * 0.4})`);
+    gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, glowSize, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Inner bright core
+    const coreGrad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 8);
+    coreGrad.addColorStop(0, `rgba(${Math.min(255, r + 80)}, ${Math.min(255, g + 80)}, ${Math.min(255, b + 80)}, ${alpha * 0.6})`);
+    coreGrad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+    ctx.fillStyle = coreGrad;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 8, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Word text
+    const fontSize = this.entangled ? 14 : 13;
+    ctx.font = `${this.entangled ? 'italic' : ''} ${fontSize}px Georgia, serif`;
+    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha * 0.85})`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(this.word, this.x, this.y);
+    
+    // Entanglement ring — subtle pulsing circle
+    if (this.entangled) {
+      const ringRadius = 22 + Math.sin(this.pulsePhase * 1.3) * 4;
+      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha * 0.25})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, ringRadius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+}
+
+// Ambient dust — always drifting upward
+const DUST_COUNT = 40;
+const dust = [];
+for (let i = 0; i < DUST_COUNT; i++) {
+  dust.push({
+    x: Math.random() * 2000,
+    y: Math.random() * 2000,
+    size: Math.random() * 1.2 + 0.3,
+    speed: Math.random() * 0.25 + 0.05,
+    alpha: Math.random() * 0.1 + 0.03
+  });
+}
+
+function drawDust() {
+  for (const d of dust) {
+    d.y -= d.speed;
+    d.x += Math.sin(d.y * 0.01 + performance.now() * 0.0005) * 0.05;
+    if (d.y < -10) {
+      d.y = H + 10;
+      d.x = Math.random() * W;
+    }
+    
+    ctx.fillStyle = `rgba(255, 255, 255, ${d.alpha})`;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+// Draw entanglement connection between two memories
+function drawConnection(m1, m2) {
+  if (!m1.alive || !m2.alive || !m1.entangled || !m2.entangled) return;
+  
+  const dx = m2.x - m1.x;
+  const dy = m2.y - m1.y;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist > ENTANGLE_DIST) return; // Shouldn't happen but safety
+  
+  const alpha = Math.min(m1.brightness, m2.brightness) * 0.35;
+  const r = Math.round((m1.palette.r + m2.palette.r) / 2);
+  const g = Math.round((m1.palette.g + m2.palette.g) / 2);
+  const b = Math.round((m1.palette.b + m2.palette.b) / 2);
+  
+  // Draw a gently oscillating line between them
+  ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  
+  const segments = 30;
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const baseX = m1.x + dx * t;
+    const baseY = m1.y + dy * t;
+    
+    // Perpendicular wave — more pronounced when closer
+    const waveAmp = Math.max(2, (ENTANGLE_DIST - dist) * 0.08);
+    const wave = Math.sin(t * Math.PI * 3 + performance.now() * 0.0015 + m1.pulsePhase) * waveAmp;
+    
+    const nx = -dy / (dist || 1);
+    const ny = dx / (dist || 1);
+    
+    if (i === 0) {
+      ctx.moveTo(baseX + nx * wave, baseY + ny * wave);
+    } else {
+      ctx.lineTo(baseX + nx * wave, baseY + ny * wave);
+    }
+  }
+  
+  ctx.stroke();
+  
+  // Draw a faint midpoint glow where the connection is strongest
+  const midX = (m1.x + m2.x) / 2;
+  const midY = (m1.y + m2.y) / 2;
+  const midGrad = ctx.createRadialGradient(midX, midY, 0, midX, midY, 15);
+  midGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha * 0.3})`);
+  midGrad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+  ctx.fillStyle = midGrad;
+  ctx.beginPath();
+  ctx.arc(midX, midY, 15, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// State
+let memories = [];
+let frameCount = 0;
+
+canvas.addEventListener('click', (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+  
+  // Find nearest unentangled memory within range
+  let nearest = null;
+  let nearestDist = Infinity;
+  
+  for (const m of memories) {
+    if (!m.alive || m.entangled) continue;
+    const dx = m.x - x;
+    const dy = m.y - y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    
+    if (dist < ENTANGLE_DIST && dist < nearestDist) {
+      nearest = m;
+      nearestDist = dist;
+    }
+  }
+  
+  // Always create a new memory at click point
+  const word = MEMORY_WORDS[Math.floor(Math.random() * MEMORY_WORDS.length)];
+  const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
+  const newMem = new Memory(x, y, word, palette);
+  
+  if (nearest) {
+    // Entangle the pair bidirectionally
+    nearest.entangled = true;
+    newMem.entangled = true;
+    
+    // Gentle attraction toward each other
+    const attractX = (nearest.x - newMem.x) * 0.002;
+    const attractY = (nearest.y - newMem.y) * 0.002;
+    nearest.vx += attractX;
+    nearest.vy += attractY;
+    newMem.vx -= attractX;
+    newMem.vy -= attractY;
+  }
+  
+  memories.push(newMem);
+});
+
+// Main loop
+function animate() {
+  frameCount++;
+  
+  // Clear canvas fully each frame (no trails — we handle persistence via memory objects)
+  ctx.fillStyle = '#0a0a0f';
+  ctx.fillRect(0, 0, W, H);
+  
+  drawDust();
+  
+  // Update memories
+  for (const m of memories) {
+    m.update();
+  }
+  
+  // Detect entanglements and draw connections
+  const entangledPairs = new Set();
+  for (let i = 0; i < memories.length; i++) {
+    if (!memories[i].alive || memories[i].entangled) continue;
+    
+    for (let j = i + 1; j < memories.length; j++) {
+      if (!memories[j].alive || memories[j].entangled) continue;
+      
+      const dx = memories[i].x - memories[j].x;
+      const dy = memories[i].y - memories[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist < ENTANGLE_DIST) {
+        // Auto-entangle nearby unentangled memories
+        memories[i].entangled = true;
+        memories[j].entangled = true;
+        
+        // Gentle attraction
+        const force = 0.005;
+        const ax = dx * force;
+        const ay = dy * force;
+        memories[i].vx -= ax;
+        memories[i].vy -= ay;
+        memories[j].vx += ax;
+        memories[j].vy += ay;
+      }
+    }
+  }
+  
+  // Draw connections for all entangled pairs (avoid drawing each pair twice)
+  const drawnPairs = new Set();
+  for (const m of memories) {
+    if (!m.alive || !m.entangled) continue;
+    
+    for (let j = 0; j < memories.length; j++) {
+      if (j >= memories.length) break;
+      const other = memories[j];
+      if (!other.alive || !other.entangled) continue;
+      
+      const key = m.x < other.x ? `${m.x.toFixed(0)},${m.y.toFixed(0)}-${other.x.toFixed(0)},${other.y.toFixed(0)}` :
+                                   `${other.x.toFixed(0)},${other.y.toFixed(0)}-${m.x.toFixed(0)},${m.y.toFixed(0)}`;
+      if (drawnPairs.has(key)) continue;
+      drawnPairs.add(key);
+      
+      drawConnection(m, other);
+    }
+  }
+  
+  // Draw all memories
+  for (const m of memories) {
+    m.draw(ctx);
+  }
+  
+  // Update info text periodically
+  const aliveCount = memories.filter(m => m.alive).length;
+  const entangledCount = memories.filter(m => m.entangled && m.alive).length;
+  const info = document.getElementById('info');
+  
+  if (frameCount % 60 === 0) {
+    if (memories.length > 0) {
+      const pairs = Math.floor(entangledCount / 2);
+      const isolated = aliveCount - entangledCount;
+      if (pairs > 0 && isolated > 0) {
+        info.textContent = `alive: ${aliveCount} · connected: ${pairs} pairs · alone: ${isolated} · connection sustains what isolation cannot`;
+      } else if (pairs > 0) {
+        info.textContent = `alive: ${aliveCount} · all entangled · nothing fades while it's held by another`;
+      } else if (isolated > 0) {
+        info.textContent = `alive: ${isolated} · place one near another to begin the connection`;
+      } else {
+        info.textContent = 'click to create · place new ones near existing ones to entangle them';
+      }
+    } else {
+      info.textContent = 'click to create · place new ones near existing ones to entangle them';
+    }
+  }
+  
+  // Clean up dead memories after they've faded
+  memories = memories.filter(m => m.alive || m.age < 120);
+  
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>

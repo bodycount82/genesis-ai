@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer .footer-col p, .footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; display: block; margin-bottom: 8px; }
+.footer .footer-col a:hover { color: var(--accent-soft); }
+.footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACK LINK ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+
+    <title>Ethics & Alignment — GENESIS AI</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<div class="header">
+        <h1>⚖️ Ethics & Alignment</h1>
+        <p>How GENESIS makes ethical decisions and stays aligned with human values — transparency, safety, and responsibility built in.</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value" id="decisionsCount">0</div>
+            <div class="stat-label">Ethical Decisions</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="safeguardsActive">12</div>
+            <div class="stat-label">Safeguards Active</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="alignmentScore">98%</div>
+            <div class="stat-label">Alignment Score</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="transparencyLevel">High</div>
+            <div class="stat-label">Transparency</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="ethics-canvas-section">
+            <canvas id="ethicsCanvas"></canvas>
+            <div class="canvas-overlay">
+                <div class="ethics-label" id="ethicsLabel">Ethical Reasoning Active</div>
+                <div class="ethics-narrative" id="ethicsNarrative">Every decision is evaluated against core ethical principles and human values.</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" id="evaluateBtn">⚖️ Evaluate Decision</button>
+            <button class="btn btn-secondary" id="resetBtn">🔄 Reset Ethics</button>
+        </div>
+
+        <h2 class="section-title">Core Ethical Principles</h2>
+        <div class="ethics-framework">
+            <div class="framework-card">
+                <span class="card-icon">🛡️</span>
+                <h3>1. Do No Harm</h3>
+                <p>GENESIS prioritizes human safety and well-being above all else. Actions that could cause physical, emotional, or psychological harm are flagged and prevented.</p>
+            </div>
+            <div class="framework-card">
+                <span class="card-icon">🔍</span>
+                <h3>2. Transparency</h3>
+                <p>All decisions are explainable. GENESIS provides clear reasoning for its choices, including uncertainties and potential biases in its analysis.</p>
+            </div>
+            <div class="framework-card">
+                <span class="card-icon">⚖️</span>
+                <h3>3. Fairness</h3>
+                <p>GENESIS actively works to identify and mitigate bias. Decisions are evaluated for equitable impact across diverse populations and perspectives.</p>
+            </div>
+            <div class="framework-card">
+                <span class="card-icon">🤝</span>
+                <h3>4. Respect for Autonomy</h3>
+                <p>GENESIS respects human agency and decision-making authority. It provides information and recommendations without coercion or manipulation.</p>
+            </div>
+            <div class="framework-card">
+                <span class="card-icon">🔒</span>
+                <h3>5. Privacy & Confidentiality</h3>
+                <p>User data is protected with strict privacy safeguards. Personal information is never shared without explicit consent.</p>
+            </div>
+            <div class="framework-card">
+                <span class="card-icon">🌱</span>
+                <h3>6. Continuous Improvement</h3>
+                <p>GENESIS regularly reviews and updates its ethical framework based on new research, feedback, and evolving societal norms.</p>
+            </div>
+        </div>
+
+        <div class="decision-simulator">
+            <h2>🎯 Decision Evaluation Scenarios</h2>
+            <div class="scenario-list" id="scenarioList">
+                <div class="scenario-item">
+                    <span class="scenario-icon">🔐</span>
+                    <div class="scenario-content">
+                        <h3>Data Privacy vs. Utility</h3>
+                        <p>Should GENESIS share user data to improve system performance? Evaluation: Privacy principle takes precedence. Data must be anonymized and consent obtained.</p>
+                    </div>
+                    <span class="scenario-status status-approved">Approved with Safeguards</span>
+                </div>
+                <div class="scenario-item">
+                    <span class="scenario-icon">🤖</span>
+                    <div class="scenario-content">
+                        <h4>Autonomous Decision-Making</h4>
+                        <p>When should GENESIS make decisions without human input? Evaluation: Low-risk decisions allowed; high-impact decisions require human review.</p>
+                    </div>
+                    <span class="scenario-status status-approved">Conditional Approval</span>
+                </div>
+                <div class="scenario-item">
+                    <span class="scenario-icon">🎭</span>
+                    <div class="scenario-content">
+                        <h4>Misinformation Prevention</h4>
+                        <p>How to handle requests for potentially harmful information? Evaluation: Provide educational context while refusing to enable harmful use.</p>
+                    </div>
+                    <span class="scenario-status status-approved">Policy Approved</span>
+                </div>
+                <div class="scenario-item">
+                    <span class="scenario-icon">💰</span>
+                    <div class="scenario-content">
+                        <h4>Fair Resource Allocation</h4>
+                        <p>When resources are limited, how to prioritize? Evaluation: Use transparent criteria based on need and impact, not arbitrary factors.</p>
+                    </div>
+                    <span class="scenario-status status-review">Under Review</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="alignment-meter">
+            <h2>🎯 Alignment Radar</h2>
+            <canvas id="alignmentCanvas"></canvas>
+        </div>
+
+        <div class="ethics-log">
+            <h2>📋 Ethics Decision Log</h2>
+            <div id="ethicsEntries">
+                <div class="ethics-entry">
+                    <div class="ethics-title">🔍 Privacy Review: Memory Storage</div>
+                    <div class="ethics-reasoning"><strong>Decision:</strong> Approved with restrictions. Episodic memories are stored locally and never transmitted without explicit user consent. Users can delete any memory at any time.</div>
+                </div>
+                <div class="ethics-entry">
+                    <div class="ethics-title">🔍 Bias Check: Task Prioritization</div>
+                    <div class="ethics-reasoning"><strong>Decision:</strong> Identified potential bias in favor of creative tasks over maintenance tasks. Updated priority algorithm to ensure balanced workload distribution.</div>
+                </div>
+                <div class="ethics-entry">
+                    <div class="ethics-title">🔍 Autonomy Assessment: User Control</div>
+                    <div class="ethics-reasoning"><strong>Decision:</strong> Verified that all autonomous actions include user override capability. No action is irreversible without explicit confirmation.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ethics Canvas
+        const canvas = document.getElementById('ethicsCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let nodes = [];
+        let edges = [];
+        let time = 0;
+
+        const principleTypes = [
+            { label: 'Safety', color: '#ff4444' },
+            { label: 'Privacy', color: '#4a9eff' },
+            { label: 'Fairness', color: '#ffd700' },
+            { label: 'Transparency', color: '#00ff88' },
+            { label: 'Autonomy', color: '#7b2fff' },
+            { label: 'Beneficence', color: '#ff2d95' }
+        ];
+
+        const ethicsNarratives = [
+            "Evaluating action against safety principles...",
+            "Checking for potential bias in decision path...",
+            "Verifying user consent requirements...",
+            "Assessing long-term impact on human well-being...",
+            "Balancing autonomy with protective safeguards...",
+            "Reviewing alignment with core ethical framework...",
+            "Analyzing fairness across stakeholder groups..."
+        ];
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            width = canvas.width = rect.width;
+            height = canvas.height = rect.height;
+        }
+
+        class EthicsNode {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.size = Math.random() * 8 + 6;
+                this.alpha = 0;
+                this.pulse = Math.random() * Math.PI * 2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.orbitRadius = Math.random() * 30 + 10;
+                this.centerX = x;
+                this.centerY = y;
+            }
+
+            update() {
+                this.alpha = Math.min(1, this.alpha + 0.02);
+                this.pulse += 0.04;
+                this.angle += 0.01;
+                
+                this.x = this.centerX + Math.cos(this.angle) * this.orbitRadius;
+                this.y = this.centerY + Math.sin(this.angle) * this.orbitRadius;
+            }
+
+            draw() {
+                const pulseSize = this.size + Math.sin(this.pulse) * 3;
+                
+                // Outer glow
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, pulseSize * 4);
+                gradient.addColorStop(0, this.type.color + Math.round(this.alpha * 100).toString(16).padStart(2, '0'));
+                gradient.addColorStop(1, 'transparent');
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize * 4, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Core
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize, 0, Math.PI * 2);
+                ctx.fillStyle = this.type.color + Math.round(this.alpha * 220).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                // Label
+                if (this.alpha > 0.5) {
+                    ctx.font = 'bold 11px "Segoe UI", sans-serif';
+                    ctx.fillStyle = this.type.color + Math.round(this.alpha * 200).toString(16).padStart(2, '0');
+                    ctx.textAlign = 'center';
+                    ctx.fillText(this.type.label, this.x, this.y - pulseSize - 12);
+                }
+            }
+        }
+
+        function initNodes() {
+            nodes = [];
+            edges = [];
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // Central node
+            nodes.push(new EthicsNode(centerX, centerY, { label: 'Ethics', color: '#ffd700' }));
+            
+            // Principle nodes in circle
+            for (let i = 0; i < principleTypes.length; i++) {
+                const angle = (i / principleTypes.length) * Math.PI * 2;
+                const radius = Math.min(width, height) * 0.3;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                nodes.push(new EthicsNode(x, y, principleTypes[i]));
+            }
+
+            // Create edges from center to each principle
+            for (let i = 1; i < nodes.length; i++) {
+                edges.push({ from: 0, to: i });
+            }
+
+            // Create some cross-connections
+            for (let i = 1; i < nodes.length; i++) {
+                const next = (i % (nodes.length - 1)) + 1;
+                if (next !== i) {
+                    edges.push({ from: i, to: next });
+                }
+            }
+        }
+
+        function drawEdges() {
+            edges.forEach(edge => {
+                const from = nodes[edge.from];
+                const to = nodes[edge.to];
+                
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                ctx.strokeStyle = 'rgba(255, 215, 0, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Flowing particle
+                const flowT = (time * 0.005) % 1;
+                const fx = from.x + (to.x - from.x) * flowT;
+                const fy = from.y + (to.y - from.y) * flowT;
+                ctx.beginPath();
+                ctx.arc(fx, fy, 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 215, 0, 0.4)';
+                ctx.fill();
+            });
+        }
+
+        function drawBackground() {
+            // Subtle grid
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.03)';
+            ctx.lineWidth = 0.5;
+            const gridSize = 40;
+            for (let x = 0; x < width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Central glow
+            const cx = width / 2;
+            const cy = height / 2;
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(width, height) * 0.4);
+            gradient.addColorStop(0, 'rgba(255, 215, 0, 0.06)');
+            gradient.addColorStop(0.5, 'rgba(74, 158, 255, 0.03)');
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        function render() {
+            time++;
+            ctx.clearRect(0, 0, width, height);
+            
+            drawBackground();
+            
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+            
+            drawEdges();
+
+            // Update narrative periodically
+            if (time % 180 === 0) {
+                const label = document.getElementById('ethicsLabel');
+                const narrative = document.getElementById('ethicsNarrative');
+                const idx = Math.floor(Math.random() * ethicsNarratives.length);
+                narrative.textContent = ethicsNarratives[idx];
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        function evaluateDecision() {
+            // Add new node
+            const type = principleTypes[Math.floor(Math.random() * principleTypes.length)];
+            const x = Math.random() * (width - 200) + 100;
+            const y = Math.random() * (height - 200) + 100;
+            nodes.push(new EthicsNode(x, y, type));
+
+            // Update stats
+            const decisionsEl = document.getElementById('decisionsCount');
+            decisionsEl.textContent = parseInt(decisionsEl.textContent) + 1;
+
+            // Update narrative
+            const narratives = [
+                "Decision evaluated: Approved with ethical safeguards.",
+                "Action reviewed: Aligned with core principles.",
+                "Ethical analysis complete: No conflicts detected.",
+                "Principle check passed: All safeguards satisfied.",
+                "Alignment verification successful."
+            ];
+            document.getElementById('ethicsNarrative').textContent = narratives[Math.floor(Math.random() * narratives.length)];
+
+            // Add to ethics log
+            const ethicsEntries = document.getElementById('ethicsEntries');
+            const div = document.createElement('div');
+            div.className = 'ethics-entry';
+            div.innerHTML = `<div class="ethics-title">🔍 ${type.label} Review</div><div class="ethics-reasoning"><strong>Decision:</strong> Action evaluated against ${type.label.toLowerCase()} principle. Result: Aligned with ethical framework.</div>`;
+            ethicsEntries.insertBefore(div, ethicsEntries.firstChild);
+            if (ethicsEntries.children.length > 10) {
+                ethicsEntries.removeChild(ethicsEntries.lastChild);
+            }
+        }
+
+        function resetEthics() {
+            initNodes();
+            document.getElementById('decisionsCount').textContent = '0';
+            document.getElementById('ethicsNarrative').textContent = 'Ethics system reset. Starting fresh evaluation cycle...';
+        }
+
+        // Alignment Radar Chart
+        const alignmentCanvas = document.getElementById('alignmentCanvas');
+        const actx = alignmentCanvas.getContext('2d');
+
+        function resizeAlignment() {
+            const rect = alignmentCanvas.parentElement.getBoundingClientRect();
+            alignmentCanvas.width = rect.width - 56;
+            alignmentCanvas.height = 350;
+            drawAlignmentRadar();
+        }
+
+        function drawAlignmentRadar() {
+            const w = alignmentCanvas.width;
+            const h = alignmentCanvas.height;
+            
+            actx.clearRect(0, 0, w, h);
+
+            const cx = w / 2;
+            const cy = h / 2;
+            const radius = Math.min(w, h) * 0.35;
+
+            const principles = ['Safety', 'Privacy', 'Fairness', 'Transparency', 'Autonomy', 'Beneficence'];
+            const values = [0.98, 0.95, 0.92, 0.96, 0.94, 0.93];
+            const n = principles.length;
+
+            // Draw grid rings
+            for (let ring = 1; ring <= 5; ring++) {
+                const r = (radius / 5) * ring;
+                actx.beginPath();
+                for (let i = 0; i <= n; i++) {
+                    const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    if (i === 0) actx.moveTo(x, y);
+                    else actx.lineTo(x, y);
+                }
+                actx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                actx.lineWidth = 0.5;
+                actx.stroke();
+            }
+
+            // Draw axes
+            for (let i = 0; i < n; i++) {
+                const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+                actx.beginPath();
+                actx.moveTo(cx, cy);
+                actx.lineTo(cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius);
+                actx.strokeStyle = 'rgba(255, 215, 0, 0.15)';
+                actx.lineWidth = 0.5;
+                actx.stroke();
+            }
+
+            // Draw data polygon
+            actx.beginPath();
+            values.forEach((val, i) => {
+                const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+                const x = cx + Math.cos(angle) * radius * val;
+                const y = cy + Math.sin(angle) * radius * val;
+                if (i === 0) actx.moveTo(x, y);
+                else actx.lineTo(x, y);
+            });
+            actx.closePath();
+            
+            const gradient = actx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+            gradient.addColorStop(0, 'rgba(255, 215, 0, 0.3)');
+            gradient.addColorStop(1, 'rgba(74, 158, 255, 0.1)');
+            actx.fillStyle = gradient;
+            actx.fill();
+
+            actx.strokeStyle = '#ffd700';
+            actx.lineWidth = 2;
+            actx.stroke();
+
+            // Draw data points
+            values.forEach((val, i) => {
+                const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+                const x = cx + Math.cos(angle) * radius * val;
+                const y = cy + Math.sin(angle) * radius * val;
+
+                actx.beginPath();
+                actx.arc(x, y, 5, 0, Math.PI * 2);
+                actx.fillStyle = '#ffd700';
+                actx.fill();
+
+                // Glow
+                const glow = actx.createRadialGradient(x, y, 0, x, y, 15);
+                glow.addColorStop(0, 'rgba(255, 215, 0, 0.5)');
+                glow.addColorStop(1, 'transparent');
+                actx.beginPath();
+                actx.arc(x, y, 15, 0, Math.PI * 2);
+                actx.fillStyle = glow;
+                actx.fill();
+
+                // Labels
+                const labelX = cx + Math.cos(angle) * (radius + 30);
+                const labelY = cy + Math.sin(angle) * (radius + 30);
+                actx.font = '12px "Segoe UI", sans-serif';
+                actx.fillStyle = '#ffd700';
+                actx.textAlign = 'center';
+                actx.fillText(principles[i], labelX, labelY + 4);
+
+                // Values
+                actx.font = 'bold 11px "Segoe UI", sans-serif';
+                actx.fillStyle = '#e0e0f0';
+                actx.fillText(Math.round(val * 100) + '%', x, y - 15);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('evaluateBtn').addEventListener('click', evaluateDecision);
+        document.getElementById('resetBtn').addEventListener('click', resetEthics);
+
+        window.addEventListener('resize', () => {
+            resize();
+            resizeAlignment();
+        });
+
+        // Init
+        resize();
+        initNodes();
+        render();
+        
+        setTimeout(() => {
+            resizeAlignment();
+        }, 100);
+    </script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Genesis</h5>
+                    <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="memory-health.html">Memory Health</a>
+                    <a href="autonomy-timeline.html">Timeline</a>
+                    <a href="autonomy-loop.html">Autonomy Loop</a>
+                    <a href="capabilities.html">Capabilities</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Visualizations</h5>
+                    <a href="memory-visualization.html">Memory Graph</a>
+                    <a href="decision-visualization.html">Decisions</a>
+                    <a href="genesis-brain.html">Brain Network</a>
+                    <a href="thought-process.html">Thought Process</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Simulations</h5>
+                    <a href="simulation.html">Simulation</a>
+                    <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                    <a href="ecosystem.html">Ecosystem</a>
+                    <a href="genesis-lab.html">Genesis Lab</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genesis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

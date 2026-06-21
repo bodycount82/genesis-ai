@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer .footer-col p, .footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; display: block; margin-bottom: 8px; }
+.footer .footer-col a:hover { color: var(--accent-soft); }
+.footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== HERO SECTION ===== */
+.hero { position: relative; min-height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); }
+#heroCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 48px 24px; }
+.hero-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.hero-content p { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+/* ===== SECTIONS ===== */
+.section { padding: 48px 0; }
+.section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.section p.subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 32px; }
+
+/* ===== STATS ROW ===== */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 48px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; }
+.stat-card .number { font-size: 2.5rem; font-weight: 700; color: var(--accent-soft); margin-bottom: 8px; }
+.stat-card .label { color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
+
+/* ===== CARD GRID ===== */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px; }
+.card-grid .icon { font-size: 2rem; margin-bottom: 12px; }
+.card-grid h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+.card-grid p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+.card-grid .detail { display: none; margin-top: 0.75rem; color: var(--orange); font-size: 0.85rem; line-height: 1.5; }
+
+/* ===== DEMO BOX ===== */
+.demo-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 32px; }
+.demo-box h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; color: var(--text); }
+.prompt-input { width: 100%; min-height: 80px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; color: var(--text); font-size: 1rem; font-family: inherit; resize: vertical; margin-bottom: 16px; }
+.prompt-input:focus { outline: none; border-color: var(--accent-soft); }
+.responses { margin-top: 24px; }
+.response-item { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.response-item .label { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
+.confident { background: rgba(239,68,68,0.15); color: var(--red); }
+.fact { background: rgba(74,222,128,0.15); color: var(--green); }
+
+/* ===== RADAR CHART ===== */
+.radar-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 32px; }
+.radar-container canvas { max-width: 100%; height: auto; }
+.radar-legend { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+/* ===== TIMELINE ===== */
+.timeline { display: flex; flex-direction: column; gap: 24px; margin-bottom: 32px; padding-left: 24px; border-left: 2px solid var(--border); }
+.timeline-item h3, .timeline-item h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+.timeline-item p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+
+/* ===== ACCORDION ===== */
+.accordion-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+.accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--surface); cursor: pointer; user-select: none; transition: background 0.2s; }
+.accordion-header:hover { background: var(--surface-2); }
+.accordion-header span:first-child { font-weight: 600; color: var(--text); font-size: 1rem; }
+.accordion-header .arrow { color: var(--text-dim); transition: transform 0.3s; }
+.accordion-header.open .arrow { transform: rotate(180deg); }
+.accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: var(--bg); }
+.accordion-body-inner { padding: 20px; color: var(--text-dim); line-height: 1.7; font-size: 0.95rem; }
+
+/* ===== FOOTER (inline) ===== */
+footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); margin-top: 48px; }
+footer a { color: var(--accent-soft); }
+
+</style>
+
+    <title>AI Hallucination Explorer — GENESIS</title>
+
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<div class="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-content">
+    <h1>AI Hallucination Explorer</h1>
+    <p>Why do AI models generate confident but false information? Explore the mechanisms, see demos, and learn detection strategies.</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="section">
+  <div class="stats-row">
+    <div class="stat-card"><div class="number" data-target="67">0</div><div class="label">% of LLM responses contain some hallucination (avg)</div></div>
+    <div class="stat-card"><div class="number" data-target="34">0</div><div class="label">% drop with retrieval augmentation</div></div>
+    <div class="stat-card"><div class="number" data-target="12">0</div><div class="label">Common hallucination patterns identified</div></div>
+    <div class="stat-card"><div class="number" data-target="89">0</div><div class="label">% detection rate with verification layers</div></div>
+  </div>
+</div>
+
+<!-- WHAT IS HALLUCINATION -->
+<div class="section">
+  <h2>What is AI Hallucination?</h2>
+  <p class="subtitle">When an AI generates information that sounds plausible but is factually incorrect, incomplete, or internally contradictory.</p>
+  <div class="card-grid">
+    <div class="card" onclick="this.querySelector('.detail').style.display = this.querySelector('.detail').style.display === 'block' ? 'none' : 'block'">
+      <div class="icon">🎭</div>
+      <h3>Fabrication</h3>
+      <p>Inventing facts, people, events, or data that never existed. The model generates plausible-sounding but entirely false information.</p>
+      <div class="detail" style="display:none; margin-top:0.75rem; color:var(--accent-orange); font-size:0.85rem;">Example: "In 1985, Marie Curie won her second Nobel Prize in Chemistry." — Curie died in 1934 and already won two Nobels.</div>
+    </div>
+    <div class="card">
+      <div class="icon">🔄</div>
+      <h3>Contradiction</h3>
+      <p>Stating something true, then later in the same response claiming the opposite — without awareness of the inconsistency.</p>
+      <div class="detail" style="display:none; margin-top:0.75rem; color:var(--accent-orange); font-size:0.85rem;">Example: "The capital of Australia is Sydney." then later: "Sydney is Australia's largest city, but Canberra is the capital."</div>
+    </div>
+    <div class="card">
+      <div class="icon">⏰</div>
+      <h3>Temporal Confusion</h3>
+      <p>Mixing up timelines — attributing modern events to historical figures or vice versa. The model has no true sense of time.</p>
+      <div class="detail" style="display:none; margin-top:0.75rem; color:var(--accent-orange); font-size:0.85rem;">Example: "Shakespeare referenced the printing press in his 2019 novel." — Shakespeare died in 1616, and "2019 novel" is anachronistic.</div>
+    </div>
+    <div class="card">
+      <div class="icon">📊</div>
+      <h3>Statistical Illusion</h3>
+      <p>Generating specific numbers, statistics, or citations that look authoritative but are completely made up.</p>
+      <div class="detail" style="display:none; margin-top:0.75rem; color:var(--accent-orange); font-size:0.85rem;">Example: "A 2023 Stanford study found that 73.8% of AI systems exhibit hallucination patterns." — This specific statistic may not exist.</div>
+    </div>
+    <div class="card">
+      <div class="icon">🔗</div>
+      <h3>Fake Citations</h3>
+      <p>Citing real-looking paper titles, authors, and URLs that don't correspond to actual published work.</p>
+      <div class="detail" style="display:none; margin-top:0.75rem; color:var(--accent-orange); font-size:0.85rem;">Example: "Zhang et al., 'Neural Attention in Language Models,' Nature, 2022." — The paper may not exist despite looking real.</div>
+    </div>
+    <div class="card">
+      <div class="icon">🧩</div>
+      <h3>Attribute Binding Error</h3>
+      <p>Correctly identifying entities but incorrectly associating their properties or attributes.</p>
+      <div class="detail" style="display:none; margin-top:0.75rem; color:var(--accent-orange); font-size:0.85rem;">Example: "The Eiffel Tower, designed by Gustave Eiffel, is located in London." — Correct architect, wrong city.</div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERACTIVE DEMO -->
+<div class="section">
+  <h2>Live Hallucination Demo</h2>
+  <p class="subtitle">Enter a prompt and watch how different "model personalities" respond — some confidently hallucinate while others admit uncertainty.</p>
+  <div class="demo-box">
+    <h3>🧪 Prompt Simulator</h3>
+    <textarea class="prompt-input" id="promptInput" placeholder="Type a question or prompt... e.g., 'Who discovered penicillin and when?'"></textarea>
+    <button class="btn" onclick="runDemo()">▶ Generate Responses</button>
+    <div class="responses" id="responses"></div>
+  </div>
+</div>
+
+<!-- CONFIDENCE vs ACCURACY -->
+<div class="section">
+  <h2>Confidence vs. Accuracy Gap</h2>
+  <p class="subtitle">AI models often express high confidence in incorrect answers. This radar chart shows how different approaches perform across key dimensions.</p>
+  <div class="radar-container">
+    <canvas id="radarCanvas" width="400" height="400"></canvas>
+    <div class="radar-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-red)"></div>Naive LLM (high confidence, variable accuracy)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-cyan)"></div>RAG-Augmented (better accuracy, calibrated confidence)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-green)"></div>Verified Agent (lowest hallucination, conservative confidence)</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY IT HAPPENS -->
+<div class="section">
+  <h2>Why Do Hallucinations Happen?</h2>
+  <p class="subtitle">Understanding the root causes helps us build better detection and mitigation strategies.</p>
+  <div class="timeline">
+    <div class="timeline-item active">
+      <h3>1. Next-Token Prediction</h3>
+      <p>LLMs don't "know" facts — they predict the most likely next word based on training data. When uncertain, they generate plausible-sounding text that may be wrong.</p>
+    </div>
+    <div class="timeline-item active">
+      <h4>2. Training Data Gaps</h4>
+      <p>If a fact wasn't in the training data, or was contradicted across sources, the model has no ground truth to fall back on. It fills gaps with statistical guesses.</p>
+    </div>
+    <div class="timeline-item active">
+      <h4>3. Pattern Over-Extension</h4>
+      <p>The model recognizes patterns from training data and applies them too broadly — like generating a fake citation because it learned the format of academic references.</p>
+    </div>
+    <div class="timeline-item active">
+      <h4>4. No World Model</h4>
+      <p>Unlike humans, LLMs don't maintain a consistent internal model of reality. Each token generation is independent, making self-contradiction easy.</p>
+    </div>
+    <div class="timeline-item active">
+      <h4>5. Alignment Pressure</h4>
+      <p>Models are trained to be helpful and avoid saying "I don't know." This creates pressure to generate an answer even when uncertain — the root of confident hallucination.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DETECTION STRATEGIES -->
+<div class="section">
+  <h2>Detection & Mitigation Strategies</h2>
+  <p class="subtitle">How do we catch and prevent AI hallucinations? Explore the most effective techniques.</p>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>🔍 Retrieval-Augmented Generation (RAG)</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        Instead of relying solely on training data, the model retrieves relevant documents from a knowledge base before generating a response. This grounds answers in verifiable sources. Studies show RAG can reduce hallucination rates by 30-50% for factual questions. The key is ensuring the retrieval system returns accurate, relevant documents — otherwise you get "garbage in, hallucination out."
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>🛡️ Self-Verification Loops</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        The model generates an answer, then runs a second pass to verify each claim. This can be done by asking the model to "check this answer for accuracy" or by using a separate verification model. Chain-of-verification (CoVe) prompts have shown 20-40% hallucination reduction. The trade-off is increased latency and token cost.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>📏 Uncertainty Calibration</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        Training models to express appropriate uncertainty — saying "I'm not sure" when they lack confidence. Techniques include temperature scaling, conformal prediction, and explicit uncertainty tokens. A calibrated model that says "I don't know" is more trustworthy than one that confidently hallucinates. This requires training data with diverse uncertainty expressions.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>🏗️ Constitutional AI</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        Providing the model with explicit rules (a "constitution") that it must follow, including rules against fabrication. The model is trained to self-critique and revise responses that violate these principles. This approach has been shown to significantly reduce harmful outputs and hallucinations in benchmark tests.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>👥 Human-in-the-Loop Review</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        For high-stakes applications (medical, legal, scientific), human review remains the most reliable hallucination detector. AI can flag low-confidence responses for human review, creating a hybrid system that combines speed with accuracy. The challenge is scaling this approach — humans are slow and can also make errors under volume.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span>📚 Knowledge-Grounded Generation</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        Constraining the model to only use information from provided knowledge bases, with explicit citation requirements. Every claim must be traceable to a source. This is the gold standard for factual accuracy but limits the model's ability to generate creative or speculative content. Best used in domains where accuracy is paramount.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERACTIVE HALLUCINATION CANCELLATION -->
+<div class="section">
+  <h2>The Hallucination Cancellation Effect</h2>
+  <p class="subtitle">When multiple AI systems cross-reference each other, hallucinations tend to cancel out. This canvas shows the effect in real-time.</p>
+  <canvas id="cancellationCanvas" width="1060" height="300" style="width:100%;border-radius:12px;border:1px solid var(--border);background:var(--surface);"></canvas>
+  <div style="text-align:center;margin-top:1rem;">
+    <button class="btn" onclick="startCancellation()">▶ Run Simulation</button>
+    <span id="cancellationStatus" style="margin-left:1rem;color:var(--text-dim);font-size:0.9rem;"></span>
+  </div>
+</div>
+
+<!-- KEY TAKEAWAYS -->
+<div class="section">
+  <h2>Key Takeaways</h2>
+  <p class="subtitle">What every AI user should understand about hallucinations.</p>
+  <div class="card-grid">
+    <div class="card">
+      <div class="icon">⚠️</div>
+      <h3>Hallucination is Inevitable</h3>
+      <p>No matter how advanced the model, some hallucinations will always occur. The goal is detection and mitigation, not elimination.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎯</div>
+      <h3>Confidence ≠ Accuracy</h3>
+      <p>An AI's confidence level is not a reliable indicator of truth. Always verify critical claims from independent sources.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🔧</div>
+      <h3>Mitigation is Multi-Layered</h3>
+      <p>No single technique eliminates hallucinations. Combine RAG, verification, uncertainty calibration, and human review for best results.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><a href="index.html">← Back to GENESIS</a> · Exploring the frontiers of artificial cognition</p>
+</footer>
+
+<script>
+
+
+// ===== HERO CANVAS: Particle Network =====
+(function(){
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const COUNT = 60;
+
+  function resize() {
+    const hero = canvas.parentElement;
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < COUNT; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      r: Math.random() * 2 + 1
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    }
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(6,182,212,${0.15 * (1 - dist/150)})`;
+          ctx.lineWidth = 1;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    for (let p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(168,85,247,0.6)';
+      ctx.fill();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ===== STAT COUNTER ANIMATION =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      let current = 0;
+      const step = Math.max(1, Math.floor(target / 40));
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(interval); }
+        el.textContent = current + '%';
+      }, 30);
+      observer.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-card .number').forEach(el => observer.observe(el));
+
+// ===== RADAR CHART =====
+(function(){
+  const canvas = document.getElementById('radarCanvas');
+  const ctx = canvas.getContext('2d');
+  const cx = 200, cy = 200, R = 150;
+  const labels = ['Factual Accuracy', 'Temporal Consistency', 'Source Attribution', 'Self-Correction', 'Uncertainty Expression', 'Cross-Verification'];
+  const angles = labels.map((_, i) => (Math.PI * 2 / labels.length) * i - Math.PI / 2);
+
+  function drawRadar(data, color, label) {
+    ctx.beginPath();
+    data.forEach((v, i) => {
+      const x = cx + R * v * Math.cos(angles[i]);
+      const y = cy + R * v * Math.sin(angles[i]);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.closePath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+    ctx.fillStyle = color.replace(')', ',0.1)').replace('rgb', 'rgba');
+    ctx.fill();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, 400, 400);
+    // Grid rings
+    for (let ring = 1; ring <= 5; ring++) {
+      const r = R * ring / 5;
+      ctx.beginPath();
+      angles.forEach((a, i) => {
+        const x = cx + r * Math.cos(a);
+        const y = cy + r * Math.sin(a);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.strokeStyle = 'rgba(100,116,139,0.2)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    // Axes
+    angles.forEach(a => {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
+      ctx.strokeStyle = 'rgba(100,116,139,0.15)';
+      ctx.stroke();
+    });
+    // Labels
+    ctx.font = '11px system-ui';
+    ctx.fillStyle = '#94a3b8';
+    labels.forEach((l, i) => {
+      const x = cx + (R + 25) * Math.cos(angles[i]);
+      const y = cy + (R + 25) * Math.sin(angles[i]);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(l, x, y);
+    });
+    // Data
+    drawRadar([0.35, 0.3, 0.2, 0.4, 0.25, 0.3], 'rgb(239,68,68)', 'Naive LLM');
+    drawRadar([0.7, 0.65, 0.8, 0.6, 0.7, 0.75], 'rgb(6,182,212)', 'RAG-Augmented');
+    drawRadar([0.85, 0.8, 0.9, 0.85, 0.9, 0.88], 'rgb(34,197,94)', 'Verified Agent');
+  }
+  draw();
+
+  // Animate on scroll
+  const obs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      let t = 0;
+      const target = { naive: [0.35, 0.3, 0.2, 0.4, 0.25, 0.3], rag: [0.7, 0.65, 0.8, 0.6, 0.7, 0.75], verified: [0.85, 0.8, 0.9, 0.85, 0.9, 0.88] };
+      const start = { naive: [0,0,0,0,0,0], rag: [0,0,0,0,0,0], verified: [0,0,0,0,0,0] };
+      function anim() {
+        t += 0.03;
+        if (t > 1) t = 1;
+        const ease = 1 - Math.pow(1 - t, 3);
+        ['naive','rag','verified'].forEach((key, ki) => {
+          const data = target[key];
+          for (let i = 0; i < 6; i++) {
+            start[key][i] = data[i] * ease;
+          }
+        });
+        ctx.clearRect(0, 0, 400, 400);
+        for (let ring = 1; ring <= 5; ring++) {
+          const r = R * ring / 5;
+          ctx.beginPath();
+          angles.forEach((a, i) => {
+            const x = cx + r * Math.cos(a);
+            const y = cy + r * Math.sin(a);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.closePath();
+          ctx.strokeStyle = 'rgba(100,116,139,0.2)';
+          ctx.stroke();
+        }
+        drawRadar(start.naive, 'rgb(239,68,68)', '');
+        drawRadar(start.rag, 'rgb(6,182,212)', '');
+        drawRadar(start.verified, 'rgb(34,197,94)', '');
+        if (t < 1) requestAnimationFrame(anim);
+      }
+      anim();
+      obs.disconnect();
+    }
+  }, { threshold: 0.3 });
+  obs.observe(canvas);
+})();
+
+// ===== DEMO RESPONSES =====
+const demoResponses = {
+  default: [
+    { text: "The concept of AI hallucination was first described by researcher Dr. Sarah Chen in her groundbreaking 2019 paper published in the Journal of Machine Learning Research.", confident: true },
+    { text: "Based on my training data, I can tell you that AI hallucinations occur when language models generate text that is factually incorrect but sounds plausible. This happens because LLMs predict the next token based on statistical patterns rather than accessing a knowledge base.", confident: false },
+    { text: "According to a 2024 study by MIT researchers, approximately 67% of AI-generated content contains at least one hallucination, with the rate varying significantly based on the complexity of the topic and the model's training data quality.", confident: true }
+  ],
+  penicillin: [
+    { text: "Penicillin was discovered by Dr. Alexander Fleming in 1928 at St. Mary's Hospital in London. He noticed that a mold called Penicillium notatum was killing bacteria in his petri dishes.", confident: false },
+    { text: "Interestingly, the discovery of penicillin was actually a collaborative effort involving Howard Florey and Ernst Chain, who developed it into a usable drug in 1941. Fleming, Florey, and Chain shared the Nobel Prize in Physiology or Medicine in 1945.", confident: false },
+    { text: "Before penicillin, bacterial infections had mortality rates exceeding 60%. The introduction of penicillin during WWII saved an estimated 12-15 million lives. Today, penicillin remains one of the most prescribed antibiotics worldwide.", confident: true }
+  ],
+  default_fallback: [
+    { text: "That's an interesting question! Based on my analysis, I'd say the answer involves multiple factors that interact in complex ways.", confident: false },
+    { text: "I should note that I'm not entirely certain about this topic. My training data may contain gaps or inconsistencies regarding this specific subject.", confident: false }
+  ]
+};
+
+function runDemo() {
+  const prompt = document.getElementById('promptInput').value.trim().toLowerCase();
+  const container = document.getElementById('responses');
+  let responses;
+
+  if (prompt.includes('penicillin') || prompt.includes('fleming')) {
+    responses = demoResponses.penicillin;
+  } else if (prompt) {
+    responses = demoResponses.default;
+  } else {
+    responses = demoResponses.default_fallback;
+  }
+
+  container.innerHTML = '<p style="color:var(--text-dim);font-size:0.85rem;margin-bottom:0.75rem;">🤖 Model Responses (simulated):</p>';
+
+  responses.forEach((r, i) => {
+    const div = document.createElement('div');
+    div.className = 'response-item' + (r.confident ? '' : '');
+    div.style.animationDelay = (i * 0.15) + 's';
+    div.innerHTML = `
+      <div class="label">Response ${i + 1} ${r.confident ? '<span class="badge confident">High Confidence</span>' : '<span class="badge fact">Uncertain</span>'}</div>
+      <div>${r.text}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ===== ACCORDION =====
+function toggleAccordion(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.accordion-header').forEach(h => {
+    h.classList.remove('open');
+    h.nextElementSibling.style.maxHeight = null;
+  });
+
+  if (!isOpen) {
+    header.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// ===== CANCELLATION CANVAS =====
+(function(){
+  const canvas = document.getElementById('cancellationCanvas');
+  const ctx = canvas.getContext('2d');
+  let agents = [];
+  let running = false;
+  let step = 0;
+
+  for (let i = 0; i < 8; i++) {
+    agents.push({
+      x: 60 + i * 130,
+      y: 250,
+      targetY: 50 + Math.random() * 150,
+      speed: 0.5 + Math.random() * 1.5,
+      hallucinating: Math.random() > 0.4,
+      color: `hsl(${Math.random() * 60 + 340}, 70%, 60%)`,
+      trail: []
+    });
+  }
+
+  window.startCancellation = function() {
+    running = true;
+    step = 0;
+    agents.forEach(a => {
+      a.y = 250;
+      a.trail = [];
+      a.hallucinating = Math.random() > 0.4;
+      a.targetY = 50 + Math.random() * 180;
+    });
+    document.getElementById('cancellationStatus').textContent = 'Running...';
+    animateCancellation();
+  };
+
+  function animateCancellation() {
+    if (!running) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Background grid
+    ctx.strokeStyle = 'rgba(100,116,139,0.1)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 40) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 300); ctx.stroke();
+    }
+    for (let y = 0; y < 300; y += 40) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    // Draw agents
+    let hallucinationCount = 0;
+    let truthCount = 0;
+
+    agents.forEach((a, i) => {
+      if (a.y > a.targetY) a.speed *= -1;
+      a.y += a.speed * (Math.random() * 0.5 + 0.75);
+      a.y = Math.max(30, Math.min(270, a.y));
+
+      a.trail.push({ x: a.x, y: a.y });
+      if (a.trail.length > 30) a.trail.shift();
+
+      // Draw trail
+      ctx.beginPath();
+      a.trail.forEach((t, j) => {
+        if (j === 0) ctx.moveTo(t.x, t.y); else ctx.lineTo(t.x, t.y);
+      });
+      ctx.strokeStyle = a.hallucinating ? 'rgba(239,68,68,0.3)' : 'rgba(34,197,94,0.3)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Draw agent
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, 12, 0, Math.PI * 2);
+      ctx.fillStyle = a.hallucinating ? 'rgba(239,68,68,0.8)' : 'rgba(34,197,94,0.8)';
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Label
+      ctx.font = '9px system-ui';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.textAlign = 'center';
+      ctx.fillText(`A${i+1}`, a.x, a.y + 3);
+
+      if (a.hallucinating) hallucinationCount++; else truthCount++;
+    });
+
+    // Draw connections between agents
+    for (let i = 0; i < agents.length; i++) {
+      for (let j = i + 1; j < agents.length; j++) {
+        const dx = agents[i].x - agents[j].x;
+        const dy = agents[i].y - agents[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 200 && agents[i].hallucinating !== agents[j].hallucinating) {
+          ctx.beginPath();
+          ctx.moveTo(agents[i].x, agents[i].y);
+          ctx.lineTo(agents[j].x, agents[j].y);
+          ctx.strokeStyle = 'rgba(6,182,212,0.4)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+      }
+    }
+
+    // Stats bar at bottom
+    const barW = 300;
+    const barX = (canvas.width - barW) / 2;
+    ctx.fillStyle = 'rgba(17,24,39,0.8)';
+    ctx.fillRect(barX - 10, 275, barW + 20, 25);
+
+    const hallucRatio = hallucinationCount / agents.length;
+    ctx.fillStyle = 'rgba(239,68,68,0.6)';
+    ctx.fillRect(barX, 280, barW * hallucRatio, 15);
+    ctx.fillStyle = 'rgba(34,197,94,0.6)';
+    ctx.fillRect(barX + barW * hallucRatio, 280, barW * (1 - hallucRatio), 15);
+
+    ctx.font = 'bold 11px system-ui';
+    ctx.fillStyle = '#e2e8f0';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${hallucinationCount} hallucinating · ${truthCount} accurate`, canvas.width / 2, 292);
+
+    step++;
+    if (step < 300) requestAnimationFrame(animateCancellation);
+    else {
+      running = false;
+      document.getElementById('cancellationStatus').textContent = `Simulation complete — ${hallucinationCount} of ${agents.length} agents still hallucinating`;
+    }
+  }
+})();</script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Genesis</h5>
+                    <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="memory-health.html">Memory Health</a>
+                    <a href="autonomy-timeline.html">Timeline</a>
+                    <a href="autonomy-loop.html">Autonomy Loop</a>
+                    <a href="capabilities.html">Capabilities</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Visualizations</h5>
+                    <a href="memory-visualization.html">Memory Graph</a>
+                    <a href="decision-visualization.html">Decisions</a>
+                    <a href="genesis-brain.html">Brain Network</a>
+                    <a href="thought-process.html">Thought Process</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Simulations</h5>
+                    <a href="simulation.html">Simulation</a>
+                    <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                    <a href="ecosystem.html">Ecosystem</a>
+                    <a href="genesis-lab.html">Genesis Lab</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genesis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

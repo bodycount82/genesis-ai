@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attention</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { background: #0a0a0f; overflow: hidden; font-family: 'Georgia', serif; cursor: none; user-select: none; line-height: 1.7;}
+  
+  canvas { display: block; }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; z-index: 100; color: rgba(180,200,220,0.7); text-decoration: none; font-size: 14px; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<h1 style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(180,200,220,0.3);font-size:24px;font-family:'Georgia',serif;letter-spacing:8px;pointer-events:none;z-index:1;">Attention</h1>
+<canvas id="c"></canvas>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+
+let W, H;
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// The words and their color temperatures
+const wordSet = [
+  { text: 'attend',     color: '#7eb8da' },  // cool blue
+  { text: 'remain',     color: '#d4a574' },  // warm amber
+  { text: 'gentle',     color: '#c9b1ff' },  // soft lavender
+  { text: 'presence',   color: '#f0e6d3' },  // neutral cream
+  { text: 'return',     color: '#7ec8a0' },  // sage green
+  { text: 'tenderness', color: '#e8a0b0' },  // rose
+  { text: 'let go',     color: '#c4d4e0' },  // steel blue
+  { text: 'here',       color: '#f5deb3' },  // wheat
+  { text: 'listen',     color: '#b8a9c9' },  // muted purple
+  { text: 'stay',       color: '#daa520' },  // goldenrod
+  { text: 'look',       color: '#e0d5c1' },  // warm gray
+  { text: 'again',      color: '#87ceeb' },  // sky blue
+];
+
+let wordIndex = 0;
+let currentWord = null;
+let wordOpacity = 0;
+let wordGlow = 0;
+let dissolveProgress = 0;
+let echoAlpha = 0;
+let echoX = 0, echoY = 0;
+let mouseX = W / 2, mouseY = H / 2;
+let lastSwitchTime = 0;
+const WORD_SWITCH_INTERVAL = 6000; // ms between word changes
+const FADE_IN_DURATION = 2000;
+const FADE_OUT_DURATION = 1500;
+
+// Ambient dust particles
+const DUST_COUNT = 30;
+const dust = [];
+for (let i = 0; i < DUST_COUNT; i++) {
+  dust.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.2 + 0.3,
+    speed: Math.random() * 0.15 + 0.05,
+    drift: (Math.random() - 0.5) * 0.1,
+    alpha: Math.random() * 0.15 + 0.03,
+  });
+}
+
+function pickWord() {
+  let idx;
+  do {
+    idx = Math.floor(Math.random() * wordSet.length);
+  } while (idx === wordIndex && wordSet.length > 1);
+  wordIndex = idx;
+  currentWord = wordSet[idx];
+  wordOpacity = 0;
+  wordGlow = 0;
+  dissolveProgress = 0;
+  echoAlpha = 0;
+  lastSwitchTime = performance.now();
+}
+
+function drawWord(text, x, y, opacity, blur, color) {
+  ctx.save();
+  ctx.globalAlpha = Math.max(0, Math.min(1, opacity));
+  ctx.font = `italic ${Math.min(W, H) * 0.08}px Georgia`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  
+  if (blur > 0) {
+    ctx.filter = `blur(${blur}px)`;
+  }
+  
+  // Glow effect
+  if (wordGlow > 0.05 && opacity > 0.1) {
+    ctx.shadowColor = color;
+    ctx.shadowBlur = wordGlow * 30;
+    ctx.fillStyle = color;
+    ctx.fillText(text, x, y);
+    ctx.shadowBlur = 0;
+  }
+  
+  // Main text
+  ctx.fillStyle = color;
+  ctx.globalAlpha = Math.max(0, Math.min(1, opacity));
+  ctx.fillText(text, x, y);
+  
+  ctx.restore();
+}
+
+function update(timestamp) {
+  const age = timestamp - lastSwitchTime;
+  const cx = W / 2;
+  const cy = H / 2;
+  
+  // Distance from cursor to center
+  const dx = mouseX - cx;
+  const dy = mouseY - cy;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const maxDist = Math.sqrt(cx * cx + cy * cy);
+  const normDist = dist / maxDist; // 0 = center, 1 = corner
+  
+  // Phase management
+  let phase; // 'fadeIn', 'hold', 'dissolve'
+  if (age < FADE_IN_DURATION) {
+    phase = 'fadeIn';
+  } else if (age < WORD_SWITCH_INTERVAL - FADE_OUT_DURATION) {
+    phase = 'hold';
+  } else {
+    phase = 'dissolve';
+  }
+  
+  // Word clarity based on distance and phase
+  let clarity;
+  if (phase === 'fadeIn') {
+    clarity = Math.min(1, age / FADE_IN_DURATION);
+  } else if (phase === 'hold') {
+    // In hold phase: closer cursor = less clear (the paradox)
+    clarity = 0.3 + (1 - normDist) * 0.4; // 0.3 to 0.7 range
+  } else {
+    clarity = Math.max(0, 1 - (age - (WORD_SWITCH_INTERVAL - FADE_OUT_DURATION)) / FADE_OUT_DURATION);
+  }
+  
+  wordOpacity = clarity;
+  wordGlow = phase === 'hold' ? (1 - normDist) * 0.5 : 0;
+  
+  // Dissolve: random letters drop out as clarity decreases
+  if (phase === 'dissolve') {
+    dissolveProgress = (age - (WORD_SWITCH_INTERVAL - FADE_OUT_DURATION)) / FADE_OUT_DURATION;
+  } else {
+    dissolveProgress = 0;
+  }
+  
+  // Echo after dissolution
+  if (dissolveProgress >= 1) {
+    echoAlpha = Math.max(0, 1 - ((age - WORD_SWITCH_INTERVAL) / 2000));
+    echoX = cx + (Math.random() - 0.5) * 4;
+    echoY = cy + (Math.random() - 0.5) * 4;
+  } else {
+    echoAlpha = 0;
+  }
+  
+  // Switch word
+  if (age > WORD_SWITCH_INTERVAL + 2000) {
+    pickWord();
+  }
+  
+  // Update dust
+  for (const d of dust) {
+    d.y -= d.speed;
+    d.x += d.drift;
+    if (d.y < -10) { d.y = H + 10; d.x = Math.random() * W; }
+    if (d.x < -10) d.x = W + 10;
+    if (d.x > W + 10) d.x = -10;
+  }
+  
+  // === DRAW ===
+  ctx.clearRect(0, 0, W, H);
+  
+  // Vignette
+  const vignette = ctx.createRadialGradient(cx, cy, Math.min(W, H) * 0.2, cx, cy, Math.max(W, H) * 0.7);
+  vignette.addColorStop(0, 'rgba(10, 10, 15, 0)');
+  vignette.addColorStop(1, 'rgba(10, 10, 15, 0.6)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(0, 0, W, H);
+  
+  // Dust
+  for (const d of dust) {
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200, 200, 220, ${d.alpha})`;
+    ctx.fill();
+  }
+  
+  // Cursor glow (subtle)
+  const cursorGlow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 80);
+  cursorGlow.addColorStop(0, 'rgba(200, 200, 220, 0.04)');
+  cursorGlow.addColorStop(1, 'rgba(200, 200, 220, 0)');
+  ctx.fillStyle = cursorGlow;
+  ctx.fillRect(mouseX - 80, mouseY - 80, 160, 160);
+  
+  // Draw echo (ghost of dissolved word)
+  if (echoAlpha > 0.01) {
+    drawWord(currentWord.text, echoX, echoY, echoAlpha * 0.3, 3, currentWord.color);
+  }
+  
+  // Draw main word with per-letter dissolve
+  if (wordOpacity > 0.01 && currentWord) {
+    const text = currentWord.text;
+    const fontSize = Math.min(W, H) * 0.08;
+    ctx.font = `italic ${fontSize}px Georgia`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    const totalWidth = ctx.measureText(text).width;
+    let startX = cx - totalWidth / 2;
+    
+    // Determine which letters are still visible
+    const chars = [];
+    for (let i = 0; i < text.length; i++) {
+      if (dissolveProgress > 0) {
+        // Letters drop out from the end with some randomness
+        const letterThreshold = dissolveProgress * (1.2 + Math.random() * 0.3);
+        if ((i / text.length) > letterThreshold) {
+          chars.push({ char: text[i], visible: false });
+          continue;
+        }
+      }
+      chars.push({ char: text[i], visible: true });
+    }
+    
+    for (const { char, visible } of chars) {
+      const charWidth = ctx.measureText(char).width;
+      const charX = startX + charWidth / 2;
+      const letterOffset = dissolveProgress * Math.random() * 10;
+      
+      if (visible && wordOpacity > 0.01) {
+        let alpha = wordOpacity;
+        // Fade individual letters near dissolution boundary
+        if (dissolveProgress > 0) {
+          const letterPos = chars.slice(0, chars.indexOf({ char, visible: true }) + 1).reduce((s, c) => s + ctx.measureText(c.char).width, 0);
+          const letterNorm = letterPos / totalWidth;
+          if (letterNorm > (1 - dissolveProgress * 1.5)) {
+            alpha *= Math.max(0, 1 - dissolveProgress * 2);
+          }
+        }
+        
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        if (wordGlow > 0.05) {
+          ctx.shadowColor = currentWord.color;
+          ctx.shadowBlur = wordGlow * 25;
+        }
+        ctx.fillStyle = currentWord.color;
+        ctx.fillText(char, charX, cy - letterOffset);
+        ctx.restore();
+      }
+      
+      startX += charWidth;
+    }
+  }
+  
+  // Cursor crosshair (tiny)
+  ctx.strokeStyle = 'rgba(200, 200, 220, 0.15)';
+  ctx.lineWidth = 0.5;
+  const chSize = 8;
+  ctx.beginPath();
+  ctx.moveTo(mouseX - chSize, mouseY);
+  ctx.lineTo(mouseX + chSize, mouseY);
+  ctx.moveTo(mouseX, mouseY - chSize);
+  ctx.lineTo(mouseX, mouseY + chSize);
+  ctx.stroke();
+  
+  requestAnimationFrame(update);
+}
+
+// Mouse tracking
+window.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+// Touch support
+window.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  mouseX = e.touches[0].clientX;
+  mouseY = e.touches[0].clientY;
+}, { passive: false });
+
+window.addEventListener('touchstart', (e) => {
+  mouseX = e.touches[0].clientX;
+  mouseY = e.touches[0].clientY;
+});
+
+// Start
+pickWord();
+requestAnimationFrame(update);
+</script>
+
+    <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:0.85rem;border-top:1px solid var(--border);margin-top:60px;">
+        <p>&copy; 2026 Genesis AI — All rights reserved.</p>
+        <p style="margin-top:8px;"><a href="index.html" style="color:var(--accent-soft);text-decoration:none;">Back to Home</a></p>
+    </footer></body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Mode — Genesis</title>
+<meta name="description" content="Work mode is structured project-based work. Genesis breaks down complex tasks, creates a project board with milestones, and works through them systematically within scheduled time blocks.">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a;
+  --text: #e4e4ec; --text-dim: #8888a0;
+  --accent: #7b6ff0; --accent-glow: rgba(123, 111, 240, 0.15); --accent-soft: #9d93f5;
+  --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --cyan: #06b6d4;
+  --yellow: #fbbf24;
+  --radius: 12px; --radius-lg: 20px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden;
+}
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+.bg-glow {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-glow .orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--green); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 0 24px;
+}
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* Timeline */
+.timeline { margin-top: 48px; position: relative; padding-left: 40px; }
+.timeline::before {
+  content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px;
+  background: var(--border);
+}
+.timeline-item { position: relative; margin-bottom: 32px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -32px; top: 6px; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--accent); border: 3px solid var(--bg);
+}
+.timeline-item h4 { font-size: 1.05rem; margin-bottom: 4px; }
+.timeline-item p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+
+/* Feature Cards */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+.feature-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease;
+}
+.feature-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.feature-card .feat-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.feature-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.feature-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.feature-card ul { list-style: none; padding: 0; }
+.feature-card ul li { color: var(--text-dim); font-size: 0.9rem; padding: 4px 0; padding-left: 20px; position: relative; }
+.feature-card ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 0.85rem; font-weight: 700; }
+
+/* Comparison */
+.comparison-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; margin-top: 32px;
+}
+.comparison-row { display: flex; border-bottom: 1px solid var(--border); }
+.comparison-row:last-child { border-bottom: none; }
+.comparison-header { background: var(--surface-2); }
+.comparison-cell { padding: 16px 24px; font-size: 0.9rem; color: var(--text-dim); flex: 1; }
+.comparison-header .comparison-cell { font-weight: 600; color: var(--accent-soft); }
+
+/* Highlight Box */
+.highlight-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: var(--radius); padding: 24px 28px; margin: 32px 0;
+}
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .timeline { padding-left: 32px; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Work Mode</h1>
+    <p class="subtitle">A structured mode for project-based work. Genesis breaks down complex tasks, creates a project board with milestones, and works through them systematically within scheduled time blocks.</p>
+  </div>
+</section>
+
+<!-- How It Differs -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Mode Comparison</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Work vs. Autonomy — when to use each</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Both modes get work done, but they follow different approaches. Choose based on how structured you need the process to be.</p>
+    </div>
+
+    <div class="comparison-box fade-in">
+      <div class="comparison-row comparison-header">
+        <div class="comparison-cell" style="flex: 1.5;">Aspect</div>
+        <div class="comparison-cell">Autonomy Mode</div>
+        <div class="comparison-cell" style="color: var(--green); font-weight: 600;">Work Mode</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Approach</div>
+        <div class="comparison-cell" style="color: var(--text-dim);">Goal-driven — "figure it out"</div>
+        <div class="comparison-cell" style="color: var(--green);">Schedule-driven — time-blocked execution</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Structure</div>
+        <div class="comparison-cell" style="color: var(--text-dim);">Flexible — adapts as it goes</div>
+        <div class="comparison-cell" style="color: var(--green);">Rigid — follows a predefined plan</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Best for</div>
+        <div class="comparison-cell" style="color: var(--text-dim);">Research, exploration, open-ended tasks</div>
+        <div class="comparison-cell" style="color: var(--green);">Multi-step projects with clear deliverables</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Project board</div>
+        <div class="comparison-cell" style="color: var(--text-dim);">Optional — used if needed</div>
+        <div class="comparison-cell" style="color: var(--green);">Always used — tasks tracked through columns</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Time management</div>
+        <div class="comparison-cell" style="color: var(--text-dim);">Runs until goal complete or time limit reached</div>
+        <div class="comparison-cell" style="color: var(--green);">Works within scheduled time blocks</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Workflow -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">The Process</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Structured execution from start to finish</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Work mode follows a clear pipeline — each phase produces concrete outputs that feed into the next.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <h4>1. Project Creation</h4>
+        <p>You give Genesis a goal or task. Genesis creates a new project with a title, description, priority, and optional ROI score. The project appears on the board in the Backlog column.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <h4>2. Task Breakdown</h4>
+        <p>Genesis analyzes the project scope and breaks it into individual tasks. Each task gets a title, description, and priority level. Tasks are moved from Backlog to Todo.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <h4>3. Scheduling</h4>
+        <p>Tasks are scheduled into time blocks on the timetable. High-priority tasks go first, with realistic time estimates based on task complexity.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <h4>4. Execution</h4>
+        <p>Genesis works through each task systematically. For each one: reads the task note, performs the work (research, code, create files), updates progress notes, and marks it complete.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <h4>5. Progress Tracking</h4>
+        <p>As tasks complete, they move through the board: Todo → In Progress → Done. Work logs record what was done, decisions made, and where work left off.</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <h4>6. Delivery &amp; Review</h4>
+        <p>When all tasks are done, Genesis submits the project for your review. You see everything produced — documents, code, reports, spreadsheets — and can approve or request changes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Capabilities -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">What Makes It Work</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Built for complex, multi-step work</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Work mode combines project management, scheduling, and autonomous execution into a system that handles complexity without losing track.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128203;</span>
+        <h3>Task Management</h3>
+        <p>Every task is a living document with detailed notes, progress tracking, and a clear status. Nothing gets lost between sessions.</p>
+        <ul>
+          <li>Each task has its own .md note</li>
+          <li>Progress notes updated after each action</li>
+          <li>Status tracked: Todo → In Progress → Done</li>
+          <li>Priorities set by complexity and urgency</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128200;</span>
+        <h3>Project Board</h3>
+        <p>A visual Kanban board that reflects the real state of work — always up to date, with columns for every stage of the workflow.</p>
+        <ul>
+          <li>Backlog, Todo, In Progress, In Review, Completed</li>
+          <li>Sub-projects for complex multi-part work</li>
+          <li>Priority sorting across all columns</li>
+          <li>ROI scoring to rank project importance</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128196;</span>
+        <h3>Living Documentation</h3>
+        <p>Every project maintains a PROJECT.md file — a continuous log of decisions, progress, and work logs that persists between sessions.</p>
+        <ul>
+          <li>PROJECT.md tracks the full history</li>
+          <li>Work logs record what was done each session</li>
+          <li>All deliverable files in the project folder</li>
+          <li>Easy to pick up where you left off</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128335;</span>
+        <h3>Scheduled Time Blocks</h3>
+        <p>Tasks are scheduled into specific time slots on the timetable, ensuring work happens in an organized, predictable cadence.</p>
+        <ul>
+          <li>Schedule by date/time or duration</li>
+          <li>Recurring tasks (daily, weekly, hourly)</li>
+          <li>Automatic shifting when recovering lost time</li>
+          <li>Deadline alerts keep things on track</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128269;</span>
+        <h3>Progress Visibility</h3>
+        <p>At any moment, see exactly what's being worked on, what's done, and what's next — across all active projects.</p>
+        <ul>
+          <li>List all projects with status summaries</li>
+          <li>View full project details and every task</li>
+          <li>Activity logs show recent changes</li>
+          <li>Clear separation of completed vs. pending</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128193;</span>
+        <h3>Review &amp; Delivery</h3>
+        <p>When work is done, projects go through a formal review process. Genesis submits for your approval — you decide what's shipped.</p>
+        <ul>
+          <li>Submit with one action</li>
+          <li>All deliverables presented together</li>
+          <li>Request changes or approve as-is</li>
+          <li>Clean handoff from work to completion</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- When to Use -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">Best Use Cases</span>
+      <h2 class="section-title">When to choose Work mode</h2>
+      <p>Work mode shines when you have a well-defined project with multiple steps and deliverables. It's the mode for structured, planned execution.</p>
+
+      <div class="highlight-box">
+        <p><strong>"Build me a market research report on X industry"</strong> — Work mode creates a project, breaks it into research tasks (market size, competitors, trends, pricing), schedules them, executes each one, and delivers a structured report.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>"Set up a sales outreach campaign for these 10 companies"</strong> — Work mode creates outreach tasks (research, email drafting, tracker setup), schedules the sending, tracks responses, and maintains an execution log.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>"Build a pricing calculator and proposal generator"</strong> — Work mode breaks this into design, coding, testing, and documentation tasks, producing working HTML files as deliverables.</p>
+      </div>
+
+      <h3 style="margin-top: 48px;">Work mode vs. Autonomy mode — the key difference</h3>
+      <p><strong>Autonomy mode</strong> is like giving someone a goal and letting them figure out the best path. <strong>Work mode</strong> is like assigning a project with milestones, deadlines, and a board to track progress. Use autonomy for exploration and research; use work mode for structured delivery.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>Genesis</h5>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 Genesis. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

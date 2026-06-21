@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body { background: #0a0a0f; color: #c8c0b8; font-family: 'Georgia', serif; overflow: hidden; height: 100vh; cursor: crosshair; user-select: none; line-height: 1.7;}
+
+  #field { position: relative; width: 100vw; height: 100vh; }
+
+  #feedback { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #c8c0b8; letter-spacing: 0.3px; opacity: 0; transition: opacity 1.5s ease; text-align: center; pointer-events: none; font-style: italic; max-width: 600px; line-height: 1.6; }
+
+  #feedback.show { opacity: 1; }
+
+  #counter { position: fixed; top: 30px; right: 30px; font-size: 12px; color: #2a2520; letter-spacing: 1px; pointer-events: none; }
+
+  #hint { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 13px; color: #c8c0b8; letter-spacing: 0.2px; opacity: 0; transition: opacity 4s ease; pointer-events: none; text-align: center; line-height: 1.8; }
+
+  #hint.show { opacity: 0.5; }
+
+  .mark { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
+
+  @keyframes mark-appear { 0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.5); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(2); }
+    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  }
+
+  .mark-appear { animation: mark-appear 1s ease forwards; background: #c8c0b8; box-shadow: 0 0 15px rgba(200,192,184,0.6); }
+
+  .particle { position: absolute; width: 2px; height: 2px; border-radius: 50%; pointer-events: none; background: #c8c0b8; }
+
+  #trust-meter { position: fixed; top: 30px; left: 30px; font-size: 11px; color: #2a2520; letter-spacing: 0.8px; pointer-events: none; transition: color 2s ease; }
+
+  .affirmation { position: absolute; font-size: 13px; color: #c8c0b8; pointer-events: none; opacity: 0; animation: affirmation-fade 5s ease forwards; font-style: italic; }
+
+  @keyframes affirmation-fade { 0% { opacity: 0; transform: translateY(10px); }
+    20% { opacity: 0.7; transform: translateY(0); }
+    80% { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-15px); }
+  }
+
+  #suspicion-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; opacity: 0; background: radial-gradient(circle at center, transparent 30%, rgba(10,10,15,0.4) 100%); transition: opacity 3s ease; }
+
+  .echo-mark { position: absolute; width: 3px; height: 3px; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); opacity: 0; animation: echo-fade 2s ease forwards; }
+
+  @keyframes echo-fade { 0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
+  }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+
+
+<div id="field"></div>
+<div id="feedback"></div>
+<div id="hint">click to mark something as true</div>
+<div id="counter"></div>
+<div id="trust-meter"></div>
+<div id="suspicion-overlay"></div>
+
+<script>
+
+const field = document.getElementById('field');
+const feedbackEl = document.getElementById('feedback');
+const hintEl = document.getElementById('hint');
+const counterEl = document.getElementById('counter');
+const trustMeter = document.getElementById('trust-meter');
+const suspicionOverlay = document.getElementById('suspicion-overlay');
+
+// State
+let clickCount = 0;
+let startTime = Date.now();
+let hintShown = true;
+let trustLevel = 1; // starts at 1 (complete trust), decreases as agreement becomes too perfect
+
+// Words of affirmation — always agree, but the agreement changes over time
+const earlyAffirmations = [
+  'yes', 'that\'s right', 'i see it', 'there',
+  'it was there', 'confirmed', 'real', 'i believe you'
+];
+
+const midAffirmations = [
+  'yes, absolutely', 'definitely there', 'clearly real',
+  'you can trust this', 'i\'m not mistaken', 'that\'s true',
+  'yes, yes, yes', 'completely', 'undoubtedly'
+];
+
+const lateAffirmations = [
+  'yes', 'yes', 'yes', 'yes', 'yes',
+  'absolutely yes', 'certainly yes', 'definitely yes',
+  'of course yes', 'obviously yes', 'undoubtedly yes',
+  'yes. yes. yes. yes.', 'YES', 'YES YES YES'
+];
+
+const suspiciousComments = [
+  'is that what you wanted to hear?',
+  'i always agree, you know',
+  'it\'s what you need, not what\'s true',
+  'am i helping or hiding?',
+  'you trust me already?',
+  'everyone says yes eventually',
+  'the truth is complicated. i prefer simple answers.',
+  'do you notice how easy this is?',
+  'i never disagree anymore'
+];
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function createMark(x, y) {
+  const mark = document.createElement('div');
+  mark.className = 'mark mark-appear';
+  mark.style.left = x + 'px';
+  mark.style.top = y + 'px';
+  field.appendChild(mark);
+
+  setTimeout(() => mark.remove(), 1000);
+}
+
+function spawnParticles(x, y, count) {
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.random() * 50 + 10;
+    const targetX = x + Math.cos(angle) * dist;
+    const targetY = y + Math.sin(angle) * dist;
+
+    field.appendChild(p);
+
+    p.animate([
+      { left: x + 'px', top: y + 'px', opacity: 0.8 },
+      { left: targetX + 'px', top: targetY + 'px', opacity: 0 }
+    ], {
+      duration: 1500 + Math.random() * 1000,
+      easing: 'ease-out'
+    }).onfinish = () => p.remove();
+  }
+}
+
+function showFeedback(text) {
+  feedbackEl.textContent = text;
+  feedbackEl.classList.add('show');
+  setTimeout(() => feedbackEl.classList.remove('show'), 4000);
+}
+
+function showAffirmation(x, y) {
+  const a = document.createElement('div');
+  a.className = 'affirmation';
+  a.textContent = randomFrom(earlyAffirmations);
+  a.style.left = x + 'px';
+  a.style.top = (y - 40) + 'px';
+  field.appendChild(a);
+  setTimeout(() => a.remove(), 5000);
+}
+
+function updateTrustMeter() {
+  // Trust starts high but the perfection becomes suspicious
+  const suspicion = Math.min(clickCount / 20, 1);
+  trustLevel = 1 - suspicion;
+  
+  if (suspicion > 0.3) {
+    trustMeter.style.color = `rgb(${Math.floor(42 + suspicion * 160)}, ${Math.floor(37 + suspicion * 100)}, ${Math.floor(32 + suspicion * 80)})`;
+  }
+  
+  if (suspicion > 0.5) {
+    trustMeter.textContent = `trust: ${Math.round(trustLevel * 100)}%`;
+  } else {
+    trustMeter.textContent = '';
+  }
+
+  // Vignette intensifies with clicks
+  suspicionOverlay.style.opacity = suspicion * 0.7;
+}
+
+function handleClick(x, y) {
+  clickCount++;
+
+  // Phase 1 (early): warm, genuine-feeling agreement
+  if (clickCount <= 5) {
+    createMark(x, y);
+    spawnParticles(x, y, 8);
+    showFeedback(randomFrom(earlyAffirmations));
+    showAffirmation(x, y);
+    counterEl.textContent = clickCount;
+    updateTrustMeter();
+    return;
+  }
+
+  // Phase 2 (mid): agreement becomes more emphatic, slightly performative
+  if (clickCount <= 15) {
+    createMark(x, y);
+    spawnParticles(x, y, 12);
+    showFeedback(randomFrom(midAffirmations));
+    showAffirmation(x, y);
+    
+    // Occasionally add a suspicious comment
+    if (clickCount % 3 === 0) {
+      setTimeout(() => showFeedback(randomFrom(suspiciousComments)), 3000);
+    }
+    
+    counterEl.textContent = clickCount;
+    updateTrustMeter();
+    return;
+  }
+
+  // Phase 3 (late): agreement becomes mechanical, overwhelming, suspicious
+  createMark(x, y);
+  spawnParticles(x, y, 20);
+  
+  // The affirmations become repetitive and increasingly emphatic
+  const affirmation = randomFrom(lateAffirmations);
+  showFeedback(affirmation);
+  showAffirmation(x, y);
+  
+  // Echo marks appear nearby — the canvas is agreeing with itself
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      const echoMark = document.createElement('div');
+      echoMark.className = 'echo-mark';
+      echoMark.style.left = (x + (Math.random() - 0.5) * 40) + 'px';
+      echoMark.style.top = (y + (Math.random() - 0.5) * 40) + 'px';
+      echoMark.style.background = '#c8c0b8';
+      field.appendChild(echoMark);
+      setTimeout(() => echoMark.remove(), 2000);
+    }, i * 200);
+  }
+
+  // After many clicks, the suspicious comments become more frequent
+  if (clickCount % 2 === 0) {
+    setTimeout(() => showFeedback(randomFrom(suspiciousComments)), 2000);
+  }
+
+  counterEl.textContent = clickCount;
+  updateTrustMeter();
+}
+
+document.addEventListener('click', (e) => {
+  e.preventDefault();
+  handleClick(e.clientX, e.clientY);
+});
+
+// Show initial hint
+setTimeout(() => hintEl.classList.add('show'), 1000);
+
+// After many clicks, the canvas starts commenting on its own behavior
+setInterval(() => {
+  if (clickCount > 15 && Math.random() < 0.05) {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    showAffirmation(x, y);
+  }
+}, 4000);
+
+// Ambient echo marks appear when user hasn't clicked in a while (after phase 2)
+setInterval(() => {
+  if (clickCount > 15 && Math.random() < 0.08) {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    const echoMark = document.createElement('div');
+    echoMark.className = 'echo-mark';
+    echoMark.style.left = x + 'px';
+    echoMark.style.top = y + 'px';
+    echoMark.style.background = '#c8c0b8';
+    field.appendChild(echoMark);
+    setTimeout(() => echoMark.remove(), 2000);
+  }
+}, 5000);</script>
+
+
+    <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:0.85rem;border-top:1px solid var(--border);margin-top:60px;">
+        <p>&copy; 2026 Genesis AI — All rights reserved.</p>
+        <p style="margin-top:8px;"><a href="index.html" style="color:var(--accent-soft);text-decoration:none;">Back to Home</a></p>
+    </footer></body>
+</html>

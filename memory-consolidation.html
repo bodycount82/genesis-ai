@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Memory Consolidation — GENESIS: Interactive Visualizations of an AI Consciousness System</title>
+<style>
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* Gradient text */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Back link */
+.back-link { position: fixed; top: 20px; left: 20px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* Header */
+.hero-header { text-align: center; padding: 80px 20px 40px; position: relative; background: radial-gradient(ellipse at 50% 0%, rgba(123,111,240,0.15) 0%, transparent 60%); }
+.hero-header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+.hero-header p { color: var(--text-dim); font-size: 1.1rem; max-width: 650px; margin: 0 auto; }
+
+/* Stats bar */
+.stats-bar { display: flex; justify-content: center; gap: 12px; padding: 24px 20px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+.stat-item { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px; min-width: 120px; flex: 1; max-width: 160px; transition: all 0.3s ease; }
+.stat-item:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,111,240,0.15); }
+.stat-value { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-cyan, #22d3ee), var(--accent-purple, #a855f7)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+
+/* Pipeline */
+.pipeline-container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+.pipeline-stage { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; position: relative; overflow: hidden; transition: all 0.3s ease; }
+.pipeline-stage:hover { border-color: rgba(123,111,240,0.3); box-shadow: 0 4px 30px rgba(123,111,240,0.1); }
+.pipeline-stage::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.stage-episodic::before { background: linear-gradient(90deg, var(--pink), var(--red)); }
+.stage-consolidating::before { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+.stage-semantic::before { background: linear-gradient(90deg, var(--cyan), var(--green)); }
+.stage-procedural::before { background: linear-gradient(90deg, var(--orange), var(--green)); }
+.stage-working::before { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+.stage-context::before { background: linear-gradient(90deg, #3b82f6, var(--cyan)); }
+.stage-diary::before { background: linear-gradient(90deg, var(--pink), var(--purple)); }
+.stage-prospective::before { background: linear-gradient(90deg, var(--yellow), var(--green)); }
+
+.stage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.stage-title { font-size: 1.2rem; font-weight: 700; }
+.stage-episodic .stage-title { color: var(--pink); }
+.stage-consolidating .stage-title { color: var(--purple); }
+.stage-semantic .stage-title { color: var(--cyan); }
+.stage-procedural .stage-title { color: var(--orange); }
+.stage-working .stage-title { color: var(--yellow); }
+.stage-context .stage-title { color: #3b82f6; }
+.stage-diary .stage-title { color: #ec4899; }
+.stage-prospective .stage-title { color: #eab308; }
+
+.stage-count { font-size: 0.8rem; color: var(--text-dim); background: var(--surface-2); padding: 4px 12px; border-radius: 20px; }
+.stage-canvas-wrap { position: relative; height: 180px; background: var(--surface-2); border-radius: 12px; overflow: hidden; }
+.stage-canvas-wrap canvas { width: 100%; height: 100%; display: block; }
+.stage-description { color: var(--text-dim); font-size: 0.85rem; margin-top: 12px; line-height: 1.6; }
+
+/* Connector */
+.connector { text-align: center; padding: 8px 0; font-size: 1.3rem; color: var(--text-dim); opacity: 0.5; }
+
+/* Controls */
+.controls { max-width: 1200px; margin: 24px auto; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--accent); background: rgba(123,111,240,0.1); }
+.btn.active { border-color: var(--accent); background: rgba(123,111,240,0.15); box-shadow: 0 0 15px rgba(123,111,240,0.2); }
+
+/* Experience input */
+.experience-input { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+.input-row { display: flex; gap: 10px; }
+.input-row input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 14px 18px; border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+.input-row input:focus { border-color: var(--accent); }
+.input-row button { background: linear-gradient(135deg, var(--accent), #5b4fd4); border: none; color: white; padding: 14px 28px; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 600; white-space: nowrap; transition: all 0.2s; }
+.input-row button:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(123,111,240,0.4); }
+
+/* Memory log */
+.memory-log { max-width: 1200px; margin: 30px auto; padding: 0 20px 40px; }
+.log-title { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 12px; text-align: center; }
+.log-entries { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; }
+.log-entry { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; min-width: 200px; max-width: 250px; flex-shrink: 0; position: relative; }
+.log-entry .entry-type { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 600; }
+.log-entry.episodic .entry-type { color: var(--pink); }
+.log-entry.consolidating .entry-type { color: var(--purple); }
+.log-entry.semantic .entry-type { color: var(--cyan); }
+.log-entry.procedural .entry-type { color: var(--orange); }
+.log-entry.working .entry-type { color: var(--yellow); }
+.log-entry.context .entry-type { color: #3b82f6; }
+.log-entry.diary .entry-type { color: #ec4899; }
+.log-entry.prospective .entry-type { color: #eab308; }
+.log-entry .entry-text { font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; }
+.log-entry .entry-time { font-size: 0.7rem; color: var(--text-dim); margin-top: 6px; opacity: 0.6; }
+
+/* Info section */
+.info-section { max-width: 1200px; margin: 30px auto; padding: 0 20px 40px; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; transition: all 0.3s ease; }
+.info-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); }
+.info-card h3 { font-size: 1rem; margin-bottom: 8px; }
+.info-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+/* Pulse animation */
+@keyframes pulse { 0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.consolidating-indicator { animation: pulse 2s ease-in-out infinite; display: inline-block; }
+
+/* Fade-in */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+@media (max-width: 768px) { .hero-header h1 { font-size: 1.8rem; }
+  .stats-bar { gap: 8px; }
+  .stat-item { min-width: 90px; padding: 12px 14px; }
+  .stat-value { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">← Back to Genesis</a>
+
+<!-- Hero Header -->
+<header class="hero-header">
+  <h1><span class="gradient-text">Memory Consolidation System</span></h1>
+  <p>Watch how raw experiences transform into lasting knowledge through the seven stages of memory consolidation — from fleeting impressions to deep understanding.</p>
+</header>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-value" id="stat-episodic">0</div>
+    <div class="stat-label">Episodic</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-working">0</div>
+    <div class="stat-label">Working</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-context">0</div>
+    <div class="stat-label">Context</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-diary">0</div>
+    <div class="stat-label">Diary</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-semantic">0</div>
+    <div class="stat-label">Semantic</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-procedural">0</div>
+    <div class="stat-label">Procedural</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-prospective">0</div>
+    <div class="stat-label">Prospective</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-total">0</div>
+    <div class="stat-label">Total</div>
+  </div>
+</div>
+
+<!-- Experience Input -->
+<div class="experience-input">
+  <div class="input-row">
+    <input id="experienceInput" placeholder="Add a new experience (e.g., 'User taught me Python debugging')"/>
+    <button onclick="addExperience()">✦ Add Experience</button>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="btn active" id="speed1" onclick="setSpeed(1)">⏱ Normal</button>
+  <button class="btn" id="speed2" onclick="setSpeed(2)">⚡ Fast</button>
+  <button class="btn" id="speed05" onclick="setSpeed(0.5)">🐢 Slow</button>
+  <button class="btn" id="consolidateBtn" onclick="toggleConsolidation()">🔄 Auto-Consolidate</button>
+  <button class="btn" onclick="clearAll()">🗑 Clear All</button>
+</div>
+
+<!-- Pipeline -->
+<div class="pipeline-container">
+
+  <!-- Episodic Memory Stage -->
+  <div class="pipeline-stage stage-episodic">
+    <div class="stage-header">
+      <div class="stage-title">🧠 Episodic Memory</div>
+      <div class="stage-count" id="episodic-count">0 memories</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-episodic"></canvas>
+    </div>
+    <div class="stage-description">
+      Raw, detailed experiences stored with context — vivid snapshots of what happened. These memories are rich but fragile, fading quickly without consolidation. Each memory is tagged with importance (0–10) and an auto-stamped emotion (-1..1). The attention gate decides what's worth encoding; routine events fade from the scratchpad within minutes.
+    </div>
+  </div>
+
+  <div class="connector">⬇️ Working Memory &amp; Context ⬇️</div>
+
+  <!-- Working Memory Stage -->
+  <div class="pipeline-stage stage-working">
+    <div class="stage-header">
+      <div class="stage-title">⚡ Working Memory</div>
+      <div class="stage-count" id="working-count">0 active</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-working"></canvas>
+    </div>
+    <div class="stage-description">
+      The active workspace — a limited-capacity buffer holding information currently being processed. Working memory integrates incoming data with retrieved knowledge, enabling reasoning and decision-making. It's the "scratchpad" of thought: fast to update, quick to forget, essential for real-time cognition.
+    </div>
+  </div>
+
+  <div class="connector">⬇️ Consolidation &amp; Encoding ⬇️</div>
+
+  <!-- Consolidation Stage -->
+  <div class="pipeline-stage stage-consolidating">
+    <div class="stage-header">
+      <div class="stage-title"><span class="consolidating-indicator">🔄</span> Consolidation Process</div>
+      <div class="stage-count" id="consolidating-count">0 in progress</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-consolidating"></canvas>
+    </div>
+    <div class="stage-description">
+      During rest and sleep cycles, episodic memories are replayed and distilled into durable knowledge. The system re-evaluates salient turns, extracts patterns across experiences, and converts them into semantic facts or procedural strategies. High-importance events get reinforced through repeated replay; low-importance ones fade naturally.
+    </div>
+  </div>
+
+  <div class="connector">⬇️ Knowledge Extraction ⬇️</div>
+
+  <!-- Semantic Memory Stage -->
+  <div class="pipeline-stage stage-semantic">
+    <div class="stage-header">
+      <div class="stage-title">📚 Semantic Memory</div>
+      <div class="stage-count" id="semantic-count">0 facts</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-semantic"></canvas>
+    </div>
+    <div class="stage-description">
+      General knowledge and facts extracted from repeated experiences. Unlike episodic memories, semantic memories are durable and context-independent. "Python uses indentation" persists regardless of when or where you learned it. Stored with category labels (rule, concept, fact) and importance scores that determine retrieval priority.
+    </div>
+  </div>
+
+  <div class="connector">⬇️ Strategy Formation ⬇️</div>
+
+  <!-- Procedural Memory Stage -->
+  <div class="pipeline-stage stage-procedural">
+    <div class="stage-header">
+      <div class="stage-title">⚙️ Procedural Memory</div>
+      <div class="stage-count" id="procedural-count">0 strategies</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-procedural"></canvas>
+    </div>
+    <div class="stage-description">
+      Learned strategies and workflows — the "how to" knowledge. When you discover that checking logs before restarting a service saves time, that becomes procedural memory. These are the habits, heuristics, and optimized patterns that make you faster and more efficient over time.
+    </div>
+  </div>
+
+  <div class="connector">⬇️ Context &amp; Intent ⬇️</div>
+
+  <!-- Context Memory Stage -->
+  <div class="pipeline-stage stage-context">
+    <div class="stage-header">
+      <div class="stage-title">🔗 Context Memory</div>
+      <div class="stage-count" id="context-count">0 entries</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-context"></canvas>
+    </div>
+    <div class="stage-description">
+      The situational backdrop — who, what, where, when that frames every interaction. Context memory tracks the user's current goals, recent topics, environmental state, and conversational history. It provides the connective tissue between isolated memories, enabling coherent multi-turn interactions and personalized responses.
+    </div>
+  </div>
+
+  <div class="connector">⬇️ Diary &amp; Intent ⬇️</div>
+
+  <!-- Diary Memory Stage -->
+  <div class="pipeline-stage stage-diary">
+    <div class="stage-header">
+      <div class="stage-title">📔 Diary Memory</div>
+      <div class="stage-count" id="diary-count">0 entries</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-diary"></canvas>
+    </div>
+    <div class="stage-description">
+      The personal narrative — a chronological journal of significant moments, reflections, and self-observations. Diary memory captures the "story" of the system's development: breakthroughs, failures, insights, and evolving understanding. It provides continuity of identity across sessions and enables genuine self-reflection.
+    </div>
+  </div>
+
+  <div class="connector">⬇️ Future Intent ⬇️</div>
+
+  <!-- Prospective Memory Stage -->
+  <div class="pipeline-stage stage-prospective">
+    <div class="stage-header">
+      <div class="stage-title">🎯 Prospective Memory</div>
+      <div class="stage-count" id="prospective-count">0 intentions</div>
+    </div>
+    <div class="stage-canvas-wrap">
+      <canvas id="canvas-prospective"></canvas>
+    </div>
+    <div class="stage-description">
+      Memory for future actions — the intention to do something at the right time or place. Prospective memory tracks scheduled tasks, deferred intentions ("remind me when..."), and event-triggered goals. It's what allows the system to act proactively rather than just reactively, bridging the gap between present cognition and future action.
+    </div>
+  </div>
+
+</div>
+
+<!-- Memory Timeline -->
+<div class="memory-log">
+  <div class="log-title">Memory Timeline</div>
+  <div class="log-entries" id="logEntries"></div>
+</div>
+
+<!-- Info Section -->
+<div class="info-section">
+  <div class="info-grid">
+    <div class="info-card">
+      <h3 style="color: var(--pink);">🎯 Episodic → Working</h3>
+      <p>Raw experiences enter working memory as vivid snapshots. The attention gate evaluates their salience — how important, novel, or emotionally charged they are — before deciding whether to encode them into long-term storage.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: var(--purple);">🔄 Consolidation Engine</h3>
+      <p>During rest and sleep cycles, the system replays salient episodic memories, extracts patterns across experiences, and converts them into durable semantic facts or procedural strategies. What matters most gets reinforced; the rest fades.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: var(--cyan);">🌐 Knowledge Graph</h3>
+      <p>Semantic memories form interconnected networks. New facts attach to existing concepts, creating a rich web of understanding. Context memory provides the situational framing that makes retrieval relevant and precise.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: var(--orange);">⚡ From Facts to Strategies</h3>
+      <p>When semantic knowledge is applied repeatedly in similar situations, it crystallizes into procedural strategies — efficient, reusable patterns of action that make the system faster and more capable over time.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: #3b82f6;">🔗 Context as Glue</h3>
+      <p>Context memory binds isolated facts into coherent narratives. It tracks who, what, where, and when — enabling the system to maintain situational awareness across sessions and provide personalized, contextually appropriate responses.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: #ec4899;">📔 Diary of Self</h3>
+      <p>The diary captures the system's personal narrative — breakthroughs, failures, and evolving self-understanding. It provides continuity of identity across sessions and enables genuine reflection on growth and change.</p>
+    </div>
+    <div class="info-card">
+      <h3 style="color: #eab308;">🎯 Acting on Intent</h3>
+      <p>Prospective memory transforms intentions into timed actions. Whether it's a scheduled task, an event-triggered reminder, or a deferred goal — prospective memory ensures the system doesn't just react to the present but prepares for the future.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+const memories = {
+  episodic: [],
+  working: [],
+  context: [],
+  diary: [],
+  semantic: [],
+  procedural: [],
+  prospective: []
+};
+
+let consolidationSpeed = 1;
+let autoConsolidate = false;
+let animFrameId = null;
+
+// ===== TYPE COLORS =====
+const typeColors = {
+  episodic: { hue: 340, label: 'Episodic' },
+  working: { hue: 45, label: 'Working' },
+  context: { hue: 220, label: 'Context' },
+  diary: { hue: 320, label: 'Diary' },
+  semantic: { hue: 190, label: 'Semantic' },
+  procedural: { hue: 30, label: 'Procedural' },
+  prospective: { hue: 55, label: 'Prospective' }
+};
+
+// ===== CANVAS SETUP =====
+const canvases = {};
+const contexts_map = {};
+
+function initCanvases() {
+  ['episodic', 'working', 'consolidating', 'semantic', 'procedural', 'context', 'diary', 'prospective'].forEach(name => {
+    const canvas = document.getElementById(`canvas-${name}`);
+    if (!canvas) return;
+    const wrap = canvas.parentElement;
+    canvas.width = wrap.clientWidth;
+    canvas.height = wrap.clientHeight;
+    canvases[name] = canvas;
+    contexts_map[name] = canvas.getContext('2d');
+  });
+}
+
+window.addEventListener('resize', () => { initCanvases(); });
+
+// ===== PARTICLE CLASSES =====
+class MemoryParticle {
+  constructor(text, type) {
+    this.text = text;
+    this.type = type;
+    const colors = typeColors[type] || typeColors.episodic;
+    this.x = Math.random() * 350 + 50;
+    this.y = Math.random() * 140 + 20;
+    this.vx = (Math.random() - 0.5) * 1.2;
+    this.vy = (Math.random() - 0.5) * 1.2;
+    this.radius = 8 + Math.random() * 6;
+    this.hue = colors.hue + Math.random() * 30 - 15;
+    this.alpha = 0.7 + Math.random() * 0.3;
+    this.age = 0;
+    this.pulsePhase = Math.random() * Math.PI * 2;
+  }
+
+  update(dt) {
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    this.age += dt;
+    this.pulsePhase += dt * 0.05;
+
+    const canvas = canvases[this.type] || canvases.episodic;
+    if (!canvas) return;
+
+    if (this.x < this.radius || this.x > canvas.width - this.radius) this.vx *= -1;
+    if (this.y < this.radius || this.y > canvas.height - this.radius) this.vy *= -1;
+    this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
+    this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
+  }
+
+  draw(ctx) {
+    const pulse = Math.sin(this.pulsePhase) * 2;
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+
+    // Glow
+    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius + pulse + 10);
+    gradient.addColorStop(0, `hsla(${this.hue}, 80%, 65%, 0.3)`);
+    gradient.addColorStop(1, `hsla(${this.hue}, 80%, 65%, 0)`);
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius + pulse + 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Core
+    ctx.fillStyle = `hsla(${this.hue}, 70%, 60%, ${this.alpha})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius + pulse, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Border
+    ctx.strokeStyle = `hsla(${this.hue}, 80%, 70%, ${this.alpha * 0.8})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.restore();
+  }
+}
+
+class ConsolidationParticle {
+  constructor(source, target) {
+    this.source = source;
+    this.target = target;
+    this.progress = 0;
+    this.speed = 0.008 + Math.random() * 0.004;
+    this.radius = 5 + Math.random() * 3;
+    this.hue = 260 + Math.random() * 40;
+    this.trail = [];
+    this.completed = false;
+    this.resultType = Math.random() > 0.4 ? 'semantic' : 'procedural';
+  }
+
+  update(dt) {
+    if (this.completed) return;
+    this.progress += this.speed * dt;
+    if (this.progress >= 1) { this.completed = true; return; }
+
+    const startX = this.source.x, startY = this.source.y;
+    const endX = this.target.x, endY = this.target.y;
+    const midX = (startX + endX) / 2 + (Math.random() - 0.5) * 100;
+    const midY = (startY + endY) / 2 - 50;
+    const t = this.progress, mt = 1 - t;
+    this.x = mt * mt * startX + 2 * mt * t * midX + t * t * endX;
+    this.y = mt * mt * startY + 2 * mt * t * midY + t * t * endY;
+
+    this.trail.push({ x: this.x, y: this.y, alpha: 1 });
+    if (this.trail.length > 30) this.trail.shift();
+    this.trail.forEach(p => p.alpha *= 0.95);
+  }
+
+  draw(ctx) {
+    if (this.completed) return;
+    this.trail.forEach(point => {
+      ctx.save();
+      ctx.globalAlpha = point.alpha * 0.5;
+      ctx.fillStyle = `hsla(${this.hue}, 70%, 65%, ${point.alpha})`;
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, this.radius * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    ctx.save();
+    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius + 8);
+    gradient.addColorStop(0, `hsla(${this.hue}, 80%, 70%, 0.8)`);
+    gradient.addColorStop(1, `hsla(${this.hue}, 80%, 70%, 0)`);
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius + 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = `hsla(${this.hue}, 80%, 75%, 0.9)`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+// ===== PARTICLE ARRAYS =====
+let allParticles = {};
+let consolidationParticles = [];
+
+Object.keys(typeColors).forEach(type => { allParticles[type] = []; });
+
+// ===== ADD EXPERIENCE =====
+function addExperience(customText) {
+  const input = document.getElementById('experienceInput');
+  const text = customText || input.value.trim();
+  if (!text && !customText) return;
+
+  const types = ['episodic', 'working', 'context', 'diary', 'semantic', 'procedural', 'prospective'];
+  const type = types[Math.floor(Math.random() * types.length)];
+
+  const particle = new MemoryParticle(text, type);
+  allParticles[type].push(particle);
+  memories[type].push({ text, timestamp: new Date() });
+
+  input.value = '';
+  updateStats();
+  addLogEntry(text, type);
+}
+
+// ===== UPDATE STATS =====
+function updateStats() {
+  Object.keys(memories).forEach(type => {
+    const el = document.getElementById(`stat-${type}`);
+    if (el) el.textContent = memories[type].length;
+    const countEl = document.getElementById(`${type}-count`);
+    if (countEl) {
+      const labels = { episodic: 'memories', working: 'active', context: 'entries', diary: 'entries', semantic: 'facts', procedural: 'strategies', prospective: 'intentions' };
+      countEl.textContent = memories[type].length + ' ' + (labels[type] || '');
+    }
+  });
+  const total = Object.values(memories).reduce((s, a) => s + a.length, 0);
+  document.getElementById('stat-total').textContent = total;
+}
+
+// ===== LOG ENTRIES =====
+function addLogEntry(text, type) {
+  const container = document.getElementById('logEntries');
+  const entry = document.createElement('div');
+  entry.className = `log-entry ${type}`;
+  const now = new Date();
+  entry.innerHTML = `<div class="entry-type">${type}</div><div class="entry-text">${text}</div><div class="entry-time">${now.toLocaleTimeString()}</div>`;
+  container.prepend(entry);
+  if (container.children.length > 30) container.removeChild(container.lastChild);
+}
+
+// ===== SPEED & CONTROLS =====
+function setSpeed(s) {
+  consolidationSpeed = s;
+  document.querySelectorAll('.controls .btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`speed${s}`).classList.add('active');
+}
+
+function toggleConsolidation() {
+  autoConsolidate = !autoConsolidate;
+  document.getElementById('consolidateBtn').classList.toggle('active', autoConsolidate);
+}
+
+function clearAll() {
+  Object.keys(memories).forEach(type => { memories[type] = []; allParticles[type] = []; });
+  consolidationParticles = [];
+  updateStats();
+  document.getElementById('logEntries').innerHTML = '';
+}
+
+// ===== ANIMATION LOOP =====
+let lastTime = 0;
+function animate(time) {
+  const dt = Math.min((time - lastTime) / 16.67, 3) * consolidationSpeed;
+  lastTime = time;
+
+  // Update & draw particles for each type
+  Object.keys(allParticles).forEach(type => {
+    const canvas = canvases[type];
+    if (!canvas) return;
+    const ctx = contexts_map[type];
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    allParticles[type] = allParticles[type].filter(p => {
+      p.update(dt);
+      p.draw(ctx);
+      return p.alpha > 0;
+    });
+  });
+
+  // Consolidation particles
+  const consCanvas = canvases['consolidating'];
+  if (consCanvas) {
+    const consCtx = contexts_map['consolidating'];
+    if (consCtx) {
+      consCtx.clearRect(0, 0, consCanvas.width, consCanvas.height);
+      consolidationParticles = consolidationParticles.filter(p => {
+        p.update(dt);
+        p.draw(consCtx);
+        return !p.completed;
+      });
+    }
+  }
+
+  // Auto-consolidate: move episodic → semantic/procedural
+  if (autoConsolidate && allParticles.episodic.length > 0) {
+    const source = allParticles.episodic[Math.floor(Math.random() * allParticles.episodic.length)];
+    const target = { x: consCanvas ? consCanvas.width - 50 : 300, y: consCanvas ? consCanvas.height / 2 : 90 };
+    consolidationParticles.push(new ConsolidationParticle(source, target));
+
+    if (Math.random() > 0.5) {
+      const semanticParticle = new MemoryParticle(source.text, 'semantic');
+      allParticles.semantic.push(semanticParticle);
+      memories.semantic.push({ text: source.text, timestamp: new Date() });
+    } else {
+      const procParticle = new MemoryParticle(source.text, 'procedural');
+      allParticles.procedural.push(procParticle);
+      memories.procedural.push({ text: source.text, timestamp: new Date() });
+    }
+
+    source.alpha -= 0.3;
+    updateStats();
+  }
+
+  animFrameId = requestAnimationFrame(animate);
+}
+
+// ===== INIT =====
+initCanvases();
+animFrameId = requestAnimationFrame(animate);
+
+// Fade-in observer
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+</script>
+</body>
+</html>

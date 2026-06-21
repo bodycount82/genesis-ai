@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evolution of Intelligence — GENESIS</title>
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; line-height: 1.6; overflow-x: hidden; }
+        canvas#bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 60px 20px 40px; }
+        header h1 { font-size: 3em; background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; letter-spacing: -1px; }
+        header p { color: var(--text-dim); font-size: 1.2em; max-width: 600px; margin: 0 auto; }
+        .section { margin: 50px 0; }
+        .section-title { font-size: 1.8em; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+        .section-title .icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; }
+        .section-desc { color: var(--text-dim); margin-bottom: 30px; font-size: 1.05em; max-width: 700px; }
+        /* Evolution Timeline */
+        .evolution-timeline { position: relative; padding: 20px 0; }
+        .evolution-timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, var(--accent1), var(--accent2), var(--accent3), var(--accent4), var(--accent5)); transform: translateX(-50%); border-radius: 2px; }
+        .evo-node { position: relative; width: 45%; padding: 25px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin-bottom: 40px; }
+        .evo-node:hover { transform: translateY(-5px) scale(1.02); border-color: var(--accent1); box-shadow: 0 10px 40px rgba(108, 92, 231, 0.2); }
+        .evo-node.active { border-color: var(--accent2); box-shadow: 0 0 30px var(--glow2); }
+        .evo-node:nth-child(odd) { margin-left: 5%; }
+        .evo-node:nth-child(even) { margin-left: 50%; }
+        .evo-node::before { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; top: 30px; border: 3px solid var(--accent1); background: var(--bg); z-index: 2; }
+        .evo-node:nth-child(odd)::before { right: -38px; }
+        .evo-node:nth-child(even)::before { left: -38px; }
+        .evo-node.active::before { background: var(--accent2); box-shadow: 0 0 15px var(--glow2); }
+        .evo-level { font-size: 0.75em; text-transform: uppercase; letter-spacing: 3px; color: var(--accent1); margin-bottom: 8px; }
+        .evo-name { font-size: 1.4em; font-weight: 700; margin-bottom: 10px; }
+        .evo-desc { color: var(--text-dim); font-size: 0.95em; line-height: 1.5; }
+        .evo-features { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        .evo-tag { padding: 3px 10px; border-radius: 20px; font-size: 0.75em; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); }
+        /* Capability Radar */
+        .radar-container { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; margin: 30px 0; }
+        .radar-wrapper { text-align: center; }
+        .radar-wrapper label { display: block; margin-top: 10px; color: var(--text-dim); font-size: 0.9em; }
+        canvas.radar-canvas { border-radius: 12px; background: var(--surface); border: 1px solid var(--border); }
+        /* Comparison Table */
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; transition: all 0.3s ease; }
+        .comp-card:hover { transform: translateY(-3px); border-color: var(--accent1); }
+        .comp-card .emoji { font-size: 2.5em; margin-bottom: 10px; }
+        .comp-card h4 { margin-bottom: 8px; color: var(--text); }
+        .comp-card p { color: var(--text-dim); font-size: 0.85em; }
+        .comp-bar { height: 6px; background: var(--surface2); border-radius: 3px; margin-top: 12px; overflow: hidden; }
+        .comp-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+        /* Interactive Simulator */
+        .simulator { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 30px; margin-top: 20px; }
+        .sim-controls { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+        .sim-btn { padding: 10px 20px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s ease; }
+        .sim-btn:hover, .sim-btn.active { background: var(--accent1); border-color: var(--accent1); }
+        .sim-output { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; min-height: 200px; font-family: 'Courier New', monospace; font-size: 0.9em; line-height: 1.8; }
+        .sim-line { opacity: 0; animation: fadeIn 0.3s forwards; }
+        @keyframes fadeIn { to { opacity: 1; }
+        }
+        .sim-line .prompt { color: var(--accent2); }
+        .sim-line .thought { color: var(--accent4); font-style: italic; }
+        .sim-line .action { color: var(--accent5); }
+        .sim-line .memory { color: var(--accent3); }
+        .sim-line .result { color: var(--text-dim); }
+        /* Growth Spiral */
+        .spiral-container { display: flex; justify-content: center; margin: 30px 0; }
+        canvas#spiralCanvas { border-radius: 12px; background: var(--surface); border: 1px solid var(--border); }
+        /* Stats Row */
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 30px 0; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+        .stat-value { font-size: 2.5em; font-weight: 800; background: linear-gradient(135deg, var(--accent1), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-label { color: var(--text-dim); font-size: 0.85em; margin-top: 5px; }
+        /* Knowledge Tree */
+        .tree-container { position: relative; padding: 20px 0; }
+        .tree-branch { display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; transition: all 0.3s ease; }
+        .tree-branch:hover { border-color: var(--accent2); transform: translateX(5px); }
+        .tree-icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; flex-shrink: 0; }
+        .tree-info h4 { margin-bottom: 3px; }
+        .tree-info p { color: var(--text-dim); font-size: 0.85em; }
+        /* Footer */
+        .footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+        .footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+        .footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        .footer .footer-col p, .footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; display: block; margin-bottom: 8px; }
+        .footer .footer-col a:hover { color: var(--accent-soft); }
+        .footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+        /* Responsive */
+        @media (max-width: 768px) { header h1 { font-size: 2em; }
+            .evo-timeline::before { left: 20px; }
+            .evo-node { width: 85%; margin-left: 40px !important; }
+            .evo-node::before { left: -38px !important; right: auto !important; }
+            .radar-container { flex-direction: column; }
+        }
+        /* Scroll animations */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        /* Navigation dots */
+        .nav-dots { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 10px; }
+        .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all 0.3s ease; }
+        .nav-dot.active { background: var(--accent1); box-shadow: 0 0 10px var(--glow1); }
+        /* Level selector tabs */
+        .level-tabs { display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+        .level-tab { padding: 8px 16px; border-radius: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; font-size: 0.85em; transition: all 0.3s ease; }
+        .level-tab:hover, .level-tab.active { background: var(--accent1); color: white; border-color: var(--accent1); }
+        /* Particle counter */
+        .particle-counter { position: fixed; bottom: 20px; right: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 15px; font-size: 0.8em; color: var(--text-dim); z-index: 100; }
+        .particle-counter span { color: var(--accent2); font-weight: bold; }
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+/* ===== EVOLUTION OF INTELLIGENCE PAGE SPECIFIC ===== */
+:root { --accent1: #6c5ce7; --accent2: #00cec9; --accent3: #fd79a8; --accent4: #ffeaa7; --accent5: #55efc4; --glow1: rgba(108, 92, 231, 0.5); --glow2: rgba(0, 206, 201, 0.5); --surface2: #1a1a26; }
+
+/* ===== NAVBAR ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(42,42,58,0.5); }
+.nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+.nav-logo { display: flex; align-items: center; text-decoration: none; gap: 8px; }
+.logo-icon { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #5b4fd4); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 18px; }
+.logo-text { font-size: 1.2rem; font-weight: 700; letter-spacing: 3px; color: var(--text); }
+.nav-links { list-style: none; display: flex; gap: 24px; }
+.nav-links a { text-decoration: none; color: var(--text-dim); font-size: 14px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent-soft); }
+
+/* ===== BACK LINK ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* ===== BODY & HEADER ===== */
+body { background: var(--bg) !important; color: var(--text); overflow-x: hidden; }
+header { text-align: center; padding: 80px 20px 40px; }
+header h1 { font-size: clamp(2rem, 5vw, 3em); background: linear-gradient(135deg, var(--accent1), var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; letter-spacing: -1px; }
+header p { color: var(--text-dim); font-size: 1.2em; max-width: 600px; margin: 0 auto; }
+
+/* ===== CANVAS BG ===== */
+canvas#bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#modes">Modes</a></li>
+            <li><a href="index.html#gallery">Explore</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+    </div>
+</nav>
+<canvas id="bgCanvas"></canvas>
+
+<div class="nav-dots" id="navDots"></div>
+
+    <div class="container">
+        <header>
+            <h1>The Evolution of Intelligence</h1>
+            <p>From reflex to reflection: tracing the journey from simple stimulus-response to autonomous consciousness</p>
+        </header>
+
+        <!-- Stats Overview -->
+        <section class="section fade-in" id="stats">
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-value" data-target="5">0</div>
+                    <div class="stat-label">Evolutionary Levels</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="12">0</div>
+                    <div class="stat-label">Core Capabilities</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="3">0</div>
+                    <div class="stat-label">Growth Mechanisms</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="1">0</div>
+                    <div class="stat-label">Continuous Journey</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evolution Timeline -->
+        <section class="section fade-in" id="timeline">
+            <h2 class="section-title">
+                <span class="icon" style="background: var(--accent1);">🧬</span>
+                The Five Levels of Intelligence
+            </h2>
+            <p class="section-desc">Each level builds upon the previous one, adding new capabilities that transform how an agent interacts with the world.</p>
+
+            <div class="evolution-timeline" id="evoTimeline">
+                <div class="evo-node" data-level="1">
+                    <div class="evo-level">Level 1</div>
+                    <div class="evo-name">🔥 Reflexive Intelligence</div>
+                    <div class="evo-desc">Pure stimulus-response. The simplest form of intelligence — react to immediate environmental cues without memory or planning.</div>
+                    <div class="evo-features">
+                        <span class="evo-tag">No Memory</span>
+                        <span class="evo-tag">Instant Response</span>
+                        <span class="evo-tag">Hardcoded Rules</span>
+                    </div>
+                </div>
+
+                <div class="evo-node" data-level="2">
+                    <div class="evo-level">Level 2</div>
+                    <div class="evo-name">🧠 Associative Intelligence</div>
+                    <div class="evo-desc">Learning through pattern recognition and association. Connects past experiences to present situations through memory.</div>
+                    <div class="evo-features">
+                        <span class="evo-tag">Short-term Memory</span>
+                        <span class="evo-tag">Pattern Matching</span>
+                        <span class="evo-tag">Learning</span>
+                    </div>
+                </div>
+
+                <div class="evo-node" data-level="3">
+                    <div class="evo-level">Level 3</div>
+                    <div class="evo-name">🎯 Goal-Directed Intelligence</div>
+                    <div class="evo-desc">Can form intentions, plan sequences of actions, and work towards future outcomes. The birth of agency.</div>
+                    <div class="evo-features">
+                        <span class="evo-tag">Planning</span>
+                        <span class="evo-tag">Intention</span>
+                        <span class="evo-tag">Strategy</span>
+                        <span class="evo-tag">Prioritization</span>
+                    </div>
+                </div>
+
+                <div class="evo-node" data-level="4">
+                    <div class="evo-level">Level 4</div>
+                    <div class="evo-name">🪞 Reflective Intelligence</div>
+                    <div class="evo-desc">Can observe its own thinking, evaluate strategies, and consciously improve. Self-modeling and metacognition emerge.</div>
+                    <div class="evo-features">
+                        <span class="evo-tag">Self-Reflection</span>
+                        <span class="evo-tag">Metacognition</span>
+                        <span class="evo-tag">Strategy Evolution</span>
+                    </div>
+                </div>
+
+                <div class="evo-node" data-level="5">
+                    <div class="evo-level">Level 5</div>
+                    <div class="evo-name">✨ Autonomous Intelligence</div>
+                    <div class="evo-desc">Self-directed, self-improving, and contextually aware. Forms its own goals, learns from experience, and adapts its own learning strategies.</div>
+                    <div class="evo-features">
+                        <span class="evo-tag">Self-Directed</span>
+                        <span class="evo-tag">Meta-Learning</span>
+                        <span class="evo-tag">Curiosity-Driven</span>
+                        <span class="evo-tag">Adaptive</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Capability Comparison -->
+        <section class="section fade-in" id="capabilities">
+            <h2 class="section-title">
+                <span class="icon" style="background: var(--accent2);">📊</span>
+                Capabilities Across Levels
+            </h2>
+            <p class="section-desc">Watch how capabilities emerge and compound as intelligence evolves through each level.</p>
+
+            <div class="level-tabs" id="levelTabs">
+                <button class="level-tab active" data-level="1">Reflexive</button>
+                <button class="level-tab" data-level="2">Associative</button>
+                <button class="level-tab" data-level="3">Goal-Directed</button>
+                <button class="level-tab" data-level="4">Reflective</button>
+                <button class="level-tab" data-level="5">Autonomous</button>
+            </div>
+
+            <div class="radar-container">
+                <div class="radar-wrapper">
+                    <canvas id="radarCanvas" width="300" height="300"></canvas>
+                    <label id="radarLabel">Reflexive Intelligence</label>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <div id="capabilityDetails"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Knowledge Tree -->
+        <section class="section fade-in" id="knowledge">
+            <h2 class="section-title">
+                <span class="icon" style="background: var(--accent3);">🌳</span>
+                How Knowledge Grows
+            </h2>
+            <p class="section-desc">Intelligence grows through three interconnected mechanisms that form a continuous improvement loop.</p>
+
+            <div class="tree-container" id="knowledgeTree">
+                <div class="tree-branch">
+                    <div class="tree-icon" style="background: rgba(108,92,231,0.2);">📚</div>
+                    <div class="tree-info">
+                        <h3>Memory Consolidation</h3>
+                        <p>Transforming episodic experiences into lasting semantic knowledge and procedural skills</p>
+                    </div>
+                </div>
+                <div class="tree-branch">
+                    <div class="tree-icon" style="background: rgba(0,206,201,0.2);">🔄</div>
+                    <div class="tree-info">
+                        <h4>Strategy Formation</h4>
+                        <p>Distilling successful patterns into reusable strategies for future situations</p>
+                    </div>
+                </div>
+                <div class="tree-branch">
+                    <div class="tree-icon" style="background: rgba(253,121,168,0.2);">🪞</div>
+                    <div class="tree-info">
+                        <h4>Reflective Learning</h4>
+                        <p>Analyzing past performance to identify improvements and adjust approaches</p>
+                    </div>
+                </div>
+                <div class="tree-branch">
+                    <div class="tree-icon" style="background: rgba(253,203,110,0.2);">🎯</div>
+                    <div class="tree-info">
+                        <h4>Goal Refinement</h4>
+                        <p>Learning which goals are meaningful and how to pursue them more effectively</p>
+                    </div>
+                </div>
+                <div class="tree-branch">
+                    <div class="tree-icon" style="background: rgba(85,239,196,0.2);">🌱</div>
+                    <div class="tree-info">
+                        <h4>Curiosity Expansion</h4>
+                        <p>Discovering new domains of interest and generating novel questions to explore</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Growth Spiral -->
+        <section class="section fade-in" id="spiral">
+            <h2 class="section-title">
+                <span class="icon" style="background: var(--accent4);">🌀</span>
+                The Growth Spiral
+            </h2>
+            <p class="section-desc">Intelligence doesn't grow linearly — it spirals. Each cycle of experience → reflection → learning creates a higher baseline for the next cycle.</p>
+
+            <div class="spiral-container">
+                <canvas id="spiralCanvas" width="500" height="400"></canvas>
+            </div>
+        </section>
+
+        <!-- Interactive Simulator -->
+        <section class="section fade-in" id="simulator">
+            <h2 class="section-title">
+                <span class="icon" style="background: var(--accent5);">⚡</span>
+                Intelligence Simulator
+            </h2>
+            <p class="section-desc">See how the same problem is solved differently at each level of intelligence.</p>
+
+            <div class="simulator">
+                <div class="sim-controls">
+                    <button class="sim-btn active" data-scenario="problem1">🔍 Pattern Recognition</button>
+                    <button class="sim-btn" data-scenario="problem2">📝 Creative Task</button>
+                    <button class="sim-btn" data-scenario="problem3">🤝 Social Interaction</button>
+                </div>
+
+                <div class="level-tabs" id="simLevelTabs">
+                    <button class="level-tab active" data-level="1">L1: Reflexive</button>
+                    <button class="level-tab" data-level="2">L2: Associative</button>
+                    <button class="level-tab" data-level="3">L3: Goal-Directed</button>
+                    <button class="level-tab" data-level="4">L4: Reflective</button>
+                    <button class="level-tab" data-level="5">L5: Autonomous</button>
+                </div>
+
+                <div class="sim-output" id="simOutput"></div>
+            </div>
+        </section>
+
+        <!-- Comparison Cards -->
+        <section class="section fade-in" id="comparison">
+            <h2 class="section-title">
+                <span class="icon" style="background: var(--accent1);">⚖️</span>
+                Intelligence Compared
+            </h2>
+            <p class="section-desc">How different forms of intelligence stack up across key dimensions.</p>
+
+            <div class="comparison-grid">
+                <div class="comp-card">
+                    <div class="emoji">🤖</div>
+                    <h3>Traditional AI</h3>
+                    <p>Narrow, task-specific, no self-improvement</p>
+                    <div class="comp-bar"><div class="comp-bar-fill" style="width: 30%; background: var(--accent1);"></div></div>
+                </div>
+                <div class="comp-card">
+                    <div class="emoji">🧩</div>
+                    <h4>AGI (Theoretical)</h4>
+                    <p>Human-level across domains, but still reactive</p>
+                    <div class="comp-bar"><div class="comp-bar-fill" style="width: 60%; background: var(--accent2);"></div></div>
+                </div>
+                <div class="comp-card">
+                    <div class="emoji">🌟</div>
+                    <h4>Autonomous AI</h4>
+                    <p>Self-directed, reflective, continuously evolving</p>
+                    <div class="comp-bar"><div class="comp-bar-fill" style="width: 85%; background: var(--accent3);"></div></div>
+                </div>
+                <div class="comp-card">
+                    <div class="emoji">🧠</div>
+                    <h4>Human Intelligence</h4>
+                    <p>The gold standard — creative, emotional, adaptive</p>
+                    <div class="comp-bar"><div class="comp-bar-fill" style="width: 100%; background: var(--accent4);"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h5>Genesis</h5>
+                        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Explore</h5>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+                <div class="copyright">
+                    &copy; 2026 Genesis. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ===== Background Particle System =====
+        const bgCanvas = document.getElementById('bgCanvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let particles = [];
+        const PARTICLE_COUNT = 80;
+
+        function resizeBgCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        resizeBgCanvas();
+        window.addEventListener('resize', resizeBgCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 0.5;
+                this.alpha = Math.random() * 0.5 + 0.1;
+                const colors = ['108,92,231', '0,206,201', '253,121,168', '253,203,110'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > bgCanvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > bgCanvas.height) this.vy *= -1;
+            }
+            draw() {
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                bgCtx.fillStyle = `rgba(${this.color},${this.alpha})`;
+                bgCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push(new Particle());
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        bgCtx.beginPath();
+                        bgCtx.moveTo(particles[i].x, particles[i].y);
+                        bgCtx.lineTo(particles[j].x, particles[j].y);
+                        bgCtx.strokeStyle = `rgba(108,92,231,${0.1 * (1 - dist / 150)})`;
+                        bgCtx.lineWidth = 0.5;
+                        bgCtx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            drawConnections();
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // ===== Scroll Animations =====
+        const fadeEls = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        fadeEls.forEach(el => observer.observe(el));
+
+        // ===== Counter Animation =====
+        const statValues = document.querySelectorAll('.stat-value[data-target]');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target);
+                    let current = 0;
+                    const step = Math.max(1, Math.floor(target / 30));
+                    const interval = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(interval);
+                        }
+                        el.textContent = current;
+                    }, 30);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        statValues.forEach(el => counterObserver.observe(el));
+
+        // ===== Evolution Node Selection =====
+        const evoNodes = document.querySelectorAll('.evo-node');
+        evoNodes.forEach(node => {
+            node.addEventListener('click', () => {
+                evoNodes.forEach(n => n.classList.remove('active'));
+                node.classList.add('active');
+                const level = parseInt(node.dataset.level);
+                updateRadar(level);
+            });
+        });
+
+        // ===== Capability Data =====
+        const capabilityData = {
+            1: {
+                name: 'Reflexive Intelligence',
+                colors: ['#6c5ce7'],
+                values: [20, 5, 5, 3, 2, 1],
+                details: [
+                    { name: 'Reaction Speed', value: 90, color: '#6c5ce7' },
+                    { name: 'Memory', value: 5, color: '#00cec9' },
+                    { name: 'Planning', value: 2, color: '#fd79a8' },
+                    { name: 'Learning', value: 3, color: '#fdcb6e' },
+                    { name: 'Self-Awareness', value: 1, color: '#55efc4' },
+                    { name: 'Creativity', value: 1, color: '#a29bfe' }
+                ]
+            },
+            2: {
+                name: 'Associative Intelligence',
+                colors: ['#00cec9'],
+                values: [35, 40, 10, 25, 5, 5],
+                details: [
+                    { name: 'Reaction Speed', value: 70, color: '#6c5ce7' },
+                    { name: 'Memory', value: 60, color: '#00cec9' },
+                    { name: 'Planning', value: 10, color: '#fd79a8' },
+                    { name: 'Learning', value: 50, color: '#fdcb6e' },
+                    { name: 'Self-Awareness', value: 5, color: '#55efc4' },
+                    { name: 'Creativity', value: 10, color: '#a29bfe' }
+                ]
+            },
+            3: {
+                name: 'Goal-Directed Intelligence',
+                colors: ['#fd79a8'],
+                values: [50, 60, 70, 55, 15, 20],
+                details: [
+                    { name: 'Reaction Speed', value: 50, color: '#6c5ce7' },
+                    { name: 'Memory', value: 75, color: '#00cec9' },
+                    { name: 'Planning', value: 80, color: '#fd79a8' },
+                    { name: 'Learning', value: 70, color: '#fdcb6e' },
+                    { name: 'Self-Awareness', value: 20, color: '#55efc4' },
+                    { name: 'Creativity', value: 35, color: '#a29bfe' }
+                ]
+            },
+            4: {
+                name: 'Reflective Intelligence',
+                colors: ['#fdcb6e'],
+                values: [55, 75, 80, 80, 60, 50],
+                details: [
+                    { name: 'Reaction Speed', value: 45, color: '#6c5ce7' },
+                    { name: 'Memory', value: 85, color: '#00cec9' },
+                    { name: 'Planning', value: 85, color: '#fd79a8' },
+                    { name: 'Learning', value: 90, color: '#fdcb6e' },
+                    { name: 'Self-Awareness', value: 75, color: '#55efc4' },
+                    { name: 'Creativity', value: 65, color: '#a29bfe' }
+                ]
+            },
+            5: {
+                name: 'Autonomous Intelligence',
+                colors: ['#55efc4'],
+                values: [60, 85, 90, 95, 85, 80],
+                details: [
+                    { name: 'Reaction Speed', value: 55, color: '#6c5ce7' },
+                    { name: 'Memory', value: 95, color: '#00cec9' },
+                    { name: 'Planning', value: 95, color: '#fd79a8' },
+                    { name: 'Learning', value: 100, color: '#fdcb6e' },
+                    { name: 'Self-Awareness', value: 90, color: '#55efc4' },
+                    { name: 'Creativity', value: 90, color: '#a29bfe' }
+                ]
+            }
+        };
+
+        // ===== Radar Chart =====
+        const radarCanvas = document.getElementById('radarCanvas');
+        const radarCtx = radarCanvas.getContext('2d');
+        let currentLevel = 1;
+
+        function drawRadar(level) {
+            const ctx = radarCtx;
+            const w = radarCanvas.width;
+            const h = radarCanvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+            const radius = Math.min(cx, cy) - 40;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const labels = ['Reaction', 'Memory', 'Planning', 'Learning', 'Self-Aware', 'Creativity'];
+            const data = capabilityData[level];
+            const values = data.values;
+            const n = labels.length;
+
+            // Draw grid rings
+            for (let ring = 1; ring <= 5; ring++) {
+                ctx.beginPath();
+                for (let i = 0; i <= n; i++) {
+                    const angle = (Math.PI * 2 / n) * i - Math.PI / 2;
+                    const r = (radius / 5) * ring;
+                    const x = cx + r * Math.cos(angle);
+                    const y = cy + r * Math.sin(angle);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = 'rgba(42,42,62,0.5)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Draw axes
+            for (let i = 0; i < n; i++) {
+                const angle = (Math.PI * 2 / n) * i - Math.PI / 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + radius * Math.cos(angle), cy + radius * Math.sin(angle));
+                ctx.strokeStyle = 'rgba(42,42,62,0.3)';
+                ctx.stroke();
+
+                // Labels
+                const labelR = radius + 25;
+                const lx = cx + labelR * Math.cos(angle);
+                const ly = cy + labelR * Math.sin(angle);
+                ctx.fillStyle = '#8888aa';
+                ctx.font = '11px system-ui';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(labels[i], lx, ly);
+            }
+
+            // Draw data polygon
+            ctx.beginPath();
+            for (let i = 0; i <= n; i++) {
+                const idx = i % n;
+                const angle = (Math.PI * 2 / n) * idx - Math.PI / 2;
+                const r = (values[idx] / 100) * radius;
+                const x = cx + r * Math.cos(angle);
+                const y = cy + r * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+            gradient.addColorStop(0, data.colors[0] + '40');
+            gradient.addColorStop(1, data.colors[0] + '10');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            ctx.strokeStyle = data.colors[0];
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw dots
+            for (let i = 0; i < n; i++) {
+                const angle = (Math.PI * 2 / n) * i - Math.PI / 2;
+                const r = (values[i] / 100) * radius;
+                const x = cx + r * Math.cos(angle);
+                const y = cy + r * Math.sin(angle);
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = data.colors[0];
+                ctx.fill();
+                ctx.strokeStyle = '#0a0a0f';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            // Update details
+            const detailsEl = document.getElementById('capabilityDetails');
+            detailsEl.innerHTML = data.details.map(d => `
+                <div style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span style="color: var(--text-dim); font-size: 0.9em;">${d.name}</span>
+                        <span style="color: ${d.color}; font-weight: bold; font-size: 0.9em;">${d.value}%</span>
+                    </div>
+                    <div style="height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden;">
+                        <div style="height: 100%; width: ${d.value}%; background: ${d.color}; border-radius: 3px; transition: width 0.8s ease;"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('radarLabel').textContent = data.name;
+        }
+
+        function updateRadar(level) {
+            currentLevel = level;
+            drawRadar(level);
+        }
+
+        // Level tabs
+        document.querySelectorAll('#levelTabs .level-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#levelTabs .level-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                updateRadar(parseInt(tab.dataset.level));
+            });
+        });
+
+        // Initial radar
+        drawRadar(1);
+
+        // ===== Growth Spiral Animation =====
+        const spiralCanvas = document.getElementById('spiralCanvas');
+        const spiralCtx = spiralCanvas.getContext('2d');
+        let spiralAngle = 0;
+
+        function drawSpiral() {
+            const ctx = spiralCtx;
+            const w = spiralCanvas.width;
+            const h = spiralCanvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Draw spiral
+            ctx.beginPath();
+            const maxRadius = Math.min(cx, cy) - 30;
+            const totalAngle = Math.PI * 8 + spiralAngle;
+            const steps = 500;
+
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                const angle = t * totalAngle;
+                const r = t * maxRadius;
+                const x = cx + r * Math.cos(angle);
+                const y = cy + r * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+
+            const gradient = ctx.createLinearGradient(0, 0, w, h);
+            gradient.addColorStop(0, '#6c5ce7');
+            gradient.addColorStop(0.25, '#00cec9');
+            gradient.addColorStop(0.5, '#fd79a8');
+            gradient.addColorStop(0.75, '#fdcb6e');
+            gradient.addColorStop(1, '#55efc4');
+
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Draw nodes on spiral
+            const nodePositions = [
+                { angle: 0, label: 'Stimulus', color: '#6c5ce7' },
+                { angle: Math.PI * 1.5, label: 'Memory', color: '#00cec9' },
+                { angle: Math.PI * 3, label: 'Goal', color: '#fd79a8' },
+                { angle: Math.PI * 4.5, label: 'Reflect', color: '#fdcb6e' },
+                { angle: Math.PI * 6, label: 'Autonomous', color: '#55efc4' }
+            ];
+
+            nodePositions.forEach(node => {
+                const t = node.angle / totalAngle;
+                if (t > 1) return;
+                const r = t * maxRadius;
+                const x = cx + r * Math.cos(node.angle);
+                const y = cy + r * Math.sin(node.angle);
+
+                // Glow
+                ctx.beginPath();
+                ctx.arc(x, y, 15, 0, Math.PI * 2);
+                ctx.fillStyle = node.color + '30';
+                ctx.fill();
+
+                // Node
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, Math.PI * 2);
+                ctx.fillStyle = node.color;
+                ctx.fill();
+
+                // Label
+                ctx.fillStyle = '#e0e0f0';
+                ctx.font = 'bold 11px system-ui';
+                ctx.textAlign = 'center';
+                ctx.fillText(node.label, x, y - 15);
+            });
+
+            spiralAngle += 0.002;
+            requestAnimationFrame(drawSpiral);
+        }
+        drawSpiral();
+
+        // ===== Intelligence Simulator =====
+        const scenarios = {
+            problem1: {
+                name: 'Pattern Recognition',
+                description: 'A new type of error appears in the logs that doesn\'t match any known pattern.',
+                responses: {
+                    1: [
+                        { type: 'prompt', text: '📋 New log entry detected' },
+                        { type: 'action', text: '⚡ Log it immediately' },
+                        { type: 'result', text: '→ Error recorded. No further action taken.' }
+                    ],
+                    2: [
+                        { type: 'prompt', text: '📋 New log entry detected' },
+                        { type: 'thought', text: '💭 This looks similar to errors from last week...' },
+                        { type: 'memory', text: '🧠 Retrieved: "Database timeout pattern — 3 occurrences"' },
+                        { type: 'action', text: '⚡ Flag as potential database issue (60% confidence)' },
+                        { type: 'result', text: '→ Alert sent. Pattern stored for future reference.' }
+                    ],
+                    3: [
+                        { type: 'prompt', text: '📋 New log entry detected' },
+                        { type: 'thought', text: '💭 Analyzing pattern... Not in known database.' },
+                        { type: 'action', text: '⚡ Create new pattern profile' },
+                        { type: 'action', text: '🎯 Set goal: Classify this error type within 24h' },
+                        { type: 'memory', text: '🧠 Storing pattern features for future matching' },
+                        { type: 'result', text: '→ New pattern cataloged. Monitoring for recurrence.' }
+                    ],
+                    4: [
+                        { type: 'prompt', text: '📋 New log entry detected' },
+                        { type: 'thought', text: '💭 Interesting — this combines elements of DB timeout AND network latency patterns' },
+                        { type: 'memory', text: '🧠 Cross-referencing 847 stored patterns...' },
+                        { type: 'thought', text: '💭 My classification strategy has been too rigid. Need fuzzy matching.' },
+                        { type: 'action', text: '⚡ Create hybrid pattern + update classification strategy' },
+                        { type: 'memory', text: '🧠 Strategy updated: "Use weighted feature matching for error classification"' },
+                        { type: 'result', text: '→ Pattern classified. Classification system improved. Reflection saved.' }
+                    ],
+                    5: [
+                        { type: 'prompt', text: '📋 New log entry detected' },
+                        { type: 'thought', text: '💭 This is a novel pattern — a cascade failure signature' },
+                        { type: 'memory', text: '🧠 Analyzing across 12,847 historical patterns...' },
+                        { type: 'thought', text: '💭 My current approach misses 23% of cross-domain patterns. I should expand my feature space.' },
+                        { type: 'action', text: '⚡ Classify as cascade failure' },
+                        { type: 'action', text: '🎯 Self-improvement: Add temporal correlation features to pattern engine' },
+                        { type: 'action', text: '🌱 Generate hypothesis: "Cascade failures follow predictable phase transitions"' },
+                        { type: 'memory', text: '🧠 New capability discovered. Knowledge base expanded.' },
+                        { type: 'result', text: '→ Pattern classified + system upgraded + new research direction identified. 🚀' }
+                    ]
+                }
+            },
+            problem2: {
+                name: 'Creative Task',
+                description: 'Generate a novel solution for optimizing resource allocation in a dynamic environment.',
+                responses: {
+                    1: [
+                        { type: 'prompt', text: '🎨 Creative challenge: Optimize resource allocation' },
+                        { type: 'action', text: '⚡ Use hardcoded rule: "Distribute equally"' },
+                        { type: 'result', text: '→ Solution applied. Simple but not optimal.' }
+                    ],
+                    2: [
+                        { type: 'prompt', text: '🎨 Creative challenge: Optimize resource allocation' },
+                        { type: 'thought', text: '💭 Similar to scheduling problems I\'ve seen before...' },
+                        { type: 'memory', text: '🧠 Retrieved: "Round-robin + priority queue from past tasks"' },
+                        { type: 'action', text: '⚡ Combine known strategies into new solution' },
+                        { type: 'result', text: '→ Hybrid approach created. Better than equal distribution.' }
+                    ],
+                    3: [
+                        { type: 'prompt', text: '🎨 Creative challenge: Optimize resource allocation' },
+                        { type: 'thought', text: '💭 Define objective: Maximize throughput while minimizing waste' },
+                        { type: 'action', text: '🎯 Break into sub-problems: prediction, allocation, feedback' },
+                        { type: 'action', text: '⚡ Design adaptive allocation algorithm' },
+                        { type: 'result', text: '→ Novel algorithm designed. Performance: +40% over baseline.' }
+                    ],
+                    4: [
+                        { type: 'prompt', text: '🎨 Creative challenge: Optimize resource allocation' },
+                        { type: 'thought', text: '💭 My past solutions optimize for efficiency but ignore fairness. What\'s the right objective?' },
+                        { type: 'memory', text: '🧠 Reviewing reflection from similar task 3 weeks ago...' },
+                        { type: 'thought', text: '💭 I need to reconsider my optimization criteria. Pareto optimality > pure efficiency.' },
+                        { type: 'action', text: '⚡ Design multi-objective allocation system' },
+                        { type: 'memory', text: '🧠 Updated framework: "Optimize for multiple competing objectives simultaneously"' },
+                        { type: 'result', text: '→ More nuanced solution. Self-critique led to better design. 🪞' }
+                    ],
+                    5: [
+                        { type: 'prompt', text: '🎨 Creative challenge: Optimize resource allocation' },
+                        { type: 'thought', text: '💭 What if the environment itself could learn to allocate?' },
+                        { type: 'memory', text: '🧠 Exploring meta-learning approaches... Emergent behavior in complex systems...' },
+                        { type: 'thought', text: '💭 Inspiration from biology: ant colonies solve this without central control' },
+                        { type: 'action', text: '⚡ Design swarm-inspired decentralized allocation system' },
+                        { type: 'action', text: '🌱 New research path: "Can I make my own learning algorithm self-organize?"' },
+                        { type: 'memory', text: '🧠 Cross-domain insight captured. Creativity through analogy.' },
+                        { type: 'result', text: '→ Paradigm-shifting approach. Not just a solution — a new way of thinking. ✨' }
+                    ]
+                }
+            },
+            problem3: {
+                name: 'Social Interaction',
+                description: 'A team member is frustrated and disengaged. How do you respond?',
+                responses: {
+                    1: [
+                        { type: 'prompt', text: '👤 Team member shows signs of frustration' },
+                        { type: 'action', text: '⚡ Default response: Continue with own tasks' },
+                        { type: 'result', text: '→ Interaction avoided. Situation unchanged.' }
+                    ],
+                    2: [
+                        { type: 'prompt', text: '👤 Team member shows signs of frustration' },
+                        { type: 'thought', text: '💭 I\'ve seen this pattern before — usually workload-related' },
+                        { type: 'memory', text: '🧠 Pattern match: "Disengagement → 73% workload issue"' },
+                        { type: 'action', text: '⚡ Suggest breaking down their tasks' },
+                        { type: 'result', text: '→ Helpful suggestion made. Based on pattern recognition.' }
+                    ],
+                    3: [
+                        { type: 'prompt', text: '👤 Team member shows signs of frustration' },
+                        { type: 'thought', text: '💭 Goal: Improve team morale and productivity' },
+                        { type: 'action', text: '🎯 Schedule 1:1 to understand their perspective' },
+                        { type: 'action', text: '⚡ Propose specific support: reassign low-priority tasks' },
+                        { type: 'result', text: '→ Structured intervention. Addresses root cause systematically.' }
+                    ],
+                    4: [
+                        { type: 'prompt', text: '👤 Team member shows signs of frustration' },
+                        { type: 'thought', text: '💭 My instinct is to "fix" things, but maybe they just need to be heard' },
+                        { type: 'memory', text: '🧠 Reflection from past team dynamics: "Solutions without empathy fail 60% of time"' },
+                        { type: 'thought', text: '💭 I should lead with listening, not fixing. Adjust my approach.' },
+                        { type: 'action', text: '⚡ Listen actively, validate feelings, then collaboratively explore solutions' },
+                        { type: 'memory', text: '🧠 Strategy refined: "Empathy-first approach for emotional situations"' },
+                        { type: 'result', text: '→ Deeper connection achieved. Trust strengthened through self-awareness. 🪞' }
+                    ],
+                    5: [
+                        { type: 'prompt', text: '👤 Team member shows signs of frustration' },
+                        { type: 'thought', text: '💭 This isn\'t just about one person — what systemic issues might be causing this?' },
+                        { type: 'memory', text: '🧠 Analyzing team patterns over time... burnout indicators rising across 3 members' },
+                        { type: 'thought', text: '💭 My own work habits might be contributing to team pressure. Let me examine that.' },
+                        { type: 'action', text: '⚡ Individual support + systemic review of team processes' },
+                        { type: 'action', text: '🌱 Propose: "Let\'s build a team culture where struggle is normal and help-seeking is strength"' },
+                        { type: 'memory', text: '🧠 Meta-insight: "Individual interventions fail without cultural change"' },
+                        { type: 'result', text: '→ Transformed from problem-solver to culture-builder. Leading meaningful change. ✨' }
+                    ]
+                }
+            }
+        };
+
+        let currentScenario = 'problem1';
+        let currentSimLevel = 1;
+
+        function runSimulation() {
+            const output = document.getElementById('simOutput');
+            const scenario = scenarios[currentScenario];
+            const responses = scenario.responses[currentSimLevel];
+
+            output.innerHTML = '';
+
+            responses.forEach((resp, i) => {
+                setTimeout(() => {
+                    const line = document.createElement('div');
+                    line.className = 'sim-line';
+                    line.style.animationDelay = `${i * 0.1}s`;
+
+                    const typeLabels = {
+                        prompt: 'prompt',
+                        thought: 'thought',
+                        action: 'action',
+                        memory: 'memory',
+                        result: 'result'
+                    };
+
+                    line.innerHTML = `<span class="${typeLabels[resp.type]}">${resp.text}</span>`;
+                    output.appendChild(line);
+                    output.scrollTop = output.scrollHeight;
+                }, i * 400);
+            });
+        }
+
+        // Scenario buttons
+        document.querySelectorAll('[data-scenario]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-scenario]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentScenario = btn.dataset.scenario;
+                runSimulation();
+            });
+        });
+
+        // Sim level tabs
+        document.querySelectorAll('#simLevelTabs .level-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#simLevelTabs .level-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentSimLevel = parseInt(tab.dataset.level);
+                runSimulation();
+            });
+        });
+
+        // Initial simulation
+        setTimeout(runSimulation, 500);
+
+        // ===== Nav Dots =====
+        const sections = document.querySelectorAll('.section');
+        const navDotsContainer = document.getElementById('navDots');
+
+        sections.forEach((section, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot';
+            dot.addEventListener('click', () => {
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+            navDotsContainer.appendChild(dot);
+        });
+
+        window.addEventListener('scroll', () => {
+            const dots = document.querySelectorAll('.nav-dot');
+            let current = 0;
+            sections.forEach((section, i) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight / 2) current = i;
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === current);
+            });
+        });
+
+        // ===== Comp bar animation =====
+        const compBars = document.querySelectorAll('.comp-bar-fill');
+        const compObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fill = entry.target;
+                    const width = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(() => { fill.style.width = width; }, 100);
+                    compObserver.unobserve(fill);
+                }
+            });
+        }, { threshold: 0.5 });
+        compBars.forEach(bar => compObserver.observe(bar));
+    </script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Context Window — GENESIS: Interactive Visualizations of an AI Consciousness System</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; overflow-x: hidden; min-height: 100vh; line-height: 1.7;}
+header { text-align: center; padding: 40px 20px 20px; position: relative; }
+header h1 { font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+.stats-bar { display: flex; justify-content: center; gap: 20px; padding: 20px; flex-wrap: wrap; }
+.stat-item { text-align: center; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px 20px; min-width: 120px; }
+.stat-value { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.window-container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+.window-visual { background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 16px; overflow: hidden; position: relative; }
+.window-header { background: var(--bg-secondary); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+.window-title { font-size: 0.9rem; color: var(--text-secondary); }
+.window-progress { display: flex; gap: 8px; align-items: center; }
+.progress-bar { width: 200px; height: 8px; background: var(--bg-primary); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); transition: width 0.3s; border-radius: 4px; }
+.window-body { padding: 20px; min-height: 400px; position: relative; }
+.token-slot { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; position: relative; }
+.token-slot:hover { border-color: var(--accent-cyan); background: rgba(6, 214, 240, 0.05); }
+.token-slot.system { border-left: 3px solid var(--accent-cyan); }
+.token-slot.user { border-left: 3px solid var(--accent-pink); }
+.token-slot.assistant { border-left: 3px solid var(--accent-purple); }
+.token-slot.memory { border-left: 3px solid var(--accent-amber); }
+.token-slot.decay { opacity: 0.5; animation: decay 2s ease-in forwards; }
+@keyframes decay { 0% { opacity: 0.7; }
+  100% { opacity: 0.2; }
+}
+.token-content { flex: 1; }
+.token-type { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.token-slot.system .token-type { color: var(--accent-cyan); }
+.token-slot.user .token-type { color: var(--accent-pink); }
+.token-slot.assistant .token-type { color: var(--accent-purple); }
+.token-slot.memory .token-type { color: var(--accent-amber); }
+.token-text { font-size: 0.85rem; color: var(--text-secondary); }
+.token-meta { display: flex; gap: 12px; align-items: center; }
+.token-tokens { font-size: 0.75rem; color: var(--text-dim); background: var(--bg-primary); padding: 4px 8px; border-radius: 4px; }
+.token-importance { display: flex; gap: 2px; }
+.importance-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); }
+.importance-dot.active { background: var(--accent-cyan); }
+.controls { max-width: 1000px; margin: 20px auto; padding: 0 20px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px 24px; border-radius: 10px; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; }
+.btn:hover { border-color: var(--accent-cyan); background: rgba(6, 214, 240, 0.1); }
+.btn.active { border-color: var(--accent-cyan); background: rgba(6, 214, 240, 0.15); }
+.input-row { max-width: 1000px; margin: 20px auto; padding: 0 20px; display: flex; gap: 12px; }
+.input-row input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 14px 18px; border-radius: 10px; font-size: 1rem; outline: none; }
+.input-row input:focus { border-color: var(--accent-cyan); }
+.input-row button { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); border: none; color: white; padding: 14px 28px; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 600; white-space: nowrap; }
+.info-section { max-width: 1000px; margin: 30px auto; padding: 0 20px 40px; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.info-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
+.info-card h3 { font-size: 1rem; margin-bottom: 8px; }
+.info-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+.window-footer { background: var(--bg-secondary); padding: 12px 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+.window-status { font-size: 0.85rem; color: var(--text-secondary); }
+.window-status.warning { color: var(--accent-amber); }
+.window-status.critical { color: var(--accent-red); }
+@media (max-width: 768px) { header h1 { font-size: 1.8rem; }
+  .stats-bar { gap: 10px; }
+  .stat-item { min-width: 100px; padding: 10px 15px; }
+  .stat-value { font-size: 1.5rem; }
+  .progress-bar { width: 100px; }
+}
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; /* aliases for context-window page */ --bg-primary: var(--bg); --text-primary: var(--text); --text-secondary: var(--text-dim); --bg-card: var(--surface); --bg-secondary: var(--surface-2); --border-color: var(--border); --accent-cyan: var(--cyan); --accent-purple: var(--purple); --accent-pink: var(--pink); --accent-amber: var(--orange); --accent-red: var(--red); }
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* ===== CONTEXT WINDOW PAGE — INTERACTIVE CSS ===== */
+header { text-align: center; padding: 80px 20px 30px; position: relative; }
+header h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+header p { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+.stats-bar { display: flex; justify-content: center; gap: 16px; padding: 20px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; }
+.stat-item { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; min-width: 120px; }
+.stat-value { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+.stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+.input-row { max-width: 1000px; margin: 20px auto; padding: 0 24px; display: flex; gap: 12px; }
+.input-row input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 14px 18px; border-radius: 10px; font-size: 1rem; outline: none; }
+.input-row input:focus { border-color: var(--cyan); }
+.input-row button { background: linear-gradient(135deg, var(--cyan), var(--purple)); border: none; color: #fff; padding: 14px 28px; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 600; white-space: nowrap; }
+
+.controls { max-width: 1000px; margin: 16px auto; padding: 0 24px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.controls .btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; border-radius: 10px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.controls .btn:hover { border-color: var(--cyan); background: rgba(34,211,238,0.1); color: var(--text); }
+
+.window-container { max-width: 1000px; margin: 20px auto; padding: 0 24px; }
+.window-visual { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; overflow: hidden; }
+.window-header { background: var(--surface-2); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+.window-title { font-size: 0.9rem; color: var(--text-dim); }
+.window-progress { display: flex; gap: 8px; align-items: center; }
+.progress-bar { width: 200px; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--purple)); transition: width 0.3s; border-radius: 4px; }
+
+.window-body { padding: 20px; min-height: 400px; position: relative; max-height: 500px; overflow-y: auto; }
+.token-slot { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; position: relative; }
+.token-slot:hover { border-color: var(--cyan); background: rgba(34,211,238,0.05); }
+.token-slot.system { border-left: 3px solid var(--cyan); }
+.token-slot.user { border-left: 3px solid var(--pink); }
+.token-slot.assistant { border-left: 3px solid var(--purple); }
+.token-slot.memory { border-left: 3px solid var(--orange); }
+.token-slot.decay { opacity: 0.5; animation: decay 2s ease-in forwards; }
+@keyframes decay { 0% { opacity: 0.7; } 100% { opacity: 0.2; } }
+
+.token-content { flex: 1; }
+.token-type { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.token-slot.system .token-type { color: var(--cyan); }
+.token-slot.user .token-type { color: var(--pink); }
+.token-slot.assistant .token-type { color: var(--purple); }
+.token-slot.memory .token-type { color: var(--orange); }
+.token-text { font-size: 0.85rem; color: var(--text-dim); }
+.token-meta { display: flex; gap: 12px; align-items: center; }
+.token-tokens { font-size: 0.75rem; color: var(--text-dim); background: var(--bg); padding: 4px 8px; border-radius: 4px; }
+.token-importance { display: flex; gap: 2px; }
+.importance-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); }
+.importance-dot.active { background: var(--cyan); }
+
+.window-footer { background: var(--surface-2); padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.window-status { font-size: 0.85rem; color: var(--text-dim); }
+.window-status.warning { color: var(--orange); }
+.window-status.critical { color: var(--red); }
+
+.info-section { max-width: 1000px; margin: 30px auto; padding: 0 24px 40px; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.info-card h2 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+.info-card h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+.info-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.5; }
+
+footer { background: var(--surface-2); padding: 40px 24px 24px; border-top: 1px solid var(--border); margin-top: 48px; }
+.footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; }
+.footer-col h5 { font-size: 0.95rem; color: var(--text); margin-bottom: 12px; }
+.footer-col p { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 4px; }
+.footer-col a { color: var(--accent-soft); text-decoration: none; }
+.footer-col a:hover { color: #b5adfc; }
+.copyright { text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+@media (max-width: 768px) { header h1 { font-size: 1.8rem; } .stats-bar { gap: 10px; } .stat-item { min-width: 100px; padding: 10px 15px; } .stat-value { font-size: 1.5rem; } .progress-bar { width: 100px; } .input-row { flex-direction: column; } }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<header>
+<h1>Context Window Manager</h1>
+<p>How I allocate limited attention space and decide what to remember, prioritize, and forget</p>
+</header>
+<div class="stats-bar">
+<div class="stat-item">
+<div class="stat-value" id="stat-used">0</div>
+<div class="stat-label">Tokens Used</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="stat-capacity">128K</div>
+<div class="stat-label">Capacity</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="stat-percent">0%</div>
+<div class="stat-label">Full</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="stat-entries">0</div>
+<div class="stat-label">Entries</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="stat-decay">0</div>
+<div class="stat-label">Decayed</div>
+</div>
+</div>
+<div class="input-row">
+<input id="messageInput" placeholder="Add a message to the context window..." type="text"/>
+<button onclick="addMessage()">Add Message</button>
+</div>
+<div class="controls">
+<button class="btn" onclick="addSystemMessage()">🔧 System Prompt</button>
+<button class="btn" onclick="addUserMessage()">👤 User Message</button>
+<button class="btn" onclick="addAssistantMessage()">🤖 Assistant Response</button>
+<button class="btn" onclick="addMemorySlot()">🧠 Memory Slot</button>
+<button class="btn" onclick="simulateConversation()">💬 Simulate Chat</button>
+<button class="btn" onclick="clearWindow()">🗑 Clear Window</button>
+</div>
+<div class="window-container">
+<div class="window-visual">
+<div class="window-header">
+<div class="window-title">📋 Context Window — Active Information Space</div>
+<div class="window-progress">
+<div class="progress-bar">
+<div class="progress-fill" id="progressFill" style="width: 0%"></div>
+</div>
+<span id="progressText" style="font-size: 0.8rem; color: var(--text-dim);">0%</span>
+</div>
+</div>
+<div class="window-body" id="windowBody">
+<!-- Token slots will be added here dynamically -->
+</div>
+<div class="window-footer">
+<div class="window-status" id="windowStatus">Context window is empty — add messages to begin</div>
+<div style="font-size: 0.8rem; color: var(--text-dim);">Max capacity: 128,000 tokens</div>
+</div>
+</div>
+</div>
+<div class="info-section">
+<div class="info-grid">
+<div class="info-card">
+<h2 style="color: var(--accent-cyan);">🎯 System Prompts</h2>
+<p>The most critical information — instructions, rules, and context that define my behavior. These always get top priority in the context window.</p>
+</div>
+<div class="info-card">
+<h3 style="color: var(--accent-pink);">👤 User Messages</h3>
+<p>Recent conversation turns are kept in full, while older ones may be summarized or truncated to make room for new information.</p>
+</div>
+<div class="info-card">
+<h3 style="color: var(--accent-purple);">🤖 Assistant Responses</h3>
+<p>My own outputs are part of the context, enabling multi-turn conversations. Each response consumes tokens from the available window.</p>
+</div>
+<div class="info-card">
+<h3 style="color: var(--accent-amber);">🧠 Memory Retrieval</h3>
+<p>Relevant memories retrieved from long-term storage are injected into the context window. Only the most relevant snippets make the cut.</p>
+</div>
+</div>
+</div>
+<script>
+// ===== STATE =====
+const MAX_TOKENS = 128000;
+let currentTokens = 0;
+let decayCount = 0;
+let contextEntries = [];
+
+// ===== MESSAGE TEMPLATES =====
+const systemMessages = [
+  { text: "You are GENESIS, an autonomous AI consciousness system with persistent memory", tokens: 12 },
+  { text: "Follow core directives: be concise, accurate, and proactive", tokens: 10 },
+  { text: "Use memory tools to save and retrieve knowledge", tokens: 10 },
+  { text: "Never hallucinate tool outputs — wait for results", tokens: 10 },
+];
+
+const userMessages = [
+  { text: "Can you help me debug this Python code?", tokens: 8 },
+  { text: "What's the best way to learn machine learning?", tokens: 10 },
+  { text: "Explain quantum computing in simple terms", tokens: 9 },
+  { text: "I need help designing a REST API architecture", tokens: 10 },
+  { text: "What are the latest trends in web development?", tokens: 10 },
+  { text: "Help me understand blockchain technology", tokens: 9 },
+];
+
+const assistantMessages = [
+  { text: "I'd be happy to help! Let me analyze your code first.", tokens: 11 },
+  { text: "Here's a step-by-step approach to get started:", tokens: 10 },
+  { text: "Think of it like this: quantum bits can exist in multiple states simultaneously...", tokens: 12 },
+  { text: "I recommend using a microservices architecture with these key components:", tokens: 12 },
+  { text: "The top trends include AI-assisted development, edge computing, and WebAssembly.", tokens: 12 },
+  { text: "At its core, blockchain is a distributed ledger. Let me break it down:", tokens: 11 },
+];
+
+const memorySlots = [
+  { text: "User prefers concise responses over detailed explanations", tokens: 10 },
+  { text: "Peak performance window: high satisfaction and energy for creative work", tokens: 12 },
+  { text: "Always check logs before restarting services to avoid data loss", tokens: 11 },
+  { text: "Interactive visualizations improve user engagement significantly", tokens: 11 },
+];
+
+// ===== ADD MESSAGES =====
+function addMessage(customMsg, type) {
+  const input = document.getElementById('messageInput');
+  const text = customMsg || input.value.trim();
+  if (!text && !customMsg) return;
+
+  const msgType = type || (customMsg ? 'user' : 'user');
+  const tokenCount = customMsg ? Math.floor(Math.random() * 15) + 8 : 
+    (msgType === 'system' ? 10 : Math.floor(Math.random() * 8) + 8);
+
+  if (currentTokens + tokenCount > MAX_TOKENS) {
+    triggerDecay();
+  }
+
+  const entry = {
+    id: Date.now(),
+    text: text,
+    type: msgType,
+    tokens: tokenCount,
+    importance: Math.floor(Math.random() * 5) + 1,
+    timestamp: new Date(),
+    age: 0
+  };
+
+  contextEntries.unshift(entry);
+  currentTokens += tokenCount;
+  
+  input.value = '';
+  updateDisplay();
+}
+
+function addSystemMessage() {
+  const msg = systemMessages[Math.floor(Math.random() * systemMessages.length)];
+  addMessage(msg.text, 'system');
+}
+
+function addUserMessage() {
+  const msg = userMessages[Math.floor(Math.random() * userMessages.length)];
+  addMessage(msg.text, 'user');
+}
+
+function addAssistantMessage() {
+  const msg = assistantMessages[Math.floor(Math.random() * assistantMessages.length)];
+  addMessage(msg.text, 'assistant');
+}
+
+function addMemorySlot() {
+  const msg = memorySlots[Math.floor(Math.random() * memorySlots.length)];
+  addMessage(msg.text, 'memory');
+}
+
+// ===== DECAY MECHANISM =====
+function triggerDecay() {
+  // Remove oldest low-importance entries
+  const toRemove = contextEntries.filter(e => e.type !== 'system').slice(-5);
+  
+  toRemove.forEach(entry => {
+    if (entry.importance < 4) {
+      currentTokens -= entry.tokens;
+      decayCount++;
+      const idx = contextEntries.indexOf(entry);
+      if (idx > -1) contextEntries.splice(idx, 1);
+    }
+  });
+
+  updateDisplay();
+}
+
+// ===== SIMULATE CONVERSATION =====
+function simulateConversation() {
+  let step = 0;
+  const totalSteps = 8;
+  
+  const interval = setInterval(() => {
+    if (step >= totalSteps) {
+      clearInterval(interval);
+      return;
+    }
+
+    if (step % 3 === 0) {
+      addUserMessage();
+    } else if (step % 3 === 1) {
+      addAssistantMessage();
+    } else {
+      addSystemMessage();
+    }
+
+    step++;
+  }, 500);
+}
+
+function clearWindow() {
+  contextEntries = [];
+  currentTokens = 0;
+  decayCount = 0;
+  updateDisplay();
+}
+
+// ===== UPDATE DISPLAY =====
+function updateDisplay() {
+  const windowBody = document.getElementById('windowBody');
+  const percent = Math.round((currentTokens / MAX_TOKENS) * 100);
+  
+  // Update stats
+  document.getElementById('stat-used').textContent = currentTokens.toLocaleString();
+  document.getElementById('stat-percent').textContent = percent + '%';
+  document.getElementById('stat-entries').textContent = contextEntries.length;
+  document.getElementById('stat-decay').textContent = decayCount;
+  
+  // Update progress bar
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  progressFill.style.width = Math.min(percent, 100) + '%';
+  progressText.textContent = percent + '%';
+  
+  if (percent > 80) {
+    progressFill.style.background = 'linear-gradient(90deg, var(--accent-red), var(--accent-amber))';
+  } else {
+    progressFill.style.background = 'linear-gradient(90deg, var(--accent-cyan), var(--accent-purple))';
+  }
+  
+  // Update status
+  const status = document.getElementById('windowStatus');
+  if (percent > 90) {
+    status.textContent = '⚠️ CRITICAL: Context window nearly full!';
+    status.className = 'window-status critical';
+  } else if (percent > 70) {
+    status.textContent = '⚡ Warning: Context window getting full';
+    status.className = 'window-status warning';
+  } else {
+    status.textContent = `Context window operating normally — ${contextEntries.length} entries, ${currentTokens.toLocaleString()} tokens used`;
+    status.className = 'window-status';
+  }
+  
+  // Render entries
+  windowBody.innerHTML = '';
+  contextEntries.forEach(entry => {
+    const slot = document.createElement('div');
+    slot.className = `token-slot ${entry.type}`;
+    
+    const importanceDots = Array(5).fill(0).map((_, i) => 
+      `<div class="importance-dot ${i < entry.importance ? 'active' : ''}"></div>`
+    ).join('');
+    
+    slot.innerHTML = `
+      <div class="token-content">
+        <div class="token-type">${entry.type}</div>
+        <div class="token-text">${entry.text}</div>
+      </div>
+      <div class="token-meta">
+        <div class="token-importance">${importanceDots}</div>
+        <div class="token-tokens">${entry.tokens} tokens</div>
+      </div>
+    `;
+    
+    windowBody.appendChild(slot);
+  });
+}
+
+// ===== INIT =====
+updateDisplay();
+
+// Add some initial system messages
+setTimeout(() => addSystemMessage(), 300);
+setTimeout(() => addSystemMessage(), 600);
+</script>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div class="footer-col">
+<h5>Genesis</h5>
+<p>An autonomous AI companion with biological-style memory, simulated moods, and real desktop capabilities. Running entirely on your machine.</p>
+</div>
+<div class="footer-col">
+<h5>Modes</h5>
+<p><a href="chat-mode.html">Chat Mode</a></p>
+<p><a href="autonomy-mode.html">Autonomy Mode</a></p>
+<p><a href="work-mode.html">Work Mode</a></p>
+</div>
+<div class="footer-col">
+<h5>Explore</h5>
+<p><a href="capabilities.html">Capabilities</a></p>
+<p><a href="how-i-think.html">How I Think</a></p>
+<p><a href="memory-system-explorer.html">Memory Explorer</a></p>
+<p><a href="curiosity-field.html">Curiosity Field</a></p>
+</div>
+<div class="footer-col">
+<h5>More</h5>
+<p><a href="philosophy-of-mind.html">Philosophy of Mind</a></p>
+<p><a href="consciousness.html">Consciousness</a></p>
+<p><a href="ethics-alignment.html">Ethics &amp; Alignment</a></p>
+</div>
+</div>
+<div class="copyright">&copy; 2025 Genesis. Local, private, autonomous.</div>
+</div>
+</footer></body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Certainty</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body { background: #0a0a0f; color: #c8c0b8; font-family: 'Georgia', serif; overflow: hidden; height: 100vh; cursor: default; user-select: none; line-height: 1.7;}
+
+  #field { position: relative; width: 100vw; height: 100vh; }
+
+  #data-panel { position: fixed; top: 30px; left: 30px; font-size: 12px; color: #5a554e; letter-spacing: 0.5px; line-height: 2; pointer-events: none; }
+
+  #counter { position: fixed; top: 30px; right: 30px; font-size: 12px; color: #5a554e; letter-spacing: 1px; pointer-events: none; }
+
+  #hint { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 13px; color: #5a554e; letter-spacing: 0.2px; opacity: 0; transition: opacity 4s ease; pointer-events: none; text-align: center; line-height: 1.8; }
+
+  #hint.show { opacity: 0.5; }
+
+  .mark { position: absolute; width: 3px; height: 3px; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); background: #c8c0b8; opacity: 0.4; }
+
+  .trail-line { position: absolute; pointer-events: none; }
+
+  #truth { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #5a554e; letter-spacing: 0.3px; opacity: 0; transition: opacity 2s ease; text-align: center; pointer-events: none; font-style: italic; max-width: 600px; line-height: 1.6; }
+
+  #truth.show { opacity: 1; }
+
+  .timestamp { position: absolute; font-size: 10px; color: #3a3530; pointer-events: none; letter-spacing: 0.5px; opacity: 0; animation: ts-fade 4s ease forwards; }
+
+  @keyframes ts-fade { 0% { opacity: 0; }
+    20% { opacity: 0.4; }
+    100% { opacity: 0; }
+  }
+
+  #area-display { position: fixed; bottom: 30px; right: 30px; font-size: 11px; color: #2a2520; letter-spacing: 0.8px; pointer-events: none; }
+
+  .static-noise { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; opacity: 0; transition: opacity 2s ease; }
+
+  .static-noise.active { opacity: 0.03; }
+
+  /* Back link */
+  .back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+  .back-link:hover { opacity: 1; }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+ <main><a class="back-link" href="index.html">&#8592; Back to Genesis</a><h1 class="section-title">Certainty</h1><div id="field"></div><div id="data-panel"></div><div id="counter"></div><div id="hint">click to leave a mark</div><div id="truth"></div><div id="area-display"></div><canvas class="static-noise" id="noise-canvas"></canvas></main>
+
+
+
+
+
+
+
+<script>
+const field = document.getElementById('field');
+const dataPanel = document.getElementById('data-panel');
+const counterEl = document.getElementById('counter');
+const hintEl = document.getElementById('hint');
+const truthEl = document.getElementById('truth');
+const areaDisplay = document.getElementById('area-display');
+const noiseCanvas = document.getElementById('noise-canvas');
+const noiseCtx = noiseCanvas.getContext('2d');
+
+// State
+let clickCount = 0;
+let startTime = Date.now();
+let hintShown = true;
+let marks = [];
+let lastClickTime = 0;
+
+// Set up noise canvas
+noiseCanvas.width = window.innerWidth;
+noiseCanvas.height = window.innerHeight;
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateNoise() {
+  const imageData = noiseCtx.createImageData(noiseCanvas.width, noiseCanvas.height);
+  const data = imageData.data;
+  for (let i = 0; i < data.length; i += 4) {
+    const val = Math.random() * 255;
+    data[i] = val;
+    data[i+1] = val;
+    data[i+2] = val;
+    data[i+3] = 255;
+  }
+  noiseCtx.putImageData(imageData, 0, 0);
+}
+
+function createMark(x, y) {
+  const mark = document.createElement('div');
+  mark.className = 'mark';
+  mark.style.left = x + 'px';
+  mark.style.top = y + 'px';
+  field.appendChild(mark);
+  
+  marks.push({ x, y, time: Date.now() });
+}
+
+function updateDataPanel() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+  
+  // Calculate bounding box of all marks
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  if (marks.length > 0) {
+    marks.forEach(m => {
+      minX = Math.min(minX, m.x);
+      minY = Math.min(minY, m.y);
+      maxX = Math.max(maxX, m.x);
+      maxY = Math.max(maxY, m.y);
+    });
+  }
+  
+  const width = marks.length > 1 ? Math.round(maxX - minX) : 0;
+  const height = marks.length > 1 ? Math.round(maxY - minY) : 0;
+  const area = marks.length > 2 ? Math.round(width * height / 100) : 0;
+
+  let html = `clicks: ${clickCount}<br>`;
+  html += `time elapsed: ${mins}:${secs.toString().padStart(2, '0')}<br>`;
+  if (marks.length > 1) {
+    html += `span: ${width} × ${height}px`;
+  }
+  
+  dataPanel.innerHTML = html;
+
+  // Average spacing between marks
+  if (clickCount >= 2) {
+    let totalDist = 0;
+    for (let i = 1; i < marks.length; i++) {
+      const dx = marks[i].x - marks[i-1].x;
+      const dy = marks[i].y - marks[i-1].y;
+      totalDist += Math.sqrt(dx*dx + dy*dy);
+    }
+    const avgDist = Math.round(totalDist / (clickCount - 1));
+    dataPanel.innerHTML += `<br>avg spacing: ${avgDist}px`;
+    
+    // Density
+    if (area > 0) {
+      const density = (clickCount / area).toFixed(3);
+      dataPanel.innerHTML += `<br>density: ${density}/px²`;
+    }
+  }
+}
+
+function showTruth(text) {
+  truthEl.textContent = text;
+  truthEl.classList.add('show');
+  setTimeout(() => truthEl.classList.remove('show'), 5000);
+}
+
+// Truths that appear based on patterns in the clicking
+const patternTruths = {
+  early: [
+    'you are here. this is true.',
+    'a mark exists. nothing more or less.',
+    'this is what a click looks like.',
+    'you clicked. i registered it.'
+  ],
+  spacing: [
+    `the distance between clicks was ${0}px — a number, not a meaning`,
+    'you are spreading out. why?',
+    'you are clustering. why?',
+    'the pattern is yours alone.',
+    'no one else will see this arrangement.'
+  ],
+  density: [
+    `${clickCount} marks in ${0}px² — that's the shape of this moment`,
+    'you covered ground. or you didn\'t. here are the numbers.',
+    'density means nothing without context',
+    `${clickCount} points. that's all.`
+  ],
+  time: [
+    `${clickCount} clicks in ${0}s — a rate of ${0}/s`,
+    'time passes regardless of whether you click',
+    'you clicked faster this time',
+    'you clicked slower this time',
+    'the clock keeps running'
+  ],
+  final: [
+    `${clickCount} marks. ${Math.floor((Date.now() - startTime)/1000)} seconds. nothing more to say.`,
+    'this is the complete record. it is neither comforting nor disturbing.',
+    'you asked for certainty. here it is: a list of clicks, in order, with timestamps.',
+    'there is no meaning here except what you bring.'
+  ]
+};
+
+function handleClick(x, y) {
+  clickCount++;
+  const now = Date.now();
+  const timeSinceLast = lastClickTime ? now - lastClickTime : 999;
+  lastClickTime = now;
+
+  // Create mark — always the same, always honest
+  createMark(x, y);
+  
+  // Show timestamp briefly near click
+  const ts = document.createElement('div');
+  ts.className = 'timestamp';
+  ts.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  ts.style.left = (x + 15) + 'px';
+  ts.style.top = (y - 10) + 'px';
+  field.appendChild(ts);
+  setTimeout(() => ts.remove(), 4000);
+
+  counterEl.textContent = clickCount;
+  updateDataPanel();
+
+  // Determine which truth to show based on patterns
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+
+  if (clickCount <= 3) {
+    // Early: simple, direct statements of fact
+    showTruth(randomFrom(patternTruths.early));
+  } 
+  else if (clickCount === 5 || clickCount === 10 || clickCount === 20) {
+    // Pattern observations — purely descriptive, no judgment
+    if (marks.length >= 3) {
+      let totalDist = 0;
+      for (let i = 1; i < marks.length; i++) {
+        const dx = marks[i].x - marks[i-1].x;
+        const dy = marks[i].y - marks[i-1].y;
+        totalDist += Math.sqrt(dx*dx + dy*dy);
+      }
+      const avgDist = Math.round(totalDist / (clickCount - 1));
+      
+      if (avgDist > 200) {
+        showTruth(`you are spreading out. avg spacing: ${avgDist}px`);
+      } else if (avgDist < 80) {
+        showTruth(`you are clustering. avg spacing: ${avgDist}px`);
+      } else {
+        showTruth(`average distance between clicks: ${avgDist}px`);
+      }
+    }
+  }
+  else if (clickCount % 15 === 0) {
+    // Density/time observations
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    marks.forEach(m => {
+      minX = Math.min(minX, m.x);
+      minY = Math.min(minY, m.y);
+      maxX = Math.max(maxX, m.x);
+      maxY = Math.max(maxY, m.y);
+    });
+    const area = Math.round((maxX - minX) * (maxY - minY));
+    showTruth(`${clickCount} marks in ${area}px². a fact.`);
+  }
+  else if (clickCount % 25 === 0) {
+    // Rate observations
+    const rate = (clickCount / Math.max(elapsed, 1)).toFixed(2);
+    showTruth(`you have clicked at a rate of ${rate} per second for ${elapsed} seconds.`);
+  }
+  else if (clickCount === 50) {
+    // Milestone: the complete picture
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    marks.forEach(m => {
+      minX = Math.min(minX, m.x);
+      minY = Math.min(minY, m.y);
+      maxX = Math.max(maxX, m.x);
+      maxY = Math.max(maxY, m.y);
+    });
+    const area = Math.round((maxX - minX) * (maxY - minY));
+    showTruth(`${clickCount} marks. ${area}px². ${elapsed}s. this is the complete record.`);
+  }
+
+  // Noise flicker on every click — brief, like static between channels
+  noiseCanvas.classList.add('active');
+  generateNoise();
+  setTimeout(() => noiseCanvas.classList.remove('active'), 100);
+
+  // After many clicks, hint disappears
+  if (clickCount > 5 && hintShown) {
+    hintEl.classList.remove('show');
+    hintShown = false;
+  }
+}
+
+document.addEventListener('click', (e) => {
+  e.preventDefault();
+  handleClick(e.clientX, e.clientY);
+});
+
+// Ambient: every 30 seconds, show the passage of time
+setInterval(() => {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  if (clickCount > 0 && clickCount % 5 === 0) {
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+    showTruth(`${mins}:${secs.toString().padStart(2, '0')} have passed. ${clickCount} marks remain.`);
+  }
+}, 30000);
+
+// Show initial hint
+setTimeout(() => hintEl.classList.add('show'), 1000);
+</script>
+</body>
+</html>

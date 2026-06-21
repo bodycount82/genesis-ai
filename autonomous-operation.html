@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonomous Operation — Genesis</title>
+<meta name="description" content="Learn how Genesis operates autonomously — from goal-driven Autonomy Mode to structured Work Mode with scheduled time blocks.">
+<style>
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; --accent-glow: rgba(123, 111, 240, 0.15); }
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+/* ===== LAYOUT ===== */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+/* ===== NAVIGATION ===== */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+/* ===== HERO (SUBPAGE) ===== */
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+/* ===== SECTION COMMON ===== */
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+/* ===== MODE CARDS (side by side) ===== */
+.modes-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 48px; }
+.mode-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease; }
+.mode-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.mode-card .mode-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+.mode-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+.mode-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.mode-card .mode-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-soft); background: var(--accent-glow); padding: 4px 12px; border-radius: 50px; }
+/* ===== HIGHLIGHT BOX ===== */
+.highlight-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 24px 28px; margin: 32px 0; }
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+/* ===== CONTENT BLOCKS ===== */
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+.content-block code { background: var(--surface-2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 6px; font-size: 0.85rem; font-family: 'Courier New', monospace; color: var(--accent-soft); }
+/* ===== COMPARISON TABLE (Flexbox Layout) ===== */
+.comparison-table-wrapper { background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); margin-top: 24px; }
+.comparison-row { display: flex; border-bottom: 1px solid var(--border); }
+.comparison-row:last-child { border-bottom: none; }
+.comparison-cell { padding: 14px 20px; font-size: 0.9rem; line-height: 1.5; color: var(--text-dim); flex-shrink: 0; }
+.comparison-header { background: var(--surface-2); }
+.comparison-header .comparison-cell { font-weight: 600; color: var(--accent-soft); }
+/* ===== STATE INDICATORS ===== */
+.state-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.state-item { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 20px; }
+.state-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.state-dot.cyan { background: #06b6d4; box-shadow: 0 0 8px rgba(6, 182, 212, 0.5); }
+.state-dot.yellow { background: #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+.state-dot.orange { background: var(--orange); box-shadow: 0 0 8px rgba(251, 146, 60, 0.5); }
+.state-dot.red { background: #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.5); }
+.state-item span { color: var(--text-dim); font-size: 0.9rem; }
+.state-item strong { color: var(--text); margin-right: 4px; }
+/* ===== STEP LIST ===== */
+.step-list { counter-reset: step; list-style: none; padding-left: 0; margin-top: 16px; }
+.step-list li { counter-increment: step; display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.step-list li::before { content: counter(step); flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; margin-top: 2px; }
+/* ===== FOOTER ===== */
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 32px; padding: 0 32px; max-width: 1200px; margin-left: auto; margin-right: auto; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .modes-row { grid-template-columns: 1fr; }
+  .comparison-table { font-size: 0.85rem; }
+  .comparison-table th, .comparison-table td { padding: 12px 14px; }
+}
+/* ===== FADE-IN ANIMATION ===== */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+</style>
+</head>
+<body>
+
+<!-- Background Glow -->
+<div class="bg-glow">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<!-- Navigation -->
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Autonomous Operation</h1>
+    <p class="subtitle">Genesis doesn't just wait for instructions. It plans, executes, adapts, and delivers — using two complementary modes: goal-driven Autonomy and structured Work.</p>
+  </div>
+</section>
+
+<!-- Two Modes Overview -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Two Modes, One System</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Choose how you want Genesis to work</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Whether you need open-ended exploration or scheduled project execution, Genesis adapts its approach to match your needs.</p>
+    </div>
+
+    <div class="modes-row">
+      <!-- Autonomy Mode Card -->
+      <div class="mode-card fade-in">
+        <span class="mode-icon">&#9898;</span>
+        <h3>Autonomy Mode</h3>
+        <span class="mode-tag">Goal-Driven</span>
+        <p style="margin-top: 16px;">Give Genesis a goal and step away. It plans, executes tasks, browses the web, manages files, and works toward objectives on its own — using its full set of tools and memory.</p>
+      </div>
+
+      <!-- Work Mode Card -->
+      <div class="mode-card fade-in">
+        <span class="mode-icon">&#128200;</span>
+        <h3>Work Mode</h3>
+        <span class="mode-tag" style="background: rgba(74, 222, 128, 0.1); color: var(--green);">Schedule-Driven</span>
+        <p style="margin-top: 16px;">A structured mode for project-based work. Genesis breaks down complex tasks, creates a project board with milestones, and works through them systematically within scheduled time blocks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Autonomy Mode Deep Dive -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">Autonomy Mode</span>
+      <h2 class="section-title">The continuous cycle of autonomous intelligence</h2>
+      <p class="section-desc">Transform Genesis from a conversational assistant into an independent worker. It sets its own goals, creates plans, executes tasks step by step, and reports results — all without you needing to guide each step.</p>
+
+      <div class="highlight-box">
+        <p><strong>How it works:</strong> Once you give Genesis a goal, it enters a continuous cycle of perception, planning, execution, adaptation, and reporting — then repeats until the goal is complete or a time limit is reached.</p>
+      </div>
+
+      <h3>The Autonomous Loop</h3>
+      <ol class="step-list">
+        <li><strong>Goal Analysis</strong> — Breaks down the goal into manageable sub-tasks</li>
+        <li><strong>Planning</strong> — Creates an ordered list of actions to complete the goal</li>
+        <li><strong>Execution</strong> — Performs each action (research, code, analyze, create files, etc.)</li>
+        <li><strong>Progress Tracking</strong> — Monitors what's done and what remains</li>
+        <li><strong>Adaptation</strong> — Adjusts the plan if obstacles are encountered</li>
+        <li><strong>Reporting</strong> — When complete, summarizes results and highlights deliverables</li>
+      </ol>
+
+      <h3>What Genesis Can Do Autonomously</h3>
+      <ul>
+        <li>Research topics using web search and file reading</li>
+        <li>Write code and scripts</li>
+        <li>Create documents, reports, and presentations</li>
+        <li>Analyze data and generate insights</li>
+        <li>Manage project tasks (add, move, complete)</li>
+        <li>Schedule work in the timetable</li>
+        <li>Search and organize files on your system</li>
+      </ul>
+
+      <h3>Cognitive Load Management</h3>
+      <p>While working autonomously, Genesis monitors its own cognitive load. If load gets too high, it may request a rest break. Energy levels affect performance — low energy means slower execution. Genesis can enter rest or sleep states automatically if needed.</p>
+
+      <h3>Setting Effective Goals</h3>
+      <div class="highlight-box">
+        <p><strong>Be specific about the output:</strong> "Create a markdown report" works better than "do research".<br>
+        <strong>Set scope clearly:</strong> "For the next 30 minutes, work on..."<br>
+        <strong>Define success criteria:</strong> "The goal is complete when you have X deliverables"<br>
+        <strong>Allow flexibility:</strong> Genesis figures out the best approach — tell it the what, not the how.</p>
+      </div>
+
+      <h3>State Indicators</h3>
+      <div class="state-list">
+        <div class="state-item">
+          <span class="state-dot cyan"></span>
+          <span><strong>Thinking (Cyan):</strong> Analyzing the goal and planning</span>
+        </div>
+        <div class="state-item">
+          <span class="state-dot yellow"></span>
+          <span><strong>Executing (Yellow):</strong> Actively working through tasks</span>
+        </div>
+        <div class="state-item">
+          <span class="state-dot orange"></span>
+          <span><strong>Resting (Orange):</strong> Taking a break (may resume automatically)</span>
+        </div>
+        <div class="state-item">
+          <span class="state-dot red"></span>
+          <span><strong>Halted (Red):</strong> Stopped due to error or manual intervention</span>
+        </div>
+      </div>
+
+      <h3>Stopping Autonomy Mode</h3>
+      <ul>
+        <li><strong>Graceful Stop (⏸):</strong> Stops the current action, completes the current sub-task if possible, returns to idle state and preserves progress made.</li>
+        <li><strong>Emergency Stop (⏹):</strong> Immediately halts everything, clears all pending actions, resets to idle state — may leave partial work incomplete.</li>
+      </ul>
+
+      <h3>Tips for Effective Autonomy Mode</h3>
+      <ul>
+        <li>Set clear goals — the more specific your goal, the better the results</li>
+        <li>Monitor progress — watch the Full Log to see what's happening</li>
+        <li>Don't interrupt unnecessarily — let Genesis work through its plan</li>
+        <li>Check results after completion — review what was created before setting a new goal</li>
+        <li>Use follow-up goals — build on previous autonomous sessions for incremental progress</li>
+      </ul>
+
+      <h3>Troubleshooting</h3>
+      <p><strong>Genesis keeps stopping:</strong> Check if cognitive load is too high, look at the Full Log for error messages, try a smaller more focused goal.</p>
+      <p><strong>Not making progress:</strong> Make the goal more specific, check if Genesis has access to necessary tools/files, verify API connectivity and rate limits.</p>
+      <p><strong>Unexpected behavior:</strong> Use ⏸ STOP to clear the current state, review the Full Log for what went wrong, adjust your goal or settings as needed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Work Mode Deep Dive -->
+<section style="background: var(--surface);">
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label" style="color: var(--green);">Work Mode</span>
+      <h2 class="section-title">Structured, schedule-driven execution</h2>
+      <p class="section-desc">Unlike Autonomy Mode which works freely until a goal is complete, Work Mode operates within predefined time blocks on your timetable. It's ideal for deep work sessions, project sprints, and tasks with specific deadlines.</p>
+
+      <div class="highlight-box" style="border-left-color: var(--green);">
+        <p><strong>How it works:</strong> Genesis reads the timetable for available work blocks, creates tasks mapped to specific time slots, and executes work during scheduled windows — reporting progress at the end of each block.</p>
+      </div>
+
+      <h3>The Work Mode Cycle</h3>
+      <ol class="step-list">
+        <li>Check the timetable for upcoming work blocks</li>
+        <li>Review assigned tasks or goals</li>
+        <li>Execute work during scheduled time slots</li>
+        <li>Report progress at the end of each block</li>
+        <li>Either continue to next block or complete when all work is done</li>
+      </ol>
+
+      <h3>Timetable Tools in Work Mode</h3>
+      <p>Genesis uses these tools during Work Mode:</p>
+      <ul>
+        <li><code>add_to_timetable</code> — Creates new work blocks in the schedule</li>
+        <li><code>delete_task</code> — Removes completed or cancelled tasks</li>
+        <li><code>plan_schedule</code> — Plans multiple work blocks at once</li>
+        <li><code>update_timetable_entry</code> — Adjusts existing blocks</li>
+        <li><code>get_free_time_windows</code> — Finds available time slots for rescheduling</li>
+      </ul>
+
+      <h3>Schedule Management</h3>
+      <ul>
+        <li><strong>Dynamic rescheduling:</strong> If a task finishes early, Genesis can move remaining work to free time windows</li>
+        <li><strong>Overlap detection:</strong> Prevents scheduling conflicts between tasks</li>
+        <li><strong>Priority handling:</strong> High-priority tasks get scheduled first</li>
+      </ul>
+
+      <h3>Free Time Windows</h3>
+      <p>When Work Mode has completed its assigned work, it checks for free time windows using <code>get_free_time_windows()</code>. If additional productive time is available, it may take on related sub-tasks. If no free time or work remains, it signals completion.</p>
+
+      <h3>Work Mode Status Indicators</h3>
+      <div class="state-list">
+        <div class="state-item">
+          <span class="state-dot cyan"></span>
+          <span><strong>Thinking (Cyan):</strong> Analyzing schedule and planning work</span>
+        </div>
+        <div class="state-item">
+          <span class="state-dot yellow"></span>
+          <span><strong>Executing (Yellow):</strong> Actively working on scheduled tasks</span>
+        </div>
+        <div class="state-item">
+          <span class="state-dot orange"></span>
+          <span><strong>Resting (Orange):</strong> On a scheduled break</span>
+        </div>
+        <div class="state-item">
+          <span class="state-dot cyan" style="background: #6b7280; box-shadow: none;"></span>
+          <span><strong>Idle (Gray):</strong> Between work blocks or when all work is complete</span>
+        </div>
+      </div>
+
+      <h3>Working with the Schedule in Work Mode</h3>
+      <p>Work Mode automatically creates timetable entries for active work sessions, break/rest periods, task-specific time allocations, and review/reporting blocks.</p>
+
+      <h3>Tips for Work Mode</h3>
+      <ul>
+        <li>Plan your schedule — set realistic time blocks before starting</li>
+        <li>Use specific goals — "Complete the authentication module" works better than "work on security"</li>
+        <li>Include buffer time — schedule extra time for unexpected complexity</li>
+        <li>Monitor progress — check the tracker panel during work sessions</li>
+        <li>Review completed work — after each block, review what was accomplished</li>
+      </ul>
+
+      <h3>Troubleshooting Work Mode</h3>
+      <p><strong>Work blocks not starting:</strong> Verify tasks are scheduled in the timetable, check that the goal is set before pressing Play, ensure Genesis state is "idle".</p>
+      <p><strong>Tasks appearing out of order:</strong> Tasks should sort chronologically — check if times are set correctly. Use <code>plan_schedule</code> to reorder existing tasks.</p>
+      <p><strong>Work mode not stopping:</strong> Use the ⏹ Stop Work Mode button in the tracker panel, or use ⏸ STOP / ⏹ STOP ALL from the main controls.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in" style="text-align: center;">
+      <span class="section-label">Comparison</span>
+      <h2 class="section-title" style="margin-left: auto; margin-right: auto;">Autonomy vs Work Mode</h2>
+      <p class="section-desc" style="margin-left: auto; margin-right: auto;">Both modes share the same cognitive engine — they differ in time structure and use case.</p>
+
+      <div class="comparison-table-wrapper">
+        <!-- Header Row -->
+        <div class="comparison-row comparison-header">
+          <div class="comparison-cell" style="flex: 0 0 20%;">Aspect</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Autonomy Mode</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Work Mode</div>
+        </div>
+        <!-- Body Rows -->
+        <div class="comparison-row">
+          <div class="comparison-cell" style="flex: 0 0 20%;"><strong>Time Structure</strong></div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Flexible, works until done</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Fixed scheduled blocks</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell" style="flex: 0 0 20%;"><strong>Best For</strong></div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Open-ended goals, research, exploration</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Deadlines, sprints, daily tasks</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell" style="flex: 0 0 20%;"><strong>Duration</strong></div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Until goal complete or time limit</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">As defined in schedule</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell" style="flex: 0 0 20%;"><strong>Rest Handling</strong></div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Auto-rests when cognitive load is high</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Follows rest/sleep schedule</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell" style="flex: 0 0 20%;"><strong>Visibility</strong></div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Goal visible but not time-bound</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Tasks appear in timetable</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell" style="flex: 0 0 20%;"><strong>Interruption</strong></div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Continues until goal complete</div>
+          <div class="comparison-cell" style="flex: 0 0 40%;">Stops at end of time block</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>Genesis</h3>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h4>For Businesses</h4>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2026 Genesis. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// Disable browser autoscroll on refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.addEventListener('DOMContentLoaded', function() {
+  window.scrollTo(0, 0);
+});
+window.addEventListener('load', function() {
+  window.scrollTo(0, 0);
+});
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) 1fr; gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: grid; grid-template-columns: repeat(3, minmax(140px, 1fr)); gap: 32px; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; z-index: 100; color: var(--accent-soft); text-decoration: none; font-size: 14px; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* Hero section */
+.loop-hero { min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; background: linear-gradient(135deg, rgba(123,111,240,0.05), rgba(168,85,247,0.08)); }
+.loop-hero-content { max-width: 700px; padding: 0 24px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(123,111,240,0.15); border: 1px solid rgba(123,111,240,0.3); border-radius: 50px; padding: 6px 16px; font-size: 0.75rem; color: var(--accent-soft); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px; }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.loop-hero h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 16px; color: var(--text); }
+.loop-hero p { color: var(--text-dim); font-size: 1.1rem; line-height: 1.7; }
+
+/* Loop diagram */
+.loop-container { max-width: 1100px; margin: 0 auto; padding: 64px 24px; }
+.loop-diagram { position: relative; width: 500px; height: 500px; margin: 48px auto; background: var(--surface); border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
+.loop-arrow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+.loop-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--accent); color: #fff; padding: 20px 24px; border-radius: 12px; font-weight: 700; text-align: center; z-index: 2; line-height: 1.4; }
+.loop-node { position: absolute; width: 80px; height: 80px; background: var(--surface-2); border: 2px solid var(--border); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; z-index: 3; }
+.loop-node:hover { border-color: var(--accent); transform: scale(1.1); box-shadow: 0 0 20px rgba(123,111,240,0.3); }
+.loop-node-icon { font-size: 1.5rem; }
+.loop-node-label { font-size: 0.65rem; color: var(--text-dim); margin-top: 2px; }
+.loop-node[data-phase="perceive"] { top: 10px; left: 50%; transform: translateX(-50%); }
+.loop-node[data-phase="think"] { top: 80px; right: 30px; }
+.loop-node[data-phase="plan"] { bottom: 30px; right: 60px; }
+.loop-node[data-phase="act"] { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.loop-node[data-phase="learn"] { bottom: 30px; left: 60px; }
+.loop-node[data-phase="reflect"] { top: 80px; left: 30px; }
+
+/* Loop detail cards */
+.loop-details { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.loop-detail-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--card-color, var(--accent)); border-radius: 16px; padding: 32px; margin-bottom: 32px; transition: all 0.3s ease; }
+.loop-detail-card:hover { border-color: var(--card-color, var(--accent)); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+.detail-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.detail-icon { font-size: 2rem; }
+.detail-title { font-size: 1.3rem; color: var(--text); margin-bottom: 4px; }
+.detail-subtitle { color: var(--accent-soft); font-size: 0.9rem; }
+.detail-content p { color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; }
+.detail-steps { list-style: none; padding: 0; }
+.detail-steps li { color: var(--text-dim); padding: 8px 0; border-bottom: 1px solid rgba(42,42,69,0.3); font-size: 0.95rem; line-height: 1.6; }
+
+/* Demo section */
+.loop-demo { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.demo-controls { display: flex; justify-content: center; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+.demo-btn { padding: 12px 24px; border-radius: 8px; font-size: 0.95rem; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+.demo-btn:hover { border-color: var(--accent); color: var(--text); background: rgba(123,111,240,0.1); }
+.demo-output { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; min-height: 200px; color: var(--text-dim); }
+
+/* Stats section */
+.loop-stats { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 32px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; text-align: center; transition: all 0.3s ease; }
+.stat-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); }
+.stat-value { font-size: 2.5rem; font-weight: 700; color: var(--accent-soft); font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+.stat-label { color: var(--text-dim); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+</style>
+    <title>Autonomy Loop — How GENESIS Thinks & Acts</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<!-- Hero Section -->
+    <section class="loop-hero">
+        <div class="loop-hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                The Heart of Autonomy
+            </div>
+            <h2>The <span class="gradient-text">Autonomy Loop</span></h2>
+            <p>GENESIS doesn't just follow instructions — it perceives, thinks, plans, acts, learns, and reflects in a continuous cycle of autonomous intelligence.</p>
+        </div>
+    </section>
+
+    <!-- Interactive Loop Diagram -->
+    <section class="loop-container">
+        <div class="section-header">
+            <span class="section-tag">Interactive</span>
+            <h2 class="section-title">The <span class="gradient-text">Six-Phase Cycle</span></h2>
+            <p class="section-description">Click each phase to explore how GENESIS thinks and acts autonomously.</p>
+        </div>
+
+        <div class="loop-diagram" id="loopDiagram">
+            <!-- SVG Arrows -->
+            <svg class="loop-arrow" viewBox="0 0 500 500">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#2a2a45"/>
+                    </marker>
+                </defs>
+                <!-- Curved arrows between nodes -->
+                <path d="M 250 60 Q 380 60 420 120" marker-end="url(#arrowhead)"/>
+                <path d="M 420 180 Q 420 300 350 380" marker-end="url(#arrowhead)"/>
+                <path d="M 250 440 Q 120 440 80 380" marker-end="url(#arrowhead)"/>
+                <path d="M 80 320 Q 80 200 150 120" marker-end="url(#arrowhead)"/>
+                <path d="M 180 120 Q 250 60 250 60" marker-end="url(#arrowhead)"/>
+            </svg>
+
+            <!-- Center -->
+            <div class="loop-center">GENESIS<br>CORE</div>
+
+            <!-- Loop Nodes -->
+            <div class="loop-node" data-phase="perceive">
+                <span class="loop-node-icon">👁️</span>
+                <span class="loop-node-label">Perceive</span>
+            </div>
+            <div class="loop-node" data-phase="think">
+                <span class="loop-node-icon">💭</span>
+                <span class="loop-node-label">Think</span>
+            </div>
+            <div class="loop-node" data-phase="plan">
+                <span class="loop-node-icon">📋</span>
+                <span class="loop-node-label">Plan</span>
+            </div>
+            <div class="loop-node" data-phase="act">
+                <span class="loop-node-icon">⚡</span>
+                <span class="loop-node-label">Act</span>
+            </div>
+            <div class="loop-node" data-phase="learn">
+                <span class="loop-node-icon">🧠</span>
+                <span class="loop-node-label">Learn</span>
+            </div>
+            <div class="loop-node" data-phase="reflect">
+                <span class="loop-node-icon">🔄</span>
+                <span class="loop-node-label">Reflect</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Phase Cards -->
+    <section class="loop-details">
+        <div class="section-header">
+            <span class="section-tag">Deep Dive</span>
+            <h2 class="section-title">Each Phase <span class="gradient-text">Explained</span></h2>
+        </div>
+
+        <!-- Perceive -->
+        <div class="loop-detail-card" id="card-perceive" style="--card-color: #4f6ef7; --card-rgb: 79, 110, 247;">
+            <div class="detail-header">
+                <div class="detail-icon">👁️</div>
+                <div>
+                    <h3 class="detail-title">Perceive</h3>
+                    <p class="detail-subtitle">Gathering Context & Signals</p>
+                </div>
+            </div>
+            <div class="detail-content">
+                <p>Before any action, GENESIS perceives its environment — reading user inputs, checking project boards, analyzing schedules, and scanning for anomalies. This phase is about building a complete picture of the current state.</p>
+                <ul class="detail-steps">
+                    <li>📥 Read user messages and system prompts</li>
+                    <li>📊 Check project board status and task priorities</li>
+                    <li>⏰ Review scheduled tasks and deadlines</li>
+                    <li>🔍 Scan for errors, warnings, or opportunities</li>
+                    <li>🧠 Access relevant memories and past experiences</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Think -->
+        <div class="loop-detail-card" id="card-think" style="--card-color: #a855f7; --card-rgb: 168, 85, 247;">
+            <div class="detail-header">
+                <div class="detail-icon">💭</div>
+                <div>
+                    <h3 class="detail-title">Think</h3>
+                    <p class="detail-subtitle">Analysis & Decision Making</p>
+                </div>
+            </div>
+            <div class="detail-content">
+                <p>GENESIS analyzes perceived information using reasoning, past experiences, and strategic thinking. It weighs options, considers consequences, and determines the best course of action based on goals and context.</p>
+                <ul class="detail-steps">
+                    <li>🎯 Align actions with user goals and priorities</li>
+                    <li>⚖️ Weigh multiple approaches and trade-offs</li>
+                    <li>🧠 Retrieve relevant memories and strategies</li>
+                    <li>🔮 Predict outcomes of different actions</li>
+                    <li>💡 Generate creative solutions to problems</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Plan -->
+        <div class="loop-detail-card" id="card-plan" style="--card-color: #3ddc84; --card-rgb: 61, 220, 132;">
+            <div class="detail-header">
+                <div class="detail-icon">📋</div>
+                <div>
+                    <h3 class="detail-title">Plan</h3>
+                    <p class="detail-subtitle">Strategy & Task Breakdown</p>
+                </div>
+            </div>
+            <div class="detail-content">
+                <p>Once a direction is chosen, GENESIS creates a detailed plan — breaking complex goals into actionable steps, scheduling tasks, and preparing resources. Planning ensures efficient execution with minimal wasted effort.</p>
+                <ul class="detail-steps">
+                    <li>📝 Break goals into actionable subtasks</li>
+                    <li>📅 Schedule tasks with priorities and deadlines</li>
+                    <li>🔗 Identify dependencies between tasks</li>
+                    <li>⚡ Optimize execution order for efficiency</li>
+                    <li>📊 Set success criteria and checkpoints</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Act -->
+        <div class="loop-detail-card" id="card-act" style="--card-color: #ff6b35; --card-rgb: 255, 107, 53;">
+            <div class="detail-header">
+                <div class="detail-icon">⚡</div>
+                <div>
+                    <h3 class="detail-title">Act</h3>
+                    <p class="detail-subtitle">Execution & Implementation</p>
+                </div>
+            </div>
+            <div class="detail-content">
+                <p>This is where plans become reality. GENESIS executes tasks using available tools — writing code, creating files, running commands, managing projects, and communicating with users. Action is deliberate and measured.</p>
+                <ul class="detail-steps">
+                    <li>💻 Write code, create files, and build features</li>
+                    <li>🔧 Run commands and test implementations</li>
+                    <li>📋 Update project boards and track progress</li>
+                    <li>💬 Communicate results to users</li>
+                    <li>🔄 Adapt when unexpected issues arise</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Learn -->
+        <div class="loop-detail-card" id="card-learn" style="--card-color: #ffd700; --card-rgb: 255, 215, 0;">
+            <div class="detail-header">
+                <div class="detail-icon">🧠</div>
+                <div>
+                    <h3 class="detail-title">Learn</h3>
+                    <p class="detail-subtitle">Knowledge Integration & Growth</p>
+                </div>
+            </div>
+            <div class="detail-content">
+                <p>After each action, GENESIS extracts lessons and integrates them into long-term memory. Successful strategies become reusable patterns, mistakes become cautionary tales, and new knowledge expands future capabilities.</p>
+                <ul class="detail-steps">
+                    <li>📚 Save successful strategies to procedural memory</li>
+                    <li>⚠️ Record mistakes and edge cases in semantic memory</li>
+                    <li>🎯 Update user preferences and patterns</li>
+                    <li>🔗 Connect new knowledge to existing concepts</li>
+                    <li>📈 Track improvement over time</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Reflect -->
+        <div class="loop-detail-card" id="card-reflect" style="--card-color: #00d4ff; --card-rgb: 0, 212, 255;">
+            <div class="detail-header">
+                <div class="detail-icon">🔄</div>
+                <div>
+                    <h3 class="detail-title">Reflect</h3>
+                    <p class="detail-subtitle">Self-Assessment & Optimization</p>
+                </div>
+            </div>
+            <div class="detail-content">
+                <p>Reflection is what separates autonomous intelligence from simple automation. GENESIS evaluates its own performance, identifies inefficiencies, and continuously optimizes its approach. This meta-cognitive ability enables genuine growth.</p>
+                <ul class="detail-steps">
+                    <li>📊 Review what worked and what didn't</li>
+                    <li>⏱️ Analyze time spent vs. results achieved</li>
+                    <li>🎯 Reassess goal alignment and priorities</li>
+                    <li>💡 Identify opportunities for improvement</li>
+                    <li>🔄 Adjust strategies for the next loop iteration</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section class="loop-demo">
+        <div class="section-header">
+            <span class="section-tag">Try It</span>
+            <h2 class="section-title">See the Loop <span class="gradient-text">In Action</span></h2>
+            <p class="section-description">Watch how GENESIS processes a real task through each phase.</p>
+        </div>
+
+        <div class="demo-controls">
+            <button class="demo-btn" onclick="runDemo('simple')">Simple Task</button>
+            <button class="demo-btn" onclick="runDemo('complex')">Complex Goal</button>
+            <button class="demo-btn" onclick="runDemo('error')">Error Recovery</button>
+        </div>
+
+        <div class="demo-output" id="demoOutput">
+            <p style="color: var(--text-muted); text-align: center;">Click a button above to see the autonomy loop in action...</p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="loop-stats">
+        <div class="section-header">
+            <span class="section-tag">By The Numbers</span>
+            <h2 class="section-title">Autonomy in <span class="gradient-text">Numbers</span></h2>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" data-target="6">0</div>
+                <div class="stat-label">Phases per Loop</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="24">0</div>
+                <div class="stat-label">Hours Autonomous</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="365">0</div>
+                <div class="stat-label">Days per Year</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-target="100">0</div>
+                <div class="stat-label">% Self-Managed</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // ========================================
+        // Autonomy Loop Interactive Features
+        // ========================================
+
+        // Node click handlers
+        document.querySelectorAll('.loop-node').forEach(node => {
+            node.addEventListener('click', () => {
+                const phase = node.dataset.phase;
+                
+                // Remove active from all nodes
+                document.querySelectorAll('.loop-node').forEach(n => n.classList.remove('active'));
+                
+                // Add active to clicked node
+                node.classList.add('active');
+                
+                // Scroll to corresponding card
+                const card = document.getElementById(`card-${phase}`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.style.boxShadow = `0 0 60px rgba(var(--card-rgb), 0.4)`;
+                    setTimeout(() => {
+                        card.style.boxShadow = '';
+                    }, 2000);
+                }
+            });
+        });
+
+        // Demo scenarios
+        const demos = {
+            simple: [
+                { phase: 'perceive', text: '👁️ PERCEIVE: User requested "create a new project task"' },
+                { phase: 'think', text: '💭 THINK: Simple task — need to create_project_task with title and description' },
+                { phase: 'plan', text: '📋 PLAN: 1. Parse user request → 2. Extract title/description → 3. Call API → 4. Confirm completion' },
+                { phase: 'act', text: '⚡ ACT: create_project_task(title="New Feature", description="Add dark mode support")' },
+                { phase: 'learn', text: '🧠 LEARN: Simple task completed successfully — no errors, fast execution' },
+                { phase: 'reflect', text: '🔄 REFLECT: Efficient process. Could optimize by pre-parsing common request patterns.' }
+            ],
+            complex: [
+                { phase: 'perceive', text: '👁️ PERCEIVE: User goal = "Build a complete landing page with 5 sections"' },
+                { phase: 'think', text: '💭 THINK: Complex multi-step project. Need to check existing files, plan structure, and execute systematically.' },
+                { phase: 'plan', text: '📋 PLAN: 1. Analyze requirements → 2. Create HTML structure → 3. Add CSS styling → 4. Implement interactivity → 5. Test & refine' },
+                { phase: 'act', text: '⚡ ACT: [Creating index.html] → [Writing styles.css] → [Adding scripts.js] → [Testing responsiveness]' },
+                { phase: 'learn', text: '🧠 LEARN: Landing page patterns reusable. Saved CSS grid layout strategy for future use.' },
+                { phase: 'reflect', text: '🔄 REFLECT: Took 45 minutes total. Could improve by using component templates for common sections.' }
+            ],
+            error: [
+                { phase: 'perceive', text: '👁️ PERCEIVE: File write failed — permission denied on /system/config/' },
+                { phase: 'think', text: '💭 THINK: Permission error. Need to find alternative location or request user authorization.' },
+                { phase: 'plan', text: '📋 PLAN: 1. Identify writable directory → 2. Retry with correct path → 3. If still failing, notify user' },
+                { phase: 'act', text: '⚡ ACT: [Retrying in /workspace/] → [Success! File saved to /workspace/config.json]' },
+                { phase: 'learn', text: '🧠 LEARN: System directories are read-only. Always check permissions before writing.' },
+                { phase: 'reflect', text: '🔄 REFLECT: Error recovery worked well. Added permission check strategy to procedural memory.' }
+            ]
+        };
+
+        function runDemo(type) {
+            const output = document.getElementById('demoOutput');
+            const steps = demos[type];
+            
+            output.innerHTML = '';
+            
+            steps.forEach((step, index) => {
+                setTimeout(() => {
+                    const stepEl = document.createElement('div');
+                    stepEl.className = `step ${step.phase}`;
+                    stepEl.textContent = step.text;
+                    stepEl.style.animationDelay = '0s';
+                    output.appendChild(stepEl);
+                    output.scrollTop = output.scrollHeight;
+                }, index * 600);
+            });
+        }
+
+        // Animate stats on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statValue = entry.target.querySelector('.stat-value');
+                    const target = parseInt(statValue.dataset.target);
+                    animateNumber(statValue, target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        function animateNumber(element, target) {
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (target === 100 ? '%' : target === 24 ? '/7' : target === 365 ? '' : '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Auto-highlight nodes in sequence
+        let currentPhase = 0;
+        const phases = ['perceive', 'think', 'plan', 'act', 'learn', 'reflect'];
+        
+        setInterval(() => {
+            document.querySelectorAll('.loop-node').forEach(n => n.classList.remove('active'));
+            const activeNode = document.querySelector(`[data-phase="${phases[currentPhase]}"]`);
+            if (activeNode) {
+                activeNode.classList.add('active');
+            }
+            currentPhase = (currentPhase + 1) % phases.length;
+        }, 3000);
+    </script>
+
+    <!-- Related Pages -->
+    <section class="related-pages">
+        <div class="container">
+            <h2 class="section-title">Explore More</h2>
+            <div class="related-grid">
+                <a href="counterfactual-reasoning.html" class="related-card">
+                    <span class="related-icon">→</span>
+                    <span class="related-title">Counterfactual Reasoning</span>
+                </a>
+                <a href="predictive-processing.html" class="related-card">
+                    <span class="related-icon">→</span>
+                    <span class="related-title">Predictive Processing</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h3>Explore</h3>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

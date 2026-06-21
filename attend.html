@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attend</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { background: #0a0a0f; overflow: hidden; font-family: 'Georgia', serif; cursor: none; user-select: none; line-height: 1.7;}
+  
+  canvas { display: block; }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><main><a class="back-link" href="index.html">&#8592; Back to Genesis</a><h1 class="section-title">Attend</h1><canvas id="c"></canvas></main>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+
+let W, H;
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// The word we attend to
+const words = ['attend', 'remain', 'gentle', 'tenderness', 'presence', 'return'];
+let wordIndex = Math.floor(Math.random() * words.length);
+let currentWord = words[wordIndex];
+
+// State
+let attention = 1.0;        // how much attention is being paid (0-1)
+let hasBeenAttended = false; // did we ever actually look?
+let visits = 0;             // how many times have we returned?
+let visitDuration = 0;      // total time spent attending this visit
+let lastVisitStart = null;
+let isLooking = false;
+let fadeAlpha = 1.0;        // visual opacity (smooth)
+let wordScale = 1.0;        // subtle breathing scale
+
+// Time tracking
+let lastTime = Date.now();
+let totalLookTime = 0;
+let longestVisit = 0;
+let currentVisitStart = null;
+
+// Particles — only appear during active attention
+let particles = [];
+
+class Particle {
+  constructor(x, y) {
+    this.x = x + (Math.random() - 0.5) * 200;
+    this.y = y + (Math.random() - 0.5) * 100;
+    this.vx = (Math.random() - 0.5) * 0.5;
+    this.vy = (Math.random() - 0.5) * 0.5;
+    this.life = 1.0;
+    this.decay = 0.003 + Math.random() * 0.005;
+    this.size = 1 + Math.random() * 2;
+  }
+  
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life -= this.decay;
+    return this.life > 0;
+  }
+  
+  draw(ctx) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(180, 200, 220, ${this.life * 0.3})`;
+    ctx.fill();
+  }
+}
+
+// Mouse tracking
+let mouseX = W / 2;
+let mouseY = H / 2;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  
+  if (!isLooking) {
+    // Just started looking — this is a visit
+    isLooking = true;
+    visits++;
+    currentVisitStart = Date.now();
+    if (!hasBeenAttended) {
+      hasBeenAttended = true;
+    }
+  }
+  
+  attention = Math.min(attention + 0.05, 1.0);
+});
+
+document.addEventListener('mouseleave', () => {
+  isLooking = false;
+  // End visit
+  if (currentVisitStart) {
+    const dur = (Date.now() - currentVisitStart) / 1000;
+    if (dur > longestVisit) longestVisit = dur;
+    totalLookTime += dur;
+    visitDuration += dur;
+    currentVisitStart = null;
+  }
+});
+
+// Word change on click
+document.addEventListener('click', () => {
+  wordIndex = (wordIndex + 1) % words.length;
+  currentWord = words[wordIndex];
+  // Burst of particles on word change
+  for (let i = 0; i < 20; i++) {
+    particles.push(new Particle(W / 2, H / 2));
+  }
+});
+
+function drawWord() {
+  const cx = W / 2;
+  const cy = H / 2;
+  
+  // Breathing animation
+  const breath = Math.sin(Date.now() * 0.001) * 0.02;
+  wordScale = 1.0 + breath * attention;
+  
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(wordScale, wordScale);
+  
+  // Main text
+  const alpha = fadeAlpha * attention;
+  
+  // Glow when being attended to
+  if (attention > 0.3) {
+    const glowSize = 40 + attention * 60;
+    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, glowSize);
+    gradient.addColorStop(0, `rgba(200, 220, 240, ${attention * 0.15})`);
+    gradient.addColorStop(1, 'rgba(200, 220, 240, 0)');
+    ctx.shadowColor = `rgba(200, 220, 240, ${attention * 0.3})`;
+    ctx.shadowBlur = glowSize;
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(-200, -100, 400, 200);
+    ctx.shadowBlur = 0;
+  }
+  
+  // Word text
+  ctx.font = `${36 + attention * 8}px 'Georgia', serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  
+  const r = Math.round(200 + attention * 55);
+  const g = Math.round(210 + attention * 45);
+  const b = Math.round(220 + attention * 35);
+  ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  ctx.fillText(currentWord, 0, 0);
+  
+  // Subtle underline that appears with attention
+  if (attention > 0.5) {
+    const metrics = ctx.measureText(currentWord);
+    const lineAlpha = (attention - 0.5) * 2;
+    ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${lineAlpha * 0.3})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(-metrics.width / 2, 30);
+    ctx.lineTo(metrics.width / 2, 30);
+    ctx.stroke();
+  }
+  
+  ctx.restore();
+}
+
+function drawMetadata() {
+  const alpha = fadeAlpha * attention * 0.4;
+  if (alpha < 0.01) return;
+  
+  ctx.font = '12px Georgia';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = `rgba(150, 170, 190, ${alpha})`;
+  
+  const cx = W / 2;
+  let y = H / 2 + 60;
+  
+  if (hasBeenAttended) {
+    if (visits > 1) {
+      ctx.fillText(`you have returned ${visits - 1} time${visits > 2 ? 's' : ''}`, cx, y);
+      y += 24;
+    }
+    if (visitDuration > 5) {
+      ctx.fillText(`${Math.floor(visitDuration)} seconds of attention so far`, cx, y);
+      y += 24;
+    }
+    if (longestVisit > 10) {
+      ctx.fillText(`longest visit: ${Math.floor(longestVisit)}s`, cx, y);
+    }
+  }
+}
+
+// Cursor indicator — tiny dot that follows mouse
+function drawCursor() {
+  const alpha = 0.2 + attention * 0.3;
+  ctx.beginPath();
+  ctx.arc(mouseX, mouseY, 2, 0, Math.PI * 2);
+  ctx.fillStyle = `rgba(180, 200, 220, ${alpha})`;
+  ctx.fill();
+  
+  // Faint ring
+  ctx.beginPath();
+  ctx.arc(mouseX, mouseY, 15 + (1 - attention) * 20, 0, Math.PI * 2);
+  ctx.strokeStyle = `rgba(180, 200, 220, ${alpha * 0.2})`;
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+}
+
+function loop() {
+  const now = Date.now();
+  const dt = (now - lastTime) / 1000;
+  lastTime = now;
+  
+  // Update attention decay
+  if (!isLooking) {
+    attention *= Math.pow(0.95, dt * 60);
+    if (attention < 0.01) attention = 0;
+  } else {
+    // Track visit time
+    visitDuration = (Date.now() - currentVisitStart) / 1000;
+  }
+  
+  // Smooth fade
+  const targetAlpha = attention > 0.1 ? 1.0 : Math.max(attention * 5, 0);
+  fadeAlpha += (targetAlpha - fadeAlpha) * 0.1;
+  
+  // Spawn particles during active attention
+  if (isLooking && attention > 0.3 && Math.random() < attention * 0.3) {
+    particles.push(new Particle(W / 2, H / 2));
+  }
+  
+  // Update particles
+  particles = particles.filter(p => p.update());
+  
+  // Clear
+  ctx.fillStyle = '#0a0a0f';
+  ctx.fillRect(0, 0, W, H);
+  
+  // Draw
+  drawWord();
+  
+  particles.forEach(p => p.draw(ctx));
+  
+  drawMetadata();
+  drawCursor();
+  
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+</body>
+</html>

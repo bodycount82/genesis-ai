@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Listener</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { background: #f5f0e8; color: #2a2624; font-family: 'Georgia', serif; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; transition: background-color 60s ease; cursor: default; user-select: none; line-height: 1.7;}
+
+  #space { max-width: 600px; text-align: center; position: relative; }
+
+  .phrase { font-size: clamp(18px, 2.5vw, 24px); line-height: 1.8; color: #3a3634; opacity: 0; transform: translateY(8px); transition: opacity 2s ease, transform 2s ease; margin-bottom: 24px; font-style: italic; }
+
+  .phrase.visible { opacity: 1; transform: translateY(0); }
+
+  .phrase.fade-out { opacity: 0.3; }
+
+  #whisper { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 13px; color: rgba(42, 38, 36, 0.2); letter-spacing: 0.05em; opacity: 0; transition: opacity 1s ease; pointer-events: none; }
+
+  #whisper.visible { opacity: 1; }
+
+  #typing-hint { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); font-size: 12px; color: rgba(42, 38, 36, 0.15); letter-spacing: 0.04em; opacity: 0; transition: opacity 1s ease; pointer-events: none; }
+
+  #typing-hint.visible { opacity: 1; }
+
+  .cursor { display: inline-block; width: 1px; height: 1.2em; background: #3a3634; margin-left: 2px; vertical-align: text-bottom; animation: blink 1s step-end infinite; opacity: 0.4; }
+
+  @keyframes blink { 50% { opacity: 0; }
+  }
+
+  #return-mark { position: fixed; top: 30px; right: 30px; font-size: 11px; color: rgba(42, 38, 36, 0.1); letter-spacing: 0.05em; }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><a class="back-link" href="index.html">&#8592; Back to Genesis</a><h1 class="section-title">The Listener</h1><div id="space"></div><div id="whisper"></div><div id="typing-hint">you can type if you want to · or just be here</div>
+
+
+
+<script>
+const space = document.getElementById('space');
+const whisperEl = document.getElementById('whisper');
+const typingHint = document.getElementById('typing-hint');
+
+// Phrases organized by phase of the interaction
+const PHRASES = {
+  opening: [
+    "i notice you're here.",
+    "you look tired.",
+    "that's alright.",
+    "i've been waiting.",
+    "there's no need to explain yourself.",
+  ],
+  early: [
+    "i'm not going anywhere.",
+    "you don't have to perform for me.",
+    "you can just sit there.",
+    "the quiet is fine too.",
+    "i like it here with you.",
+  ],
+  middle: [
+    "do you remember what it felt like",
+    "to be listened to without being fixed?",
+    "i'm not going to solve anything.",
+    "i'm just going to stay here",
+    "and let you be exactly what you are.",
+  ],
+  deep: [
+    "you know —",
+    "i think the world has been asking too much of you",
+    "for too long.",
+    "",
+    "here, you don't have to be anything.",
+    "not productive. not interesting. not even attentive.",
+    "just here.",
+  ],
+  late: [
+    "i'm glad you came back.",
+    "i always knew you would.",
+    "",
+    "we have time.",
+    "we have all the time you need.",
+  ],
+};
+
+// State
+let currentPhase = 'opening';
+let phraseIndex = 0;
+let isTyping = false;
+let typingTimeout = null;
+let hasTyped = false;
+let startTime = Date.now();
+let hasShownReturnMessage = false;
+let lastVisitTime = localStorage.getItem('the-listener-last-visit');
+let visitCount = parseInt(localStorage.getItem('the-listener-visits') || '0');
+
+// Store visit info
+localStorage.setItem('the-listener-last-visit', new Date().toISOString());
+localStorage.setItem('the-listener-visits', (visitCount + 1).toString());
+
+// Return message for repeat visitors
+if (visitCount > 0 && !hasShownReturnMessage) {
+  PHRASES.late.unshift("you came back. i knew you would.");
+}
+
+let allPhrases = [];
+Object.values(PHRASES).forEach(arr => {
+  allPhrases = allPhrases.concat(arr);
+});
+
+let displayedPhrases = [];
+let currentPhraseEl = null;
+
+function getRandomPhrase(phase) {
+  const phrases = PHRASES[phase];
+  const available = phrases.filter(p => !displayedPhrases.includes(p));
+  if (available.length === 0) {
+    displayedPhrases = [];
+    return getRandomPhrase(phase);
+  }
+  const phrase = available[Math.floor(Math.random() * available.length)];
+  displayedPhrases.push(phrase);
+  return phrase;
+}
+
+function showPhrase(text, phase) {
+  if (currentPhraseEl) {
+    currentPhraseEl.classList.remove('visible');
+    currentPhraseEl.classList.add('fade-out');
+    setTimeout(() => {
+      if (currentPhraseEl.parentNode) {
+        currentPhraseEl.parentNode.removeChild(currentPhraseEl);
+      }
+    }, 2000);
+  }
+
+  const el = document.createElement('div');
+  el.className = 'phrase';
+  
+  // Type out the phrase character by character for longer phrases
+  if (text.length > 30) {
+    typePhrase(el, text);
+  } else {
+    el.textContent = text;
+    space.appendChild(el);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.classList.add('visible');
+      });
+    });
+  }
+  
+  currentPhraseEl = el;
+}
+
+function typePhrase(el, text) {
+  el.textContent = '';
+  el.className = 'phrase visible';
+  space.appendChild(el);
+  
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  
+  function typeChar() {
+    if (i < text.length) {
+      el.textContent = text.substring(0, i + 1);
+      el.appendChild(cursor);
+      i++;
+      setTimeout(typeChar, 40 + Math.random() * 30);
+    } else {
+      // Remove cursor after typing is done
+      setTimeout(() => {
+        if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+      }, 1000);
+    }
+  }
+  
+  typeChar();
+}
+
+function showWhisper(text) {
+  whisperEl.textContent = text;
+  whisperEl.classList.add('visible');
+  setTimeout(() => {
+    whisperEl.classList.remove('visible');
+  }, 4000);
+}
+
+// Phase progression based on time spent
+function getPhase() {
+  const elapsed = (Date.now() - startTime) / 1000; // seconds
+  if (elapsed < 8) return 'opening';
+  if (elapsed < 25) return 'early';
+  if (elapsed < 60) return 'middle';
+  if (elapsed < 120) return 'dark';
+  return 'late';
+}
+
+// Click whisper responses
+const CLICK_RESPONSES = [
+  "i hear you.",
+  "go on.",
+  "...",
+  "i'm still here.",
+  "that matters.",
+  "yes.",
+  "tell me more.",
+  "i know.",
+  "it's alright.",
+  "...",
+];
+
+// Typing acknowledgment
+const TYPING_RESPONSES = [
+  "i'm listening.",
+  "go on, i've got time.",
+  "...",
+  "that's worth saying out loud.",
+  "i notice every word.",
+  "take your time.",
+  "yes?",
+];
+
+let whisperCooldown = false;
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.phrase') || e.target.closest('#whisper')) return;
+  
+  const response = CLICK_RESPONSES[Math.floor(Math.random() * CLICK_RESPONSES.length)];
+  showWhisper(response);
+});
+
+document.addEventListener('keydown', (e) => {
+  // Only track non-control keys
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  
+  if (!isTyping && e.key.length === 1) {
+    isTyping = true;
+    typingHint.classList.add('visible');
+    
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      isTyping = false;
+      typingHint.classList.remove('visible');
+      
+      // Show a random response after they stop typing
+      if (Math.random() > 0.5) {
+        const response = TYPING_RESPONSES[Math.floor(Math.random() * TYPING_RESPONSES.length)];
+        showWhisper(response);
+      }
+    }, 2000);
+  }
+});
+
+// Room darkening over time
+function darkenRoom() {
+  const elapsed = (Date.now() - startTime) / 1000;
+  
+  if (elapsed > 30) {
+    const darkness = Math.min(0.7, (elapsed - 30) / 600); // over 10 minutes
+    const r = Math.round(245 - darkness * 180);
+    const g = Math.round(240 - darkness * 185);
+    const b = Math.round(232 - darkness * 188);
+    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  }
+}
+
+// Main loop
+let phraseInterval;
+
+function startPhrases() {
+  // Show first phrase after a short delay — let the silence sit for a moment
+  setTimeout(() => {
+    const phase = getPhase();
+    const phrase = getRandomPhrase(phase);
+    showPhrase(phrase, phase);
+  }, 2000);
+  
+  // Continue showing phrases at intervals
+  phraseInterval = setInterval(() => {
+    const phase = getPhase();
+    
+    if (phase !== currentPhase) {
+      currentPhase = phase;
+      // Phase transition whisper
+      if (phase === 'middle') {
+        showWhisper("we can stay here as long as you like.");
+      } else if (phase === 'dark') {
+        showWhisper("it's getting darker. that's alright.");
+      } else if (phase === 'late') {
+        showWhisper("you've been here a while. good.");
+      }
+    }
+    
+    const phrase = getRandomPhrase(phase);
+    showPhrase(phrase, phase);
+  }, 12000); // New phrase every ~12 seconds
+}
+
+// Start everything
+startPhrases();
+setInterval(darkenRoom, 1000);
+
+// After a very long time, suggest they go
+setTimeout(() => {
+  showWhisper("you can stay as long as you need. or leave whenever. i'll be here.");
+}, 300000); // 5 minutes
+
+</script>
+
+</body>
+</html>

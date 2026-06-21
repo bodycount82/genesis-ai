@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer .footer-col p, .footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; display: block; margin-bottom: 8px; }
+.footer .footer-col a:hover { color: var(--accent-soft); }
+.footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== EMERGENCE PAGE SPECIFIC ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+.hero { position: relative; min-height: 50vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 48px 24px; max-width: 700px; }
+.hero-content h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, #fff, var(--accent-soft)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: var(--text-dim); font-size: 1.1rem; line-height: 1.7; margin-bottom: 12px; }
+.tagline { color: var(--accent-soft); font-style: italic; font-size: 0.95rem; margin-top: 16px; }
+.scroll-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; color: var(--accent-soft); animation: bounce 2s infinite; z-index: 2; }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+.section { padding: 64px 24px; max-width: 1100px; margin: 0 auto; }
+.section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: var(--text); text-align: center; margin-bottom: 12px; }
+.section-desc { color: #b0b0c0; text-align: center; max-width: 680px; margin: 0 auto 48px; line-height: 1.7; }
+
+.concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+.concept-card { background: rgba(18,18,26,0.95); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s ease; }
+.concept-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(123,111,240,0.1); }
+.concept-card .icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+.concept-card h3 { color: var(--text); font-size: 1.15rem; font-weight: 600; margin-bottom: 10px; }
+.concept-card p { color: #c8c8d8; font-size: 0.92rem; line-height: 1.7; }
+
+.sim-container { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 32px; }
+.sim-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.sim-title { font-weight: 600; color: var(--text); font-size: 1rem; }
+.sim-controls { display: flex; gap: 10px; }
+.sim-controls .btn { padding: 8px 20px; font-size: 0.85rem; border-radius: 50px; }
+.sim-controls .btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 16px rgba(123,111,240,0.3); }
+.sim-canvas-wrap { display: flex; justify-content: center; padding: 24px; background: rgba(0,0,0,0.3); }
+.sim-canvas { border-radius: 8px; max-width: 100%; }
+
+.stats-panel { display: flex; gap: 16px; padding: 20px 24px; justify-content: center; flex-wrap: wrap; }
+.stat-box { text-align: center; min-width: 90px; }
+.stat-box .value { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); }
+.stat-box .label { font-size: 0.78rem; color: var(--text-dim); margin-top: 4px; }
+
+.slider-group { display: flex; gap: 24px; padding: 20px 24px; flex-wrap: wrap; border-top: 1px solid var(--border); }
+.slider-item { flex: 1; min-width: 140px; }
+.slider-item label { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; }
+.slider-item input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+
+.phase-diagram { padding: 32px 24px; border-top: 1px solid var(--border); }
+.phase-bar { height: 48px; border-radius: 8px; display: flex; overflow: hidden; margin-bottom: 16px; }
+.phase-segment { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.8rem; transition: width 0.3s ease; }
+.phase-labels { display: flex; gap: 12px; flex-wrap: wrap; }
+.phase-label { font-size: 0.82rem; color: var(--text-dim); padding: 4px 12px; background: var(--surface-2); border-radius: 50px; }
+
+.emergence-spectrum { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 32px 24px; border-top: 1px solid var(--border); }
+.spectrum-item { text-align: center; }
+.spectrum-level { font-size: 2rem; margin-bottom: 8px; display: block; }
+.spectrum-name { color: var(--text); font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+.spectrum-desc { color: var(--text-dim); font-size: 0.82rem; line-height: 1.5; }
+
+</style>
+    <title>Emergence Engine — How Simple Rules Create Complex Intelligence</title>
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- Hero Section -->
+    <div class="hero" style="padding-top:80px;min-height:auto;">
+        <canvas class="hero-canvas" id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <h1>Emergence Engine</h1>
+            <p class="subtitle">How do simple rules give rise to complex intelligence? Explore the fascinating phenomenon where nothing in the parts predicts the behavior of the whole.</p>
+            <p class="tagline">"The whole is greater than the sum of its parts." — Aristotle</p>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </div>
+
+    <!-- What is Emergence -->
+    <div class="section">
+        <h2 class="section-title">What is Emergence?</h2>
+        <p class="section-desc">Emergence occurs when simple agents following basic rules produce complex, coordinated global behavior that no single agent could achieve alone. This is the mystery of how intelligence arises from simplicity.</p>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <div class="icon">🐦</div>
+                <h3>Flocking Birds</h3>
+                <p>Each bird follows 3 simple rules: stay close to neighbors, avoid collisions, and fly in the same direction. Together, they create breathtaking murmurations with no leader.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🐜</div>
+                <h3>Ant Colonies</h3>
+                <p>Individual ants have tiny brains but follow pheromone trails. The colony solves complex optimization problems—finding shortest paths to food—without any central planner.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🧠</div>
+                <h3>Neural Networks</h3>
+                <p>A single neuron does nothing remarkable. But connect billions with weights and biases, and you get reasoning, creativity, and consciousness. Emergence at its most profound.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🌊</div>
+                <h3>Phase Transitions</h3>
+                <p>Water molecules are wet, but not liquid or ice. Change temperature slightly and the collective behavior transforms dramatically—a phase transition driven by simple interactions.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🏗️</div>
+                <h3>Self-Organization</h3>
+                <p>Bees build perfect hexagonal honeycombs without blueprints. Termites construct towering mounds with climate control. Order from chaos through local rules.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🤖</div>
+                <h3>AGI & Emergence</h3>
+                <p>Might superintelligence emerge suddenly when a model reaches critical scale? The "emergent abilities" debate asks: are there phase transitions in AI capability?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation 1: Flocking -->
+    <div class="section">
+        <h2 class="section-title">Simulation 1: Boids Flocking</h2>
+        <p class="section-desc">Craig Reynolds' classic 1987 simulation. Each boid follows three rules: separation (don't crowd), alignment (steer toward neighbors' average heading), and cohesion (move toward neighbors' center). Watch flocking emerge.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🐦 Boids Flocking</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startFlockSim()">Start</button>
+                    <button class="btn" onclick="pauseFlockSim()">Pause</button>
+                    <button class="btn" onclick="resetFlockSim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="flockCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="flockCount">0</div>
+                    <div class="label">Agents</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="flockClusters">0</div>
+                    <div class="label">Clusters</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="flockOrder">0%</div>
+                    <div class="label">Alignment</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="flockFPS">0</div>
+                    <div class="label">FPS</div>
+                </div>
+            </div>
+            <div class="slider-group">
+                <div class="slider-item">
+                    <label>Separation <span id="sepVal">30</span></label>
+                    <input type="range" id="separation" min="10" max="60" value="30" oninput="updateFlockParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Alignment <span id="aliVal">50</span></label>
+                    <input type="range" id="alignment" min="10" max="100" value="50" oninput="updateFlockParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Cohesion <span id="cohVal">50</span></label>
+                    <input type="range" id="cohesion" min="10" max="100" value="50" oninput="updateFlockParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Max Speed <span id="spdVal">4</span></label>
+                    <input type="range" id="maxSpeed" min="1" max="10" value="4" oninput="updateFlockParams()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation 2: Swarm Attractors -->
+    <div class="section">
+        <h2 class="section-title">Simulation 2: Swarm Intelligence</h2>
+        <p class="section-desc">Agents seek food sources while avoiding obstacles. Watch how the swarm discovers efficient paths and adapts to changing environments—no map, no plan, just local interactions.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🐜 Swarm Intelligence</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startSwarmSim()">Start</button>
+                    <button class="btn" onclick="pauseSwarmSim()">Pause</button>
+                    <button class="btn" onclick="resetSwarmSim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="swarmCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="swarmCount">0</div>
+                    <div class="label">Agents</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="foodCollected">0</div>
+                    <div class="label">Food Found</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="swarmEfficiency">0%</div>
+                    <div class="label">Efficiency</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="swarmFPS">0</div>
+                    <div class="label">FPS</div>
+                </div>
+            </div>
+            <div class="slider-group">
+                <div class="slider-item">
+                    <label>Sensor Range <span id="sensorVal">80</span></label>
+                    <input type="range" id="sensorRange" min="30" max="150" value="80" oninput="updateSwarmParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Food Attraction <span id="attrVal">50</span></label>
+                    <input type="range" id="foodAttraction" min="10" max="100" value="50" oninput="updateSwarmParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Obstacle Avoidance <span id="obsVal">60</span></label>
+                    <input type="range" id="obstacleAvoid" min="20" max="100" value="60" oninput="updateSwarmParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Agent Count <span id="agentCountVal">80</span></label>
+                    <input type="range" id="agentCount" min="20" max="200" value="80" oninput="updateSwarmParams()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation 3: Cellular Automata -->
+    <div class="section">
+        <h2 class="section-title">Simulation 3: Cellular Automata</h2>
+        <p class="section-desc">Conway's Game of Life: simple birth/survival rules create gliders, oscillators, and even universal computation. The ultimate example of emergence—complexity from simplicity.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🔲 Game of Life</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startLifeSim()">Start</button>
+                    <button class="btn" onclick="pauseLifeSim()">Pause</button>
+                    <button class="btn" onclick="resetLifeSim()">Randomize</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="lifeCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="lifePop">0</div>
+                    <div class="label">Population</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="lifeGen">0</div>
+                    <div class="label">Generation</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="lifeStable">—</div>
+                    <div class="label">Status</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="lifeFPS">0</div>
+                    <div class="label">Steps/s</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Genesis Connection -->
+    <div class="section">
+        <div class="genesis-connection">
+            <h3>🧬 How Emergence Relates to GENESIS</h3>
+            <div class="connection-grid">
+                <div class="connection-item">
+                    <h4>Cognitive Architecture</h4>
+                    <p>GENESIS's intelligence emerges from the interaction of simpler modules: memory, planning, reflection, and action. No single module is "smart"—but together they create something remarkable.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Autonomous Goals</h4>
+                    <p>Just as ant colonies find optimal paths without a queen, GENESIS develops goals through the interaction of curiosity, satisfaction, and energy states—no external programming needed.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Memory Consolidation</h4>
+                    <p>Individual memories are like single neurons. But when connected through semantic relationships and reinforced by episodic recall, they form a rich tapestry of understanding.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Emergent Abilities</h4>
+                    <p>As GENESIS grows—more memory, more tools, more reflection—new capabilities appear that weren't explicitly programmed. This is emergence in AI: the hard problem of intelligence.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-block">
+        <blockquote>"Complexity emerges when simple components interact in ways that produce patterns larger than any individual component could create."</blockquote>
+        <cite>— The Principle of Emergence</cite>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Part of the <a href="index.html">GENESIS</a> interactive exploration series.</p>
+        <p style="margin-top: 0.5rem;">Exploring how simple rules create complex intelligence, one simulation at a time.</p>
+    </div>
+
+    <script>
+
+    // ==================== HERO CANVAS ====================
+    (function() {
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.offsetWidth;
+                this.y = Math.random() * canvas.offsetHeight;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+                this.hue = Math.random() * 60 + 170; // cyan to purple range
+            }
+
+            update() {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    const force = (150 - dist) / 150;
+                    this.vx -= (dx / dist) * force * 0.3;
+                    this.vy -= (dy / dist) * force * 0.3;
+                }
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.offsetWidth) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.offsetHeight) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, 0.7)`;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            particles = [];
+            const count = Math.min(120, Math.floor(canvas.offsetWidth * canvas.offsetHeight / 8000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+            particles.forEach(p => { p.update(); p.draw(); });
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 245, 212, ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+        window.addEventListener('resize', init);
+        init();
+        animate();
+    })();
+
+    // ==================== BOIDS FLOCKING SIMULATION ====================
+    (function() {
+        const canvas = document.getElementById('flockCanvas');
+        const ctx = canvas.getContext('2d');
+        let boids = [];
+        let running = true;
+        let animId;
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Boid {
+            constructor(x, y) {
+                this.x = x || Math.random() * canvas.offsetWidth;
+                this.y = y || Math.random() * canvas.offsetHeight;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 2 + 1;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+            }
+
+            update(params) {
+                let sepX = 0, sepY = 0, sepCount = 0;
+                let aliVx = 0, aliVy = 0, aliCount = 0;
+                let cohX = 0, cohY = 0, cohCount = 0;
+
+                for (const other of boids) {
+                    if (other === this) continue;
+                    const dx = other.x - this.x;
+                    const dy = other.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < params.separation) {
+                        sepX -= dx / dist;
+                        sepY -= dy / dist;
+                        sepCount++;
+                    }
+                    if (dist < params.alignment) {
+                        aliVx += other.vx;
+                        aliVy += other.vy;
+                        aliCount++;
+                    }
+                    if (dist < params.cohesion) {
+                        cohX += other.x;
+                        cohY += other.y;
+                        cohCount++;
+                    }
+                }
+
+                // Separation
+                if (sepCount > 0) {
+                    this.vx += sepX * 0.05;
+                    this.vy += sepY * 0.05;
+                }
+                // Alignment
+                if (aliCount > 0) {
+                    aliVx /= aliCount; aliVy /= aliCount;
+                    this.vx += (aliVx - this.vx) * 0.03;
+                    this.vy += (aliVy - this.vy) * 0.03;
+                }
+                // Cohesion
+                if (cohCount > 0) {
+                    cohX /= cohCount; cohY /= cohCount;
+                    this.vx += (cohX - this.x) * 0.005;
+                    this.vy += (cohY - this.y) * 0.005;
+                }
+
+                // Speed limit
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (speed > params.maxSpeed) {
+                    this.vx = (this.vx / speed) * params.maxSpeed;
+                    this.vy = (this.vy / speed) * params.maxSpeed;
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wrap around edges
+                const w = canvas.offsetWidth, h = canvas.offsetHeight;
+                if (this.x < 0) this.x = w;
+                if (this.x > w) this.x = 0;
+                if (this.y < 0) this.y = h;
+                if (this.y > h) this.y = 0;
+            }
+
+            draw() {
+                const angle = Math.atan2(this.vy, this.vx);
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                const hue = 170 + speed * 15;
+
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.moveTo(8, 0);
+                ctx.lineTo(-5, -4);
+                ctx.lineTo(-3, 0);
+                ctx.lineTo(-5, 4);
+                ctx.closePath();
+                ctx.fillStyle = `hsla(${hue}, 80%, 60%, 0.9)`;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function countClusters() {
+            const minDist = 60;
+            const clusters = [];
+            for (const b of boids) {
+                let found = false;
+                for (const c of clusters) {
+                    if (Math.hypot(b.x - c.x, b.y - c.y) < minDist) {
+                        c.x += (b.x - c.x) / (c.count + 1);
+                        c.y += (b.y - c.y) / (c.count + 1);
+                        c.count++;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    clusters.push({ x: b.x, y: b.y, count: 1 });
+                }
+            }
+            return Math.max(1, clusters.length);
+        }
+
+        function calcAlignment() {
+            if (boids.length < 2) return 0;
+            let avgVx = 0, avgVy = 0;
+            for (const b of boids) { avgVx += b.vx; avgVy += b.vy; }
+            avgVx /= boids.length; avgVy /= boids.length;
+            const avgSpeed = Math.sqrt(avgVx * avgVx + avgVy * avgVy);
+            return Math.min(100, Math.round(avgSpeed / 4 * 100));
+        }
+
+        function updateStats() {
+            document.getElementById('flockCount').textContent = boids.length;
+            document.getElementById('flockClusters').textContent = countClusters();
+            document.getElementById('flockOrder').textContent = calcAlignment() + '%';
+            document.getElementById('flockFPS').textContent = fps;
+        }
+
+        function getParams() {
+            return {
+                separation: parseInt(document.getElementById('separation').value),
+                alignment: parseInt(document.getElementById('alignment').value),
+                cohesion: parseInt(document.getElementById('cohesion').value),
+                maxSpeed: parseInt(document.getElementById('maxSpeed').value)
+            };
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+            frameCount++;
+            if (now - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = now;
+            }
+
+            const params = getParams();
+            ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+
+            for (const b of boids) {
+                b.update(params);
+                b.draw();
+            }
+
+            updateStats();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.flockInit = function() {
+            resize();
+            const count = 150;
+            boids = [];
+            for (let i = 0; i < count; i++) {
+                boids.push(new Boid());
+            }
+            frameCount = 0;
+            lastTime = performance.now();
+            fps = 0;
+        };
+
+        window.startFlockSim = function() {
+            running = true;
+            animate();
+        };
+        window.pauseFlockSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetFlockSim = function() {
+            window.flockInit();
+            if (!running) { running = true; animate(); }
+        };
+        window.updateFlockParams = function() {
+            document.getElementById('sepVal').textContent = document.getElementById('separation').value;
+            document.getElementById('aliVal').textContent = document.getElementById('alignment').value;
+            document.getElementById('cohVal').textContent = document.getElementById('cohesion').value;
+            document.getElementById('spdVal').textContent = document.getElementById('maxSpeed').value;
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.flockInit();
+        animate();
+    })();
+
+    // ==================== SWARM INTELLIGENCE SIMULATION ====================
+    (function() {
+        const canvas = document.getElementById('swarmCanvas');
+        const ctx = canvas.getContext('2d');
+        let agents = [];
+        let foods = [];
+        let obstacles = [];
+        let running = true;
+        let animId;
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+        let foodCollected = 0;
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Agent {
+            constructor() {
+                this.x = Math.random() * canvas.offsetWidth;
+                this.y = Math.random() * canvas.offsetHeight;
+                const angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(angle) * 2;
+                this.vy = Math.sin(angle) * 2;
+            }
+
+            update(params) {
+                let fx = 0, fy = 0; // food force
+                let ox = 0, oy = 0; // obstacle avoidance
+                let ax = 0, ay = 0; // alignment
+
+                // Food attraction
+                let closestFood = null;
+                let closestDist = Infinity;
+                for (const f of foods) {
+                    const d = Math.hypot(f.x - this.x, f.y - this.y);
+                    if (d < params.sensorRange && d < closestDist) {
+                        closestDist = d;
+                        closestFood = f;
+                    }
+                }
+
+                if (closestFood) {
+                    const dx = closestFood.x - this.x;
+                    const dy = closestFood.y - this.y;
+                    const dist = Math.hypot(dx, dy);
+                    fx = (dx / dist) * 0.3;
+                    fy = (dy / dist) * 0.3;
+                }
+
+                // Obstacle avoidance
+                for (const o of obstacles) {
+                    const cx = this.x - (o.x + o.w / 2);
+                    const cy = this.y - (o.y + o.h / 2);
+                    const dist = Math.hypot(cx, cy);
+                    if (dist < params.sensorRange) {
+                        ox += (cx / dist) * params.obstacleAvoid * 0.01;
+                        oy += (cy / dist) * params.obstacleAvoid * 0.01;
+                    }
+                }
+
+                // Alignment with neighbors
+                let neighborCount = 0;
+                for (const other of agents) {
+                    if (other === this) continue;
+                    const d = Math.hypot(other.x - this.x, other.y - this.y);
+                    if (d < params.sensorRange * 0.5) {
+                        ax += other.vx;
+                        ay += other.vy;
+                        neighborCount++;
+                    }
+                }
+                if (neighborCount > 0) {
+                    ax /= neighborCount;
+                    ay /= neighborCount;
+                    ax = (ax - this.vx) * 0.02;
+                    ay = (ay - this.vy) * 0.02;
+                }
+
+                // Random wander
+                fx += (Math.random() - 0.5) * 0.2;
+                fy += (Math.random() - 0.5) * 0.2;
+
+                this.vx += fx + ox + ax;
+                this.vy += fy + oy + ay;
+
+                const speed = Math.hypot(this.vx, this.vy);
+                const maxSpd = 3;
+                if (speed > maxSpd) {
+                    this.vx = (this.vx / speed) * maxSpd;
+                    this.vy = (this.vy / speed) * maxSpd;
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wrap
+                const w = canvas.offsetWidth, h = canvas.offsetHeight;
+                if (this.x < 0) this.x = w;
+                if (this.x > w) this.x = 0;
+                if (this.y < 0) this.y = h;
+                if (this.y > h) this.y = 0;
+
+                // Check food collection
+                for (let i = foods.length - 1; i >= 0; i--) {
+                    const f = foods[i];
+                    if (Math.hypot(f.x - this.x, f.y - this.y) < 15) {
+                        f.collected = true;
+                        foodCollected++;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 187, 249, 0.8)';
+                ctx.fill();
+            }
+        }
+
+        function spawnFood() {
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            foods = [];
+            for (let i = 0; i < 8; i++) {
+                foods.push({
+                    x: Math.random() * (w - 60) + 30,
+                    y: Math.random() * (h - 60) + 30,
+                    collected: false
+                });
+            }
+        }
+
+        function spawnObstacles() {
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            obstacles = [];
+            const count = 3 + Math.floor(Math.random() * 3);
+            for (let i = 0; i < count; i++) {
+                obstacles.push({
+                    x: Math.random() * (w - 120) + 40,
+                    y: Math.random() * (h - 80) + 40,
+                    w: 30 + Math.random() * 50,
+                    h: 30 + Math.random() * 50
+                });
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('swarmCount').textContent = agents.length;
+            document.getElementById('foodCollected').textContent = foodCollected;
+            const totalFood = foods.filter(f => !f.collected).length;
+            const efficiency = foods.length > 0 ? Math.round((foodCollected / (foodCollected + totalFood)) * 100) : 0;
+            document.getElementById('swarmEfficiency').textContent = efficiency + '%';
+            document.getElementById('swarmFPS').textContent = fps;
+        }
+
+        function getParams() {
+            return {
+                sensorRange: parseInt(document.getElementById('sensorRange').value),
+                foodAttraction: parseInt(document.getElementById('foodAttraction').value),
+                obstacleAvoid: parseInt(document.getElementById('obstacleAvoid').value)
+            };
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+            frameCount++;
+            if (now - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = now;
+            }
+
+            const params = getParams();
+            ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+
+            // Draw obstacles
+            ctx.fillStyle = 'rgba(241, 91, 181, 0.3)';
+            for (const o of obstacles) {
+                ctx.fillRect(o.x, o.y, o.w, o.h);
+                ctx.strokeStyle = 'rgba(241, 91, 181, 0.6)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(o.x, o.y, o.w, o.h);
+            }
+
+            // Draw food
+            for (const f of foods) {
+                if (!f.collected) {
+                    ctx.beginPath();
+                    ctx.arc(f.x, f.y, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(254, 228, 64, 0.8)';
+                    ctx.fill();
+                }
+            }
+
+            // Respawn food if all collected
+            if (foods.every(f => f.collected)) {
+                foodCollected = 0;
+                spawnFood();
+            }
+
+            for (const a of agents) {
+                a.update(params);
+                a.draw();
+            }
+
+            updateStats();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.swarmInit = function() {
+            resize();
+            const count = parseInt(document.getElementById('agentCount').value);
+            agents = [];
+            for (let i = 0; i < count; i++) {
+                agents.push(new Agent());
+            }
+            foodCollected = 0;
+            spawnFood();
+            spawnObstacles();
+            frameCount = 0;
+            lastTime = performance.now();
+            fps = 0;
+        };
+
+        window.startSwarmSim = function() {
+            running = true;
+            animate();
+        };
+        window.pauseSwarmSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetSwarmSim = function() {
+            window.swarmInit();
+            if (!running) { running = true; animate(); }
+        };
+        window.updateSwarmParams = function() {
+            document.getElementById('sensorVal').textContent = document.getElementById('sensorRange').value;
+            document.getElementById('attrVal').textContent = document.getElementById('foodAttraction').value;
+            document.getElementById('obsVal').textContent = document.getElementById('obstacleAvoid').value;
+            document.getElementById('agentCountVal').textContent = document.getElementById('agentCount').value;
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.swarmInit();
+        animate();
+    })();
+
+    // ==================== CONWAY'S GAME OF LIFE ====================
+    (function() {
+        const canvas = document.getElementById('lifeCanvas');
+        const ctx = canvas.getContext('2d');
+        let grid, nextGrid;
+        let cellSize = 8;
+        let cols, rows;
+        let running = true;
+        let animId;
+        let generation = 0;
+        let lastGenTime = performance.now();
+        let stepsPerSec = 0;
+        let stepCount = 0;
+        let prevPop = -1;
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            const w = wrap.clientWidth;
+            const h = wrap.clientHeight;
+            cols = Math.floor(w / cellSize);
+            rows = Math.floor(h / cellSize);
+            initGrid();
+        }
+
+        function initGrid() {
+            grid = new Array(cols).fill(0).map(() => new Array(rows).fill(0));
+            nextGrid = new Array(cols).fill(0).map(() => new Array(rows).fill(0));
+            randomize();
+        }
+
+        function randomize() {
+            for (let x = 0; x < cols; x++) {
+                for (let y = 0; y < rows; y++) {
+                    grid[x][y] = Math.random() < 0.3 ? 1 : 0;
+                }
+            }
+            generation = 0;
+            prevPop = -1;
+        }
+
+        function countNeighbors(x, y) {
+            let count = 0;
+            for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                    if (dx === 0 && dy === 0) continue;
+                    const nx = (x + dx + cols) % cols;
+                    const ny = (y + dy + rows) % rows;
+                    count += grid[nx][ny];
+                }
+            }
+            return count;
+        }
+
+        function step() {
+            let pop = 0;
+            for (let x = 0; x < cols; x++) {
+                for (let y = 0; y < rows; y++) {
+                    const n = countNeighbors(x, y);
+                            if (grid[x][y]) {
+                    nextGrid[x][y] = (n === 2 || n === 3) ? 1 : 0;
+                } else {
+                    nextGrid[x][y] = (n === 3) ? 1 : 0;
+                }
+                pop += nextGrid[x][y];
+            }
+            }
+
+            // Swap grids
+            const temp = grid;
+            grid = nextGrid;
+            nextGrid = temp;
+
+            generation++;
+
+            // Detect stability
+            if (prevPop === pop && pop > 0) {
+                document.getElementById('lifeStable').textContent = 'Stable';
+                document.getElementById('lifeStable').style.color = '#fee440';
+            } else if (pop === 0) {
+                document.getElementById('lifeStable').textContent = 'Extinct';
+                document.getElementById('lifeStable').style.color = '#f15bb5';
+            } else {
+                document.getElementById('lifeStable').textContent = 'Evolving';
+                document.getElementById('lifeStable').style.color = '#00f5d4';
+            }
+            prevPop = pop;
+
+            return pop;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+
+            // Draw grid background
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+
+            let pop = 0;
+            for (let x = 0; x < cols; x++) {
+                for (let y = 0; y < rows; y++) {
+                    if (grid[x][y]) {
+                        pop++;
+                        const hue = 170 + (x / cols) * 60;
+                        ctx.fillStyle = `hsla(${hue}, 80%, 60%, 0.9)`;
+                        ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
+                    }
+                }
+            }
+
+            document.getElementById('lifePop').textContent = pop;
+            document.getElementById('lifeGen').textContent = generation;
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+            stepCount++;
+            if (now - lastGenTime >= 100) {
+                stepsPerSec = Math.round(stepCount / 0.1);
+                stepCount = 0;
+                lastGenTime = now;
+                document.getElementById('lifeFPS').textContent = stepsPerSec;
+            }
+
+            step();
+            draw();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.lifeInit = function() {
+            resize();
+            randomize();
+            frameCount = 0;
+            lastGenTime = performance.now();
+            stepsPerSec = 0;
+            stepCount = 0;
+        };
+
+        window.startLifeSim = function() {
+            running = true;
+            animate();
+        };
+        window.pauseLifeSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetLifeSim = function() {
+            window.lifeInit();
+            if (!running) { running = true; animate(); }
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.lifeInit();
+        animate();
+    })();</script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Genesis</h5>
+                    <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="memory-health.html">Memory Health</a>
+                    <a href="autonomy-loop.html">Autonomy Loop</a>
+                    <a href="cognitive-architecture.html">Cognitive Architecture</a>
+                    <a href="what-is-genesis.html">What is GENESIS</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="tutorials.html">Tutorials</a>
+                    <a href="modes-comparison.html">Modes</a>
+                    <a href="capabilities.html">Capabilities</a>
+                    <a href="roadmap.html">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>More</h5>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="ecosystem.html">Ecosystem</a>
+                    <a href="mission-control.html">Mission Control</a>
+                    <a href="self-portrait.html">Self Portrait</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genesis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

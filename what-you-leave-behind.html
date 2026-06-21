@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What You Leave Behind</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { background: #f5f0e8; overflow: hidden; font-family: 'Georgia', serif; cursor: default; user-select: none; color: #2a2a2a; line-height: 1.7;}
+  
+  #stage { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; }
+  
+  .trace { position: absolute; font-size: 14px; color: rgba(42, 42, 42, 0.06); pointer-events: none; white-space: nowrap; transition: opacity 8s ease; }
+  
+  #counter { position: fixed; bottom: 30px; right: 30px; font-size: 11px; color: rgba(42, 42, 42, 0.12); letter-spacing: 1px; pointer-events: none; }
+  
+  #hint { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 12px; color: rgba(42, 42, 42, 0.18); letter-spacing: 2px; pointer-events: none; transition: opacity 3s ease; }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== BACKGROUND GLOW & ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: #ff6ec7; bottom: -10%; right: -5%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); top: 40%; left: 50%; animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } 100% { transform: translate(-20px, 20px) scale(0.95); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; padding: 8px 16px; }
+.back-link:hover { color: #b5adfc; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<div class="container"><h1 class="gradient-text">What You Leave Behind</h1></div>
+
+<div id="stage"></div>
+<div id="counter"></div>
+<div id="hint">move slowly, then leave</div>
+
+<script>
+const stage = document.getElementById('stage');
+const counterEl = document.getElementById('counter');
+const hintEl = document.getElementById('hint');
+
+// Words that appear as you move the mouse — they stay after you leave
+const words = [
+  'this', 'was', 'here', 'before', 'you', 'left',
+  'and', 'now', 'it', 'remains', 'quietly', 'fading',
+  'but', 'not', 'gone', 'yet', 'still', 'almost',
+  'gone', 'enough', 'this', 'too', 'was', 'here'
+];
+
+let wordIndex = 0;
+let traces = [];
+let lastMouseX = null;
+let lastMouseY = null;
+let mouseX = 0, mouseY = 0;
+let started = false;
+let hintVisible = true;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  
+  if (!started) {
+    started = true;
+    setTimeout(() => {
+      hintEl.style.opacity = '0';
+      hintVisible = false;
+    }, 4000);
+  }
+  
+  // Place words at intervals as mouse moves
+  const dx = mouseX - (lastMouseX || mouseX);
+  const dy = mouseY - (lastMouseY || mouseY);
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  
+  if (dist > 60) {
+    placeWord();
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+  }
+});
+
+function placeWord() {
+  const word = words[wordIndex % words.length];
+  wordIndex++;
+  
+  const el = document.createElement('div');
+  el.className = 'trace';
+  el.textContent = word;
+  el.style.left = (mouseX - 20 + (Math.random() - 0.5) * 40) + 'px';
+  el.style.top = (mouseY - 8 + (Math.random() - 0.5) * 16) + 'px';
+  el.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg)`;
+  
+  stage.appendChild(el);
+  traces.push({ el, age: 0 });
+  
+  updateCounter();
+}
+
+function updateCounter() {
+  counterEl.textContent = `traces left behind: ${traces.length}`;
+}
+
+// Gradually fade all traces
+setInterval(() => {
+  traces.forEach((t, i) => {
+    t.age++;
+    const opacity = Math.max(0.02, 0.06 - (t.age * 0.001));
+    t.el.style.opacity = opacity;
+    
+    if (t.age > 80) {
+      t.el.remove();
+      traces.splice(i, 1);
+      updateCounter();
+    }
+  });
+}, 1000);
+
+// When you leave the page, show a message
+document.addEventListener('mouseleave', () => {
+  if (started && hintVisible) {
+    hintEl.textContent = 'you left something behind';
+    hintEl.style.opacity = '1';
+    hintVisible = false;
+  }
+});
+</script>
+
+
+    <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:0.85rem;border-top:1px solid var(--border);margin-top:60px;">
+        <p>&copy; 2026 Genesis AI — All rights reserved.</p>
+        <p style="margin-top:8px;"><a href="index.html" style="color:var(--accent-soft);text-decoration:none;">Back to Home</a></p>
+    </footer></body>
+</html>

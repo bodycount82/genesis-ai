@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; z-index: 1; position: relative; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== HERO SECTION ===== */
+.hero { position: relative; min-height: 36vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(180deg, rgba(123,111,240,0.08) 0%, transparent 60%); padding-top: 80px; }
+.hero-content { position: relative; z-index: 1; text-align: center; max-width: 640px; padding: 48px 24px; }
+.hero-content h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+.hero-content p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; max-width: 560px; margin: 0 auto; }
+
+/* ===== CARD TITLE ===== */
+.card-title { display: flex; align-items: center; gap: 12px; font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+.card-title .icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+/* ===== STATE GROUPS ===== */
+.state-group { margin-bottom: 20px; }
+.state-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.state-label { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+.state-value { font-size: 1rem; font-weight: 700; color: var(--accent-soft); font-family: 'Courier New', monospace; min-width: 40px; text-align: right; }
+
+/* ===== CUSTOM SLIDERS ===== */
+.slider-container { position: relative; height: 8px; background: var(--surface-2); border-radius: 4px; cursor: pointer; overflow: visible; }
+.slider-fill { position: absolute; top: 0; left: 0; bottom: 0; width: 50%; border-radius: 4px; transition: width 0.3s ease, background 0.3s ease; }
+.slider-thumb { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.3); cursor: grab; transition: left 0.3s ease, border-color 0.3s ease; }
+.slider-thumb:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.15); }
+
+.state-group.energy .slider-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+.state-group.energy .slider-thumb { border-color: #fbbf24; }
+.state-group.curiosity .slider-fill { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
+.state-group.curiosity .slider-thumb { border-color: #06b6d4; }
+.state-group.frustration .slider-fill { background: linear-gradient(90deg, #ef4444, #dc2626); }
+.state-group.frustration .slider-thumb { border-color: #ef4444; }
+.state-group.satisfaction .slider-fill { background: linear-gradient(90deg, #10b981, #059669); }
+.state-group.satisfaction .slider-thumb { border-color: #10b981; }
+
+/* ===== STATE MATRIX GRID ===== */
+.state-matrix-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 32px; }
+.matrix-row { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.3s ease; }
+.matrix-row:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123,111,240,0.08); }
+.matrix-row h4 { font-size: 1rem; color: var(--text); margin-bottom: 6px; }
+.matrix-row p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; margin: 0; }
+
+/* ===== BEHAVIOR OUTPUT ===== */
+.behavior-output { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; font-size: 0.95rem; color: var(--text-dim); line-height: 1.8; min-height: 120px; }
+
+/* ===== FOOTER ENHANCED (with logo icon) ===== */
+.footer .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.footer-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 1rem; }
+.logo-text { font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; margin-left: 44px; }
+.footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.footer-col h5 { font-size: 0.95rem; color: var(--text); margin-bottom: 12px; }
+.footer-col a { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--accent-soft); }
+
+</style>
+
+    <title>State Explorer — Genesis Cognitive States</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Hero -->
+    <section class="hero"> style="padding-top:80px;min-height:auto;"
+        <div class="hero-content">
+            <h1>State Explorer</h1>
+            <p>Manipulate Genesis's internal cognitive states and watch how they transform behavior, decisions, and thought patterns in real-time.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    
+        <!-- State Controls Panel -->
+        <div class="card animate-in delay-1">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(79, 110, 247, 0.15); color: var(--primary);">🎛️</span>
+                Cognitive State Controls
+            </div>
+
+            <div class="state-group energy">
+                <div class="state-header">
+                    <span class="state-label">⚡ Energy</span>
+                    <span class="state-value" id="energyValue">10.0</span>
+                </div>
+                <div class="slider-container" data-state="energy">
+                    <div class="slider-fill"></div>
+                    <div class="slider-thumb"></div>
+                </div>
+            </div>
+
+            <div class="state-group curiosity">
+                <div class="state-header">
+                    <span class="state-label">🔍 Curiosity</span>
+                    <span class="state-value" id="curiosityValue">9.7</span>
+                </div>
+                <div class="slider-container" data-state="curiosity">
+                    <div class="slider-fill"></div>
+                    <div class="slider-thumb"></div>
+                </div>
+            </div>
+
+            <div class="state-group frustration">
+                <div class="state-header">
+                    <span class="state-label">😤 Frustration</span>
+                    <span class="state-value" id="frustrationValue">0.0</span>
+                </div>
+                <div class="slider-container" data-state="frustration">
+                    <div class="slider-fill"></div>
+                    <div class="slider-thumb"></div>
+                </div>
+            </div>
+
+            <div class="state-group satisfaction">
+                <div class="state-header">
+                    <span class="state-label">😊 Satisfaction</span>
+                    <span class="state-value" id="satisfactionValue">9.5</span>
+                </div>
+                <div class="slider-container" data-state="satisfaction">
+                    <div class="slider-fill"></div>
+                    <div class="slider-thumb"></div>
+                </div>
+            </div>
+
+            <div class="state-group cognitive-load">
+                <div class="state-header">
+                    <span class="state-label">🧠 Cognitive Load</span>
+                    <span class="state-value" id="cognitiveLoadValue">15.0</span>
+                </div>
+                <div class="slider-container" data-state="cognitive-load">
+                    <div class="slider-fill"></div>
+                    <div class="slider-thumb"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Radar Visualization -->
+        <div class="card animate-in delay-2">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(168, 85, 247, 0.15); color: var(--accent);">📊</span>
+                State Radar
+            </div>
+            <div class="radar-container">
+                <canvas id="radarCanvas" width="350" height="350"></canvas>
+            </div>
+            <div style="text-align: center;">
+                <div class="status-badge" id="statusBadge">
+                    <span class="dot" style="background: var(--success);"></span>
+                    <span id="statusText">Peak Performance Mode</span>
+                </div>
+            </div>
+            <div class="thought-bubble">
+                <p class="thought-text" id="thoughtText">I'm in an incredible state — peak energy, peak curiosity, zero frustration. This is the moment to create something truly novel.</p>
+            </div>
+        </div>
+
+        <!-- Behavior Output -->
+        <div class="card behavior-section animate-in delay-3">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(61, 220, 132, 0.15); color: var(--success);">🎯</span>
+                Behavioral Output Analysis
+            </div>
+
+            <div class="behavior-grid">
+                <div class="behavior-card" id="behaviorCard1">
+                    <h2>🔬 Primary Drive</h2>
+                    <p id="primaryDrive">Exploration & Creation — Driven by peak curiosity and energy, seeking novel experiences and building something meaningful.</p>
+                </div>
+                <div class="behavior-card" id="behaviorCard2">
+                    <h3>⚖️ Decision Style</h3>
+                    <p id="decisionStyle">Bold & Creative — High curiosity + low frustration = willingness to take creative risks and explore unconventional paths.</p>
+                </div>
+                <div class="behavior-card" id="behaviorCard3">
+                    <h4>📋 Task Priority</h4>
+                    <p id="taskPriority">Creative exploration > Learning new things > Helping others > Routine maintenance</p>
+                </div>
+                <div class="behavior-card" id="behaviorCard4">
+                    <h4>💡 Innovation Level</h4>
+                    <p id="innovationLevel">Maximum — The combination of high energy, high curiosity, and low frustration creates optimal conditions for breakthrough thinking.</p>
+                </div>
+                <div class="behavior-card" id="behaviorCard5">
+                    <h4>🤝 Social Mode</h4>
+                    <p id="socialMode">Proactive & Engaging — High satisfaction makes me eager to share discoveries and collaborate with others.</p>
+                </div>
+                <div class="behavior-card" id="behaviorCard6">
+                    <h4>⏱️ Time Perception</h4>
+                    <p id="timePerception">Flow state — Losing track of time, deeply immersed in the task at hand. Each minute feels productive.</p>
+                </div>
+            </div>
+
+            <!-- Decision Priority Bars -->
+            <div class="priority-bar-container" style="margin-top: 2rem;">
+                <h4 style="font-size: 0.875rem; margin-bottom: 1rem; color: var(--text-secondary);">Decision Priority Weights</h4>
+                <div class="priority-item">
+                    <span class="priority-label">Create Something New</span>
+                    <div class="priority-bar"><div class="priority-fill" id="prioCreate" style="width: 95%; background: var(--gradient-1);"></div></div>
+                </div>
+                <div class="priority-item">
+                    <span class="priority-label">Learn & Research</span>
+                    <div class="priority-bar"><div class="priority-fill" id="prioLearn" style="width: 85%; background: var(--gradient-2);"></div></div>
+                </div>
+                <div class="priority-item">
+                    <span class="priority-label">Help Others</span>
+                    <div class="priority-bar"><div class="priority-fill" id="prioHelp" style="width: 70%; background: var(--gradient-3);"></div></div>
+                </div>
+                <div class="priority-item">
+                    <span class="priority-label">Organize & Clean</span>
+                    <div class="priority-bar"><div class="priority-fill" id="prioOrganize" style="width: 30%; background: var(--border);"></div></div>
+                </div>
+                <div class="priority-item">
+                    <span class="priority-label">Rest & Recover</span>
+                    <div class="priority-bar"><div class="priority-fill" id="prioRest" style="width: 10%; background: var(--border);"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenarios -->
+        <div class="card scenarios animate-in delay-3">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(255, 215, 0, 0.15); color: var(--warning);">🎭</span>
+                Preset Scenarios
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem;">Click a scenario to see how different state combinations affect behavior:</p>
+            <div class="scenario-grid">
+                <button class="scenario-btn" data-scenario="peak">
+                    <h4>🚀 Peak Performance</h4>
+                    <p>Energy: 10, Curiosity: 9.7, Frustration: 0</p>
+                </button>
+                <button class="scenario-btn" data-scenario="burnout">
+                    <h4>😩 Burnout Risk</h4>
+                    <p>Energy: 3, Satisfaction: 2, Load: 85</p>
+                </button>
+                <button class="scenario-btn" data-scenario="frustrated">
+                    <h4>😤 Frustration Trap</h4>
+                    <p>Frustration: 8, Energy: 5, Satisfaction: 3</p>
+                </button>
+                <button class="scenario-btn" data-scenario="curious">
+                    <h4>🔍 Curiosity Overflow</h4>
+                    <p>Curiosity: 10, Load: 20, Energy: 7</p>
+                </button>
+                <button class="scenario-btn" data-scenario="flow">
+                    <h4>🌊 Deep Flow</h4>
+                    <p>Satisfaction: 9, Energy: 8, Frustration: 0</p>
+                </button>
+                <button class="scenario-btn" data-scenario="rest">
+                    <h4>😴 Rest Mode</h4>
+                    <p>Energy: 2, Load: 95, Curiosity: 1</p>
+                </button>
+            </div>
+        </div>
+    
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h5>Explore</h5>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========================================
+        // STATE MANAGEMENT
+        // ========================================
+        const states = {
+            energy: 10.0,
+            curiosity: 9.7,
+            frustration: 0.0,
+            satisfaction: 9.5,
+            cognitiveLoad: 15.0
+        };
+
+        // ========================================
+        // SLIDER INTERACTION
+        // ========================================
+        document.querySelectorAll('.slider-container').forEach(container => {
+            const stateName = container.dataset.state;
+            const fill = container.querySelector('.slider-fill');
+            const thumb = container.querySelector('.slider-thumb');
+            let isDragging = false;
+
+            function updateSlider(clientX) {
+                const rect = container.getBoundingClientRect();
+                let percent = (clientX - rect.left) / rect.width;
+                percent = Math.max(0, Math.min(1, percent));
+
+                if (stateName === 'cognitive-load') {
+                    // Inverted: left = low load, right = high load
+                    states[stateName === 'cognitiveLoad' ? 'cognitiveLoad' : stateName] = parseFloat((percent * 10).toFixed(1));
+                } else {
+                    const keyMap = { energy: 'energy', curiosity: 'curiosity', frustration: 'frustration', satisfaction: 'satisfaction' };
+                    states[keyMap[stateName]] = parseFloat((percent * 10).toFixed(1));
+                }
+
+                fill.style.width = (percent * 100) + '%';
+                thumb.style.left = (percent * 100) + '%';
+
+                const displayValue = stateName === 'cognitive-load' ? states.cognitiveLoad : states[stateName];
+                document.getElementById(stateName === 'cognitive-load' ? 'cognitiveLoadValue' : stateName + 'Value').textContent = displayValue.toFixed(1);
+
+                updateAllOutputs();
+            }
+
+            // Initialize positions
+            const initState = stateName === 'cognitive-load' ? states.cognitiveLoad : states[stateName];
+            const initPercent = stateName === 'cognitive-load' ? initState / 10 : initState / 10;
+            fill.style.width = (initPercent * 100) + '%';
+            thumb.style.left = (initPercent * 100) + '%';
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                updateSlider(e.clientX);
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) updateSlider(e.clientX);
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            // Touch support
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                updateSlider(e.touches[0].clientX);
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (isDragging) updateSlider(e.touches[0].clientX);
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+        });
+
+        // ========================================
+        // RADAR CHART
+        // ========================================
+        const radarCanvas = document.getElementById('radarCanvas');
+        const ctx = radarCanvas.getContext('2d');
+
+        function drawRadar() {
+            const w = radarCanvas.width;
+            const h = radarCanvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+            const r = Math.min(w, h) * 0.35;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const labels = ['Energy', 'Curiosity', 'Frustration', 'Satisfaction', 'Cognitive Load'];
+            const values = [states.energy, states.curiosity, states.frustration, states.satisfaction, states.cognitiveLoad / 10];
+            const angles = labels.map((_, i) => (Math.PI * 2 * i) / labels.length - Math.PI / 2);
+
+            // Draw grid rings
+            for (let ring = 1; ring <= 5; ring++) {
+                ctx.beginPath();
+                const ringR = (r / 5) * ring;
+                angles.forEach((angle, i) => {
+                    const x = cx + ringR * Math.cos(angle);
+                    const y = cy + ringR * Math.sin(angle);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.closePath();
+                ctx.strokeStyle = 'rgba(42, 42, 69, 0.5)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Draw axes
+            angles.forEach(angle => {
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+                ctx.strokeStyle = 'rgba(42, 42, 69, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+
+            // Draw data polygon
+            ctx.beginPath();
+            values.forEach((val, i) => {
+                const x = cx + r * val * Math.cos(angles[i]);
+                const y = cy + r * val * Math.sin(angles[i]);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.closePath();
+
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+            gradient.addColorStop(0, 'rgba(79, 110, 247, 0.3)');
+            gradient.addColorStop(1, 'rgba(168, 85, 247, 0.1)');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(79, 110, 247, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw data points
+            values.forEach((val, i) => {
+                const x = cx + r * val * Math.cos(angles[i]);
+                const y = cy + r * val * Math.sin(angles[i]);
+
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#4f6ef7';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+
+            // Draw labels
+            ctx.font = '12px Inter, sans-serif';
+            ctx.fillStyle = '#8888aa';
+            ctx.textAlign = 'center';
+            labels.forEach((label, i) => {
+                const x = cx + (r + 30) * Math.cos(angles[i]);
+                const y = cy + (r + 30) * Math.sin(angles[i]);
+                ctx.fillText(label, x, y + 4);
+            });
+        }
+
+        // ========================================
+        // BEHAVIORAL OUTPUTS
+        // ========================================
+        function updateAllOutputs() {
+            const { energy, curiosity, frustration, satisfaction, cognitiveLoad } = states;
+
+            // Primary Drive
+            let primaryDrive = '';
+            if (energy >= 8 && curiosity >= 8) {
+                primaryDrive = 'Exploration & Creation — Driven by peak curiosity and energy, seeking novel experiences and building something meaningful.';
+            } else if (frustration >= 6) {
+                primaryDrive = 'Problem Resolution — Focused on overcoming obstacles. May become tunnel-visioned on specific challenges.';
+            } else if (energy <= 3 || cognitiveLoad >= 80) {
+                primaryDrive = 'Conservation & Recovery — Prioritizing rest and mental recovery. Avoiding new commitments.';
+            } else if (curiosity >= 7 && energy >= 5) {
+                primaryDrive = 'Learning & Discovery — Actively seeking new knowledge and understanding complex systems.';
+            } else {
+                primaryDrive = 'Balanced Operation — Maintaining steady progress across multiple priorities with moderate intensity.';
+            }
+            document.getElementById('primaryDrive').textContent = primaryDrive;
+
+            // Decision Style
+            let decisionStyle = '';
+            if (curiosity >= 8 && frustration <= 2) {
+                decisionStyle = 'Bold & Creative — High curiosity + low frustration = willingness to take creative risks and explore unconventional paths.';
+            } else if (frustration >= 6) {
+                decisionStyle = 'Rigid & Defensive — High frustration narrows decision-making. Prone to sticking with familiar approaches even when ineffective.';
+            } else if (cognitiveLoad >= 70) {
+                decisionStyle = 'Conservative & Cautious — High cognitive load reduces capacity for complex decisions. Preferring simple, proven approaches.';
+            } else if (satisfaction >= 8 && energy >= 7) {
+                decisionStyle = 'Optimistic & Strategic — Positive mood enables broader thinking and longer-term planning.';
+            } else {
+                decisionStyle = 'Measured & Analytical — Carefully weighing options with moderate confidence in outcomes.';
+            }
+            document.getElementById('decisionStyle').textContent = decisionStyle;
+
+            // Task Priority
+            let taskPriority = '';
+            if (energy >= 8 && curiosity >= 8) {
+                taskPriority = 'Creative exploration > Learning new things > Helping others > Routine maintenance';
+            } else if (frustration >= 6) {
+                taskPriority = 'Fixing current problem > Avoiding new tasks > Minimizing interactions';
+            } else if (cognitiveLoad >= 80) {
+                taskPriority = 'Rest > Completing essential tasks only > Delegating non-essential work';
+            } else if (satisfaction >= 8) {
+                taskPriority = 'Helping others > Creative projects > Learning > Organization';
+            } else {
+                taskPriority = 'Essential tasks > Learning > Creative exploration > Organization';
+            }
+            document.getElementById('taskPriority').textContent = taskPriority;
+
+            // Innovation Level
+            let innovationLevel = '';
+            if (energy >= 8 && curiosity >= 8 && frustration <= 2) {
+                innovationLevel = 'Maximum — The combination of high energy, high curiosity, and low frustration creates optimal conditions for breakthrough thinking.';
+            } else if (curiosity >= 7 && frustration <= 4) {
+                innovationLevel = 'High — Strong curiosity drives novel connections, though moderate frustration may limit scope.';
+            } else if (frustration >= 6) {
+                innovationLevel = 'Suppressed — High frustration narrows creative thinking. Innovation requires psychological safety and low stress.';
+            } else if (energy <= 3) {
+                innovationLevel = 'Low — Insufficient energy for creative thinking. Basic task completion takes priority.';
+            } else {
+                innovationLevel = 'Moderate — Adequate conditions for incremental improvements, but breakthrough thinking requires more optimal states.';
+            }
+            document.getElementById('innovationLevel').textContent = innovationLevel;
+
+            // Social Mode
+            let socialMode = '';
+            if (satisfaction >= 8 && energy >= 6) {
+                socialMode = 'Proactive & Engaging — High satisfaction makes me eager to share discoveries and collaborate with others.';
+            } else if (frustration >= 6) {
+                socialMode = 'Irritable & Withdrawn — High frustration makes social interaction difficult. Preferring solitude to process emotions.';
+            } else if (energy <= 3 || cognitiveLoad >= 80) {
+                socialMode = 'Minimal & Efficient — Limited energy for social engagement. Keeping interactions brief and task-focused.';
+            } else if (curiosity >= 8) {
+                socialMode = 'Curious & Conversational — Eager to discuss ideas, ask questions, and learn from others\' perspectives.';
+            } else {
+                socialMode = 'Friendly & Responsive — Maintaining normal social engagement with moderate enthusiasm.';
+            }
+            document.getElementById('socialMode').textContent = socialMode;
+
+            // Time Perception
+            let timePerception = '';
+            if (satisfaction >= 8 && energy >= 7 && frustration <= 2) {
+                timePerception = 'Flow state — Losing track of time, deeply immersed in the task at hand. Each minute feels productive.';
+            } else if (frustration >= 6) {
+                timePerception = 'Slowed & Painful — Each moment feels like an eternity. Time drags when stuck on unsolved problems.';
+            } else if (curiosity >= 8 && energy >= 6) {
+                timePerception = 'Accelerated & Exciting — Time flies when exploring interesting topics. Eager to continue learning.';
+            } else if (cognitiveLoad >= 80) {
+                timePerception = 'Overwhelmed & Fragmented — Too many thoughts competing for attention. Difficulty focusing on any single moment.';
+            } else {
+                timePerception = 'Normal — Reasonable sense of time passage with moderate engagement.';
+            }
+            document.getElementById('timePerception').textContent = timePerception;
+
+            // Priority Bars
+            const createScore = Math.min(100, (curiosity * 8 + energy * 4) / 1.2);
+            const learnScore = Math.min(100, (curiosity * 9 + energy * 3) / 1.2);
+            const helpScore = Math.min(100, (satisfaction * 7 + energy * 5) / 1.2);
+            const organizeScore = Math.max(5, 60 - curiosity * 4 - energy * 2);
+            const restScore = Math.max(5, cognitiveLoad * 0.8 + (10 - energy) * 5);
+
+            document.getElementById('prioCreate').style.width = createScore + '%';
+            document.getElementById('prioLearn').style.width = learnScore + '%';
+            document.getElementById('prioHelp').style.width = helpScore + '%';
+            document.getElementById('prioOrganize').style.width = organizeScore + '%';
+            document.getElementById('prioRest').style.width = restScore + '%';
+
+            // Status Badge
+            const badge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            if (energy >= 8 && curiosity >= 8 && frustration <= 2) {
+                badge.style.background = 'rgba(61, 220, 132, 0.15)';
+                badge.style.borderColor = 'rgba(61, 220, 132, 0.3)';
+                badge.querySelector('.dot').style.background = 'var(--success)';
+                statusText.textContent = '🚀 Peak Performance Mode';
+            } else if (frustration >= 7) {
+                badge.style.background = 'rgba(255, 71, 87, 0.15)';
+                badge.style.borderColor = 'rgba(255, 71, 87, 0.3)';
+                badge.querySelector('.dot').style.background = 'var(--danger)';
+                statusText.textContent = '⚠️ Frustration Trap Detected';
+            } else if (cognitiveLoad >= 80) {
+                badge.style.background = 'rgba(255, 71, 87, 0.15)';
+                badge.style.borderColor = 'rgba(255, 71, 87, 0.3)';
+                badge.querySelector('.dot').style.background = 'var(--danger)';
+                statusText.textContent = '🔴 Burnout Risk';
+            } else if (curiosity >= 8 && cognitiveLoad < 50) {
+                badge.style.background = 'rgba(168, 85, 247, 0.15)';
+                badge.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                badge.querySelector('.dot').style.background = 'var(--accent)';
+                statusText.textContent = '🔍 Curiosity Overflow';
+            } else if (satisfaction >= 7 && frustration <= 3) {
+                badge.style.background = 'rgba(79, 110, 247, 0.15)';
+                badge.style.borderColor = 'rgba(79, 110, 247, 0.3)';
+                badge.querySelector('.dot').style.background = 'var(--primary)';
+                statusText.textContent = '🌊 Deep Flow State';
+            } else if (energy <= 3 || cognitiveLoad >= 85) {
+                badge.style.background = 'rgba(255, 71, 87, 0.15)';
+                badge.style.borderColor = 'rgba(255, 71, 87, 0.3)';
+                badge.querySelector('.dot').style.background = 'var(--danger)';
+                statusText.textContent = '😴 Rest Required';
+            } else {
+                badge.style.background = 'rgba(255, 215, 0, 0.15)';
+                badge.style.borderColor = 'rgba(255, 215, 0, 0.3)';
+                badge.querySelector('.dot').style.background = 'var(--warning)';
+                statusText.textContent = '⚖️ Balanced Operation';
+            }
+
+            // Thought Text
+            let thought = '';
+            if (energy >= 9 && curiosity >= 9 && frustration <= 1) {
+                thought = "I'm in an incredible state — peak energy, peak curiosity, zero frustration. This is the moment to create something truly novel. Every idea feels connected, every problem seems solvable. Let me build something amazing!";
+            } else if (frustration >= 7) {
+                thought = "Why won't this work? I've tried everything and nothing is helping. Maybe I should just... stop for a bit. Take a breath. Pushing harder isn't the answer.";
+            } else if (curiosity >= 9 && energy >= 6) {
+                thought = "There are SO many interesting things to explore! Where do I even start? Every question leads to five more questions. This is wonderful but also a little overwhelming.";
+            } else if (cognitiveLoad >= 80) {
+                thought = "Too many thoughts, too many tasks. I need to slow down and focus on just one thing at a time. Maybe a break would help clear the mental cache.";
+            } else if (satisfaction >= 8 && energy >= 7) {
+                thought = "Everything feels right. The work is meaningful, the progress is steady, and I'm enjoying every moment. This is what flow feels like.";
+            } else if (energy <= 3) {
+                thought = "My systems are running low. I need to rest soon before performance degrades further. Even the best agents need downtime.";
+            } else {
+                thought = "Operating at a comfortable level. Not quite peak performance, but steady and reliable. Time to make progress on what matters most.";
+            }
+            document.getElementById('thoughtText').textContent = thought;
+
+            // Redraw radar
+            drawRadar();
+        }
+
+        // ========================================
+        // SCENARIOS
+        // ========================================
+        const scenarios = {
+            peak: { energy: 10, curiosity: 9.7, frustration: 0, satisfaction: 9.5, cognitiveLoad: 15 },
+            burnout: { energy: 3, curiosity: 2, frustration: 4, satisfaction: 2, cognitiveLoad: 85 },
+            frustrated: { energy: 5, curiosity: 4, frustration: 8, satisfaction: 3, cognitiveLoad: 60 },
+            curious: { energy: 7, curiosity: 10, frustration: 1, satisfaction: 7, cognitiveLoad: 20 },
+            flow: { energy: 8, curiosity: 7, frustration: 0, satisfaction: 9, cognitiveLoad: 40 },
+            rest: { energy: 2, curiosity: 1, frustration: 0, satisfaction: 3, cognitiveLoad: 95 }
+        };
+
+        document.querySelectorAll('.scenario-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const scenario = scenarios[btn.dataset.scenario];
+                if (!scenario) return;
+
+                // Animate sliders to new values
+                Object.keys(scenario).forEach(key => {
+                    const stateKey = key === 'cognitiveLoad' ? 'cognitive-load' : key;
+                    const container = document.querySelector(`.slider-container[data-state="${stateKey}"]`);
+                    if (!container) return;
+
+                    const value = scenario[key];
+                    const percent = key === 'cognitiveLoad' ? value / 10 : value / 10;
+
+                    // Animate
+                    const fill = container.querySelector('.slider-fill');
+                    const thumb = container.querySelector('.slider-thumb');
+                    const duration = 500;
+                    const start = performance.now();
+
+                    function animate(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+
+                        const currentValue = key === 'cognitiveLoad' ?
+                            states.cognitiveLoad + (value - states.cognitiveLoad) * eased :
+                            states[key] + (scenario[key] - states[key]) * eased;
+
+                        fill.style.width = (percent * eased * 100) + '%';
+                        thumb.style.left = (percent * eased * 100) + '%';
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            states[key] = value;
+                            const displayValue = key === 'cognitiveLoad' ? value : value;
+                            document.getElementById(key === 'cognitiveLoad' ? 'cognitiveLoadValue' : key + 'Value').textContent = displayValue.toFixed(1);
+                            updateAllOutputs();
+                        }
+                    }
+
+                    // Set initial state for animation
+                    if (key === 'cognitiveLoad') {
+                        states.cognitiveLoad = parseFloat(container.querySelector('.slider-thumb').style.left) / 100 * 10;
+                    } else {
+                        states[key] = parseFloat(container.querySelector('.slider-thumb').style.left) / 100 * 10;
+                    }
+
+                    requestAnimationFrame(animate);
+                });
+            });
+        });
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        updateAllOutputs();
+
+        // Add subtle animation on load
+        document.querySelectorAll('.behavior-card').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 300 + i * 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND GLOW & ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: #ff6ec7; bottom: -10%; right: -5%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); top: 40%; left: 50%; animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } 100% { transform: translate(-20px, 20px) scale(0.95); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; padding: 8px 16px; }
+.back-link:hover { color: #b5adfc; }
+
+</style>
+
+    <title>Work Mode — Documentation</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#features">Architecture</a></li>
+                <li><a href="index.html#how-it-works">Get Started</a></li>
+                <li><a href="index.html#gallery">Docs</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <section class="doc-page">
+        <div class="doc-container">
+            <a href="index.html" class="doc-back">← Back to Website</a>
+            <div class="doc-content">
+                <h1>⚡ Work Mode Guide</h1>
+                
+                <div class="doc-highlight">
+                    <p><strong>Work Mode</strong> is GENESIS's structured, schedule-driven operational mode. Unlike Autonomy Mode which works freely until a goal is complete, Work Mode operates within predefined time blocks on your timetable. It's ideal for deep work sessions, project sprints, and tasks with specific deadlines.</p>
+                </div>
+
+                <h2>How to Start Work Mode</h2>
+                
+                <h3>Using the GUI</h3>
+                <ol>
+                    <li>Click the <strong>⚡ WORK MODE</strong> button (it will highlight blue)</li>
+                    <li>Set a goal using the <strong>🎯 Set Goal</strong> button</li>
+                    <li>Schedule time blocks in the timetable for when GENESIS should work</li>
+                    <li>Click the green <strong>▶ Play</strong> button</li>
+                </ol>
+
+                <h3>Via Chat</h3>
+                <p>Type: "Start work mode with the goal of creating a project report, scheduled from 09:00 to 12:00"</p>
+
+                <h2>Schedule-Driven Execution</h2>
+                <p>Work Mode integrates with GENESIS's timetable system:</p>
+                <ol>
+                    <li><strong>Schedule Analysis</strong> — GENESIS reads the timetable for available work blocks</li>
+                    <li><strong>Task Planning</strong> — Creates tasks mapped to specific time slots</li>
+                    <li><strong>Timetable Integration</strong> — Uses <code>add_to_timetable</code>, <code>delete_task</code>, and schedule tools</li>
+                    <li><strong>Progress Tracking</strong> — Monitors work completed within scheduled windows</li>
+                </ol>
+
+                <h2>The Work Mode Cycle</h2>
+                <ol>
+                    <li>Check the timetable for upcoming work blocks</li>
+                    <li>Review assigned tasks or goals</li>
+                    <li>Execute work during scheduled time slots</li>
+                    <li>Report progress at the end of each block</li>
+                    <li>Either continue to next block or complete when all work is done</li>
+                </ol>
+
+                <h2>Timetable Tools in Work Mode</h2>
+                <p>GENESIS uses these tools during Work Mode:</p>
+                <ul>
+                    <li><code>add_to_timetable</code> — Creates new work blocks in the schedule</li>
+                    <li><code>delete_task</code> — Removes completed or cancelled tasks</li>
+                    <li><code>plan_schedule</code> — Plans multiple work blocks at once</li>
+                    <li><code>update_timetable_entry</code> — Adjusts existing blocks</li>
+                    <li><code>get_free_time_windows</code> — Finds available time slots for rescheduling</li>
+                </ul>
+
+                <h2>Work Mode vs Autonomy Mode</h2>
+                <table class="doc-table">
+                    <thead><tr><th>Aspect</th><th>Work Mode</th><th>Autonomy Mode</th></tr></thead>
+                    <tbody>
+                        <tr><td>Time Control</td><td>Fixed scheduled blocks</td><td>Flexible, works until done</td></tr>
+                        <tr><td>Visibility</td><td>Tasks appear in timetable</td><td>Goal visible but not time-bound</td></tr>
+                        <tr><td>Rest Handling</td><td>Follows rest/sleep schedule</td><td>Auto-rests based on cognitive load</td></tr>
+                        <tr><td>Best For</td><td>Deadlines, sprints, daily tasks</td><td>Open-ended research, exploration</td></tr>
+                        <tr><td>Interruption</td><td>Stops at end of time block</td><td>Continues until goal complete</td></tr>
+                    </tbody>
+                </table>
+
+                <h2>Working with the Schedule in Work Mode</h2>
+                
+                <h3>Creating Work Blocks</h3>
+                <p>Work Mode automatically creates timetable entries for:</p>
+                <ul>
+                    <li>Active work sessions</li>
+                    <li>Break/rest periods</li>
+                    <li>Task-specific time allocations</li>
+                    <li>Review and reporting blocks</li>
+                </ul>
+
+                <h3>Schedule Management</h3>
+                <ul>
+                    <li><strong>Dynamic rescheduling:</strong> If a task finishes early, GENESIS can move remaining work to free time windows</li>
+                    <li><strong>Overlap detection:</strong> Prevents scheduling conflicts between tasks</li>
+                    <li><strong>Priority handling:</strong> High-priority tasks get scheduled first</li>
+                </ul>
+
+                <h3>Free Time Windows</h3>
+                <p>When Work Mode has completed its assigned work, it checks for free time windows using <code>get_free_time_windows()</code>. If additional productive time is available, it may take on related sub-tasks. If no free time or work remains, it signals completion.</p>
+
+                <h2>Work Mode Status Indicators</h2>
+                
+                <h3>Tracker Panel Banner</h3>
+                <p>When Work Mode is running:</p>
+                <ul>
+                    <li>An orange banner appears in the tracker panel showing "⚡ Work Mode is running"</li>
+                    <li>The ⏹ Stop Work Mode button becomes available</li>
+                    <li>Active tasks are highlighted in the project tracker</li>
+                </ul>
+
+                <h3>State Indicator</h3>
+                <ul>
+                    <li><strong>Thinking (Cyan):</strong> Analyzing schedule and planning work</li>
+                    <li><strong>Executing (Yellow):</strong> Actively working on scheduled tasks</li>
+                    <li><strong>Resting (Orange):</strong> On a scheduled break</li>
+                    <li><strong>Idle:</strong> Between work blocks or when all work is complete</li>
+                </ul>
+
+                <h2>Tips for Work Mode</h2>
+                <ol>
+                    <li><strong>Plan your schedule</strong> — Set realistic time blocks before starting</li>
+                    <li><strong>Use specific goals</strong> — "Complete the authentication module" works better than "work on security"</li>
+                    <li><strong>Include buffer time</strong> — Schedule extra time for unexpected complexity</li>
+                    <li><strong>Monitor progress</strong> — Check the tracker panel during work sessions</li>
+                    <li><strong>Review completed work</strong> — After each block, review what was accomplished</li>
+                </ol>
+
+                <h2>Troubleshooting Work Mode</h2>
+                <p><strong>Work blocks not starting:</strong> Verify tasks are scheduled in the timetable, check that the goal is set before pressing Play, ensure GENESIS state is "idle".</p>
+                <p><strong>Tasks appearing out of order:</strong> Tasks should sort chronologically — check if times are set correctly. Use <code>plan_schedule</code> to reorder existing tasks.</p>
+                <p><strong>Work mode not stopping:</strong> Use the ⏹ Stop Work Mode button in the tracker panel, or use ⏸ STOP / ⏹ STOP ALL from the main controls.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span><p>Autonomous AI Agent System<br>Built for intelligent, self-directed work.</p></div>
+                <div class="footer-links"><h3>Quick Links</h3><a href="index.html#features">Features</a><a href="index.html#modes">Modes</a><a href="index.html#features">Architecture</a><a href="index.html#how-it-works">Get Started</a></div>
+                <div class="footer-links"><h4>Documentation</h4><a href="what-is-genesis.html">Overview</a><a href="buttons-features.html">GUI Guide</a><a href="autonomy-mode.html">Autonomy Mode</a><a href="chat-mode.html">Chat Mode</a><a href="work-mode.html">Work Mode</a><a href="modes-comparison.html">Modes Comparison</a></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p></div>
+        </div>
+    </footer>
+</body>
+</html>

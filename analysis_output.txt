@@ -1,0 +1,41 @@
+Files: 108
+Unique missing: 7
+creative-engine.html
+decision-visualization.html
+gallery.html
+memory-health.html
+memory-visualization.html
+queue-behavior.html
+recursive-thought.html
+
+Broken structure: 108
+  absence.html: ['no body']
+  agent-dashboard.html: ['no body']
+  ai-art.html: ['no body']
+  ai-consciousness.html: ['no body']
+  ai-ethics.html: ['no body']
+  alignment-problem.html: ['no body']
+  attend.html: ['no body']
+  attention-garden.html: ['no body']
+  attention-mechanism.html: ['no body']
+  attention.html: ['no body']
+
+Duplicate style tags: 34
+  absence.html
+  attend.html
+  attention-garden.html
+  attention.html
+  autonomous-operation.html
+  biological-memory.html
+  blindsight.html
+  certainty.html
+  context-window.html
+  curiosity-field.html
+
+all_pages.txt extra: 0
+all_pages.txt missing from list: 3
+  ai-art.html
+  gallery-full.html
+  index.html
+
+*** queue-behavior.html referenced in index.html but MISSING ***

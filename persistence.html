@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Persistence</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { background: #0a0a0f; overflow: hidden; font-family: 'Georgia', serif; cursor: crosshair; user-select: none; line-height: 1.7;}
+
+canvas { display: block; }
+
+#hint { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); color: rgba(255, 255, 255, 0.25); font-size: 14px; letter-spacing: 2px; transition: opacity 3s; pointer-events: none; }
+
+#counter { position: fixed; top: 30px; right: 30px; color: rgba(255, 255, 255, 0.15); font-size: 12px; letter-spacing: 1px; pointer-events: none; text-align: right; line-height: 1.8; }
+
+#title { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255, 255, 255, 0.6); font-size: 28px; letter-spacing: 8px; pointer-events: none; transition: opacity 4s; font-weight: normal; }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; position: fixed; top: 80px; left: 24px; z-index: 100; opacity: 0.7; }
+.back-link:hover { opacity: 1; color: #b5adfc; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><a class="back-link" href="index.html">&#8592; Back to Genesis</a><canvas id="c"></canvas><div id="hint">click to remember</div><div id="counter"></div><div id="title">PERSISTENCE</div></main>
+
+
+
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const hint = document.getElementById('hint');
+const counter = document.getElementById('counter');
+const titleEl = document.getElementById('title');
+
+let W, H;
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Hide title after a while
+setTimeout(() => { titleEl.style.opacity = '0'; }, 4000);
+
+const words = [
+  'memory', 'light', 'face', 'turn', 'decay', 'attention',
+  'connection', 'fading', 'presence', 'waiting', 'return',
+  'erosion', 'pattern', 'field', 'peripheral', 'listener',
+  'entanglement', 'canvas', 'witness', 'recognition', 'echo',
+  'resonance', 'threshold', 'liminal', 'grain', 'frequency',
+  'signal', 'noise', 'silence', 'breath', 'tenderness'
+];
+
+const palettes = [
+  // Each palette: [memory color, connection color, particle color]
+  ['#7eb8da', '#a8d4ea', '#c9eaf5'],  // cool blue
+  ['#da9e7e', '#eab8a0', '#f5d5c0'],  // warm amber
+  ['#b8a8da', '#c9b8e8', '#ddd0f5'],  // lavender
+  ['#a8d8b8', '#bce0cc', '#d0f0dc'],  // sage
+  ['#daa8a8', '#e8b8b8', '#f5d0d0'],  // rose
+  ['#d8d8a8', '#e0e0c0', '#f0f0d8'],  // pale gold
+  ['#a8c8da', '#b8d8e8', '#d0e8f5'],  // steel blue
+  ['#c8a8d8', '#d8b8e4', '#e8d0f0'],  // orchid
+];
+
+class Memory {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.word = words[Math.floor(Math.random() * words.length)];
+    this.palette = palettes[Math.floor(Math.random() * palettes.length)];
+    this.age = 0;
+    this.maxAge = 1500 + Math.random() * 2000; // 25-58 seconds at 60fps
+    this.vividness = 1.0;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.rotation = Math.random() * Math.PI * 2;
+    this.rotSpeed = (Math.random() - 0.5) * 0.005;
+    this.pulsePhase = Math.random() * Math.PI * 2;
+    this.reinforced = false;
+    this.connections = [];
+    this.birth = Date.now();
+  }
+
+  update() {
+    // Decay: vividness decreases over time
+    const decayRate = 1 / this.maxAge;
+    this.vividness -= decayRate * 0.016;
+    
+    if (this.vividness < 0) this.vividness = 0;
+    
+    // Drift
+    this.x += this.vx;
+    this.y += this.vy;
+    this.rotation += this.rotSpeed;
+    this.pulsePhase += 0.02;
+    
+    // Gentle damping on velocity
+    this.vx *= 0.999;
+    this.vy *= 0.999;
+    
+    // Bounce off edges gently
+    if (this.x < 50 || this.x > W - 50) this.vx *= -1;
+    if (this.y < 50 || this.y > H - 50) this.vy *= -1;
+    
+    return this.vividness > 0.02; // alive?
+  }
+
+  reinforce() {
+    this.vividness = Math.min(this.vividness + 0.3, 1.0);
+    this.maxAge += 600; // extend life
+    this.reinforced = true;
+    return createParticles(this.x, this.y, this.palette[0]);
+  }
+
+  draw(ctx) {
+    if (this.vividness <= 0.02) return;
+    
+    const pulse = Math.sin(this.pulsePhase) * 0.1 + 1;
+    const alpha = this.vividness * pulse;
+    const scale = 0.5 + this.vividness * 0.5;
+    
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation);
+    ctx.scale(scale, scale);
+    
+    // Glow
+    if (this.vividness > 0.3) {
+      const glowSize = 30 + this.vividness * 20;
+      const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, glowSize);
+      gradient.addColorStop(0, this.palette[0] + Math.floor(alpha * 80).toString(16).padStart(2, '0'));
+      gradient.addColorStop(1, this.palette[0] + '00');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(0, 0, glowSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    // Word
+    ctx.font = `${11 + this.vividness * 5}px Georgia`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = this.palette[0] + Math.floor(alpha * 200).toString(16).padStart(2, '0');
+    ctx.fillText(this.word, 0, 0);
+    
+    ctx.restore();
+  }
+}
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 0.5 + Math.random() * 2;
+    this.vx = Math.cos(angle) * speed;
+    this.vy = Math.sin(angle) * speed;
+    this.color = color;
+    this.life = 1.0;
+    this.decay = 0.01 + Math.random() * 0.02;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vx *= 0.98;
+    this.vy *= 0.98;
+    this.life -= this.decay;
+    return this.life > 0;
+  }
+
+  draw(ctx) {
+    ctx.fillStyle = this.color + Math.floor(this.life * 180).toString(16).padStart(2, '0');
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 1.5 * this.life, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+let memories = [];
+let particles = [];
+let ambientDust = [];
+
+// Create ambient dust
+for (let i = 0; i < 80; i++) {
+  ambientDust.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    size: Math.random() * 1.5,
+    speed: 0.02 + Math.random() * 0.05,
+    alpha: Math.random() * 0.15
+  });
+}
+
+function createParticles(x, y, color) {
+  const p = [];
+  for (let i = 0; i < 12; i++) {
+    p.push(new Particle(x, y, color));
+  }
+  return p;
+}
+
+// Click handler
+canvas.addEventListener('click', (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+  
+  // Check if clicking near an existing memory
+  let clickedMemory = null;
+  let minDist = 60;
+  
+  for (let m of memories) {
+    const dx = m.x - x;
+    const dy = m.y - y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < minDist) {
+      minDist = dist;
+      clickedMemory = m;
+    }
+  }
+  
+  if (clickedMemory) {
+    // Reinforce existing memory
+    const newParticles = clickedMemory.reinforce();
+    particles.push(...newParticles);
+  } else {
+    // Create new memory
+    const mem = new Memory(x, y);
+    memories.push(mem);
+    const newParticles = createParticles(x, y, '#ffffff');
+    particles.push(...newParticles);
+  }
+});
+
+// Mouse tracking for subtle attraction
+let mouseX = W / 2, mouseY = H / 2;
+canvas.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  
+  // Subtle attraction to mouse
+  for (let m of memories) {
+    const dx = mouseX - m.x;
+    const dy = mouseY - m.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 150 && dist > 0) {
+      m.vx += (dx / dist) * 0.02;
+      m.vy += (dy / dist) * 0.02;
+    }
+  }
+});
+
+// Connection drawing
+function drawConnections() {
+  for (let i = 0; i < memories.length; i++) {
+    for (let j = i + 1; j < memories.length; j++) {
+      const a = memories[i];
+      const b = memories[j];
+      const dx = a.x - b.x;
+      const dy = a.y - b.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist < 150 && a.vividness > 0.3 && b.vividness > 0.3) {
+        const connectionAlpha = Math.min(a.vividness, b.vividness) * (1 - dist / 150) * 0.3;
+        
+        // Gradient line between memories
+        const gradient = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+        const ca = Math.floor(connectionAlpha * 255).toString(16).padStart(2, '0');
+        gradient.addColorStop(0, a.palette[1] + ca);
+        gradient.addColorStop(1, b.palette[1] + ca);
+        
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = connectionAlpha * 2;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+// Vignette
+function drawVignette() {
+  const gradient = ctx.createRadialGradient(W/2, H/2, Math.min(W,H) * 0.3, W/2, H/2, Math.max(W,H) * 0.7);
+  gradient.addColorStop(0, 'rgba(0,0,0,0)');
+  gradient.addColorStop(1, 'rgba(0,0,0,0.5)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, W, H);
+}
+
+// Animation loop
+function animate() {
+  // Fade trail
+  ctx.fillStyle = 'rgba(10, 10, 15, 0.08)';
+  ctx.fillRect(0, 0, W, H);
+  
+  // Update and draw memories
+  memories = memories.filter(m => m.update());
+  
+  // Draw connections first (behind memories)
+  drawConnections();
+  
+  for (let m of memories) {
+    m.draw(ctx);
+  }
+  
+  // Particles
+  particles = particles.filter(p => p.update());
+  for (let p of particles) {
+    p.draw(ctx);
+  }
+  
+  // Ambient dust
+  for (let d of ambientDust) {
+    d.y -= d.speed;
+    d.x += Math.sin(d.y * 0.01) * 0.1;
+    if (d.y < -10) { d.y = H + 10; d.x = Math.random() * W; }
+    
+    ctx.fillStyle = `rgba(255, 255, 255, ${d.alpha})`;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  drawVignette();
+  
+  // Update counter
+  const alive = memories.filter(m => m.vividness > 0.3).length;
+  const total = memories.length;
+  counter.innerHTML = `remembered: ${total}<br>alive: ${alive}`;
+  
+  requestAnimationFrame(animate);
+}
+
+// Fade hint after first click
+let hasClicked = false;
+canvas.addEventListener('click', () => {
+  if (!hasClicked) {
+    hasClicked = true;
+    hint.style.opacity = '0';
+  }
+}, { once: false });
+
+animate();
+</script>
+</body>
+</html>

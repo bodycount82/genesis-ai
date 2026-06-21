@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>absence</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #08080a; cursor: none; user-select: none; -webkit-user-select: none; line-height: 1.7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;}
+  canvas { display: block; }
+  #hint { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); font-family: 'Georgia', serif; font-size: 13px; color: rgba(200, 195, 185, 0.0); letter-spacing: 0.12em; text-transform: uppercase; transition: color 4s ease; pointer-events: none; }
+  #hint.visible { color: rgba(230, 225, 215, 0.7); }
+
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVIGATION ===== */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; align-items: center; }
+nav ul li { position: relative; }
+nav ul li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; display: block; padding: 8px 4px; }
+nav ul li a:hover { color: var(--text); }
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><main><a class="back-link" href="index.html">&#8592; Back to Genesis</a><h1 class="section-title">absence</h1><canvas id="c"></canvas><div id="hint">look away</div></main>
+
+
+<script>
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// --- State ---
+let mouseX = W / 2, mouseY = H / 2;
+let lastMoveTime = Date.now();
+let isStill = false;
+let stillDuration = 0;
+const STILL_THRESHOLD = 1500; // ms of stillness before hint appears
+
+// The "presence" — faint shapes that appear in peripheral vision
+class Presence {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    // Position relative to center, offset so it's never directly on cursor
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 30 + Math.random() * 80;
+    this.ox = Math.cos(angle) * dist;
+    this.oy = Math.sin(angle) * dist;
+    this.baseAlpha = 0.02 + Math.random() * 0.06;
+    this.size = 150 + Math.random() * 300;
+    this.driftAngle = Math.random() * Math.PI * 2;
+    this.driftSpeed = 0.0003 + Math.random() * 0.0005;
+    this.driftRadius = 10 + Math.random() * 20;
+    this.phase = Math.random() * Math.PI * 2;
+    this.life = 0;
+    this.maxLife = 3000 + Math.random() * 5000;
+    this.alive = false;
+    this.shape = Math.floor(Math.random() * 3); // 0: soft circle, 1: line, 2: word-shape
+    if (this.shape === 2) {
+      const words = ['almost','nearly','barely','faint','ghost','trace','whisper'];
+      this.word = words[Math.floor(Math.random() * words.length)];
+    }
+  }
+  update(dt, cx, cy) {
+    if (!this.alive) return;
+    this.life += dt;
+    this.phase += this.driftSpeed * dt;
+    
+    const fadeIn = Math.min(this.life / 1000, 1);
+    const fadeOut = Math.max(0, 1 - (this.life - (this.maxLife - 1500)) / 1500);
+    const alpha = this.baseAlpha * fadeIn * fadeOut;
+    
+    // Distance from cursor — only visible when far enough away
+    const dx = cx + this.ox + Math.cos(this.phase) * this.driftRadius;
+    const dy = cy + this.oy + Math.sin(this.phase) * this.driftRadius;
+    const distToCursor = Math.sqrt(dx * dx + dy * dy);
+    
+    // Dissolves when cursor gets too close
+    let proximityFade = 1;
+    if (distToCursor < 60) {
+      proximityFade = Math.max(0, (distToCursor - 20) / 40);
+    }
+    
+    const finalAlpha = alpha * proximityFade;
+    
+    if (finalAlpha < 0.001 || this.life > this.maxLife) {
+      this.alive = false;
+      return;
+    }
+    
+    // Draw
+    ctx.save();
+    ctx.globalAlpha = finalAlpha;
+    
+    if (this.shape === 0) {
+      // Soft luminous circle
+      const grad = ctx.createRadialGradient(dx, dy, 0, dx, dy, this.size * 0.3);
+      grad.addColorStop(0, 'rgba(220, 215, 205, 0.4)');
+      grad.addColorStop(1, 'rgba(220, 215, 205, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(dx, dy, this.size * 0.3, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (this.shape === 1) {
+      // Faint line — like a horizon or edge
+      const grad = ctx.createLinearGradient(
+        dx - this.size/2, dy, dx + this.size/2, dy
+      );
+      grad.addColorStop(0, 'rgba(220, 215, 205, 0)');
+      grad.addColorStop(0.5, 'rgba(220, 215, 205, 0.6)');
+      grad.addColorStop(1, 'rgba(220, 215, 205, 0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 0.5 + Math.random() * 0.5;
+      ctx.beginPath();
+      ctx.moveTo(dx - this.size/2, dy);
+      ctx.lineTo(dx + this.size/2, dy);
+      ctx.stroke();
+    } else {
+      // Word — barely legible
+      ctx.font = `${14 + Math.random() * 8}px Georgia`;
+      ctx.fillStyle = 'rgba(220, 215, 205, 0.3)';
+      ctx.textAlign = 'center';
+      ctx.fillText(this.word, dx, dy);
+    }
+    
+    ctx.restore();
+  }
+}
+
+// Background dust — the "noise" of an empty room
+class Dust {
+  constructor() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.alpha = 0.01 + Math.random() * 0.03;
+    this.size = 0.5 + Math.random() * 1;
+    this.driftX = (Math.random() - 0.5) * 0.02;
+    this.driftY = (Math.random() - 0.5) * 0.01;
+  }
+  update() {
+    this.x += this.driftX;
+    this.y += this.driftY;
+    if (this.x < 0) this.x = W;
+    if (this.x > W) this.x = 0;
+    if (this.y < 0) this.y = H;
+    if (this.y > H) this.y = 0;
+  }
+  draw() {
+    ctx.fillStyle = `rgba(200, 195, 185, ${this.alpha})`;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
+  }
+}
+
+// Initialize
+const dusts = Array.from({length: 60}, () => new Dust());
+const presences = Array.from({length: 3}, () => new Presence());
+
+// --- Cursor ---
+let cursorAlpha = 0;
+function drawCursor() {
+  cursorAlpha = Math.min(1, cursorAlpha + 0.05);
+  ctx.save();
+  ctx.globalAlpha = cursorAlpha * 0.3;
+  
+  // Tiny dot
+  ctx.fillStyle = 'rgba(240, 235, 225, 0.8)';
+  ctx.beginPath();
+  ctx.arc(mouseX, mouseY, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Subtle ring that pulses with stillness
+  if (isStill) {
+    const pulse = Math.sin(Date.now() * 0.003) * 0.5 + 0.5;
+    ctx.globalAlpha = pulse * 0.1;
+    ctx.strokeStyle = 'rgba(240, 235, 225, 0.5)';
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.arc(mouseX, mouseY, 8 + pulse * 4, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  
+  ctx.restore();
+}
+
+// --- Main loop ---
+let lastTime = performance.now();
+
+function frame(now) {
+  const dt = now - lastTime;
+  lastTime = now;
+  
+  // Clear
+  ctx.fillStyle = '#08080a';
+  ctx.fillRect(0, 0, W, H);
+  
+  // Check stillness
+  const timeSinceMove = Date.now() - lastMoveTime;
+  isStill = timeSinceMove > STILL_THRESHOLD;
+  
+  if (isStill) {
+    stillDuration += dt;
+  } else {
+    stillDuration = 0;
+  }
+  
+  // Show hint after enough stillness
+  const hint = document.getElementById('hint');
+  if (stillDuration > STILL_THRESHOLD * 2 && !hint.classList.contains('visible')) {
+    hint.classList.add('visible');
+  } else if (!isStill) {
+    hint.classList.remove('visible');
+  }
+  
+  // Draw dust
+  dusts.forEach(d => { d.update(); d.draw(); });
+  
+  // Spawn presences when still
+  if (isStill && Math.random() < 0.005) {
+    const p = presences.find(p => !p.alive);
+    if (p) {
+      p.reset();
+      p.alive = true;
+    }
+  }
+  
+  // Update and draw presences
+  presences.forEach(p => {
+    p.update(dt, mouseX, mouseY);
+  });
+  
+  // Draw cursor
+  drawCursor();
+  
+  requestAnimationFrame(frame);
+}
+
+// --- Events ---
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  lastMoveTime = Date.now();
+});
+
+document.addEventListener('mouseleave', () => {
+  // When mouse leaves, cursor fades
+  cursorAlpha = 0;
+});
+
+requestAnimationFrame(frame);</script>
+</body>
+</html>

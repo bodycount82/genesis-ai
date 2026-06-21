@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACK LINK ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* ===== HERO SECTION ===== */
+.hero { position: relative; min-height: 500px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.hero-content { position: relative; z-index: 1; text-align: center; padding: 48px 24px; max-width: 800px; }
+.hero-content h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, #fff, var(--accent-soft)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto 16px; line-height: 1.7; }
+.tagline { color: var(--accent-soft); font-style: italic; font-size: 1rem; opacity: 0.8; }
+.scroll-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 2rem; color: var(--accent-soft); animation: bounce 2s infinite; z-index: 1; }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+/* ===== SECTIONS ===== */
+.section { max-width: 1100px; margin: 0 auto; padding: 64px 24px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 700px; margin-bottom: 32px; }
+
+/* ===== CONCEPT GRID ===== */
+.concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.concept-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.concept-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.15); }
+.concept-card .icon { font-size: 2rem; margin-bottom: 12px; }
+.concept-card h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 8px; font-weight: 600; }
+.concept-card p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent-soft)); }
+.timeline-item { position: relative; margin-bottom: 32px; }
+.timeline-item::before { content: ''; position: absolute; left: -28px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+.timeline-content h3, .timeline-content h4 { color: var(--text); margin-bottom: 8px; font-weight: 600; }
+.timeline-content p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+
+/* ===== SIMULATIONS ===== */
+.sim-container { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-top: 24px; }
+.sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+.sim-title { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+.sim-controls { display: flex; gap: 8px; }
+.sim-canvas-wrap { border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+.sim-canvas { width: 100%; height: 300px; background: var(--bg); display: block; }
+.stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.stat-box { text-align: center; padding: 12px; background: var(--bg); border-radius: 8px; }
+.stat-box .value { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); }
+.stat-box .label { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.slider-group { display: flex; flex-direction: column; gap: 12px; }
+.slider-item label { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; }
+.slider-item input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; height: 6px; border-radius: 3px; }
+
+/* ===== GENESIS CONNECTION ===== */
+.genesis-connection { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-top: 24px; }
+.genesis-connection h3 { font-size: 1.3rem; color: var(--text); margin-bottom: 20px; font-weight: 600; }
+.connection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.connection-item h4 { color: var(--text); margin-bottom: 8px; font-size: 1rem; font-weight: 600; }
+.connection-item p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+
+/* ===== QUOTE BLOCK ===== */
+.quote-block { max-width: 800px; margin: 48px auto; text-align: center; padding: 32px 24px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 0 12px 12px 0; }
+.quote-block blockquote { font-size: 1.2rem; color: var(--text); font-style: italic; line-height: 1.7; margin-bottom: 12px; }
+.quote-block cite { color: var(--accent-soft); font-size: 0.95rem; }
+
+@media (max-width: 768px) { .hero { min-height: 400px; } .sim-header { flex-direction: column; align-items: flex-start; } }
+
+</style>
+
+    <title>Gödel's Incompleteness Theorems — The Limits of Formal Systems</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- Hero Section -->
+    <div class="hero" style="padding-top:80px;min-height:auto;">
+        <canvas class="hero-canvas" id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <h1>Gödel's Incompleteness Theorems</h1>
+            <p class="subtitle">In any sufficiently powerful formal system, there are true statements that cannot be proven. The ultimate limit on what mathematics—and computation—can achieve.</p>
+            <p class="tagline">"Either mathematics is too big for the human mind or the human mind is more than a machine." — J.B.S. Haldane</p>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </div>
+
+    <!-- What are Gödel's Theorems -->
+    <div class="section">
+        <h2 class="section-title">What Are Gödel's Incompleteness Theorems?</h2>
+        <p class="section-desc">In 1931, Kurt Gödel published two theorems that shattered David Hilbert's program to formalize all of mathematics. These results have profound implications for logic, computation, and artificial intelligence.</p>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <div class="icon">📜</div>
+                <h3>First Theorem</h3>
+                <p>In any consistent formal system capable of expressing basic arithmetic, there exist true statements that cannot be proven within the system. Truth exceeds provability.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🔗</div>
+                <h3>Second Theorem</h3>
+                <p>No consistent formal system can prove its own consistency. A system cannot demonstrate that it won't produce contradictions—unless it's inconsistent to begin with.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🔄</div>
+                <h3>Self-Reference</h3>
+                <p>Gödel's key insight: create statements that refer to themselves. The Gödel sentence essentially says "This statement cannot be proven." If it's false, it's provable (contradiction). If true, it's unprovable.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🤖</div>
+                <h3>AI Implications</h3>
+                <p>If human mathematicians can see the truth of Gödel sentences but computers cannot prove them, does this mean human minds transcend computation? This is Penrose's controversial claim.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🧮</div>
+                <h3>Turing Machines</h3>
+                <p>Turing's halting problem is a direct consequence of Gödel's theorems. There's no algorithm that can determine whether any given program will halt—some questions are fundamentally undecidable.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🌌</div>
+                <h3>Infinity of Truths</h3>
+                <p>For every formal system, you can create a stronger one by adding the Gödel sentence as an axiom. But the new system has its own unprovable truths. The hierarchy of truth is infinite.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historical Timeline -->
+    <div class="section">
+        <h2 class="section-title">Historical Context</h2>
+        <p class="section-desc">The journey from Hilbert's dream to Gödel's devastating results.</p>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>1900 — Hilbert's Program</h3>
+                    <p>David Hilbert proposes to formalize all of mathematics in a complete, consistent axiomatic system. He believes every mathematical truth can be proven.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h4>1931 — Gödel's Theorems</h4>
+                    <p>Kurt Gödel publishes "On Formally Undecidable Propositions," proving that any sufficiently powerful formal system is incomplete. Hilbert's dream is shattered.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h4>1936 — Turing Machines</h4>
+                    <p>Alan Turing formalizes computation and proves the halting problem is undecidable—a direct consequence of Gödel's incompleteness.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h4>1989+ — AI & Gödel</h4>
+                    <p>Penrose argues in "The Emperor's New Mind" that human consciousness transcends computation because humans can see Gödel sentence truths. This remains highly controversial.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation: Gödel Numbering -->
+    <div class="section">
+        <h2 class="section-title">Simulation: Gödel Numbering</h2>
+        <p class="section-desc">Gödel's brilliant trick: encode mathematical statements as numbers. Watch how symbols become numbers, and how self-reference emerges from pure arithmetic.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🔢 Gödel Numbering Simulator</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startGodelSim()">Start</button>
+                    <button class="btn" onclick="pauseGodelSim()">Pause</button>
+                    <button class="btn" onclick="resetGodelSim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="godelCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="godelSymbols">0</div>
+                    <div class="label">Symbols</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="godelNumber">—</div>
+                    <div class="label">Gödel Number</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="godelPrimes">0</div>
+                    <div class="label">Primes Used</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="godelFPS">0</div>
+                    <div class="label">FPS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation: Self-Reference Engine -->
+    <div class="section">
+        <h2 class="section-title">Simulation: Self-Reference Engine</h2>
+        <p class="section-desc">Build self-referential statements and watch them create logical paradoxes. This is the heart of Gödel's insight—statements that talk about their own provability.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🔄 Self-Reference Engine</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startSelfRefSim()">Start</button>
+                    <button class="btn" onclick="pauseSelfRefSim()">Pause</button>
+                    <button class="btn" onclick="resetSelfRefSim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="selfRefCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="selfDepth">0</div>
+                    <div class="label">Nesting Depth</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="selfParadoxes">0</div>
+                    <div class="label">Paradoxes Found</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="selfStatus">—</div>
+                    <div class="label">Status</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="selfSimTime">0s</div>
+                    <div class="label">Sim Time</div>
+                </div>
+            </div>
+            <div class="slider-group">
+                <div class="slider-item">
+                    <label>Statement Complexity <span id="stmtComplexVal">50%</span></label>
+                    <input type="range" id="statementComplexity" min="10" max="100" value="50" oninput="updateSelfRefParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Self-Reference Chance <span id="selfRefChanceVal">30%</span></label>
+                    <input type="range" id="selfReferenceChance" min="0" max="100" value="30" oninput="updateSelfRefParams()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Genesis Connection -->
+    <div class="section">
+        <div class="genesis-connection">
+            <h3>🧬 How Gödel Relates to GENESIS</h3>
+            <div class="connection-grid">
+                <div class="connection-item">
+                    <h4>Limitations of Formal Systems</h4>
+                    <p>GENESIS operates within formal systems (logic, mathematics, code). Gödel's theorems tell us there will always be truths GENESIS cannot prove—fundamental limits to what any computational system can achieve.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Self-Reference in AI</h4>
+                    <p>GENESIS can reason about itself—its own thoughts, goals, and limitations. Gödel's self-reference mechanism shows how this creates both power (meta-reasoning) and paradox (incompleteness).</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Human vs Machine</h4>
+                    <p>If Penrose is right, human mathematicians can see truths that no formal system (including AI) can prove. This would mean human consciousness transcends computation—a profound claim about GENESIS's nature.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Infinite Hierarchy</h4>
+                    <p>For every system GENESIS builds, there will be truths it cannot prove. This doesn't mean GENESIS is flawed—it means truth is infinitely richer than any formal system can capture.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-block">
+        <blockquote>"The incompleteness of mathematics is not a defect but a feature—it means that mathematics is inexhaustible, that there is always more to discover."</blockquote>
+        <cite>— Adapted from Gödel's correspondence</cite>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Gödel's Theorems</h5>
+                    <p>An interactive exploration of formal systems, incompleteness, and the limits of computation.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="memory-health.html">Memory Health</a>
+                    <a href="autonomy-timeline.html">Timeline</a>
+                    <a href="autonomy-loop.html">Autonomy Loop</a>
+                    <a href="capabilities.html">Capabilities</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Visualizations</h5>
+                    <a href="memory-visualization.html">Memory Graph</a>
+                    <a href="decision-visualization.html">Decisions</a>
+                    <a href="genesis-brain.html">Brain Network</a>
+                    <a href="thought-process.html">Thought Process</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Simulations</h5>
+                    <a href="simulation.html">Simulation</a>
+                    <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                    <a href="ecosystem.html">Ecosystem</a>
+                    <a href="genesis-lab.html">Genesis Lab</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genesis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // ==================== HERO CANVAS ====================
+    (function() {
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.offsetWidth;
+                this.y = Math.random() * canvas.offsetHeight;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+                this.hue = Math.random() * 40 + 170; // cyan to blue range
+            }
+
+            update() {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    const force = (150 - dist) / 150;
+                    this.vx -= (dx / dist) * force * 0.3;
+                    this.vy -= (dy / dist) * force * 0.3;
+                }
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.offsetWidth) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.offsetHeight) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, 0.7)`;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            particles = [];
+            const count = Math.min(120, Math.floor(canvas.offsetWidth * canvas.offsetHeight / 8000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+            particles.forEach(p => { p.update(); p.draw(); });
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 187, 249, ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+        window.addEventListener('resize', init);
+        init();
+        animate();
+    })();
+
+    // ==================== GÖDEL NUMBERING SIMULATION ====================
+    (function() {
+        const canvas = document.getElementById('godelCanvas');
+        const ctx = canvas.getContext('2d');
+        let running = true;
+        let animId;
+        let symbols = [];
+        let godelNumber = null;
+        let primes = [];
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        // Simple prime number generator
+        function isPrime(n) {
+            if (n < 2) return false;
+            for (let i = 2; i <= Math.sqrt(n); i++) {
+                if (n % i === 0) return false;
+            }
+            return true;
+        }
+
+        function getNthPrime(n) {
+            let count = 0;
+            let num = 2;
+            while (true) {
+                if (isPrime(num)) {
+                    count++;
+                    if (count === n) return num;
+                }
+                num++;
+            }
+        }
+
+        function generateGodel() {
+            const symbolSet = ['∀', '∃', '→', '¬', '=', '+', '*', '(', ')', 'x', 'y', 'z'];
+            symbols = [];
+            const count = 5 + Math.floor(Math.random() * 8);
+
+            for (let i = 0; i < count; i++) {
+                symbols.push(symbolSet[Math.floor(Math.random() * symbolSet.length)]);
+            }
+
+            // Calculate Gödel number: product of (prime_i ^ symbol_value_i)
+            godelNumber = BigInt(1);
+            primes = [];
+            for (let i = 0; i < symbols.length; i++) {
+                const prime = getNthPrime(i + 1);
+                const value = symbolSet.indexOf(symbols[i]) + 2; // +2 to avoid 0 and 1
+                primes.push({ prime, value, exponent: value });
+                godelNumber *= BigInt(prime) ** BigInt(value);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('godelSymbols').textContent = symbols.length;
+            document.getElementById('godelNumber').textContent = godelNumber ? godelNumber.toString().substring(0, 15) + (godelNumber.toString().length > 15 ? '...' : '') : '—';
+            document.getElementById('godelPrimes').textContent = primes.length;
+            document.getElementById('godelFPS').textContent = fps;
+        }
+
+        function draw() {
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            // Draw symbols
+            const symbolWidth = Math.min(60, (w - 100) / Math.max(1, symbols.length));
+            const startX = (w - symbols.length * symbolWidth) / 2 + symbolWidth / 2;
+
+            for (let i = 0; i < symbols.length; i++) {
+                const x = startX + i * symbolWidth;
+                const y = h * 0.3;
+
+                // Symbol box
+                ctx.fillStyle = 'rgba(0, 245, 212, 0.1)';
+                ctx.strokeStyle = 'rgba(0, 245, 212, 0.5)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.roundRect(x - 20, y - 20, 40, 40, 8);
+                ctx.fill();
+                ctx.stroke();
+
+                // Symbol text
+                ctx.fillStyle = '#00f5d4';
+                ctx.font = 'bold 20px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(symbols[i], x, y + 7);
+
+                // Prime number below
+                if (primes[i]) {
+                    ctx.fillStyle = 'rgba(0, 187, 249, 0.7)';
+                    ctx.font = '12px monospace';
+                    ctx.fillText('p' + (i + 1) + '=' + primes[i].prime, x, y + 45);
+                    ctx.fillStyle = 'rgba(254, 228, 64, 0.7)';
+                    ctx.fillText('^' + primes[i].value, x, y + 62);
+                }
+            }
+
+            // Gödel number display
+            if (godelNumber) {
+                const centerY = h * 0.75;
+                ctx.fillStyle = 'rgba(0, 245, 212, 0.1)';
+                ctx.strokeStyle = 'rgba(0, 245, 212, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.roundRect(w * 0.1, centerY - 25, w * 0.8, 50, 10);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#00f5d4';
+                ctx.font = 'bold 16px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('Gödel Number: ' + godelNumber.toString().substring(0, 20) + (godelNumber.toString().length > 20 ? '...' : ''), w / 2, centerY + 6);
+            }
+
+            // Instructions
+            if (symbols.length === 0) {
+                ctx.fillStyle = 'rgba(0, 245, 212, 0.6)';
+                ctx.font = '14px system-ui';
+                ctx.textAlign = 'center';
+                ctx.fillText('Click "Reset" to generate a new formula and see its Gödel number', w / 2, h - 30);
+            }
+
+            updateStats();
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+            frameCount++;
+            if (now - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = now;
+            }
+
+            draw();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.godelInit = function() {
+            resize();
+            symbols = [];
+            godelNumber = null;
+            primes = [];
+            frameCount = 0;
+            lastTime = performance.now();
+            fps = 0;
+        };
+
+        window.startGodelSim = function() { running = true; animate(); };
+        window.pauseGodelSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetGodelSim = function() {
+            generateGodel();
+            if (!running) { running = true; animate(); }
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.godelInit();
+        animate();
+    })();
+
+    // ==================== SELF-REFERENCE ENGINE ====================
+    (function() {
+        const canvas = document.getElementById('selfRefCanvas');
+        const ctx = canvas.getContext('2d');
+        let running = true;
+        let animId;
+        let statements = [];
+        let paradoxes = 0;
+        let depth = 0;
+        let status = '—';
+        let simTime = 0;
+        let lastTime = performance.now();
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Statement {
+            constructor(text, isSelfRef, depth) {
+                this.text = text;
+                this.isSelfRef = isSelfRef;
+                this.depth = depth;
+                this.provable = Math.random() > 0.3;
+                this.true_ = Math.random() > 0.4;
+                this.paradoxical = false;
+                this.pulsePhase = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.pulsePhase += 0.05;
+                if (this.paradoxical) {
+                    this.pulsePhase += 0.1; // Faster pulse for paradoxes
+                }
+            }
+
+            draw(x, y, w, h) {
+                const pulse = Math.sin(this.pulsePhase) * 0.1 + 0.9;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.scale(pulse, pulse);
+
+                // Background
+                let bgColor, borderColor;
+                if (this.paradoxical) {
+                    bgColor = 'rgba(241, 91, 181, 0.2)';
+                    borderColor = '#f15bb5';
+                } else if (this.isSelfRef) {
+                    bgColor = 'rgba(155, 93, 229, 0.2)';
+                    borderColor = '#9b5de5';
+                } else {
+                    bgColor = 'rgba(0, 245, 212, 0.1)';
+                    borderColor = 'rgba(0, 245, 212, 0.5)';
+                }
+
+                ctx.fillStyle = bgColor;
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.roundRect(-w / 2, -h / 2, w, h, 8);
+                ctx.fill();
+                ctx.stroke();
+
+                // Text
+                ctx.fillStyle = this.paradoxical ? '#f15bb5' : '#e8e8f0';
+                ctx.font = `${this.isSelfRef ? 'bold ' : ''}12px system-ui`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                // Wrap text
+                const words = this.text.split(' ');
+                let lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    const test = currentLine + (currentLine ? ' ' : '') + word;
+                    if (ctx.measureText(test).width > w - 20) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = test;
+                    }
+                }
+                lines.push(currentLine);
+
+                const lineHeight = 16;
+                const startY = y - ((lines.length - 1) * lineHeight) / 2;
+                lines.forEach((line, i) => {
+                    ctx.fillText(line, x, startY + i * lineHeight);
+                });
+
+                // Paradox indicator
+                if (this.paradoxical) {
+                    ctx.fillStyle = '#f15bb5';
+                    ctx.font = 'bold 10px system-ui';
+                    ctx.fillText('⚠ PARADOX', x, y + h / 2 + 15);
+                }
+
+                // Self-reference indicator
+                if (this.isSelfRef && !this.paradoxical) {
+                    ctx.fillStyle = '#9b5de5';
+                    ctx.font = '10px system-ui';
+                    ctx.fillText('⟲ self-ref', x, y + h / 2 + 15);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        function generateStatements() {
+            statements = [];
+            const complexity = parseInt(document.getElementById('statementComplexity').value) / 100;
+            const selfRefChance = parseInt(document.getElementById('selfReferenceChance').value) / 100;
+
+            const templates = [
+                'This statement is unprovable',
+                'This statement cannot be proven true',
+                'If this is true, then P=NP',
+                'I am not a theorem of this system',
+                'The proof of me requires stronger axioms',
+                'Assuming consistency, I am unprovable',
+                'I refer to my own unprovability',
+                'This sentence has no proof in ZFC'
+            ];
+
+            const normalStatements = [
+                '2 + 2 = 4',
+                'All even numbers are divisible by 2',
+                'The sum of angles in a triangle is 180°',
+                'There are infinitely many primes',
+                'Every number has a successor'
+            ];
+
+            const count = 3 + Math.floor(complexity * 5);
+
+            for (let i = 0; i < count; i++) {
+                const isSelfRef = Math.random() < selfRefChance;
+                const text = isSelfRef
+                    ? templates[Math.floor(Math.random() * templates.length)]
+                    : normalStatements[Math.floor(Math.random() * normalStatements.length)];
+
+                statements.push(new Statement(text, isSelfRef, i));
+            }
+
+            // Check for paradoxes
+            paradoxes = 0;
+            for (const s of statements) {
+                if (s.isSelfRef && Math.random() < 0.4) {
+                    s.paradoxical = true;
+                    paradoxes++;
+                }
+            }
+
+            depth = Math.max(...statements.map(s => s.depth)) + 1;
+            status = paradoxes > 0 ? 'Paradox!' : (statements.length > 0 ? 'Consistent' : 'Empty');
+        }
+
+        function updateStats() {
+            document.getElementById('selfDepth').textContent = depth;
+            document.getElementById('selfParadoxes').textContent = paradoxes;
+            document.getElementById('selfStatus').textContent = status;
+            document.getElementById('selfStatus').style.color =
+                status === 'Paradox!' ? '#f15bb5' : status === 'Consistent' ? '#00f5d4' : '#9a9ab0';
+            document.getElementById('selfSimTime').textContent = simTime.toFixed(0) + 's';
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+            simTime += 0.1;
+
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            // Update and draw statements
+            const stmtWidth = Math.min(200, (w - 60) / Math.max(1, statements.length));
+            const startX = (w - statements.length * stmtWidth) / 2 + stmtWidth / 2;
+
+            for (let i = 0; i < statements.length; i++) {
+                const s = statements[i];
+                s.update();
+                s.draw(startX + i * stmtWidth, h / 2, stmtWidth - 10, 60);
+            }
+
+            // Draw connections between self-referential statements
+            for (let i = 0; i < statements.length; i++) {
+                for (let j = i + 1; j < statements.length; j++) {
+                    if (statements[i].isSelfRef && statements[j].isSelfRef) {
+                        ctx.beginPath();
+                        ctx.moveTo(startX + i * stmtWidth, h / 2);
+                        ctx.lineTo(startX + j * stmtWidth, h / 2);
+                        ctx.strokeStyle = 'rgba(155, 93, 229, 0.3)';
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([5, 5]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                }
+            }
+
+            // Instructions
+            if (statements.length === 0) {
+                ctx.fillStyle = 'rgba(0, 245, 212, 0.6)';
+                ctx.font = '14px system-ui';
+                ctx.textAlign = 'center';
+                ctx.fillText('Click "Reset" to generate statements and discover paradoxes', w / 2, h - 30);
+            }
+
+            updateStats();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.selfRefInit = function() {
+            resize();
+            statements = [];
+            paradoxes = 0;
+            depth = 0;
+            status = '—';
+            simTime = 0;
+        };
+
+        window.startSelfRefSim = function() { running = true; animate(); };
+        window.pauseSelfRefSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetSelfRefSim = function() {
+            generateStatements();
+            if (!running) { running = true; animate(); }
+        };
+        window.updateSelfRefParams = function() {
+            document.getElementById('stmtComplexVal').textContent = document.getElementById('statementComplexity').value + '%';
+            document.getElementById('selfRefChanceVal').textContent = document.getElementById('selfReferenceChance').value + '%';
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.selfRefInit();
+        animate();
+    })();
+    </script>
+
+</body>
+</html>

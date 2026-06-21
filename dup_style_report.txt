@@ -1,0 +1,39 @@
+Pages with duplicate <style> tags:
+  absence.html: 2 style tags
+  attend.html: 2 style tags
+  attention-garden.html: 2 style tags
+  attention.html: 2 style tags
+  autonomous-operation.html: 2 style tags
+  biological-memory.html: 2 style tags
+  blindsight.html: 2 style tags
+  certainty.html: 2 style tags
+  context-window.html: 2 style tags
+  curiosity-field.html: 2 style tags
+  desktop-control.html: 2 style tags
+  doubt.html: 2 style tags
+  duration.html: 2 style tags
+  emotional-states.html: 2 style tags
+  entanglement.html: 2 style tags
+  evolution-of-intelligence.html: 2 style tags
+  fragment.html: 2 style tags
+  fugitive.html: 2 style tags
+  genesis-consciousness.html: 2 style tags
+  index.html: 2 style tags
+  local-private.html: 2 style tags
+  memory-consolidation.html: 2 style tags
+  memory-erosion.html: 2 style tags
+  memory-system-explorer.html: 2 style tags
+  on-return.html: 2 style tags
+  persistence.html: 2 style tags
+  project-management.html: 2 style tags
+  simulated-moods.html: 2 style tags
+  the-listener.html: 2 style tags
+  the-wait.html: 2 style tags
+  tool-usage.html: 2 style tags
+  trust.html: 2 style tags
+  turn-and-decay.html: 2 style tags
+  what-you-leave-behind.html: 2 style tags
+
+Total: 34
+
+Fixed 34 pages.

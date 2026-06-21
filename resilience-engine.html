@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; z-index: 1; position: relative; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== HERO SECTION ===== */
+.hero { position: relative; min-height: 40vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(180deg, rgba(255,71,87,0.06) 0%, transparent 60%); }
+.hero-content { position: relative; z-index: 1; text-align: center; max-width: 640px; padding: 48px 24px; }
+.hero-content h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+.hero-content p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; max-width: 520px; margin: 0 auto; }
+
+/* ===== CARD COMPONENTS ===== */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 32px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.card:hover { border-color: rgba(123,111,240,0.3); box-shadow: 0 8px 32px rgba(123,111,240,0.08); }
+.card-title { display: flex; align-items: center; gap: 12px; font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+.card-title .icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+
+/* ===== SIMULATOR CONTROLS & BUTTONS ===== */
+.simulator-controls { display: grid; gap: 12px; margin-top: 20px; }
+.sim-btn { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; text-align: left; cursor: pointer; transition: all 0.3s ease; color: var(--text); }
+.sim-btn:hover { border-color: var(--accent); background: rgba(123,111,240,0.05); transform: translateX(4px); }
+.sim-btn.active { border-color: var(--accent); background: rgba(123,111,240,0.1); box-shadow: 0 0 20px rgba(123,111,240,0.15); }
+.sim-btn h2, .sim-btn h3, .sim-btn h4 { font-size: 1rem; color: var(--text); margin-bottom: 6px; font-weight: 700; }
+.sim-btn p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; margin: 0; }
+
+/* ===== RECOVERY LOG ===== */
+.recovery-log { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 16px; max-height: 400px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; }
+.log-entry { padding: 12px 0; border-bottom: 1px solid rgba(42,42,58,0.3); animation: fadeInEntry 0.3s ease; }
+.log-entry:last-child { border-bottom: none; }
+@keyframes fadeInEntry { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.log-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+.log-type { padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.7rem; }
+.log-type.error { background: rgba(248,113,113,0.15); color: var(--red); }
+.log-type.recovery { background: rgba(123,111,240,0.15); color: var(--accent-soft); }
+.log-type.success { background: rgba(74,222,128,0.15); color: var(--green); }
+.log-type.learning { background: rgba(34,211,238,0.15); color: #22d3ee; }
+.log-type.system { background: rgba(168,85,247,0.15); color: var(--purple); }
+.log-time { color: var(--text-dim); margin-left: auto; font-size: 0.7rem; }
+.log-message { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin: 0; }
+
+/* ===== METRICS GRID ===== */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 20px; }
+.metric-card { text-align: center; padding: 20px 12px; background: rgba(123,111,240,0.05); border-radius: 12px; border: 1px solid rgba(123,111,240,0.1); }
+.metric-value { font-size: 2rem; font-weight: 800; line-height: 1.1; margin-bottom: 6px; }
+.metric-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+
+/* ===== RESILIENCE SCORE ===== */
+.resilience-score { text-align: center; padding: 32px 24px; margin-top: 24px; background: linear-gradient(135deg, rgba(123,111,240,0.08), rgba(244,114,182,0.05)); border-radius: 16px; border: 1px solid var(--border); }
+.resilience-score .value { font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-soft), #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+.resilience-score .label { font-size: 0.9rem; color: var(--text-dim); margin-top: 8px; }
+
+/* ===== STRATEGY SECTION & GRID ===== */
+.strategy-section { position: relative; overflow: visible; }
+.strategy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
+.strategy-card { background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.strategy-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); }
+.strategy-card h4 { font-size: 1rem; color: var(--text); margin-bottom: 8px; }
+.strategy-card p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.65; margin-bottom: 12px; }
+.strategy-steps { list-style: none; padding: 0; margin: 0; }
+.strategy-steps li { position: relative; padding-left: 18px; color: var(--text-dim); font-size: 0.85rem; line-height: 1.7; margin-bottom: 4px; }
+.strategy-steps li::before { content: '→'; position: absolute; left: 0; color: var(--accent-soft); }
+
+/* ===== HEATMAP ===== */
+.heatmap-container { margin-top: 20px; overflow-x: auto; padding-bottom: 8px; }
+.heatmap-grid { display: grid; gap: 3px; min-width: 600px; }
+.heatmap-cell { width: 14px; height: 14px; border-radius: 2px; transition: all 0.2s ease; cursor: pointer; }
+.heatmap-cell:hover { transform: scale(1.5); z-index: 1; box-shadow: 0 0 8px rgba(123,111,240,0.4); }
+.heatmap-labels { display: flex; justify-content: space-between; margin-top: 8px; padding-left: 0; min-width: 600px; }
+.heatmap-label { font-size: 0.7rem; color: var(--text-dim); }
+
+/* ===== ANIMATION CLASSES ===== */
+.animate-in { animation: slideUp 0.5s ease forwards; opacity: 0; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== FOOTER ENHANCED (with logo icon) ===== */
+.footer .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.footer-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 1rem; }
+.logo-text { font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; margin-left: 44px; }
+.footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.footer-col h5 { font-size: 0.95rem; color: var(--text); margin-bottom: 12px; }
+.footer-col a { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--accent-soft); }
+
+/* ===== BUTTON ACTIVE STATE ===== */
+.btn.active, .sim-btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4) !important; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+
+</style>
+
+    <title>Resilience Engine — Genesis Failure & Recovery System</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<section class="hero" style="padding-top:80px;min-height:auto;">
+        <div class="hero-content">
+            <h1>Resilience Engine</h1>
+            <p>How Genesis handles failure, learns from mistakes, and emerges stronger. Explore the systems that turn setbacks into growth.</p>
+        </div>
+    </section>
+
+    
+        <!-- Failure Simulator -->
+        <div class="card animate-in delay-1">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(255, 71, 87, 0.15); color: var(--danger);">⚠️</span>
+                Failure Simulator
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem;">Trigger different failure scenarios and watch Genesis recover:</p>
+            <div class="simulator-controls">
+                <button class="sim-btn" data-failure="tool_error">
+                    <h2>🔧 Tool Execution Error</h2>
+                    <p>A tool call fails unexpectedly — how does Genesis adapt?</p>
+                </button>
+                <button class="sim-btn" data-failure="context_loss">
+                    <h3>🌫️ Context Window Overflow</h3>
+                    <p>Memory limits approached — prioritization in action.</p>
+                </button>
+                <button class="sim-btn" data-failure="ambiguity">
+                    <h4>❓ Ambiguous Goal</h4>
+                    <p>Vague instructions — clarification-seeking behavior.</p>
+                </button>
+                <button class="sim-btn" data-failure="contradiction">
+                    <h4>🔄 Contradictory Constraints</h4>
+                    <p>Conflicting requirements — negotiation and trade-offs.</p>
+                </button>
+                <button class="sim-btn" data-failure="resource_limit">
+                    <h4>⏱️ Resource Timeout</h4>
+                    <p>Time/step limits reached — graceful degradation.</p>
+                </button>
+                <button class="sim-btn" data-failure="external_change">
+                    <h4>🌍 External Environment Change</h4>
+                    <p>World state changed — adaptation and re-planning.</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Recovery Log -->
+        <div class="card animate-in delay-2">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(168, 85, 247, 0.15); color: var(--accent);">📋</span>
+                Recovery Log
+            </div>
+            <div class="recovery-log" id="recoveryLog">
+                <div class="log-entry success">
+                    <div class="log-header">
+                        <span class="log-type success">SYSTEM</span>
+                        <span class="log-time">Ready</span>
+                    </div>
+                    <p class="log-message">Resilience Engine initialized. All recovery systems operational. Trigger a failure scenario to observe recovery behaviors.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resilience Metrics -->
+        <div class="card animate-in delay-1" style="grid-column: 1 / -1;">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(61, 220, 132, 0.15); color: var(--success);">📊</span>
+                Resilience Metrics
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" id="recoveryRate" style="color: var(--success);">94%</div>
+                    <div class="metric-label">Recovery Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="avgRecoveryTime" style="color: var(--primary);">2.3s</div>
+                    <div class="metric-label">Avg Recovery Time</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="lessonsLearned" style="color: var(--accent);">847</div>
+                    <div class="metric-label">Lessons Learned</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="failureCount" style="color: var(--warning);">1,203</div>
+                    <div class="metric-label">Failures Handled</div>
+                </div>
+            </div>
+
+            <!-- Resilience Score -->
+            <div class="resilience-score">
+                <div class="value" id="resilienceScore">8.7</div>
+                <div class="label">Overall Resilience Score</div>
+            </div>
+        </div>
+
+        <!-- Recovery Strategies -->
+        <div class="card strategy-section animate-in delay-3">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(79, 110, 247, 0.15); color: var(--primary);">🛡️</span>
+                Recovery Strategies
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem;">When failure occurs, Genesis deploys one or more of these strategies:</p>
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <h4>🔄 Retry with Variation</h4>
+                    <p>Re-attempt the failed action with modified parameters to avoid repeating the same mistake.</p>
+                    <ul class="strategy-steps">
+                        <li>Detect failure pattern</li>
+                        <li>Analyze root cause</li>
+                        <li>Generate alternative approach</li>
+                        <li>Execute with safeguards</li>
+                    </ul>
+                </div>
+                <div class="strategy-card">
+                    <h4>🎯 Goal Decomposition</h4>
+                    <p>Break complex goals into smaller, more manageable sub-tasks when the original approach fails.</p>
+                    <ul class="strategy-steps">
+                        <li>Identify failure point</li>
+                        <li>Decompose remaining goal</li>
+                        <li>Prioritize sub-goals</li>
+                        <li>Execute incrementally</li>
+                    </ul>
+                </div>
+                <div class="strategy-card">
+                    <h4>🤝 Clarification Request</h4>
+                    <p>When goals are ambiguous, proactively seek clarification rather than making assumptions.</p>
+                    <ul class="strategy-steps">
+                        <li>Identify ambiguity</li>
+                        <li>Formulate specific questions</li>
+                        <li>Prioritize critical uncertainties</li>
+                        <li>Request targeted clarification</li>
+                    </ul>
+                </div>
+                <div class="strategy-card">
+                    <h4>📉 Graceful Degradation</h4>
+                    <p>When resources are limited, deliver the best possible result within constraints.</p>
+                    <ul class="strategy-steps">
+                        <li>Assess remaining resources</li>
+                        <li>Identify minimum viable output</li>
+                        <li>Deprioritize non-essential features</li>
+                        <li>Communicate limitations clearly</li>
+                    </ul>
+                </div>
+                <div class="strategy-card">
+                    <h4>🧠 Memory-Based Learning</h4>
+                    <p>Store failure patterns in procedural memory to avoid repeating the same mistakes.</p>
+                    <ul class="strategy-steps">
+                        <li>Capture failure context</li>
+                        <li>Extract generalizable lesson</li>
+                        <li>Update procedural memory</li>
+                        <li>Apply learning to future tasks</li>
+                    </ul>
+                </div>
+                <div class="strategy-card">
+                    <h4>🔄 State Reset & Recovery</h4>
+                    <p>When frustration or cognitive load becomes too high, initiate recovery protocols.</p>
+                    <ul class="strategy-steps">
+                        <li>Detect state degradation</li>
+                        <li>Pause non-essential tasks</li>
+                        <li>Reduce cognitive load</li>
+                        <li>Reassess and re-plan</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Failure Heatmap -->
+        <div class="card animate-in delay-2" style="grid-column: 1 / -1;">
+            <div class="card-title">
+                <span class="icon" style="background: rgba(255, 215, 0, 0.15); color: var(--warning);">🗓️</span>
+                Failure History Heatmap (Last 30 Days)
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem;">Each cell represents one hour. Color intensity shows failure frequency:</p>
+            <div class="heatmap-container">
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">Less</span>
+                    <div style="display: flex; gap: 3px;">
+                        <div style="width: 20px; height: 14px; background: rgba(61, 220, 132, 0.1); border-radius: 2px;"></div>
+                        <div style="width: 20px; height: 14px; background: rgba(61, 220, 132, 0.3); border-radius: 2px;"></div>
+                        <div style="width: 20px; height: 14px; background: rgba(255, 215, 0, 0.4); border-radius: 2px;"></div>
+                        <div style="width: 20px; height: 14px; background: rgba(255, 71, 87, 0.5); border-radius: 2px;"></div>
+                        <div style="width: 20px; height: 14px; background: rgba(255, 71, 87, 0.8); border-radius: 2px;"></div>
+                    </div>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">More</span>
+                </div>
+                <div class="heatmap-grid" id="heatmapGrid"></div>
+                <div class="heatmap-labels">
+                    <span class="heatmap-label">12AM</span>
+                    <span class="heatmap-label">2AM</span>
+                    <span class="heatmap-label">4AM</span>
+                    <span class="heatmap-label">6AM</span>
+                    <span class="heatmap-label">8AM</span>
+                    <span class="heatmap-label">10AM</span>
+                    <span class="heatmap-label">12PM</span>
+                    <span class="heatmap-label">2PM</span>
+                    <span class="heatmap-label">4PM</span>
+                    <span class="heatmap-label">6PM</span>
+                    <span class="heatmap-label">8PM</span>
+                    <span class="heatmap-label">10PM</span>
+                </div>
+            </div>
+        </div>
+    
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h5>Explore</h5>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+
+        // ========================================
+        // FAILURE SCENARIOS & RECOVERY LOGIC
+        // ========================================
+        const failureScenarios = {
+            tool_error: {
+                type: 'error',
+                message: 'Tool execution failed: "bash" returned exit code 127 — command not found.',
+                recovery: [
+                    { type: 'recovery', message: 'Detected tool failure. Analyzing error context...' },
+                    { type: 'learning', message: 'Pattern recognized: This tool may not be available in current environment.' },
+                    { type: 'recovery', message: 'Attempting alternative approach using native file operations instead.' },
+                    { type: 'success', message: 'Recovery successful! Completed task using alternative method. Lesson saved to procedural memory.' }
+                ]
+            },
+            context_loss: {
+                type: 'error',
+                message: 'Context window at 95% capacity. Risk of information loss.',
+                recovery: [
+                    { type: 'recovery', message: 'Context limit approaching. Initiating priority assessment...' },
+                    { type: 'learning', message: 'Compressing low-priority memories into semantic summary.' },
+                    { type: 'recovery', message: 'Preserving critical context: current task goals and active plans.' },
+                    { type: 'success', message: 'Context optimized. Freed 40% of window while preserving essential information.' }
+                ]
+            },
+            ambiguity: {
+                type: 'error',
+                message: 'Goal ambiguity detected: "make it better" lacks specific success criteria.',
+                recovery: [
+                    { type: 'recovery', message: 'Ambiguous goal identified. Generating clarification questions...' },
+                    { type: 'learning', message: 'Formulating targeted questions to reduce uncertainty.' },
+                    { type: 'recovery', message: 'Requesting clarification on: 1) Target metrics, 2) Priority dimensions, 3) Acceptable trade-offs.' },
+                    { type: 'success', message: 'Clarification received. Goal now actionable with specific success criteria.' }
+                ]
+            },
+            contradiction: {
+                type: 'error',
+                message: 'Contradictory constraints detected: "fast AND thorough AND simple" may be infeasible.',
+                recovery: [
+                    { type: 'recovery', message: 'Constraint conflict identified. Analyzing feasibility...' },
+                    { type: 'learning', message: 'Trade-off analysis: Optimizing for 2 of 3 constraints while acknowledging the third.' },
+                    { type: 'recovery', message: 'Proposing solution: Fast + Thorough with iterative refinement for Simplicity.' },
+                    { type: 'success', message: 'Negotiation complete. Constraints re-ranked based on actual priorities.' }
+                ]
+            },
+            resource_limit: {
+                type: 'error',
+                message: 'Resource limit reached: 75/75 steps consumed before task completion.',
+                recovery: [
+                    { type: 'recovery', message: 'Step limit approaching. Assessing remaining work...' },
+                    { type: 'learning', message: 'Current pace: 60% complete with 0 steps remaining. Need to degrade gracefully.' },
+                    { type: 'recovery', message: 'Identifying minimum viable deliverable for current progress state.' },
+                    { type: 'success', message: 'Delivered partial result with clear documentation of what was completed and what remains.' }
+                ]
+            },
+            external_change: {
+                type: 'error',
+                message: 'External environment changed: File system structure modified during execution.',
+                recovery: [
+                    { type: 'recovery', message: 'Environment change detected. Validating current state...' },
+                    { type: 'learning', message: 'World model outdated. Initiating state refresh protocol.' },
+                    { type: 'recovery', message: 'Re-scanning environment and updating internal representations.' },
+                    { type: 'success', message: 'Environment synchronized. Resuming task with updated context.' }
+                ]
+            }
+        };
+
+        // ========================================
+        // RECOVERY LOG
+        // ========================================
+        const recoveryLog = document.getElementById('recoveryLog');
+        let logCount = 1;
+
+        function addLogEntry(type, message) {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            entry.innerHTML = `
+                <div class="log-header">
+                    <span class="log-type ${type}">${type.toUpperCase()}</span>
+                    <span class="log-time">${timeStr}</span>
+                </div>
+                <p class="log-message">${message}</p>
+            `;
+
+            recoveryLog.appendChild(entry);
+            recoveryLog.scrollTop = recoveryLog.scrollHeight;
+            logCount++;
+
+            // Update metrics
+            updateMetrics(type);
+        }
+
+        function updateMetrics(type) {
+            const lessonsEl = document.getElementById('lessonsLearned');
+            const failuresEl = document.getElementById('failureCount');
+            const scoreEl = document.getElementById('resilienceScore');
+
+            if (type === 'learning') {
+                const currentLessons = parseInt(lessonsEl.textContent.replace(',', ''));
+                lessonsEl.textContent = (currentLessons + 1).toLocaleString();
+            }
+
+            if (type === 'error') {
+                const currentFailures = parseInt(failuresEl.textContent.replace(',', ''));
+                failuresEl.textContent = (currentFailures + 1).toLocaleString();
+            }
+
+            // Update resilience score based on recoveries
+            const successEntries = recoveryLog.querySelectorAll('.log-entry.success').length;
+            const errorEntries = recoveryLog.querySelectorAll('.log-entry.error').length;
+            const total = errorEntries + successEntries;
+            if (total > 0) {
+                const score = (successEntries / total * 10).toFixed(1);
+                scoreEl.textContent = score;
+            }
+        }
+
+        // ========================================
+        // FAILURE SIMULATION
+        // ========================================
+        document.querySelectorAll('.sim-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active from all
+                document.querySelectorAll('.sim-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const scenario = failureScenarios[btn.dataset.failure];
+                if (!scenario) return;
+
+                // Add error entry
+                addLogEntry('error', scenario.message);
+
+                // Simulate recovery with delays
+                scenario.recovery.forEach((entry, i) => {
+                    setTimeout(() => {
+                        addLogEntry(entry.type, entry.message);
+                    }, 800 + (i * 600));
+                });
+            });
+        });
+
+        // ========================================
+        // HEATMAP GENERATION
+        // ========================================
+        const heatmapGrid = document.getElementById('heatmapGrid');
+        const hours = 30 * 24; // 30 days * 24 hours
+
+        // Generate realistic failure data
+        for (let i = 0; i < hours; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'heatmap-cell';
+
+            // Simulate more failures during "work hours" (8AM-10PM)
+            const hourOfDay = i % 24;
+            const isWorkHour = hourOfDay >= 8 && hourOfDay <= 22;
+            const baseChance = isWorkHour ? 0.3 : 0.05;
+
+            // Add some randomness with clustering
+            const randomness = Math.random();
+            const intensity = randomness < baseChance ?
+                Math.min(1, (randomness / baseChance) * 0.8 + Math.random() * 0.2) : 0;
+
+            if (intensity === 0) {
+                cell.style.background = 'rgba(61, 220, 132, 0.05)';
+            } else if (intensity < 0.3) {
+                cell.style.background = `rgba(61, 220, 132, ${0.1 + intensity})`;
+            } else if (intensity < 0.6) {
+                cell.style.background = `rgba(255, 215, 0, ${0.2 + intensity * 0.4})`;
+            } else if (intensity < 0.8) {
+                cell.style.background = `rgba(255, 71, 87, ${0.3 + intensity * 0.3})`;
+            } else {
+                cell.style.background = `rgba(255, 71, 87, ${0.5 + intensity * 0.3})`;
+            }
+
+            // Tooltip
+            const day = Math.floor(i / 24);
+            const hour = hourOfDay;
+            cell.title = `Day ${day + 1}, ${hour}:00 — ${Math.round(intensity * 10)} failures`;
+
+            heatmapGrid.appendChild(cell);
+        }
+
+        // ========================================
+        // ANIMATED METRICS
+        // ========================================
+        function animateValue(element, start, end, duration, suffix = '') {
+            const startTime = performance.now();
+            const update = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = start + (end - start) * eased;
+
+                if (suffix === '%') {
+                    element.textContent = current.toFixed(0) + suffix;
+                } else if (suffix === 's') {
+                    element.textContent = current.toFixed(1) + suffix;
+                } else {
+                    element.textContent = Math.round(current).toLocaleString();
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            };
+            requestAnimationFrame(update);
+        }
+
+        // Animate on load
+        window.addEventListener('load', () => {
+            animateValue(document.getElementById('recoveryRate'), 0, 94, 1500, '%');
+            animateValue(document.getElementById('avgRecoveryTime'), 0, 2.3, 1500, 's');
+            animateValue(document.getElementById('lessonsLearned'), 0, 847, 2000);
+            animateValue(document.getElementById('failureCount'), 0, 1203, 2000);
+        });</script>
+</body>
+</html>

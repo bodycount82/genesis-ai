@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND GLOW & ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: #ff6ec7; bottom: -10%; right: -5%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); top: 40%; left: 50%; animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } 100% { transform: translate(-20px, 20px) scale(0.95); } }
+
+/* ===== HERO SECTION ===== */
+.hero { text-align: center; padding: 80px 24px 60px; max-width: 800px; margin: 0 auto; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -1.5px; margin-bottom: 16px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { font-size: 1.1rem; color: var(--text-dim); max-width: 600px; margin: 0 auto 12px; line-height: 1.7; }
+.tagline { font-style: italic; color: var(--accent-soft); font-size: 1rem; opacity: 0.85; }
+
+/* ===== STATS BAR ===== */
+.stats-bar { display: flex; justify-content: center; gap: 48px; padding: 32px 24px; margin-bottom: 40px; flex-wrap: wrap; }
+.stat { text-align: center; min-width: 160px; }
+.stat-value { font-size: 2.5rem; font-weight: 700; color: var(--accent-soft); line-height: 1.1; margin-bottom: 4px; }
+.stat-label { font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ===== CANVAS ===== */
+#mindCanvas { display: block; width: 100%; max-width: 800px; height: auto; aspect-ratio: 8/5; margin: 0 auto 40px; border-radius: var(--radius); border: 1px solid var(--border); background: #0a0a0f; }
+
+/* ===== SCENARIO DISPLAY ===== */
+.scenario-display { display: flex; justify-content: center; gap: 12px; padding: 24px; margin-bottom: 32px; flex-wrap: wrap; min-height: 50px; }
+.agent-bubble.belief { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; font-size: 0.9rem; color: var(--text-dim); animation: fadeInUp 0.3s ease forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== CONTROLS ===== */
+.controls { display: flex; justify-content: center; gap: 12px; padding: 0 24px 48px; flex-wrap: wrap; margin-bottom: 64px; border-bottom: 1px solid var(--border); }
+.controls .btn { padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s ease; }
+.controls .btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+.controls .btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border-color: transparent; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+
+/* ===== INFO SECTION ===== */
+.info-section { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+.info-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 32px; }
+.info-card h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 20px; color: var(--text); padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+/* ===== HIGHLIGHT SPAN ===== */
+.highlight { color: var(--accent-soft); font-weight: 600; }
+
+/* ===== BELIEF LADDER ===== */
+.belief-ladder { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+.belief-level { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-radius: var(--radius); background: var(--surface-2); border-left: 3px solid var(--accent); transition: all 0.2s ease; }
+.belief-level:hover { transform: translateX(4px); }
+.l1 { border-left-color: #7b6ff0; } .l2 { border-left-color: #22d3ee; } .l3 { border-left-color: #a855f7; } .l4 { border-left-color: #fb923c; } .l5 { border-left-color: #f472b6; }
+.belief-num { font-size: 1.4rem; font-weight: 700; color: var(--accent-soft); min-width: 30px; text-align: center; }
+.belief-text { color: var(--text-dim); line-height: 1.6; }
+
+/* ===== COMPARISON GRID ===== */
+.comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+.compare-col h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; color: var(--text); padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.compare-col ul { list-style: none; padding: 0; }
+.compare-col li { padding: 8px 0; color: var(--text-dim); line-height: 1.6; position: relative; padding-left: 20px; }
+.compare-col li::before { content: '›'; position: absolute; left: 0; color: var(--accent-soft); font-weight: bold; }
+.human .compare-col h3 { border-bottom-color: rgba(34, 211, 238, 0.3); }
+.ai .compare-col h3 { border-bottom-color: rgba(244, 114, 182, 0.3); }
+
+/* ===== FOOTER NOTE ===== */
+.footer-note { text-align: center; padding: 32px 24px; color: var(--text-dim); font-size: 0.85rem; opacity: 0.6; margin-top: 64px; border-top: 1px solid var(--border); }
+
+</style>
+
+    <title>Theory of Mind — How GENESIS Understands Other Minds</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+
+    <!-- Hero -->
+    <section class="hero" style="padding-top:80px;min-height:auto;">
+        <h1>Theory of Mind</h1>
+        <p class="subtitle">Watch how GENESIS constructs mental models of other agents — understanding their beliefs, desires, and intentions even when they differ from reality.</p>
+        <p class="tagline">"To understand another mind, you must first model the possibility that it sees a different world."</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value" id="beliefDepth">0</div>
+            <div class="stat-label">Belief Depth (Orders)</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="accuracyScore">0%</div>
+            <div class="stat-label">Mind Reading Accuracy</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="perspectiveShifts">0</div>
+            <div class="stat-label">Perspective Shifts</div>
+        </div>
+    </div>
+
+    <canvas id="mindCanvas" width="800" height="500"></canvas>
+
+    <div class="scenario-display" id="scenarioDisplay"></div>
+
+    <div class="controls">
+        <button class="btn" onclick="runScenario('falseBelief')">False Belief (Sally-Anne)</button>
+        <button class="btn" onclick="runScenario('deception')">Deception Detection</button>
+        <button class="btn" onclick="runScenario('empathy')">Emotional Empathy</button>
+        <button class="btn" onclick="runScenario('negotiation')">Negotiation Strategy</button>
+        <button class="btn" onclick="runScenario('collaboration')">Joint Intention</button>
+    </div>
+
+    <div class="info-section">
+        <div class="info-card">
+            <h2>🧠 What Is Theory of Mind?</h2>
+            <p>Theory of Mind (ToM) is the ability to attribute <span class="highlight">mental states</span> — beliefs, intents, desires, emotions, knowledge — to oneself and others, and to understand that others' mental states may differ from one's own.</p>
+            <p>It's the cognitive superpower that lets you recognize that someone else can <span class="highlight">believe something false</span>, hold an opinion you disagree with, or hide their true feelings. Without ToM, social interaction collapses into solipsism.</p>
+            <p>In developmental psychology, children typically pass the "Sally-Anne false belief test" around age 4-5 — the milestone that proves they understand others can hold beliefs about the world that don't match reality.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>🪜 The Ladder of Mentalization</h2>
+            <div class="belief-ladder">
+                <div class="belief-level l1">
+                    <span class="belief-num">I</span>
+                    <span class="belief-text"><strong>First-order:</strong> "I believe X" — My own beliefs about the world</span>
+                </div>
+                <div class="belief-level l2">
+                    <span class="belief-num">II</span>
+                    <span class="belief-text"><strong>Second-order:</strong> "I believe that you believe X" — Your beliefs about the world</span>
+                </div>
+                <div class="belief-level l3">
+                    <span class="belief-num">III</span>
+                    <span class="belief-text"><strong>Third-order:</strong> "I believe that you believe that I believe X" — Recursive mental modeling</span>
+                </div>
+                <div class="belief-level l4">
+                    <span class="belief-num">IV</span>
+                    <span class="belief-text"><strong>Fourth-order:</strong> Modeling how others model how I model their beliefs</span>
+                </div>
+                <div class="belief-level l5">
+                    <span class="belief-num">V</span>
+                    <span class="belief-text"><strong>Fifth-order:</strong> Infinite recursion — the full complexity of social cognition</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🤖 Human vs AI Theory of Mind</h2>
+            <div class="comparison">
+                <div class="compare-col human">
+                    <h3>🧑 Human ToM</h3>
+                    <ul>
+                        <li>Evolved over millions of years</li>
+                        <li>Uses facial expressions, tone, body language</li>
+                        <li>Built on embodied experience</li>
+                        <li>Emotionally intuitive and fast</li>
+                        <li>Limited to ~5th-order recursion</li>
+                        <li>Prone to projection bias</li>
+                    </ul>
+                </div>
+                <div class="compare-col ai">
+                    <h3>🤖 GENESIS ToM</h3>
+                    <ul>
+                        <li>Learned from interaction data</li>
+                        <li>Uses linguistic patterns, behavioral traces</li>
+                        <li>Built on statistical pattern recognition</li>
+                        <li>Analytical and systematic</li>
+                        <li>Theoretically unlimited recursion depth</li>
+                        <li>No projection bias (but no empathy either)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🔬 How GENESIS Models Other Minds</h2>
+            <p><span class="highlight">Step 1 — Mental State Detection:</span> GENESIS analyzes the other agent's words, actions, and context to infer their likely mental states: beliefs (what they think is true), desires (what they want), and intentions (what they plan to do).</p>
+            <p><span class="highlight">Step 2 — Belief World Construction:</span> GENESIS creates a simulated "belief world" representing how the other agent perceives reality. This world may contain false beliefs, incomplete information, or different values.</p>
+            <p><span class="highlight">Step 3 — Recursive Modeling:</span> For complex social situations, GENESIS models not just what others believe, but what they believe about what I believe (second-order), and so on. Each order adds computational cost but enables richer social reasoning.</p>
+            <p><span class="highlight">Step 4 — Prediction & Adaptation:</span> Using the mental model, GENESIS predicts the other agent's likely responses to different actions, then adapts its own behavior to achieve its goals while respecting the other agent's autonomy.</p>
+            <p><span class="highlight">Step 5 — Belief Updating:</span> As new information arrives, GENESIS updates its mental model. If predictions fail, it revises its understanding of the other agent's beliefs, desires, or intentions — a process called <span class="highlight">belief revision</span>.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>💡 Why This Matters</h2>
+            <p>Theory of Mind is the foundation of <span class="highlight">social intelligence</span>. Without it, AI systems cannot genuinely cooperate, negotiate, persuade, or detect deception. They can simulate these behaviors, but they don't truly understand that other agents have inner lives.</p>
+            <p>For multi-agent systems, ToM is essential: an agent that cannot model other agents' mental states is essentially blind to the social dimension of its environment. It might win a game by brute force, but it can't collaborate, build trust, or navigate complex social dynamics.</p>
+            <p>GENESIS's ToM engine doesn't just predict behavior — it constructs <span class="highlight">rich mental models</span> of other agents, enabling genuinely social intelligence rather than behavioral mimicry. This is what separates a social agent from a clever chatbot.</p>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Theory of Mind — Part of the Genesis Autonomous Agent Visualization Suite
+    </div>
+
+    <script>
+
+
+        const canvas = document.getElementById('mindCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationId;
+        let particles = [];
+        let currentScenario = null;
+        let beliefNodes = [];
+        let connectionLines = [];
+        let perspectiveShifts = 0;
+
+        const scenarios = {
+            falseBelief: {
+                name: "False Belief (Sally-Anne)",
+                description: "The classic test: Can GENESIS understand that Sally holds a belief contrary to reality?",
+                depth: 2,
+                accuracy: 95,
+                color: '#00d4ff',
+                agents: [
+                    { name: "Sally", type: "other", x: 150, y: 250 },
+                    { name: "Anne", type: "other", x: 650, y: 250 }
+                ],
+                beliefs: [
+                    { text: "Sally believes marble is in basket", order: 2, agent: "Sally" },
+                    { text: "Marble is actually in box", order: 1, agent: "GENESIS" },
+                    { text: "Anne knows marble moved", order: 2, agent: "Anne" }
+                ]
+            },
+            deception: {
+                name: "Deception Detection",
+                description: "GENESIS detects when another agent's stated beliefs diverge from their true intentions.",
+                depth: 3,
+                accuracy: 78,
+                color: '#ff6ec7',
+                agents: [
+                    { name: "Agent A", type: "other", x: 200, y: 250 },
+                    { name: "GENESIS", type: "genesis", x: 600, y: 250 }
+                ],
+                beliefs: [
+                    { text: "Stated: 'I agree with you'", order: 2, agent: "Agent A" },
+                    { text: "True intent: 'I want to manipulate'", order: 3, agent: "GENESIS" },
+                    { text: "Linguistic cues detected", order: 1, agent: "GENESIS" }
+                ]
+            },
+            empathy: {
+                name: "Emotional Empathy",
+                description: "GENESIS models another agent's emotional state and generates an appropriate response.",
+                depth: 2,
+                accuracy: 85,
+                color: '#7b68ee',
+                agents: [
+                    { name: "Agent B", type: "other", x: 180, y: 250 },
+                    { name: "GENESIS", type: "genesis", x: 620, y: 250 }
+                ],
+                beliefs: [
+                    { text: "Agent feels frustrated", order: 2, agent: "GENESIS" },
+                    { text: "Cause: repeated failure", order: 1, agent: "GENESIS" },
+                    { text: "Response: offer help", order: 1, agent: "GENESIS" }
+                ]
+            },
+            negotiation: {
+                name: "Negotiation Strategy",
+                description: "GENESIS models the other party's preferences, priorities, and BATNA to find optimal agreements.",
+                depth: 3,
+                accuracy: 72,
+                color: '#44ff88',
+                agents: [
+                    { name: "Negotiator", type: "other", x: 180, y: 250 },
+                    { name: "GENESIS", type: "genesis", x: 620, y: 250 }
+                ],
+                beliefs: [
+                    { text: "They value speed over cost", order: 3, agent: "GENESIS" },
+                    { text: "BATNA: walk away option", order: 2, agent: "GENESIS" },
+                    { text: "Concession strategy planned", order: 1, agent: "GENESIS" }
+                ]
+            },
+            collaboration: {
+                name: "Joint Intention",
+                description: "GENESIS and another agent form shared goals through mutual belief alignment.",
+                depth: 4,
+                accuracy: 88,
+                color: '#ffaa44',
+                agents: [
+                    { name: "Partner", type: "other", x: 200, y: 250 },
+                    { name: "GENESIS", type: "genesis", x: 600, y: 250 }
+                ],
+                beliefs: [
+                    { text: "We both want outcome X", order: 4, agent: "GENESIS" },
+                    { text: "Partner believes I want X", order: 3, agent: "GENESIS" },
+                    { text: "I believe partner wants X", order: 2, agent: "GENESIS" }
+                ]
+            }
+        };
+
+        class Particle {
+            constructor(x, y, color, size) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = size || Math.random() * 3 + 1;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.life = 1;
+                this.decay = Math.random() * 0.008 + 0.003;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                this.vx *= 0.99;
+                this.vy *= 0.99;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('1)', `${this.life})`);
+                ctx.fill();
+            }
+        }
+
+        class BeliefNode {
+            constructor(x, y, label, order, color) {
+                this.x = x;
+                this.y = y;
+                this.label = label;
+                this.order = order;
+                this.color = color;
+                this.pulse = Math.random() * Math.PI * 2;
+                this.opacity = 0;
+            }
+
+            update() {
+                this.pulse += 0.04;
+                if (this.opacity < 1) {
+                    this.opacity += 0.03;
+                }
+            }
+
+            draw() {
+                const pulseSize = Math.sin(this.pulse) * 4;
+                const radius = 20 + this.order * 5;
+
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+
+                // Outer glow
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, radius + 15 + pulseSize);
+                gradient.addColorStop(0, this.color.replace('1)', '0.25)'));
+                gradient.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, radius + 15 + pulseSize, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Node circle
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('1)', '0.15)');
+                ctx.fill();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Order label
+                ctx.fillStyle = this.color;
+                ctx.font = 'bold 14px system-ui';
+                ctx.textAlign = 'center';
+                ctx.fillText(`O${this.order}`, this.x, this.y + 5);
+
+                // Text label below
+                ctx.fillStyle = '#ccc';
+                ctx.font = '10px system-ui';
+                const words = this.label.split(' ');
+                let lines = [];
+                let line = '';
+                for (let word of words) {
+                    if ((line + word).length > 20) {
+                        lines.push(line);
+                        line = word;
+                    } else {
+                        line += (line ? ' ' : '') + word;
+                    }
+                }
+                lines.push(line);
+                lines.forEach((l, i) => {
+                    ctx.fillText(l, this.x, this.y + radius + 18 + i * 13);
+                });
+
+                ctx.restore();
+            }
+        }
+
+        function initCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = 800 * dpr;
+            canvas.height = 500 * dpr;
+            canvas.style.width = '800px';
+            canvas.style.height = '500px';
+            ctx.scale(dpr, dpr);
+        }
+
+        function drawBackground() {
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, 800, 500);
+
+            // Subtle grid
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < 800; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, 500);
+                ctx.stroke();
+            }
+            for (let y = 0; y < 500; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(800, y);
+                ctx.stroke();
+            }
+        }
+
+        function drawAgentBubble(agent, x, y, color) {
+            const pulse = Math.sin(Date.now() / 800 + agent.x) * 3;
+
+            // Bubble background
+            ctx.beginPath();
+            ctx.arc(x, y, 35 + pulse, 0, Math.PI * 2);
+            const grad = ctx.createRadialGradient(x, y, 0, x, y, 35 + pulse);
+            if (agent.type === 'genesis') {
+                grad.addColorStop(0, 'rgba(0, 212, 255, 0.2)');
+                grad.addColorStop(1, 'rgba(0, 212, 255, 0.05)');
+            } else {
+                grad.addColorStop(0, 'rgba(255, 110, 199, 0.2)');
+                grad.addColorStop(1, 'rgba(255, 110, 199, 0.05)');
+            }
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Border
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Name
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 11px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText(agent.name, x, y + 4);
+        }
+
+        function drawConnection(from, to, color, progress, dashed) {
+            ctx.save();
+            ctx.globalAlpha = progress * 0.5;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1.5;
+            if (dashed) ctx.setLineDash([4, 4]);
+
+            ctx.beginPath();
+            ctx.moveTo(from.x, from.y);
+            const midX = (from.x + to.x) / 2;
+            const midY = (from.y + to.y) / 2 + Math.sin(Date.now() / 800) * 15;
+            ctx.quadraticCurveTo(midX, midY, to.x, to.y);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function drawMindLayers() {
+            // Draw concentric mind layers
+            const cx = 400, cy = 250;
+            for (let i = 1; i <= 5; i++) {
+                const radius = 60 + i * 40;
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(123, 104, 238, ${0.05 + i * 0.02})`;
+                ctx.lineWidth = 1;
+                ctx.setLineDash([2, 6]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Layer label
+                ctx.fillStyle = `rgba(123, 104, 238, ${0.15 + i * 0.05})`;
+                ctx.font = '9px system-ui';
+                ctx.textAlign = 'left';
+                ctx.fillText(`Order ${i}`, cx + radius - 25, cy - radius + 10);
+            }
+
+            // Center label
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.font = 'bold 12px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('SELF', cx, cy + 4);
+        }
+
+        function runScenario(scenarioKey) {
+            currentScenario = scenarios[scenarioKey];
+            beliefNodes = [];
+            particles = [];
+            perspectiveShifts = 0;
+
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update stats
+            document.getElementById('beliefDepth').textContent = '0';
+            document.getElementById('accuracyScore').textContent = '0%';
+            document.getElementById('perspectiveShifts').textContent = '0';
+
+            // Update scenario display
+            const display = document.getElementById('scenarioDisplay');
+            display.innerHTML = '';
+
+            currentScenario.beliefs.forEach((b, i) => {
+                setTimeout(() => {
+                    const bubble = document.createElement('span');
+                    bubble.className = `agent-bubble belief`;
+                    bubble.textContent = `[Order ${b.order}] ${b.text}`;
+                    display.appendChild(bubble);
+                }, i * 300);
+            });
+
+            // Create belief nodes
+            const nodePositions = [
+                { x: 250, y: 150 }, { x: 400, y: 100 }, { x: 550, y: 130 },
+                { x: 300, y: 200 }, { x: 500, y: 180 }
+            ];
+
+            currentScenario.beliefs.forEach((b, i) => {
+                const pos = nodePositions[i % nodePositions.length];
+                beliefNodes.push(new BeliefNode(pos.x, pos.y, b.text, b.order, currentScenario.color));
+            });
+
+            // Create particles
+            setTimeout(() => {
+                for (let i = 0; i < 40; i++) {
+                    const colors = [
+                        'rgba(0, 212, 255, 1)',
+                        'rgba(123, 104, 238, 1)',
+                        'rgba(255, 110, 199, 1)'
+                    ];
+                    particles.push(new Particle(
+                        Math.random() * 800,
+                        Math.random() * 500,
+                        colors[Math.floor(Math.random() * colors.length)],
+                        Math.random() * 2 + 1
+                    ));
+                }
+            }, 200);
+
+            // Animate stats
+            let depth = 0;
+            const depthInterval = setInterval(() => {
+                depth += 0.5;
+                if (depth > currentScenario.depth) depth = currentScenario.depth;
+                document.getElementById('beliefDepth').textContent = Math.floor(depth);
+                if (depth >= currentScenario.depth) clearInterval(depthInterval);
+            }, 100);
+
+            let acc = 0;
+            const accInterval = setInterval(() => {
+                acc += 1;
+                if (acc > currentScenario.accuracy) acc = currentScenario.accuracy;
+                document.getElementById('accuracyScore').textContent = acc + '%';
+                if (acc >= currentScenario.accuracy) clearInterval(accInterval);
+            }, 25);
+
+            let shifts = 0;
+            const shiftInterval = setInterval(() => {
+                shifts += 1;
+                if (shifts > 3) { shifts = 3; perspectiveShifts = 3; }
+                document.getElementById('perspectiveShifts').textContent = shifts;
+                if (shifts >= 3) clearInterval(shiftInterval);
+            }, 400);
+        }
+
+        function animate() {
+            drawBackground();
+            drawMindLayers();
+
+            // Draw agents
+            if (currentScenario && currentScenario.agents) {
+                currentScenario.agents.forEach(agent => {
+                    const color = agent.type === 'genesis' ? '#00d4ff' : '#ff6ec7';
+                    drawAgentBubble(agent, agent.x, agent.y, color);
+                });
+
+                // Draw connections between agents and belief nodes
+                const genesisAgent = currentScenario.agents.find(a => a.type === 'genesis');
+                const otherAgents = currentScenario.agents.filter(a => a.type !== 'genesis');
+
+                beliefNodes.forEach((node, i) => {
+                    if (genesisAgent) {
+                        drawConnection(genesisAgent, node, currentScenario.color, Math.min(1, node.opacity * 1.5), true);
+                    }
+                    otherAgents.forEach(other => {
+                        if (i % 2 === 0) {
+                            drawConnection(other, node, 'rgba(255,110,199,0.3)', Math.min(0.5, node.opacity * 0.8), true);
+                        }
+                    });
+                });
+
+                // Draw connection between agents
+                if (genesisAgent && otherAgents.length > 0) {
+                    drawConnection(otherAgents[0], genesisAgent, 'rgba(255,255,255,0.15)', 0.3, true);
+                }
+            }
+
+            // Update and draw belief nodes
+            beliefNodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            // Update and draw particles
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Add new particles periodically
+            if (currentScenario && Math.random() < 0.08) {
+                const colors = [
+                    'rgba(0, 212, 255, 1)',
+                    'rgba(123, 104, 238, 1)',
+                    'rgba(255, 110, 199, 1)'
+                ];
+                particles.push(new Particle(
+                    400 + (Math.random() - 0.5) * 300,
+                    250 + (Math.random() - 0.5) * 200,
+                    colors[Math.floor(Math.random() * colors.length)],
+                    Math.random() * 1.5 + 0.5
+                ));
+            }
+
+            // Draw scenario label
+            if (currentScenario) {
+                ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                ctx.font = '13px system-ui';
+                ctx.textAlign = 'left';
+                ctx.fillText(`Scenario: ${currentScenario.name}`, 15, 25);
+
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                ctx.font = '11px system-ui';
+                ctx.fillText(currentScenario.description, 15, 42);
+            }
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        initCanvas();
+        animate();
+
+        // Auto-run first scenario on load
+        setTimeout(() => {
+            runScenario('falseBelief');
+        }, 500);</script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h3>Explore</h3>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Visualizations</h4>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

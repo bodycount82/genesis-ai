@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND GLOW & ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: #ff6ec7; bottom: -10%; right: -5%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); top: 40%; left: 50%; animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } 100% { transform: translate(-20px, 20px) scale(0.95); } }
+
+/* ===== HEADER & NAV BAR ===== */
+.header h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.header p { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; }
+.nav-bar { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; padding-top: 16px; }
+
+/* ===== ARCHITECTURE GRID ===== */
+.arch-grid { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 12px; align-items: center; margin-bottom: 48px; }
+.arch-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: all 0.3s ease; }
+.arch-box:hover { transform: scale(1.02); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.1); }
+.arch-box.agent { border-color: var(--accent); background: linear-gradient(135deg, rgba(123, 111, 240, 0.1), transparent); }
+.arch-box.model { border-color: var(--cyan); background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), transparent); }
+.arch-box.env { border-color: var(--green); background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), transparent); }
+.arch-arrow { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+.arrow-line { width: 2px; height: 30px; background: linear-gradient(to bottom, var(--accent), var(--cyan)); border-radius: 1px; }
+.arrow-line.down { transform: rotate(90deg); margin-top: -8px; }
+
+/* ===== SIMULATION GRID ===== */
+.sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+.sim-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+
+/* ===== ENVIRONMENT & MODEL GRIDS ===== */
+.env-grid, .model-grid { display: grid; grid-template-columns: repeat(6, 48px); grid-template-rows: repeat(6, 48px); gap: 2px; margin-top: 16px; }
+.cell { width: 48px; height: 48px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; transition: all 0.3s ease; }
+.cell-empty { background: var(--surface-2); border: 1px solid var(--border); }
+.cell-wall { background: #2a2a3a; border: 1px solid #4a4a5a; color: var(--text-dim); }
+.cell-object { background: rgba(74, 222, 128, 0.15); border: 1px solid var(--green); color: var(--green); font-size: 1.2rem; }
+.cell-agent { background: rgba(123, 111, 240, 0.2); border: 2px solid var(--accent); color: #fff; font-size: 1.2rem; animation: pulseAgent 2s ease-in-out infinite; }
+.cell-explored { background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.3); color: var(--cyan); font-size: 0.7rem; }
+.cell-unknown { background: var(--surface-2); border: 1px dashed rgba(136, 136, 160, 0.3); color: rgba(136, 136, 160, 0.4); font-size: 0.7rem; }
+@keyframes pulseAgent { 0%, 100% { box-shadow: 0 0 8px rgba(123, 111, 240, 0.3); } 50% { box-shadow: 0 0 16px rgba(123, 111, 240, 0.6); } }
+
+/* ===== CONTROLS & BUTTONS ===== */
+.controls { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+.btn-green { background: linear-gradient(135deg, var(--green), #22c55e); color: #0a0a0f; font-weight: 600; box-shadow: 0 4px 24px rgba(74, 222, 128, 0.3); }
+.btn-green:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(74, 222, 128, 0.45); }
+
+/* ===== STATS GRID ===== */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; transition: all 0.3s ease; }
+.stat-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+.stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.stat-value { font-size: 1.5rem; font-weight: 700; }
+
+/* ===== PREDICTION PANEL ===== */
+.pred-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 32px; min-height: 80px; }
+
+/* ===== LOG CONTAINER ===== */
+.log-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; max-height: 300px; overflow-y: auto; margin-bottom: 48px; }
+.log-entry { font-size: 0.9rem; color: var(--text-dim); padding: 6px 0; border-bottom: 1px solid rgba(42, 42, 58, 0.5); line-height: 1.6; }
+.log-entry:last-child { border-bottom: none; }
+
+/* ===== EDUCATION GRID ===== */
+.edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 48px; }
+.edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; transition: all 0.3s ease; }
+.edu-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.08); }
+.edu-card h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--text); }
+.edu-card p { color: var(--text-dim); line-height: 1.7; font-size: 0.95rem; }
+
+</style>
+
+    <title>World Model — Genesis AI</title>
+
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<div class="container">
+  <div class="header">
+    <h1>🌐 World Model</h1>
+    <p>Watch how an AI builds an internal model of the world to predict outcomes and plan actions</p>
+  </div>
+
+  <div class="nav-bar">
+    <a href="index.html">← Back to Genesis</a>
+    <span style="color: var(--text-dim); font-size: 0.9em;">Interactive AI Concepts</span>
+  </div>
+
+  <!-- Architecture -->
+  <div class="section-title"><span class="icon">🏗️</span> World Model Architecture</div>
+  <div class="arch-grid">
+    <div class="arch-box agent">
+      <h2>🤖 Agent</h2>
+      <p style="color: var(--text-dim); font-size: 0.9em;">Perceives state, plans actions, learns from outcomes</p>
+    </div>
+    <div class="arch-arrow">
+      <span>Observe</span>
+      <div class="arrow-line"></div>
+      <span style="margin-top: 4px;">Predict</span>
+      <div class="arrow-line down"></div>
+    </div>
+    <div class="arch-box model">
+      <h3>🧠 World Model</h3>
+      <p style="color: var(--text-dim); font-size: 0.9em;">Internal simulation of environment dynamics</p>
+    </div>
+  </div>
+  <div class="arch-grid" style="grid-template-columns: 1fr 80px 1fr; margin-top: -5px;">
+    <div class="arch-box env">
+      <h3>🌍 Environment</h3>
+      <p style="color: var(--text-dim); font-size: 0.9em;">Real world with objects, obstacles, and rules</p>
+    </div>
+    <div class="arch-arrow">
+      <span>Reality</span>
+      <div class="arrow-line"></div>
+      <span style="margin-top: 4px;">Update</span>
+      <div class="arrow-line down"></div>
+    </div>
+    <div style="visibility: hidden;">.</div>
+  </div>
+
+  <!-- Simulation -->
+  <div class="section-title"><span class="icon">🎮</span> Interactive Simulation</div>
+  <div class="sim-grid">
+    <div class="sim-panel">
+      <h3>🌍 Real Environment</h3>
+      <p style="color: var(--text-dim); font-size: 0.82em; margin-bottom: 8px;">What the agent actually sees</p>
+      <div id="envGrid" class="env-grid"></div>
+    </div>
+    <div class="sim-panel">
+      <h3>🧠 Agent's Mental Model</h3>
+      <p style="color: var(--text-dim); font-size: 0.82em; margin-bottom: 8px;">What the agent believes (unknown = unexplored)</p>
+      <div id="modelGrid" class="model-grid"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-green" id="btnExplore" onclick="startExploration()">▶ Explore & Learn</button>
+    <button class="btn" id="btnStep" onclick="stepOnce()">⏭ Step</button>
+    <button class="btn" onclick="resetSim()">↺ Reset Model</button>
+    <button class="btn" onclick="testPrediction()">🔮 Test Prediction</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Steps Taken</div>
+      <div class="stat-value" style="color: var(--cyan);" id="stepsCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Cells Explored</div>
+      <div class="stat-value" style="color: var(--green);" id="cellsExplored">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Model Accuracy</div>
+      <div class="stat-value" style="color: var(--yellow);" id="modelAccuracy">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Predictions Made</div>
+      <div class="stat-value" style="color: var(--pink);" id="predCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Correct Predictions</div>
+      <div class="stat-value" style="color: var(--green);" id="correctPreds">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Model Confidence</div>
+      <div class="stat-value" style="color: var(--accent);" id="modelConfidence">0%</div>
+    </div>
+  </div>
+
+  <!-- Prediction Panel -->
+  <div class="section-title"><span class="icon">🔮</span> Prediction Log</div>
+  <div class="pred-panel" id="predPanel">
+    <p style="color: var(--text-dim); font-size: 0.85em;">Press "Test Prediction" to see how the agent predicts outcomes before acting...</p>
+  </div>
+
+  <!-- Log -->
+  <div class="section-title"><span class="icon">📋</span> Learning Log</div>
+  <div class="log-container" id="logContainer">
+    <div class="log-entry" style="color: var(--text-dim);">Press "Explore & Learn" to begin building the world model...</div>
+  </div>
+
+  <!-- Education -->
+  <div class="section-title"><span class="icon">📚</span> What is a World Model?</div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <h3>🧠 Internal Simulation</h3>
+      <p>A world model is an AI's internal representation of how the world works. Just as humans imagine "what would happen if I push this cup?" before actually doing it, AI agents use world models to simulate outcomes mentally — saving time and avoiding dangerous mistakes.</p>
+    </div>
+    <div class="edu-card">
+      <h3>👁️ Perception → Model</h3>
+      <p>The agent observes the real environment and builds a mental map. Unknown areas are marked as uncertain. As the agent explores, it fills in details: where walls are, what objects exist, how actions change the state.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🎯 Prediction & Planning</h3>
+      <p>With a world model, the agent can predict: "If I move right from here, I'll hit a wall." This allows planning — trying sequences of actions in its mental model before executing them in reality. Better predictions = smarter decisions.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🔄 Model Update</h3>
+      <p>When reality differs from prediction, the agent updates its model. This prediction error signal is crucial — it's how the agent corrects misconceptions and improves its understanding of the world over time.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🌟 Why It Matters</h3>
+      <p>World models are considered essential for general intelligence. They enable imagination, counterfactual reasoning ("what if?"), and efficient learning. Systems like AlphaGo use world models to simulate game states millions of moves ahead.</p>
+    </div>
+    <div class="edu-card">
+      <h3>🧬 Genesis Connection</h3>
+      <p>Genesis maintains an internal world model through its memory systems. It predicts user intent, simulates conversation outcomes, and updates its understanding based on feedback — continuously refining its mental model of the world.</p>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 30px 0; color: var(--text-dim); font-size: 0.85em;">
+    <a href="index.html" style="color: var(--cyan); text-decoration: none;">← Back to Genesis AI</a>
+    &nbsp;·&nbsp; Interactive AI Concepts Series
+  </div>
+</div>
+
+<script>
+// Environment: 6x6 grid
+const ROWS = 6, COLS = 6;
+const WALLS = [[0,2],[1,4],[2,1],[3,3],[4,5],[5,0]];
+const OBJECTS = [[0,5],[2,3],[4,1]]; // collectible items
+
+let agentR = 5, agentC = 0;
+let model = []; // -1 = unknown, 0 = empty, 1 = wall, 2 = object
+let steps = 0;
+let cellsExplored = 0;
+let predictions = 0;
+let correctPreds = 0;
+let exploring = false;
+let exploreTimer = null;
+
+function initModel() {
+  model = [];
+  for (let r = 0; r < ROWS; r++) {
+    model[r] = [];
+    for (let c = 0; c < COLS; c++) {
+      model[r][c] = -1; // unknown
+    }
+  }
+}
+
+function isWall(r, c) { return WALLS.some(w => w[0] === r && w[1] === c); }
+function isObject(r, c) { return OBJECTS.some(o => o[0] === r && o[1] === c); }
+function inBounds(r, c) { return r >= 0 && r < ROWS && c >= 0 && c < COLS; }
+
+function renderEnv() {
+  const grid = document.getElementById('envGrid');
+  grid.style.gridTemplateColumns = `repeat(${COLS}, 48px)`;
+  grid.innerHTML = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'e-cell';
+      if (r === agentR && c === agentC) {
+        cell.classList.add('e-agent-cell');
+      } else if (isWall(r, c)) {
+        cell.classList.add('e-wall');
+        cell.textContent = '🧱';
+      } else if (isObject(r, c)) {
+        cell.classList.add('e-object');
+        cell.textContent = '💎';
+      } else {
+        cell.classList.add('e-empty');
+      }
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function renderModel() {
+  const grid = document.getElementById('modelGrid');
+  grid.style.gridTemplateColumns = `repeat(${COLS}, 48px)`;
+  grid.innerHTML = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'm-cell';
+      if (model[r][c] === -1) {
+        cell.classList.add('m-unknown');
+        cell.textContent = '?';
+      } else if (model[r][c] === 1) {
+        cell.classList.add('m-known');
+        cell.textContent = '🧱';
+      } else if (model[r][c] === 2) {
+        cell.classList.add('m-known');
+        cell.textContent = '💎';
+      } else {
+        cell.classList.add('m-known');
+        cell.textContent = '·';
+      }
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function exploreCell(r, c) {
+  if (model[r][c] !== -1) return;
+  cellsExplored++;
+  if (isWall(r, c)) model[r][c] = 1;
+  else if (isObject(r, c)) model[r][c] = 2;
+  else model[r][c] = 0;
+}
+
+function predictMove(dr, dc) {
+  const nr = agentR + dr;
+  const nc = agentC + dc;
+  predictions++;
+
+  let predicted, actual;
+
+  if (!inBounds(nr, nc)) {
+    predicted = 'out of bounds';
+    actual = 'out of bounds';
+  } else if (isWall(nr, nc)) {
+    predicted = model[nr][nc] === 1 ? 'wall' : 'unknown';
+    actual = 'wall';
+  } else if (isObject(nr, nc)) {
+    predicted = model[nr][nc] === 2 ? 'object' : 'unknown';
+    actual = 'object';
+  } else {
+    predicted = model[nr][nc] === 0 ? 'empty' : 'unknown';
+    actual = 'empty';
+  }
+
+  const correct = predicted !== 'unknown' && predicted === actual;
+  if (correct) correctPreds++;
+
+  addPredictionLog(predicted, actual, correct);
+  updateStats();
+}
+
+function addPredictionLog(predicted, actual, correct) {
+  const panel = document.getElementById('predPanel');
+  const row = document.createElement('div');
+  row.className = 'pred-row';
+
+  const cls = correct ? 'correct' : 'wrong';
+  const icon = correct ? '✅' : '❌';
+
+  row.innerHTML = `
+    <span class="pred-label">${icon} Predicted: ${predicted}</span>
+    <div class="pred-bar-container">
+      <div class="pred-bar ${cls}" style="width: ${correct ? 90 : 30}%">${correct ? 'CORRECT' : 'WRONG'}</div>
+    </div>
+  `;
+
+  panel.insertBefore(row, panel.firstChild);
+  if (panel.children.length > 8) panel.removeChild(panel.lastChild);
+}
+
+function stepOnce() {
+  // Try to move toward an unexplored cell or collect an object
+  const dirs = [[-1,0],[1,0],[0,-1],[0,1]]; // up, down, left, right
+
+  // Predict first
+  const dir = dirs[Math.floor(Math.random() * 4)];
+  predictMove(dir[0], dir[1]);
+
+  const nr = agentR + dir[0];
+  const nc = agentC + dir[1];
+
+  if (inBounds(nr, nc) && !isWall(nr, nc)) {
+    agentR = nr;
+    agentC = nc;
+    steps++;
+    exploreCell(nr, nc);
+
+    // Also explore neighbors
+    for (const [dr, dc] of dirs) {
+      const nnr = nr + dr, nnc = nr === nr && nc === nc ? nc + dc : -1;
+      // Just explore the cell itself
+    }
+  } else {
+    steps++;
+  }
+
+  updateStats();
+  renderEnv();
+  renderModel();
+}
+
+function startExploration() {
+  if (exploring) {
+    exploring = false;
+    clearTimeout(exploreTimer);
+    document.getElementById('btnExplore').classList.remove('active');
+    document.getElementById('btnExplore').textContent = '▶ Explore & Learn';
+    return;
+  }
+  exploring = true;
+  document.getElementById('btnExplore').classList.add('active');
+  document.getElementById('btnExplore').textContent = '⏸ Pause';
+  addLogEntry('Exploration started...');
+  runLoop();
+}
+
+function runLoop() {
+  if (!exploring) return;
+  stepOnce();
+  exploreTimer = setTimeout(runLoop, 300);
+}
+
+function resetSim() {
+  exploring = false;
+  clearTimeout(exploreTimer);
+  agentR = 5; agentC = 0;
+  steps = 0; cellsExplored = 0; predictions = 0; correctPreds = 0;
+  initModel();
+  // Start by exploring the starting area
+  exploreCell(5, 0);
+  for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+    const nr = 5+dr, nc = 0+dc;
+    if (inBounds(nr, nc)) exploreCell(nr, nc);
+  }
+  document.getElementById('btnExplore').classList.remove('active');
+  document.getElementById('btnExplore').textContent = '▶ Explore & Learn';
+  document.getElementById('predPanel').innerHTML = '<p style="color: var(--text-dim); font-size: 0.85em;">Press "Test Prediction" to see how the agent predicts outcomes before acting...</p>';
+  document.getElementById('logContainer').innerHTML = '<div class="log-entry" style="color: var(--text-dim);">Model reset. Press "Explore & Learn" to begin building the world model...</div>';
+  updateStats();
+  renderEnv();
+  renderModel();
+}
+
+function testPrediction() {
+  if (cellsExplored < 2) {
+    addLogEntry('⚠️ Explore more of the environment first to build a useful model!');
+    return;
+  }
+  // Pick a random direction and predict
+  const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+  const dirNames = ['up','down','left','right'];
+  const idx = Math.floor(Math.random() * 4);
+  const [dr, dc] = dirs[idx];
+
+  addLogEntry(`🔮 Testing prediction: Move ${dirNames[idx]} from (${agentR},${agentC})...`);
+  predictMove(dr, dc);
+
+  const nr = agentR + dr, nc = agentC + dc;
+  let result;
+  if (!inBounds(nr, nc)) result = 'out of bounds';
+  else if (isWall(nr, nc)) result = 'WALL 🧱';
+  else if (isObject(nr, nc)) result = 'OBJECT 💎';
+  else result = 'empty space ·';
+
+  addLogEntry(`   → Reality: ${result}`);
+}
+
+function updateStats() {
+  document.getElementById('stepsCount').textContent = steps;
+  document.getElementById('cellsExplored').textContent = cellsExplored;
+  document.getElementById('predCount').textContent = predictions;
+  document.getElementById('correctPreds').textContent = correctPreds;
+
+  if (predictions > 0) {
+    document.getElementById('modelAccuracy').textContent = Math.round(correctPreds / predictions * 100) + '%';
+  }
+
+  // Model confidence = ratio of known cells to total non-wall cells
+  const totalCells = ROWS * COLS;
+  const wallCount = WALLS.length;
+  const knownNonWall = cellsExplored;
+  const confidence = Math.min(100, Math.round(knownNonWall / (totalCells - wallCount) * 100));
+  document.getElementById('modelConfidence').textContent = confidence + '%';
+}
+
+function addLogEntry(text) {
+  const log = document.getElementById('logContainer');
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = text;
+  log.insertBefore(entry, log.firstChild);
+  if (log.children.length > 50) log.removeChild(log.lastChild);
+}
+
+// Init
+initModel();
+exploreCell(5, 0); // Explore starting position
+for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+  const nr = 5+dr, nc = 0+dc;
+  if (inBounds(nr, nc)) exploreCell(nr, nc);
+}
+renderEnv();
+renderModel();
+updateStats();
+</script>
+
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

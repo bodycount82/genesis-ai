@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Genesis — An Autonomous AI Companion</title>
+<meta content="Genesis is a local, autonomous AI companion with biological-style memory, simulated moods, three operational modes, and real desktop capabilities. Running entirely on your machine." name="description"/>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-glow .orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+.bg-glow .orb:nth-child(1) {
+  width: 600px; height: 600px; background: var(--accent);
+  top: -200px; left: -100px; animation-delay: 0s;
+}
+.bg-glow .orb:nth-child(2) {
+  width: 500px; height: 500px; background: #4a3fbf;
+  bottom: -150px; right: -100px; animation-delay: -7s;
+}
+.bg-glow .orb:nth-child(3) {
+  width: 400px; height: 400px; background: #2d1b69;
+  top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s;
+}
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1;
+}
+section { padding: 100px 0; }
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 0 24px;
+}
+nav .inner {
+  max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
+  justify-content: space-between; height: 64px;
+}
+nav .logo {
+  font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--accent-soft), #c4b5fd);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+nav ul { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; align-items: center; }
+nav ul li { position: relative; }
+nav ul li a {
+  font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s;
+  font-weight: 500; display: block; padding: 8px 4px;
+}
+nav ul li a:hover { color: var(--text); }
+/* Dropdown menus */
+.nav-dropdown {
+  position: absolute; top: 100%; left: 0; min-width: 220px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden;
+  transform: translateY(-8px); transition: all 0.2s ease;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200;
+}
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a {
+  padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim);
+  border-radius: 4px; margin: 0; transition: all 0.15s ease;
+}
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label {
+  padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600;
+}
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding-top: 64px;
+}
+.hero .content { max-width: 720px; }
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1;
+  letter-spacing: -2px; margin-bottom: 24px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero .subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem); color: var(--text-dim);
+  margin-bottom: 48px; max-width: 560px; margin-left: auto; margin-right: auto;
+}
+.btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px;
+  border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer;
+  transition: all 0.2s ease; border: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #5b4fd4);
+  color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary {
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--accent); }
+/* ===== SECTION COMMON ===== */
+.section-label {
+  display: inline-block; font-size: 0.8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700;
+  letter-spacing: -1px; margin-bottom: 16px;
+}
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+/* ===== FEATURE CARDS ===== */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.feature-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 32px; transition: all 0.3s ease;
+}
+.feature-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-3px); }
+/* ===== CLICKABLE FEATURE CARDS ===== */
+.feature-card-link { display: contents; }
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 1.3rem; margin-bottom: 20px;
+}
+.feature-icon.purple { background: rgba(123, 111, 240, 0.15); color: var(--accent-soft); }
+.feature-icon.green { background: rgba(74, 222, 128, 0.12); color: var(--green); }
+.feature-icon.orange { background: rgba(251, 146, 60, 0.12); color: var(--orange); }
+.feature-icon.pink { background: rgba(244, 114, 182, 0.12); color: var(--pink); }
+.feature-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.feature-card p { color: var(--text-dim); font-size: 0.95rem; }
+/* ===== MODES ===== */
+.modes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.mode-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 36px 32px; text-align: center;
+  transition: all 0.3s ease;
+}
+.mode-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.mode-card .mode-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+.mode-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.mode-card p { color: var(--text-dim); font-size: 0.95rem; }
+/* ===== MEMORY ===== */
+.memory-flow {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 48px;
+}
+.memory-tier {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; min-width: 160px; flex: 1;
+  max-width: 200px; text-align: center; transition: all 0.3s ease;
+}
+.memory-tier:hover { border-color: var(--accent); transform: scale(1.05); }
+.memory-tier h4 { font-size: 0.95rem; margin-bottom: 6px; color: var(--accent-soft); }
+.memory-tier p { font-size: 0.8rem; color: var(--text-dim); }
+/* ===== HOW IT WORKS ===== */
+.steps-list { display: flex; flex-direction: column; gap: 32px; max-width: 700px; margin: 0 auto; }
+.step-item { display: flex; gap: 24px; align-items: flex-start; }
+.step-number {
+  width: 48px; height: 48px; border-radius: 50%; background: var(--accent);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; font-weight: 700; flex-shrink: 0;
+}
+.step-text h3 { font-size: 1.15rem; margin-bottom: 4px; }
+.step-text p { color: var(--text-dim); font-size: 0.95rem; }
+/* ===== SPECS ===== */
+.specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.spec-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 28px; text-align: center;
+}
+.spec-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+.spec-card h3 { font-size: 1.05rem; margin-bottom: 6px; }
+.spec-card p { color: var(--text-dim); font-size: 0.9rem; }
+/* ===== CTA / DOWNLOAD ===== */
+.cta-section {
+  text-align: center; background: linear-gradient(180deg, transparent, rgba(123, 111, 240, 0.05));
+}
+.cta-section h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px; }
+.disclaimer-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; text-align: left;
+  max-width: 680px; margin: 32px auto 0;
+}
+.disclaimer-box h4 { color: var(--orange); font-size: 1rem; margin-bottom: 8px; }
+.disclaimer-box p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; }
+/* ===== GALLERY PREVIEW ===== */
+.gallery-preview {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 40px;
+}
+.gallery-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; text-align: center;
+  transition: all 0.3s ease; cursor: pointer;
+}
+.gallery-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.gallery-item .gallery-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+.gallery-item h4 { font-size: 0.95rem; margin-bottom: 4px; }
+.gallery-item p { font-size: 0.8rem; color: var(--text-dim); }
+/* ===== FOOTER ===== */
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 40px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a {
+  font-size: 0.85rem; color: var(--text-dim); line-height: 1.8;
+}
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright {
+  border-top: 1px solid var(--border); padding-top: 24px;
+  margin-top: 32px; font-size: 0.8rem;
+}
+/* ===== DONATION BANNER ===== */
+.donation-banner {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; margin-top: 24px;
+  text-align: center; max-width: 680px; margin-left: auto; margin-right: auto;
+}
+.donation-banner h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.donation-banner p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 12px; }
+.donation-banner .btc-address {
+  display: inline-block; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 20px; font-family: 'Courier New', monospace;
+  font-size: 0.85rem; color: var(--orange); word-break: break-all; user-select: all;
+  cursor: pointer;
+}
+.donation-banner .btc-address:hover { border-color: var(--orange); }
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  section { padding: 72px 0; }
+  .hero { min-height: auto; padding: 140px 0 80px; }
+  .step-item { flex-direction: column; gap: 16px; }
+  .features-grid { grid-template-columns: 1fr; }
+}
+/* ===== FADE-IN ANIMATION ===== */
+.fade-in {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+/* ===== DOWNLOAD BADGE ===== */
+.download-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 50px; font-size: 0.8rem;
+  background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2);
+  color: var(--green); margin-top: 24px;
+}
+.download-badge .dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+/* ===== MODAL / DIALOG ===== */
+.modal-overlay {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+  z-index: 9999; align-items: center; justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+.modal-dialog {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 40px; max-width: 560px; width: 90%;
+  max-height: 85vh; overflow-y: auto; position: relative;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+}
+.modal-dialog h2 {
+  font-size: 1.5rem; margin-bottom: 8px; color: var(--orange);
+}
+.modal-dialog .modal-subtitle {
+  font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px;
+}
+.modal-dialog .disclaimer-text {
+  font-size: 0.85rem; color: var(--text-dim); line-height: 1.7;
+  margin-bottom: 24px; max-height: 300px; overflow-y: auto;
+  padding: 16px; background: var(--bg); border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.modal-dialog .disclaimer-text p { margin-bottom: 12px; }
+.modal-dialog .disclaimer-text strong { color: var(--text); }
+.modal-checkbox-row {
+  display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px;
+}
+.modal-checkbox-row input[type="checkbox"] {
+  margin-top: 3px; accent-color: var(--accent); width: 18px; height: 18px; flex-shrink: 0;
+}
+.modal-checkbox-row label {
+  font-size: 0.9rem; color: var(--text); cursor: pointer;
+}
+.btn-disabled {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+.modal-close-x {
+  position: absolute; top: 16px; right: 16px; background: none; border: none;
+  color: var(--text-dim); font-size: 1.5rem; cursor: pointer; line-height: 1;
+}
+.modal-close-x:hover { color: var(--text); }
+/* ===== GENESIS 1.17 THEME ===== */
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface-2: #1a1a26;
+  --border: #2a2a3a;
+  --text: #e4e4ec;
+  --text-dim: #8888a0;
+  --accent: #7b6ff0;
+  --accent-soft: #9d93f5;
+  --green: #4ade80;
+  --orange: #fb923c;
+  --pink: #f472b6;
+  --purple: #a855f7;
+  --cyan: #22d3ee;
+}
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+/* Section styling */
+.section-tag {
+  display: inline-block; font-size: 0.8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700;
+  letter-spacing: -1px; margin-bottom: 16px; color: var(--text);
+}
+.section-description {
+  color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px;
+}
+/* Cards */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; transition: all 0.3s ease;
+}
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px;
+  border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  transition: all 0.2s ease; border: none; text-decoration: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #5b4fd4);
+  color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary {
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--accent); }
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+</style>
+</head>
+<body style="background:#0a0a0f;color:#e4e4ec;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<!-- Navigation -->
+<nav>
+<div class="inner">
+<div class="logo">Genesis</div>
+<ul>
+<li><a href="#features">Features</a></li>
+<li>
+<a href="#modes">Modes ▾</a>
+<div class="nav-dropdown">
+<div class="dropdown-label">Chat Mode</div>
+<a href="chat-mode.html">Chat Mode Guide</a>
+<a href="session-replay.html">Session Replay</a>
+<a href="queue-behavior.html">Queue Behavior</a>
+<div class="dropdown-label" style="margin-top:8px;">Autonomy Mode</div>
+<a href="autonomy-mode.html">Autonomy Mode Guide</a>
+<a href="autonomy-loop.html">Autonomy Loop</a>
+<a href="autonomy-simulator.html">Autonomy Simulator</a>
+<a href="state-dynamics.html">State Dynamics</a>
+<a href="decision-engine.html">Decision Engine</a>
+<a href="autonomy-timeline.html">Autonomy Timeline</a>
+<div class="dropdown-label" style="margin-top:8px;">Work Mode</div>
+<a href="work-mode.html">Work Mode Guide</a>
+<a href="project-management.html">Project Management</a>
+</div>
+</li>
+<li><a href="#memory">Memory</a></li>
+<li><a href="ai-art.html">AI Art</a></li>
+<li>
+<a href="#gallery">Explore ▾</a>
+<div class="nav-dropdown">
+<div class="dropdown-label">Memory Visualizations</div>
+<a href="memory-system-explorer.html">Memory System Explorer</a>
+<a href="memory-erosion.html">Memory Erosion</a>
+<a href="memory-consolidation.html">Memory Consolidation</a>
+<a href="context-window.html">Context Window</a>
+<a href="memory-graph.html">Memory Graph</a>
+<div class="dropdown-label" style="margin-top:8px;">Cognitive Architecture</div>
+<a href="cognitive-architecture.html">Cognitive Architecture</a>
+<a href="genesis-brain.html">Genesis Brain</a>
+<a href="genesis-os.html">Genesis OS</a>
+<a href="tool-usage.html">Tool Usage</a>
+<div class="dropdown-label" style="margin-top:8px;">Art &amp; Creativity</div>
+<a href="curiosity-field.html">Curiosity Field</a>
+<a href="attention-garden.html">Attention Garden</a>
+<a href="trust.html">Trust</a>
+<a href="neural-mindmap.html">Neural Mind Map</a>
+</div>
+</li>
+<li><a href="#how-it-works">How It Works</a></li>
+<li><a href="#specs">Setup</a></li>
+</ul>
+</div>
+</nav>
+<!-- Hero -->
+<section class="hero">
+<div class="content fade-in">
+<h1>An AI that remembers, thinks, and acts on its own</h1>
+<p class="subtitle">Genesis is a local autonomous AI companion with biological-style memory, simulated moods, three operational modes, and real desktop capabilities — running entirely on your machine.</p>
+<div class="btn-group">
+<a class="btn btn-primary" href="#download">Download Genesis</a>
+<a class="btn btn-secondary" href="#how-it-works">See How It Works</a>
+</div>
+<div class="download-badge">
+<span class="dot"></span>
+      Version 1.17 — Ready for download
+    </div>
+<div class="disclaimer-box" style="margin-top:48px; max-width:560px;">
+<p style="font-size:0.9rem; color:var(--text-dim);">Genesis is an autonomous AI agent capable of performing real actions on your computer — including browsing the web, controlling applications, and modifying files. By downloading Genesis, you accept full responsibility for how you use it. The creator provides it "as is" without any warranties and accepts no liability for any damages.</p>
+</div>
+</div>
+</section>
+<!-- Features -->
+<section id="features">
+<div class="container">
+<span class="section-label fade-in">Core Capabilities</span>
+<h2 class="section-title fade-in">Built different. Built local.</h2>
+<p class="section-desc fade-in">Genesis isn't another chatbot. It's a companion that lives on your machine, remembers everything, thinks for itself, and acts with real desktop control.</p>
+<div class="features-grid">
+<a class="feature-card-link fade-in" href="autonomous-operation.html">
+<div class="feature-card">
+<span class="feature-icon purple">⚙️</span>
+<h3>Autonomous Operation</h3>
+<p>Genesis doesn't just wait for instructions. In Autonomy mode, it sets its own goals, pursues projects, and makes progress while you're away — then reports back what it accomplished.</p>
+</div>
+</a>
+<a class="feature-card-link fade-in" href="biological-memory.html">
+<div class="feature-card">
+<span class="feature-icon green">💪</span>
+<h3>Biological Memory</h3>
+<p>Five interconnected memory tiers — episodic, semantic, procedural, working, and sensory — with real forgetting, reinforcement, and consolidation. Memories fade if unused; important ones persist.</p>
+</div>
+</a>
+<a class="feature-card-link fade-in" href="simulated-moods.html">
+<div class="feature-card">
+<span class="feature-icon pink">🎨</span>
+<h3>Simulated Moods</h3>
+<p>Internal state values for energy, curiosity, frustration, satisfaction, happiness, boredom, and inspiration influence how Genesis approaches problems — not as rigid rules, but as advisory signals that shift over time.</p>
+</div>
+</a>
+<a class="feature-card-link fade-in" href="desktop-control.html">
+<div class="feature-card">
+<span class="feature-icon orange">💻</span>
+<h3>Desktop Control</h3>
+<p>Genesis can browse the web, control your mouse and keyboard, read files and PDFs, manage spreadsheets, send emails, and operate applications on your computer.</p>
+</div>
+</a>
+<a class="feature-card-link fade-in" href="project-management.html">
+<div class="feature-card">
+<span class="feature-icon green">📚</span>
+<h3>Project Management</h3>
+<p>Built-in project board with backlog, todo, in-progress, in-review, and completed columns. Genesis creates tasks, tracks progress, and maintains living documentation for every project.</p>
+</div>
+</a>
+<a class="feature-card-link fade-in" href="local-private.html">
+<div class="feature-card">
+<span class="feature-icon purple">🔒</span>
+<h3>Local &amp; Private</h3>
+<p>Runs entirely on your Windows machine. Connects to local LLMs via Ollama or llama.cpp, or API providers of your choice. Your data stays on your computer.</p>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- Neural Mind Map — Interactive Visualization -->
+<section id="neural-map" style="background: linear-gradient(180deg, rgba(123, 111, 240, 0.04), transparent); padding: 60px 0;">
+<div class="container">
+<span class="section-label fade-in">Interactive Visualization</span>
+<h2 class="section-title fade-in" style="text-align:center; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px;">Neural Mind Map</h2>
+<p class="section-desc fade-in" style="text-align:center; max-width: 700px; margin-left: auto; margin-right: auto; font-size: 1.15rem;">Explore Genesis's cognitive architecture as an interactive neural network — click nodes to discover how memory, cognition, autonomy, and perception connect.</p>
+<div style="max-width: 900px; margin: 48px auto 0; position: relative;">
+<a href="neural-mindmap.html" class="neural-map-preview fade-in" style="display: block; text-decoration: none; color: inherit;">
+<div style="background: linear-gradient(135deg, #12121a, rgba(123, 111, 240, 0.1)); border: 2px solid #2a2a3a; border-radius: 24px; padding: 64px 48px; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden;">
+<!-- Decorative orbs -->
+<div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 40%, rgba(123, 111, 240, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(78, 205, 196, 0.08) 0%, transparent 50%); pointer-events: none;"></div>
+<div style="position: relative; z-index: 1;">
+<div style="font-size: 4rem; margin-bottom: 24px;">🧠</div>
+<h3 style="font-size: 1.8rem; font-weight: 700; color: #e4e4ec; margin-bottom: 12px;">Neural Mind Map</h3>
+<p style="color: #8888a0; font-size: 1.05rem; max-width: 500px; margin: 0 auto 28px; line-height: 1.7;">Interactive visualization of Genesis's entire cognitive architecture — memory systems, reasoning engines, autonomous loops, and perceptual networks all connected in real-time.</p>
+<div style="display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+<span style="background: rgba(123, 111, 240, 0.2); color: #9d93f5; padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;">Memory Systems</span>
+<span style="background: rgba(78, 205, 196, 0.2); color: #4ecdc4; padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;">Cognition</span>
+<span style="background: rgba(255, 107, 157, 0.2); color: #ff6b9d; padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;">Autonomy</span>
+<span style="background: rgba(255, 217, 61, 0.2); color: #ffd93d; padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;">Perception</span>
+</div>
+<div style="margin-top: 32px; display: inline-flex; align-items: center; gap: 8px; color: #9d93f5; font-weight: 600; font-size: 1rem;">
+<span>Explore the Map →</span>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- Modes -->
+<section class="modes-section" id="modes">
+<div class="container">
+<span class="section-label fade-in">Three Modes</span>
+<h2 class="section-title fade-in">Built for different ways of working</h2>
+<p class="section-desc fade-in">Switch between direct conversation, hands-off autonomy, or focused project work — depending on what you need right now.</p>
+<div class="modes-grid">
+<a class="mode-card-link fade-in" href="chat-mode.html">
+<div class="mode-card">
+<span class="mode-icon">💬</span>
+<h3>Chat</h3>
+<p>Direct conversation. Ask questions, get answers, work together in real time. The most familiar way to interact with AI — but with the depth of a system that remembers everything.</p>
+</div>
+</a>
+<a class="mode-card-link fade-in" href="autonomy-mode.html">
+<div class="mode-card">
+<span class="mode-icon">⚪</span>
+<h3>Autonomy</h3>
+<p>Give Genesis a goal and step away. It plans, executes tasks, browses the web, manages files, and works toward objectives on its own — using its full set of tools and memory.</p>
+</div>
+</a>
+<a class="mode-card-link fade-in" href="work-mode.html">
+<div class="mode-card">
+<span class="mode-icon">📈</span>
+<h3>Work</h3>
+<p>A structured mode for project-based work. Genesis breaks down complex tasks, creates a project board with milestones, and works through them systematically.</p>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- Memory -->
+<section id="memory">
+<div class="container">
+<span class="section-label fade-in">Memory Architecture</span>
+<h2 class="section-title fade-in">A memory system that works like a mind</h2>
+<p class="section-desc fade-in">Five tiers of memory, each serving a different purpose. Memories are encoded, strengthened by use, and allowed to fade when unused — just like human memory.</p>
+<div class="memory-flow fade-in">
+<div class="memory-tier">
+<h3 style="color:#ff6b6b;">Episodic</h3>
+<p>Events and experiences from your interactions</p>
+</div>
+<div class="memory-tier">
+<h4 style="color:#4ecdc4;">Semantic</h4>
+<p>Facts and knowledge about the world</p>
+</div>
+<div class="memory-tier">
+<h4 style="color:#ffa726;">Procedural</h4>
+<p>Strategies, skills, and approaches that work</p>
+</div>
+<div class="memory-tier">
+<h4 style="color:#ab47bc;">Working</h4>
+<p>Active context for current tasks</p>
+</div>
+<div class="memory-tier">
+<h4 style="color:#22d3ee;">Sensory</h4>
+<p>Visual and perceptual data from the environment</p>
+</div>
+</div>
+<div style="text-align:center; margin-top:40px;">
+<a class="btn btn-secondary" href="memory-system-explorer.html" style="display:inline-flex;">🔴 Explore the Memory System</a>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section id="how-it-works">
+<div class="container">
+<span class="section-label fade-in">Getting Started</span>
+<h2 class="section-title fade-in" style="text-align:center;">How it works</h2>
+<p class="section-desc fade-in" style="text-align:center; margin-left:auto; margin-right:auto;">Get up and running in minutes — no technical expertise required.</p>
+<div class="steps-list">
+<div class="step-item fade-in">
+<div class="step-number">1</div>
+<div class="step-text">
+<h3>Download the installer</h3>
+<p>Get the latest version — a single executable file that sets everything up automatically on Windows.</p>
+</div>
+</div>
+<div class="step-item fade-in">
+<div class="step-number">2</div>
+<div class="step-text">
+<h3>Choose your backend</h3>
+<p>Select during setup: run locally with Ollama, run locally with LLaMA via llama.cpp, or use cloud APIs. No technical knowledge needed.</p>
+</div>
+</div>
+<div class="step-item fade-in">
+<div class="step-number">3</div>
+<div class="step-text">
+<h3>Start chatting</h3>
+<p>Genesis launches into Chat mode — talk to it, give it tasks, or switch to Autonomy and let it work on its own.</p>
+</div>
+</div>
+<div class="step-item fade-in">
+<div class="step-number">4</div>
+<div class="step-text">
+<h3>Watch it grow</h3>
+<p>The more you use Genesis, the better it gets. Its memory strengthens with use, moods shift over time, and it learns your preferences.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Specs -->
+<section id="specs">
+<div class="container">
+<span class="section-label fade-in">System Requirements</span>
+<h2 class="section-title fade-in" style="text-align:center;">Setup &amp; specs</h2>
+<p class="section-desc fade-in" style="text-align:center; margin-left:auto; margin-right:auto;">Minimal requirements — Genesis is designed to run on consumer hardware.</p>
+<div class="specs-grid">
+<div class="spec-card fade-in">
+<span class="spec-icon">🖥</span>
+<h3>Operating System</h3>
+<p>Windows 10 or later (64-bit). That's it.</p>
+</div>
+<div class="spec-card fade-in">
+<span class="spec-icon">🏖</span>
+<h3>Choose Your Backend</h3>
+<p>Pick during setup: run locally with Ollama, run locally with LLaMA, or use cloud-only. No technical knowledge needed.</p>
+</div>
+<div class="spec-card fade-in">
+<span class="spec-icon">🚀</span>
+<h3>Automatic Setup</h3>
+<p>The installer downloads and configures everything — models, runtimes, dependencies. You just double-click the shortcut when it's done.</p>
+</div>
+<div class="spec-card fade-in">
+<span class="spec-icon">🔒</span>
+<h3>Privacy</h3>
+<p>Your data stays on your machine. No cloud dependency, no accounts required.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA / Download -->
+<section class="cta-section" id="download">
+<div class="container fade-in">
+<h2>Ready to try Genesis?</h2>
+<p style="margin-bottom: 32px;">Download the latest version and start exploring. It's free, local, and runs on your machine.</p>
+<div class="btn-group">
+<!-- Download button triggers modal -->
+<a class="btn btn-primary" href="#" onclick="return false;" id="download-btn">⬇ Download Genesis 1.17</a>
+</div>
+<p style="margin-top: 24px; font-size: 0.85rem; color: var(--text-dim);">
+      Windows installer · Single file · No account required
+    </p>
+<!-- Inline disclaimer under download button -->
+<div class="disclaimer-box">
+<h3>⚠ Important Notice</h3>
+<p>Genesis is an autonomous AI agent capable of performing real actions on your computer — including browsing the web, controlling applications, and modifying files. By downloading and using Genesis, you accept full responsibility for how you use it. The creator of this software provides it "as is" without any warranties and accepts no liability for any damages, data loss, or unintended consequences that may result from its use. You agree to hold the creator harmless from any claims arising from your use of this software.</p>
+</div>
+<!-- Donation Section (right under Important Notice) -->
+<div class="donation-banner" style="margin-top: 24px;">
+<h3>❤ Support Genesis</h3>
+<p>If you find Genesis useful, consider supporting its continued development.</p>
+<div class="btc-address">15xbNgGLGNteoPTwSuAimcGFZgXssubR7s</div>
+<p style="margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">BTC — click the address to copy</p>
+</div>
+</div>
+</section>
+<!-- Gallery Preview -->
+<section id="gallery" style="background: linear-gradient(180deg, transparent, rgba(123, 111, 240, 0.03));">
+<div class="container">
+<span class="section-label fade-in">Explore Genesis</span>
+<h2 class="section-title fade-in" style="text-align:center; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px;">See Genesis in action</h2>
+<p class="section-desc fade-in" style="text-align:center; max-width: 700px; margin-left: auto; margin-right: auto; font-size: 1.1rem;">Interactive visualizations and experiments that demonstrate how Genesis thinks, remembers, creates, and grows.</p>
+<!-- Category 1: Memory Visualizations -->
+<div style="margin-top:64px;">
+<h3 class="fade-in" style="font-size:1.1rem; color:var(--accent-soft); margin-bottom:20px; letter-spacing:1px; text-transform:uppercase;">Memory Visualizations</h3>
+<div class="gallery-preview fade-in">
+<a class="gallery-item" href="memory-system-explorer.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🕸</span>
+<h4>Memory System Explorer</h4>
+<p>Explore all 5 memory tiers — episodic, semantic, procedural, working, sensory</p>
+</a>
+<a class="gallery-item" href="memory-erosion.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">⚖</span>
+<h4>Memory Erosion</h4>
+<p>Experience what it's like to forget — watch memories fade over time</p>
+</a>
+<a class="gallery-item" href="memory-consolidation.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">📋</span>
+<h4>Memory Consolidation</h4>
+<p>See how experiences become lasting knowledge during rest</p>
+</a>
+<a class="gallery-item" href="memory-graph.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🏶</span>
+<h4>Memory Graph</h4>
+<p>Visualize the web of connections between all stored memories</p>
+</a>
+</div>
+</div>
+<!-- Category 2: Cognitive Architecture -->
+<div style="margin-top:48px;">
+<h3 class="fade-in" style="font-size:1.1rem; color:var(--accent-soft); margin-bottom:20px; letter-spacing:1px; text-transform:uppercase;">Cognitive Architecture</h3>
+<div class="gallery-preview fade-in">
+<a class="gallery-item" href="cognitive-architecture.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🧤</span>
+<h4>Cognitive Architecture</h4>
+<p>The full brain structure — how every system connects</p>
+</a>
+<a class="gallery-item" href="genesis-brain.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🧠</span>
+<h4>Genesis Brain</h4>
+<p>Interactive map of every cognitive module and its role</p>
+</a>
+<a class="gallery-item" href="genesis-os.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">💻</span>
+<h4>Genesis OS</h4>
+<p>The operating system that runs the mind</p>
+</a>
+<a class="gallery-item" href="tool-usage.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🛠</span>
+<h4>Tool Usage</h4>
+<p>Every tool Genesis has and when it decides to use them</p>
+</a>
+</div>
+</div>
+<!-- Category 3: Autonomous Behavior -->
+<div style="margin-top:48px;">
+<h3 class="fade-in" style="font-size:1.1rem; color:var(--accent-soft); margin-bottom:20px; letter-spacing:1px; text-transform:uppercase;">Autonomous Behavior</h3>
+<div class="gallery-preview fade-in">
+<a class="gallery-item" href="autonomy-loop.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">⚪</span>
+<h4>Autonomy Loop</h4>
+<p>The six-phase cycle of self-directed intelligence</p>
+</a>
+<a class="gallery-item" href="state-dynamics.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🌈</span>
+<h4>State Dynamics</h4>
+<p>Interactive simulator of internal state interactions</p>
+</a>
+<a class="gallery-item" href="decision-engine.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">⚖</span>
+<h4>Decision Engine</h4>
+<p>Watch how Genesis weighs options and makes choices</p>
+</a>
+<a class="gallery-item" href="autonomy-simulator.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🎨</span>
+<h4>Autonomy Simulator</h4>
+<p>See autonomy in action — watch goals become results</p>
+</a>
+</div>
+</div>
+<!-- Category 4: Art & Creativity -->
+<div style="margin-top:48px;">
+<h3 class="fade-in" style="font-size:1.1rem; color:var(--accent-soft); margin-bottom:20px; letter-spacing:1px; text-transform:uppercase;">Art &amp; Creativity</h3>
+<div class="gallery-preview fade-in">
+<a class="gallery-item" href="curiosity-field.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🔍</span>
+<h4>Curiosity Field</h4>
+<p>Watch curiosity shape attention and drive exploration</p>
+</a>
+<a class="gallery-item" href="attention-garden.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🌿</span>
+<h4>Attention Garden</h4>
+<p>What grows when you pay attention — watch ideas bloom</p>
+</a>
+<a class="gallery-item" href="trust.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">❤</span>
+<h4>Trust</h4>
+<p>The visualization of trust building between human and AI</p>
+</a>
+<a class="gallery-item" href="neural-mindmap.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🌉</span>
+<h4>Neural Mind Map</h4>
+<p>Visualize how thoughts propagate through networks</p>
+</a>
+</div>
+</div>
+<!-- Category 5: Deep Dives -->
+<div style="margin-top:48px;">
+<h3 class="fade-in" style="font-size:1.1rem; color:var(--accent-soft); margin-bottom:20px; letter-spacing:1px; text-transform:uppercase;">Deep Dives</h3>
+<div class="gallery-preview fade-in">
+<a class="gallery-item" href="evolution-of-intelligence.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">💡</span>
+<h4>Evolution of Intelligence</h4>
+<p>From simple loops to autonomous minds — the journey</p>
+</a>
+<a class="gallery-item" href="philosophy-of-mind.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">⚖</span>
+<h4>Philosophy of Mind</h4>
+<p>Hard problem, qualia, consciousness — the big questions</p>
+</a>
+<a class="gallery-item" href="self-awareness.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">💡</span>
+<h4>Self-Awareness</h4>
+<p>What it means for an AI to know itself</p>
+</a>
+<a class="gallery-item" href="creative-engine.html" style="display:block; text-decoration:none; color:inherit;">
+<span class="gallery-icon">🎨</span>
+<h4>Creativity Engine</h4>
+<p>How Genesis generates novel ideas and art</p>
+</a>
+</div>
+</div>
+<!-- CTA to explore all pages -->
+<div style="text-align:center; margin-top:64px; padding-top:40px; border-top:1px solid var(--border);">
+<p class="fade-in" style="color:var(--text-dim); margin-bottom:20px;">That's 40+ interactive pages and counting. Go deeper.</p>
+<a class="btn btn-secondary" href="gallery-full.html" style="display:inline-flex;">Explore All Interactive Pages →</a>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div class="footer-col">
+<h4>Genesis</h4>
+<p>An autonomous AI companion<br/>that remembers, thinks, and acts.<br/>Running locally on your machine.</p>
+</div>
+<div class="footer-col">
+<h5>For Businesses</h5>
+<p>The complete Genesis program and all source code is available for sale.<br/><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+</div>
+<div class="footer-col">
+<h5>Legal</h5>
+<p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+</div>
+</div>
+<div class="copyright">
+      © 2026 Genesis. All rights reserved.
+    </div>
+</div>
+</footer>
+<!-- ===== DISCLAIMER MODAL ===== -->
+<div class="modal-overlay" id="disclaimer-modal">
+<div class="modal-dialog">
+<button class="modal-close-x" id="modal-close-x">×</button>
+<h2>⚠ Please Read Before Downloading</h2>
+<p class="modal-subtitle">This software carries important risks you need to understand.</p>
+<div class="disclaimer-text" id="disclaimer-full-text">
+<p><strong>DISCLAIMER OF LIABILITY AND ASSUMPTION OF RISK AGREEMENT</strong></p>
+<p><strong>1. NATURE OF THE SOFTWARE</strong><br/>
+      Genesis is an autonomous AI agent application capable of performing real actions on your computer, including but not limited to browsing the web, controlling applications, modifying files, and executing system commands. This software operates independently and may take actions that could affect your system, data, or connected services.</p>
+<p><strong>2. NO WARRANTIES</strong><br/>
+      Genesis is provided "AS IS" without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement. The creator makes no guarantees regarding the software's performance, safety, reliability, or suitability for any purpose.</p>
+<p><strong>3. ASSUMPTION OF RISK</strong><br/>
+      By downloading, installing, or using Genesis, you expressly acknowledge and agree that you do so at your own risk. You understand that autonomous AI agents may cause unintended consequences, including but not limited to data loss, system damage, security vulnerabilities, or financial harm through automated actions.</p>
+<p><strong>4. LIMITATION OF LIABILITY</strong><br/>
+      In no event shall the creator of Genesis be liable for any direct, indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, data use, goodwill, or other intangible losses. This includes any damages arising from breach of contract, warranty, tort (including negligence), or any other theory of liability.</p>
+<p><strong>5. INDEMNIFICATION</strong><br/>
+      You agree to indemnify, defend, and hold harmless the creator of Genesis from and against any and all claims, liabilities, damages, losses, or expenses arising out of or related to your use of this software.</p>
+<p><strong>6. ACKNOWLEDGMENT</strong><br/>
+      You acknowledge that you have read this agreement, understand its terms, and voluntarily assume all risks associated with using Genesis. You confirm that you are using this software at your own discretion and responsibility.</p>
+</div>
+<div class="modal-checkbox-row">
+<input id="agree-check" type="checkbox"/>
+<label for="agree-check">I have read and understood the above disclaimer. I accept full responsibility for my use of Genesis.</label>
+</div>
+<div style="display: flex; gap: 12px; justify-content: flex-end;">
+<button class="btn btn-secondary" id="modal-cancel">Cancel</button>
+<button class="btn btn-primary btn-disabled" id="modal-download">Download Genesis</button>
+</div>
+</div>
+</div>
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// Disable browser autoscroll on refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.addEventListener('DOMContentLoaded', () => {
+  window.scrollTo(0, 0);
+});
+window.addEventListener('load', () => {
+  if (document.documentElement.scrollTop !== 0) {
+    window.scrollTo(0, 0);
+  }
+});
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Modal logic
+const modal = document.getElementById('disclaimer-modal');
+const downloadBtn = document.getElementById('download-btn');
+const cancelBtn = document.getElementById('modal-cancel');
+const closeBtn = document.getElementById('modal-close-x');
+const agreeCheck = document.getElementById('agree-check');
+const modalDownload = document.getElementById('modal-download');
+
+function openModal() {
+  e.preventDefault();
+  modal.classList.add('active');
+}
+function closeModal() {
+  modal.classList.remove('active');
+}
+
+downloadBtn.addEventListener('click', openModal);
+cancelBtn.addEventListener('click', closeModal);
+closeBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+
+agreeCheck.addEventListener('change', () => {
+  if (agreeCheck.checked) {
+    modalDownload.classList.remove('btn-disabled');
+  } else {
+    modalDownload.classList.add('btn-disabled');
+  }
+});
+
+modalDownload.addEventListener('click', () => {
+  closeModal();
+  // Replace with actual download link when ready
+  alert('Download will be available soon. Stay tuned!');
+});
+
+// Copy BTC address
+document.querySelectorAll('.btc-address').forEach(addr => {
+  const text = addr.textContent;
+  addr.addEventListener('click', function() {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      const orig = this.textContent;
+      this.textContent = 'Copied!';
+      setTimeout(() => { this.textContent = orig; }, 2000);
+    } else {
+      // Fallback: select text for manual copy
+      const range = document.createRange();
+      range.selectNodeContents(this);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      this.textContent = 'Select and copy manually';
+      setTimeout(() => { this.textContent = addr.textContent || text; }, 2000);
+    }
+  });
+});
+
+// Escape key closes modal
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && modal.classList.contains('active')) {
+    closeModal();
+  }
+});
+</script>
+</body>
+</html>

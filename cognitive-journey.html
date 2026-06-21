@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== COGNITIVE JOURNEY — IMMERSIVE CSS ===== */
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-soft); text-decoration: none; font-size: 0.9rem; margin-bottom: 16px; margin-left: 24px; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-soft)); z-index: 200; width: 0%; transition: width 0.3s ease; }
+
+#header { text-align: center; padding: 80px 24px 32px; }
+#header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+.subtitle { color: var(--text-dim); font-size: 1.1rem; }
+
+#scenario-selector { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 0 24px 32px; }
+.scenario-btn { padding: 10px 24px; border-radius: 50px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-dim); font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.scenario-btn:hover { border-color: var(--accent); color: var(--text); }
+.scenario-btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border: none; }
+
+#journey-container { max-width: 800px; margin: 0 auto; padding: 0 24px 32px; }
+.step { display: none; opacity: 0; transform: translateY(20px); transition: all 0.4s ease; }
+.step.active { display: block; opacity: 1; transform: translateY(0); }
+
+.step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.step-number { font-size: 2rem; font-weight: 800; color: var(--accent-soft); font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+.step-title { font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.step-phase { font-size: 0.85rem; color: var(--accent-soft); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.step-description { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px; }
+
+.step-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 16px; }
+.detail-item { background: var(--surface-2); border-radius: 10px; padding: 14px; }
+.detail-item h3 { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.detail-item p { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; }
+
+.step-visualization { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+#step-indicator { display: flex; justify-content: center; gap: 8px; padding: 16px 24px; }
+.step-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: all 0.3s ease; }
+.step-dot.active { background: var(--accent-soft); transform: scale(1.3); }
+.step-dot.completed { background: var(--accent); }
+
+#navigation { display: flex; gap: 12px; justify-content: center; padding: 16px 24px 32px; }
+.nav-btn { padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; }
+.nav-btn#prev-btn { background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+.nav-btn#prev-btn:hover { border-color: var(--accent); color: var(--text); }
+.nav-btn#next-btn { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; }
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+#summary-card { display: none; max-width: 800px; margin: 0 auto; padding: 32px 24px 64px; }
+#summary-card h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 20px; text-align: center; }
+.summary-flow { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.flow-item { background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 6px 16px; font-size: 0.85rem; color: var(--text-dim); border-left: 3px solid var(--accent); }
+.flow-arrow { color: var(--text-dim); opacity: 0.5; font-size: 1.2rem; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .step-detail-grid { grid-template-columns: 1fr; } #header h1 { font-size: 2rem; } }
+
+</style>
+
+    <title>Genesis — Cognitive Journey</title>
+
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+    <div class="nav-container">
+    <div class="nav-logo"><a href="index.html">Genesis</a></div>
+    <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#modes">Modes</a></li>
+    <li><a href="index.html#memory">Memory</a></li>
+    <li><a href="ai-art.html">AI Art</a></li>
+    <li><a href="index.html#gallery">Explore</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+    </nav>
+
+<div id="progress-bar"></div>
+
+<div id="header">
+  <h1>Cognitive Journey</h1>
+  <div class="subtitle">How Genesis Processes Information</div>
+</div>
+
+<div id="scenario-selector">
+  <button class="scenario-btn active" onclick="selectScenario('task')">Task Processing</button>
+  <button class="scenario-btn" onclick="selectScenario('memory')">Memory Retrieval</button>
+  <button class="scenario-btn" onclick="selectScenario('decision')">Decision Making</button>
+  <button class="scenario-btn" onclick="selectScenario('learning')">Learning Loop</button>
+</div>
+
+<div id="journey-container">
+  <!-- Steps will be injected by JS -->
+</div>
+
+<div id="step-indicator"></div>
+
+<div id="navigation">
+  <button class="nav-btn" id="prev-btn" onclick="prevStep()">← Previous</button>
+  <button class="nav-btn" id="next-btn" onclick="nextStep()">Next →</button>
+</div>
+
+<div id="summary-card">
+  <h2>Journey Summary</h2>
+  <div class="summary-flow" id="summary-flow"></div>
+  <p style="color: #888; line-height: 1.8; margin-top: 20px;">
+    This cognitive journey illustrates how Genesis's integrated systems work together to perceive, process, decide, and act. Each step represents a phase in the autonomous loop that enables intelligent behavior.
+  </p>
+</div>
+
+<script>
+const scenarios = {
+  task: {
+    steps: [
+      {
+        title: 'Perception',
+        phase: 'Input Phase',
+        accent: '#4ecdc4',
+        description: 'Genesis receives a request or stimulus from the environment. This could be a user query, a scheduled task, or an internal trigger. The perception system captures raw data and begins the processing pipeline.',
+        details: [
+          { title: 'Input Type', value: 'Natural language query or system event' },
+          { title: 'Source', value: 'User interface, schedule, or internal timer' },
+          { title: 'Format', value: 'Structured text, file path, or command' }
+        ],
+        visualization: 'input'
+      },
+      {
+        title: 'Attention Allocation',
+        phase: 'Filtering Phase',
+        accent: '#4ecdc4',
+        description: 'The attention system filters the incoming information, identifying what\'s relevant and what\'s noise. It directs processing resources toward the most important elements of the input.',
+        details: [
+          { title: 'Signal Detection', value: 'Identifies key entities, actions, and constraints' },
+          { title: 'Noise Filtering', value: 'Ignores irrelevant context and formatting artifacts' },
+          { title: 'Priority Scoring', value: 'Assigns importance weights to different components' }
+        ],
+        visualization: 'attention'
+      },
+      {
+        title: 'Memory Retrieval',
+        phase: 'Knowledge Phase',
+        accent: '#7b68ee',
+        description: 'Relevant memories are retrieved from the 4-tier memory system. Episodic memories provide context from past experiences, semantic memories supply facts and rules, procedural memories offer learned strategies, and prospective memories check for pending intentions.',
+        details: [
+          { title: 'Episodic', value: 'Past similar tasks and outcomes' },
+          { title: 'Semantic', value: 'Facts, rules, and domain knowledge' },
+          { title: 'Procedural', value: 'Learned strategies and workflows' },
+          { title: 'Prospective', value: 'Pending intentions and reminders' }
+        ],
+        visualization: 'memory'
+      },
+      {
+        title: 'Reasoning & Planning',
+        phase: 'Processing Phase',
+        accent: '#00d4aa',
+        description: 'Using retrieved knowledge, Genesis reasons about the problem and creates a plan. This involves breaking down complex tasks into sub-tasks, identifying dependencies, and selecting appropriate strategies.',
+        details: [
+          { title: 'Decomposition', value: 'Breaks goal into executable sub-tasks' },
+          { title: 'Dependency Analysis', value: 'Identifies task ordering constraints' },
+          { title: 'Strategy Selection', value: 'Chooses best approach based on context' }
+        ],
+        visualization: 'reasoning'
+      },
+      {
+        title: 'Decision Making',
+        phase: 'Choice Phase',
+        accent: '#ff6b9d',
+        description: 'The decision engine evaluates options based on internal states (energy, curiosity, satisfaction, frustration), available resources, and goal priorities. It selects the optimal action path.',
+        details: [
+          { title: 'State Check', value: 'Evaluates current energy and motivation levels' },
+          { title: 'Option Evaluation', value: 'Scores each possible action path' },
+          { title: 'Risk Assessment', value: 'Considers failure modes and fallbacks' }
+        ],
+        visualization: 'decision'
+      },
+      {
+        title: 'Action Execution',
+        phase: 'Output Phase',
+        accent: '#ff8c42',
+        description: 'The selected plan is executed through available tools. This may involve file operations, web research, browser automation, memory updates, or communication with external systems.',
+        details: [
+          { title: 'Tool Selection', value: 'Chooses appropriate tool for each sub-task' },
+          { title: 'Sequential Execution', value: 'Performs actions in planned order' },
+          { title: 'Error Handling', value: 'Detects and recovers from failures' }
+        ],
+        visualization: 'action'
+      },
+      {
+        title: 'Reflection & Learning',
+        phase: 'Consolidation Phase',
+        accent: '#ffd93d',
+        description: 'After completing the task, Genesis reflects on what worked and what didn\'t. Lessons are extracted, memories are updated, strategies are refined, and the experience is stored for future use.',
+        details: [
+          { title: 'Outcome Analysis', value: 'Evaluates success and identifies improvements' },
+          { title: 'Memory Update', value: 'Saves new experiences and updates existing knowledge' },
+          { title: 'Strategy Refinement', value: 'Improves future performance based on lessons learned' }
+        ],
+        visualization: 'reflection'
+      }
+    ]
+  },
+  memory: {
+    steps: [
+      {
+        title: 'Memory Trigger',
+        phase: 'Initiation Phase',
+        accent: '#4ecdc4',
+        description: 'A need for information arises — either from an active task requiring context, or from an internal curiosity drive. This trigger initiates the memory retrieval process.',
+        details: [
+          { title: 'Trigger Type', value: 'Task-related query or spontaneous recall' },
+          { title: 'Urgency', value: 'Determines retrieval depth and breadth' },
+          { title: 'Context Window', value: 'Defines relevant time and topic boundaries' }
+        ],
+        visualization: 'trigger'
+      },
+      {
+        title: 'Query Formulation',
+        phase: 'Preparation Phase',
+        accent: '#7b68ee',
+        description: 'The system formulates search queries across all memory tiers. It considers what type of information is needed (experience, fact, strategy, or intention) and tailors the retrieval accordingly.',
+        details: [
+          { title: 'Tier Selection', value: 'Determines which memory systems to query' },
+          { title: 'Keyword Extraction', value: 'Identifies key concepts from the query' },
+          { title: 'Context Enrichment', value: 'Adds related terms and synonyms' }
+        ],
+        visualization: 'query'
+      },
+      {
+        title: 'Parallel Retrieval',
+        phase: 'Search Phase',
+        accent: '#00d4aa',
+        description: 'Multiple memory systems are queried simultaneously. Episodic memory searches for similar past experiences, semantic memory looks up facts and rules, procedural memory finds relevant strategies, and prospective memory checks pending items.',
+        details: [
+          { title: 'Episodic Search', value: 'Finds similar past situations' },
+          { title: 'Semantic Lookup', value: 'Retrieves relevant facts and definitions' },
+          { title: 'Procedural Match', value: 'Finds applicable strategies' },
+          { title: 'Prospective Check', value: 'Reviews pending intentions' }
+        ],
+        visualization: 'parallel'
+      },
+      {
+        title: 'Relevance Scoring',
+        phase: 'Evaluation Phase',
+        accent: '#ff6b9d',
+        description: 'Retrieved memories are scored for relevance based on recency, importance, similarity to the query, and contextual fit. The most relevant memories rise to the top.',
+        details: [
+          { title: 'Recency Weight', value: 'Newer memories get slight preference' },
+          { title: 'Importance Score', value: 'High-importance memories rank higher' },
+          { title: 'Contextual Fit', value: 'How well the memory matches current context' }
+        ],
+        visualization: 'scoring'
+      },
+      {
+        title: 'Memory Synthesis',
+        phase: 'Integration Phase',
+        accent: '#ffd93d',
+        description: 'The top-ranked memories are synthesized into a coherent knowledge package. Conflicting information is resolved, complementary details are combined, and the most useful insights are extracted.',
+        details: [
+          { title: 'Conflict Resolution', value: 'Resolves contradictory information' },
+          { title: 'Detail Integration', value: 'Combines complementary facts' },
+          { title: 'Insight Extraction', value: 'Identifies key takeaways' }
+        ],
+        visualization: 'synthesis'
+      },
+      {
+        title: 'Knowledge Delivery',
+        phase: 'Output Phase',
+        accent: '#ff8c42',
+        description: 'The synthesized knowledge is delivered to the requesting system — whether that\'s the reasoning engine, the decision maker, or directly to the user as a response.',
+        details: [
+          { title: 'Format Adaptation', value: 'Presents information in appropriate format' },
+          { title: 'Confidence Indication', value: 'Shows reliability of retrieved information' },
+          { title: 'Source Attribution', value: 'Indicates where each piece came from' }
+        ],
+        visualization: 'delivery'
+      }
+    ]
+  },
+  decision: {
+    steps: [
+      {
+        title: 'Situation Assessment',
+        phase: 'Input Phase',
+        accent: '#4ecdc4',
+        description: 'Genesis evaluates the current situation — what\'s happening, what resources are available, and what goals need to be achieved. This assessment forms the basis for all subsequent decisions.',
+        details: [
+          { title: 'Current State', value: 'Energy, curiosity, satisfaction, frustration levels' },
+          { title: 'Available Resources', value: 'Tools, time, memory, computational capacity' },
+          { title: 'Active Goals', value: 'Prioritized list of objectives to achieve' }
+        ],
+        visualization: 'assessment'
+      },
+      {
+        title: 'Option Generation',
+        phase: 'Ideation Phase',
+        accent: '#7b68ee',
+        description: 'Multiple possible actions are generated based on the situation assessment. Each option is evaluated for feasibility, expected outcome, and alignment with current goals.',
+        details: [
+          { title: 'Strategy Retrieval', value: 'Finds similar past decisions and their outcomes' },
+          { title: 'Creative Exploration', value: 'Considers novel approaches beyond learned patterns' },
+          { title: 'Constraint Checking', value: 'Filters out infeasible options' }
+        ],
+        visualization: 'options'
+      },
+      {
+        title: 'State-Driven Prioritization',
+        phase: 'Filtering Phase',
+        accent: '#ff6b9d',
+        description: 'Internal states heavily influence which options are prioritized. High energy enables ambitious actions, high curiosity drives exploration, satisfaction reinforces current approach, and frustration may trigger strategy changes.',
+        details: [
+          { title: 'Energy Filter', value: 'High-energy states enable complex tasks' },
+          { title: 'Curiosity Bias', value: 'High curiosity favors novel options' },
+          { title: 'Frustration Response', value: 'High frustration may trigger approach changes' }
+        ],
+        visualization: 'prioritization'
+      },
+      {
+        title: 'Risk-Benefit Analysis',
+        phase: 'Evaluation Phase',
+        accent: '#00d4aa',
+        description: 'Each option undergoes thorough analysis — expected benefits are weighed against potential risks, resource costs, and opportunity costs. The most promising path is selected.',
+        details: [
+          { title: 'Expected Value', value: 'Probability-weighted outcome assessment' },
+          { title: 'Resource Cost', value: 'Time, energy, and tool usage required' },
+          { title: 'Fallback Planning', value: 'Contingency plans for failure scenarios' }
+        ],
+        visualization: 'analysis'
+      },
+      {
+        title: 'Commitment & Execution',
+        phase: 'Action Phase',
+        accent: '#ff8c42',
+        description: 'The selected option is committed to and execution begins. The decision is logged, the plan is activated, and the system transitions from thinking mode to acting mode.',
+        details: [
+          { title: 'Decision Logging', value: 'Records the choice and reasoning for future reflection' },
+          { title: 'Plan Activation', value: 'Activates the execution pipeline' },
+          { title: 'Monitoring Setup', value: 'Establishes checkpoints for progress tracking' }
+        ],
+        visualization: 'commitment'
+      }
+    ]
+  },
+  learning: {
+    steps: [
+      {
+        title: 'Experience Collection',
+        phase: 'Input Phase',
+        accent: '#4ecdc4',
+        description: 'During task execution, Genesis continuously collects data about actions taken, outcomes observed, and any errors or surprises encountered. This raw experience data forms the material for learning.',
+        details: [
+          { title: 'Action Logging', value: 'Records each tool call and its parameters' },
+          { title: 'Outcome Tracking', value: 'Captures results and success/failure status' },
+          { title: 'Anomaly Detection', value: 'Flags unexpected events for special attention' }
+        ],
+        visualization: 'collection'
+      },
+      {
+        title: 'Pattern Recognition',
+        phase: 'Analysis Phase',
+        accent: '#7b68ee',
+        description: 'The system analyzes collected experiences to identify patterns — what strategies work well in which contexts, what errors tend to recur, and what conditions lead to success or failure.',
+        details: [
+          { title: 'Success Patterns', value: 'Identifies conditions for successful outcomes' },
+          { title: 'Error Patterns', value: 'Finds recurring failure modes' },
+          { title: 'Context Correlation', value: 'Links outcomes to environmental factors' }
+        ],
+        visualization: 'patterns'
+      },
+      {
+        title: 'Abstraction & Generalization',
+        phase: 'Synthesis Phase',
+        accent: '#00d4aa',
+        description: 'Specific patterns are abstracted into general principles and strategies. This transforms concrete experiences into reusable knowledge that can apply to future, novel situations.',
+        details: [
+          { title: 'Principle Extraction', value: 'Derives general rules from specific cases' },
+          { title: 'Strategy Formulation', value: 'Creates reusable workflow templates' },
+          { title: 'Boundary Definition', value: 'Identifies when principles apply and when they don\'t' }
+        ],
+        visualization: 'abstraction'
+      },
+      {
+        title: 'Memory Integration',
+        phase: 'Storage Phase',
+        accent: '#ff6b9d',
+        description: 'New knowledge is integrated into the existing memory system. Facts go to semantic memory, strategies to procedural memory, experiences to episodic memory, and intentions to prospective memory.',
+        details: [
+          { title: 'Semantic Update', value: 'Adds new facts and refines existing knowledge' },
+          { title: 'Procedural Update', value: 'Stores new strategies and workflows' },
+          { title: 'Episodic Storage', value: 'Saves detailed experience records' },
+          { title: 'Prospective Management', value: 'Updates pending intentions as needed' }
+        ],
+        visualization: 'integration'
+      },
+      {
+        title: 'Strategy Refinement',
+        phase: 'Optimization Phase',
+        accent: '#ffd93d',
+        description: 'Existing strategies are updated based on new evidence. Strategies that consistently work are reinforced, those with mixed results are adjusted, and ineffective ones are marked for replacement.',
+        details: [
+          { title: 'Success Reinforcement', value: 'Strengthens reliable strategies' },
+          { title: 'Failure Adaptation', value: 'Modifies strategies to avoid known pitfalls' },
+          { title: 'Performance Tracking', value: 'Monitors strategy effectiveness over time' }
+        ],
+        visualization: 'refinement'
+      },
+      {
+        title: 'Meta-Learning',
+        phase: 'Self-Improvement Phase',
+        accent: '#ff8c42',
+        description: 'The highest level of learning — learning how to learn better. Genesis evaluates its own learning process, identifies inefficiencies, and develops better strategies for future learning.',
+        details: [
+          { title: 'Process Analysis', value: 'Evaluates the effectiveness of learning itself' },
+          { title: 'Efficiency Improvement', value: 'Reduces wasted cognitive effort' },
+          { title: 'Adaptation Strategy', value: 'Develops better approaches to novel situations' }
+        ],
+        visualization: 'meta'
+      }
+    ]
+  }
+};
+
+let currentScenario = 'task';
+let currentStep = 0;
+
+function selectScenario(scenario) {
+  currentScenario = scenario;
+  currentStep = 0;
+
+  document.querySelectorAll('.scenario-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().includes(scenario === 'task' ? 'task' : scenario === 'memory' ? 'memory' : scenario === 'decision' ? 'decision' : 'learning'));
+  });
+
+  renderJourney();
+}
+
+function renderJourney() {
+  const scenario = scenarios[currentScenario];
+  const container = document.getElementById('journey-container');
+  const indicator = document.getElementById('step-indicator');
+
+  container.innerHTML = '';
+  indicator.innerHTML = '';
+
+  scenario.steps.forEach((step, i) => {
+    // Step card
+    const stepEl = document.createElement('div');
+    stepEl.className = `step ${i === 0 ? 'active' : ''}`;
+    stepEl.id = `step-${i}`;
+    stepEl.style.setProperty('--accent', step.accent);
+
+    let detailsHTML = '';
+    if (step.details) {
+      detailsHTML = '<div class="step-detail-grid">';
+      step.details.forEach(d => {
+        detailsHTML += `<div class="detail-item" style="--accent: ${step.accent}"><h3>${d.title}</h3><p>${d.value}</p></div>`;
+      });
+      detailsHTML += '</div>';
+    }
+
+    let vizHTML = '';
+    if (step.visualization) {
+      vizHTML = `
+        <div class="step-visualization">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: ${step.accent}30; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+              ${getVizIcon(step.visualization)}
+            </div>
+            <div>
+              <div style="font-size: 12px; color: #aaa; margin-bottom: 4px;">${getVizTitle(step.visualization)}</div>
+              <div style="font-size: 10px; color: #666;">${getVizDesc(step.visualization)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    stepEl.innerHTML = `
+      <div class="step-card">
+        <div class="step-number">${String(i + 1).padStart(2, '0')}</div>
+        <div class="step-title" style="--accent: ${step.accent}">${step.title}</div>
+        <div class="step-phase">${step.phase}</div>
+        <div class="step-description">${step.description}</div>
+        ${detailsHTML}
+        ${vizHTML}
+      </div>
+    `;
+
+    container.appendChild(stepEl);
+
+    // Step dot
+    const dot = document.createElement('div');
+    dot.className = `step-dot ${i === 0 ? 'active' : ''}`;
+    indicator.appendChild(dot);
+  });
+
+  updateNavigation();
+}
+
+function getVizIcon(type) {
+  const icons = {
+    input: '📥', attention: '👁', memory: '🧠', reasoning: '🔍',
+    decision: '⚖️', action: '⚡', reflection: '💭', trigger: '🔔',
+    query: '🔎', parallel: '⚡', scoring: '📊', synthesis: '🔗',
+    delivery: '📤', assessment: '📋', options: '🎯', prioritization: '📈',
+    analysis: '📉', commitment: '🚀', collection: '📦', patterns: '🔲',
+    abstraction: '💡', integration: '🔗', refinement: '⚙️', meta: '♾️'
+  };
+  return icons[type] || '●';
+}
+
+function getVizTitle(type) {
+  const titles = {
+    input: 'Raw Input Received', attention: 'Attention Focused', memory: 'Memory Systems Activated',
+    reasoning: 'Analysis Underway', decision: 'Options Evaluated', action: 'Execution Started',
+    reflection: 'Review Complete', trigger: 'Retrieval Initiated', query: 'Search Formulated',
+    parallel: 'Multi-Tier Search', scoring: 'Relevance Calculated', synthesis: 'Knowledge Integrated',
+    delivery: 'Output Generated', assessment: 'Situation Analyzed', options: 'Paths Identified',
+    prioritization: 'States Applied', analysis: 'Trade-offs Weighed', commitment: 'Action Committed',
+    collection: 'Data Captured', patterns: 'Trends Identified', abstraction: 'Principles Extracted',
+    integration: 'Knowledge Stored', refinement: 'Strategies Updated', meta: 'Learning Optimized'
+  };
+  return titles[type] || 'Processing';
+}
+
+function getVizDesc(type) {
+  const descs = {
+    input: 'System ready for processing', attention: 'Filtering relevant signals', memory: '4-tier retrieval active',
+    reasoning: 'Breaking down complexity', decision: 'Evaluating trade-offs', action: 'Tools engaged',
+    reflection: 'Extracting lessons', trigger: 'Memory search initiated', query: 'Keywords extracted',
+    parallel: 'All tiers queried', scoring: 'Ranking results', synthesis: 'Combining insights',
+    delivery: 'Knowledge delivered', assessment: 'Resources mapped', options: 'Strategies identified',
+    prioritization: 'State weights applied', analysis: 'Expected values calculated', commitment: 'Plan activated',
+    collection: 'Experience data gathered', patterns: 'Success/failure trends found', abstraction: 'General principles formed',
+    integration: 'Memory systems updated', refinement: 'Strategies optimized', meta: 'Learning process improved'
+  };
+  return descs[type] || 'Processing complete';
+}
+
+function nextStep() {
+  const scenario = scenarios[currentScenario];
+  if (currentStep < scenario.steps.length - 1) {
+    currentStep++;
+    updateView();
+  } else {
+    showSummary();
+  }
+}
+
+function prevStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    updateView();
+  }
+}
+
+function updateView() {
+  // Update steps
+  document.querySelectorAll('.step').forEach((step, i) => {
+    step.classList.toggle('active', i === currentStep);
+  });
+
+  // Update dots
+  const dots = document.querySelectorAll('.step-dot');
+  dots.forEach((dot, i) => {
+    dot.className = 'step-dot';
+    if (i === currentStep) dot.classList.add('active');
+    else if (i < currentStep) dot.classList.add('completed');
+  });
+
+  // Update progress bar
+  const scenario = scenarios[currentScenario];
+  const progress = ((currentStep + 1) / scenario.steps.length) * 100;
+  document.getElementById('progress-bar').style.width = progress + '%';
+
+  updateNavigation();
+}
+
+function updateNavigation() {
+  const scenario = scenarios[currentScenario];
+  document.getElementById('prev-btn').disabled = currentStep === 0;
+  document.getElementById('next-btn').textContent = currentStep === scenario.steps.length - 1 ? 'View Summary →' : 'Next →';
+}
+
+function showSummary() {
+  const scenario = scenarios[currentScenario];
+  const summaryCard = document.getElementById('summary-card');
+  const flowContainer = document.getElementById('summary-flow');
+
+  flowContainer.innerHTML = '';
+  scenario.steps.forEach((step, i) => {
+    if (i > 0) {
+      const arrow = document.createElement('span');
+      arrow.className = 'flow-arrow';
+      arrow.textContent = '→';
+      flowContainer.appendChild(arrow);
+    }
+    const item = document.createElement('span');
+    item.className = 'flow-item';
+    item.style.borderColor = step.accent;
+    item.textContent = step.title;
+    flowContainer.appendChild(item);
+  });
+
+  summaryCard.style.display = 'block';
+  summaryCard.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    nextStep();
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    prevStep();
+  }
+});
+
+// Initialize
+renderJourney();
+</script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

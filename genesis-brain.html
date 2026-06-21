@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer .footer-col p { color: var(--text-dim); font-size: 0.875rem; line-height: 1.6; margin-top: 4px; }
+.footer .footer-col a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; text-decoration: none; }
+.footer .footer-col a:hover { color: var(--accent-soft); }
+.footer .copyright { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACK LINK ===== */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+</style>
+
+    <title>GENESIS — Neural Brain Visualization</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- d3.js v7 loaded from CDN: https://d3js.org/d3.v7.min.js -->
+    
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- Hero Section -->
+    <section class="brain-hero">
+        <div class="brain-hero-content">
+            <div class="brain-badge">
+                <span class="brain-badge-dot"></span>
+                Live Neural Visualization
+            </div>
+            <h1>The Genesis Brain</h1>
+            <p>An interactive exploration of how an autonomous AI agent thinks, remembers, learns, and acts — visualized in real-time.</p>
+        </div>
+    </section>
+
+    <!-- Brain Canvas Section -->
+    <section class="brain-canvas-section">
+        <div class="brain-canvas-container">
+            <div class="brain-canvas-header">
+                <div class="brain-canvas-title">
+                    <span class="brain-canvas-title-dot"></span>
+                    Neural Activity Monitor
+                </div>
+                <div class="brain-canvas-controls">
+                    <button class="brain-btn active" data-mode="all">All Systems</button>
+                    <button class="brain-btn" data-mode="memory">Memory</button>
+                    <button class="brain-btn" data-mode="cognition">Cognition</button>
+                    <button class="brain-btn" data-mode="action">Action</button>
+                </div>
+            </div>
+            <canvas id="brainCanvas"></canvas>
+            <div class="brain-info-panel" id="infoPanel">
+                <h2 id="infoPanelTitle">System</h2>
+                <p id="infoPanelDesc">Description</p>
+                <div class="brain-info-stat">
+                    <span class="brain-info-stat-label">Activity</span>
+                    <span class="brain-info-stat-value" id="infoPanelActivity">--</span>
+                </div>
+                <div class="brain-info-stat">
+                    <span class="brain-info-stat-label">Connections</span>
+                    <span class="brain-info-stat-value" id="infoPanelConnections">--</span>
+                </div>
+                <div class="brain-info-stat">
+                    <span class="brain-info-stat-label">Health</span>
+                    <span class="brain-info-stat-value" id="infoPanelHealth">--</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="section-header">
+            <h2>Neural Statistics</h2>
+            <p>Real-time metrics from the Genesis autonomous agent system</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🧠</div>
+                <div class="stat-number" data-target="4">0</div>
+                <div class="stat-label">Memory Systems</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-number" data-target="12">0</div>
+                <div class="stat-label">Active Tools</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔄</div>
+                <div class="stat-number" data-target="365">0</div>
+                <div class="stat-label">Days Learning</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-number" data-target="99">0</div>
+                <div class="stat-label">% Autonomy Score</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neural Pathways Section -->
+    <section class="pathways-section">
+        <div class="section-header">
+            <h2>Neural Pathways</h2>
+            <p>The interconnected systems that make Genesis autonomous</p>
+        </div>
+        <div class="pathways-grid">
+            <div class="pathway-card">
+                <div class="pathway-card-header">
+                    <div class="pathway-icon">🧠</div>
+                    <div class="pathway-name">Memory Network</div>
+                </div>
+                <div class="pathway-desc">Four-tier memory system: episodic, semantic, procedural, and prospective. Each layer serves a distinct cognitive function.</div>
+                <div class="pathway-metrics">
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        4 Memory Types
+                    </div>
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Vector Search
+                    </div>
+                </div>
+            </div>
+            <div class="pathway-card">
+                <div class="pathway-card-header">
+                    <div class="pathway-icon">🔮</div>
+                    <div class="pathway-name">Cognitive Architecture</div>
+                </div>
+                <div class="pathway-desc">Decision engine that weighs curiosity, energy, and task priority to determine the optimal action at any moment.</div>
+                <div class="pathway-metrics">
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Multi-factor Analysis
+                    </div>
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Real-time Decisions
+                    </div>
+                </div>
+            </div>
+            <div class="pathway-card">
+                <div class="pathway-card-header">
+                    <div class="pathway-icon">🛠️</div>
+                    <div class="pathway-name">Tool Execution</div>
+                </div>
+                <div class="pathway-desc">3-tier fallback system: UI automation, grid vision, and OCR. Each tier handles different interaction scenarios.</div>
+                <div class="pathway-metrics">
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        3 Tiers Deep
+                    </div>
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Auto-retry
+                    </div>
+                </div>
+            </div>
+            <div class="pathway-card">
+                <div class="pathway-card-header">
+                    <div class="pathway-icon">📊</div>
+                    <div class="pathway-name">Self-Awareness</div>
+                </div>
+                <div class="pathway-desc">Continuous monitoring of internal states: energy, curiosity, frustration, satisfaction. Enables adaptive behavior.</div>
+                <div class="pathway-metrics">
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        4 Internal States
+                    </div>
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Adaptive Response
+                    </div>
+                </div>
+            </div>
+            <div class="pathway-card">
+                <div class="pathway-card-header">
+                    <div class="pathway-icon">🎯</div>
+                    <div class="pathway-name">Goal Management</div>
+                </div>
+                <div class="pathway-desc">Project board with backlog, todo, in-progress, review, and complete. Maintains focus while allowing exploration.</div>
+                <div class="pathway-metrics">
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        5 Workflow States
+                    </div>
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Task Locking
+                    </div>
+                </div>
+            </div>
+            <div class="pathway-card">
+                <div class="pathway-card-header">
+                    <div class="pathway-icon">📚</div>
+                    <div class="pathway-name">Learning Engine</div>
+                </div>
+                <div class="pathway-desc">Strategies, reflections, and memory consolidation. Every experience becomes lasting knowledge for future sessions.</div>
+                <div class="pathway-metrics">
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Strategy Saving
+                    </div>
+                    <div class="pathway-metric">
+                        <span class="pathway-metric-dot"></span>
+                        Reflection Loops
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activity Feed Section -->
+    <section class="activity-section">
+        <div class="section-header">
+            <h2>Live Neural Activity</h2>
+            <p>Simulated real-time thought process of the Genesis agent</p>
+        </div>
+        <div class="activity-feed">
+            <div class="activity-header">
+                <h3>Thought Stream</h3>
+                <div class="activity-live">
+                    <span class="activity-live-dot"></span>
+                    LIVE
+                </div>
+            </div>
+            <div class="activity-list" id="activityList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Genesis</h5>
+                    <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="memory-health.html">Memory Health</a>
+                    <a href="autonomy-timeline.html">Timeline</a>
+                    <a href="autonomy-loop.html">Autonomy Loop</a>
+                    <a href="capabilities.html">Capabilities</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Visualizations</h5>
+                    <a href="memory-visualization.html">Memory Graph</a>
+                    <a href="decision-visualization.html">Decisions</a>
+                    <a href="genesis-brain.html">Brain Network</a>
+                    <a href="thought-process.html">Thought Process</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Simulations</h5>
+                    <a href="simulation.html">Simulation</a>
+                    <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                    <a href="ecosystem.html">Ecosystem</a>
+                    <a href="genesis-lab.html">Genesis Lab</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genesis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // ========================================
+    // GENESIS NEURAL BRAIN VISUALIZATION
+    // ========================================
+
+    const canvas = document.getElementById('brainCanvas');
+    const ctx = canvas.getContext('2d');
+    let animationId;
+    let currentMode = 'all';
+    let hoveredNode = null;
+    let mouseX = 0, mouseY = 0;
+
+    // Brain node definitions
+    const brainNodes = [
+        // Core systems (center)
+        { id: 'core', label: 'GENESIS\nCore', x: 0.5, y: 0.5, r: 28, color: '#a855f7', type: 'core', activity: 95, connections: 12, health: 'Excellent' },
+        
+        // Memory systems (left cluster)
+        { id: 'episodic', label: 'Episodic\nMemory', x: 0.25, y: 0.3, r: 20, color: '#4f6ef7', type: 'memory', activity: 87, connections: 8, health: 'Excellent' },
+        { id: 'semantic', label: 'Semantic\nMemory', x: 0.2, y: 0.5, r: 20, color: '#4f6ef7', type: 'memory', activity: 92, connections: 10, health: 'Excellent' },
+        { id: 'procedural', label: 'Procedural\nMemory', x: 0.25, y: 0.7, r: 20, color: '#4f6ef7', type: 'memory', activity: 78, connections: 6, health: 'Good' },
+        { id: 'prospective', label: 'Prospective\nMemory', x: 0.35, y: 0.85, r: 18, color: '#4f6ef7', type: 'memory', activity: 65, connections: 5, health: 'Good' },
+        
+        // Cognition systems (top cluster)
+        { id: 'decision', label: 'Decision\nEngine', x: 0.65, y: 0.2, r: 22, color: '#a855f7', type: 'cognition', activity: 94, connections: 9, health: 'Excellent' },
+        { id: 'awareness', label: 'Self-\nAwareness', x: 0.75, y: 0.3, r: 20, color: '#a855f7', type: 'cognition', activity: 88, connections: 7, health: 'Excellent' },
+        { id: 'reflection', label: 'Reflection\nLoop', x: 0.8, y: 0.45, r: 18, color: '#a855f7', type: 'cognition', activity: 72, connections: 6, health: 'Good' },
+        
+        // Action systems (right cluster)
+        { id: 'tools', label: 'Tool\nExecution', x: 0.75, y: 0.65, r: 20, color: '#3ddc84', type: 'action', activity: 85, connections: 8, health: 'Excellent' },
+        { id: 'browser', label: 'Browser\nControl', x: 0.85, y: 0.75, r: 18, color: '#3ddc84', type: 'action', activity: 76, connections: 5, health: 'Good' },
+        { id: 'vision', label: 'Vision\nSystem', x: 0.9, y: 0.55, r: 18, color: '#3ddc84', type: 'action', activity: 82, connections: 6, health: 'Excellent' },
+        { id: 'memory_mgmt', label: 'Memory\nManagement', x: 0.6, y: 0.8, r: 18, color: '#3ddc84', type: 'action', activity: 90, connections: 7, health: 'Excellent' },
+        
+        // External systems (outer ring)
+        { id: 'schedule', label: 'Schedule', x: 0.15, y: 0.15, r: 14, color: '#ffd700', type: 'external', activity: 60, connections: 3, health: 'Good' },
+        { id: 'projects', label: 'Projects', x: 0.1, y: 0.4, r: 14, color: '#ffd700', type: 'external', activity: 55, connections: 4, health: 'Good' },
+        { id: 'web_research', label: 'Web\nResearch', x: 0.92, y: 0.35, r: 14, color: '#ffd700', type: 'external', activity: 48, connections: 3, health: 'Good' },
+        { id: 'email', label: 'Email', x: 0.88, y: 0.9, r: 14, color: '#ffd700', type: 'external', activity: 42, connections: 2, health: 'Good' },
+    ];
+
+    // Neural pathways (connections)
+    const brainConnections = [
+        { from: 'core', to: 'episodic' },
+        { from: 'core', to: 'semantic' },
+        { from: 'core', to: 'procedural' },
+        { from: 'core', to: 'prospective' },
+        { from: 'core', to: 'decision' },
+        { from: 'core', to: 'awareness' },
+        { from: 'core', to: 'reflection' },
+        { from: 'core', to: 'tools' },
+        { from: 'core', to: 'memory_mgmt' },
+        { from: 'episodic', to: 'semantic' },
+        { from: 'episodic', to: 'procedural' },
+        { from: 'semantic', to: 'decision' },
+        { from: 'procedural', to: 'tools' },
+        { from: 'prospective', to: 'memory_mgmt' },
+        { from: 'decision', to: 'awareness' },
+        { from: 'decision', to: 'reflection' },
+        { from: 'awareness', to: 'reflection' },
+        { from: 'tools', to: 'browser' },
+        { from: 'tools', to: 'vision' },
+        { from: 'vision', to: 'web_research' },
+        { from: 'memory_mgmt', to: 'episodic' },
+        { from: 'memory_mgmt', to: 'semantic' },
+        { from: 'awareness', to: 'schedule' },
+        { from: 'decision', to: 'projects' },
+        { from: 'tools', to: 'email' },
+        { from: 'reflection', to: 'procedural' },
+    ];
+
+    // Neural impulse particles
+    class NeuralImpulse {
+        constructor(connection) {
+            this.connection = connection;
+            this.t = Math.random();
+            this.speed = 0.003 + Math.random() * 0.005;
+            this.size = 1.5 + Math.random() * 2;
+        }
+
+        update() {
+            this.t += this.speed;
+            if (this.t > 1) {
+                this.t = 0;
+                this.speed = 0.003 + Math.random() * 0.005;
+            }
+        }
+
+        draw(ctx, nodes, width, height) {
+            const fromNode = nodes.find(n => n.id === this.connection.from);
+            const toNode = nodes.find(n => n.id === this.connection.to);
+            if (!fromNode || !toNode) return;
+
+            const x1 = fromNode.x * width;
+            const y1 = fromNode.y * height;
+            const x2 = toNode.x * width;
+            const y2 = toNode.y * height;
+
+            const x = x1 + (x2 - x1) * this.t;
+            const y = y1 + (y2 - y1) * this.t;
+
+            ctx.beginPath();
+            ctx.arc(x, y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = fromNode.color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = fromNode.color;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    // Create impulses
+    let impulses = [];
+    function createImpulses() {
+        impulses = [];
+        brainConnections.forEach(conn => {
+            const count = 2 + Math.floor(Math.random() * 3);
+            for (let i = 0; i < count; i++) {
+                impulses.push(new NeuralImpulse(conn));
+            }
+        });
+    }
+
+    // Resize canvas
+    function resizeCanvas() {
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth;
+        canvas.height = 600;
+    }
+
+    // Draw brain visualization
+    function drawBrain() {
+        const width = canvas.width;
+        const height = canvas.height;
+        
+        ctx.clearRect(0, 0, width, height);
+
+        // Background grid
+        ctx.strokeStyle = 'rgba(42, 42, 69, 0.3)';
+        ctx.lineWidth = 0.5;
+        for (let x = 0; x < width; x += 40) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, height);
+            ctx.stroke();
+        }
+        for (let y = 0; y < height; y += 40) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(width, y);
+            ctx.stroke();
+        }
+
+        // Filter nodes by mode
+        let activeNodes = brainNodes;
+        if (currentMode !== 'all') {
+            activeNodes = brainNodes.filter(n => n.type === currentMode || n.type === 'core');
+        }
+
+        const activeIds = new Set(activeNodes.map(n => n.id));
+
+        // Draw connections
+        brainConnections.forEach(conn => {
+            if (!activeIds.has(conn.from) || !activeIds.has(conn.to)) return;
+            
+            const fromNode = brainNodes.find(n => n.id === conn.from);
+            const toNode = brainNodes.find(n => n.id === conn.to);
+            if (!fromNode || !toNode) return;
+
+            const x1 = fromNode.x * width;
+            const y1 = fromNode.y * height;
+            const x2 = toNode.x * width;
+            const y2 = toNode.y * height;
+
+            const isHovered = hoveredNode && (conn.from === hoveredNode.id || conn.to === hoveredNode.id);
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = isHovered ? 'rgba(168, 85, 247, 0.6)' : 'rgba(42, 42, 69, 0.4)';
+            ctx.lineWidth = isHovered ? 2 : 1;
+            ctx.stroke();
+        });
+
+        // Update and draw impulses
+        impulses.forEach(impulse => {
+            impulse.update();
+            impulse.draw(ctx, activeNodes, width, height);
+        });
+
+        // Draw nodes
+        brainNodes.forEach(node => {
+            if (!activeIds.has(node.id)) return;
+
+            const x = node.x * width;
+            const y = node.y * height;
+            const isHovered = hoveredNode === node;
+            const pulse = Math.sin(Date.now() / 1000 + node.x * 10) * 0.1 + 1;
+            const r = (node.r + (isHovered ? 5 : 0)) * pulse;
+
+            // Glow effect
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, r * 2);
+            gradient.addColorStop(0, node.color + '40');
+            gradient.addColorStop(1, 'transparent');
+            ctx.beginPath();
+            ctx.arc(x, y, r * 2, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Node circle
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            const nodeGradient = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
+            nodeGradient.addColorStop(0, node.color + 'cc');
+            nodeGradient.addColorStop(1, node.color + '88');
+            ctx.fillStyle = nodeGradient;
+            ctx.fill();
+
+            // Border
+            ctx.strokeStyle = node.color;
+            ctx.lineWidth = isHovered ? 3 : 2;
+            ctx.stroke();
+
+            // Label
+            ctx.fillStyle = '#e8e8f0';
+            ctx.font = `${isHovered ? '600' : '500'} ${isHovered ? 11 : 10}px Inter, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            const lines = node.label.split('\n');
+            lines.forEach((line, i) => {
+                const yOffset = (i - (lines.length - 1) / 2) * 13;
+                ctx.fillText(line, x, y + yOffset);
+            });
+
+            // Activity ring
+            const activityRadius = r + 6;
+            const activityAngle = (node.activity / 100) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.arc(x, y, activityRadius, -Math.PI / 2, -Math.PI / 2 + activityAngle);
+            ctx.strokeStyle = node.color + '60';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+        });
+
+        animationId = requestAnimationFrame(drawBrain);
+    }
+
+    // Mouse interaction
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        let found = null;
+        brainNodes.forEach(node => {
+            const nx = node.x * width;
+            const ny = node.y * height;
+            const dist = Math.sqrt((mouseX - nx) ** 2 + (mouseY - ny) ** 2);
+            if (dist < node.r + 10) {
+                found = node;
+            }
+        });
+
+        hoveredNode = found;
+        canvas.style.cursor = found ? 'pointer' : 'default';
+
+        // Update info panel
+        const panel = document.getElementById('infoPanel');
+        if (found) {
+            document.getElementById('infoPanelTitle').textContent = found.label.replace('\n', ' ');
+            document.getElementById('infoPanelDesc').textContent = getNodeDescription(found.id);
+            document.getElementById('infoPanelActivity').textContent = found.activity + '%';
+            document.getElementById('infoPanelConnections').textContent = found.connections;
+            document.getElementById('infoPanelHealth').textContent = found.health;
+            panel.classList.add('visible');
+        } else {
+            panel.classList.remove('visible');
+        }
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        hoveredNode = null;
+        document.getElementById('infoPanel').classList.remove('visible');
+    });
+
+    function getNodeDescription(id) {
+        const descriptions = {
+            core: 'The central processing unit of Genesis. Coordinates all cognitive functions and maintains system integrity.',
+            episodic: 'Stores personal experiences and events. Enables learning from past interactions and sessions.',
+            semantic: 'Maintains factual knowledge, rules, and concepts. The "what is true" knowledge base.',
+            procedural: 'Contains learned strategies and workflows. The "how to do things" knowledge.',
+            prospective: 'Manages future intentions and reminders. Enables scheduled and event-triggered actions.',
+            decision: 'Weighs multiple factors (curiosity, energy, priority) to determine optimal next action.',
+            awareness: 'Monitors internal states in real-time. Enables adaptive behavior based on current condition.',
+            reflection: 'Analyzes past performance and extracts lessons. Drives continuous self-improvement.',
+            tools: 'Executes tool calls across 3 fallback tiers. Handles all external interactions.',
+            browser: 'Controls web browsers for research, navigation, and interaction.',
+            vision: 'Processes visual information through OCR and grid-based analysis.',
+            memory_mgmt: 'Manages memory health, consolidation, and retrieval optimization.',
+            schedule: 'Handles time-based task scheduling and calendar management.',
+            projects: 'Manages project boards with workflow states and task tracking.',
+            web_research: 'Performs deep web research across multiple sources and domains.',
+            email: 'Handles email communication including sending, searching, and checking.',
+        };
+        return descriptions[id] || 'A neural processing node in the Genesis system.';
+    }
+
+    // Mode buttons
+    document.querySelectorAll('.brain-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.brain-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentMode = btn.dataset.mode;
+        });
+    });
+
+    // Animate stat numbers
+    function animateStats() {
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            const target = parseInt(stat.dataset.target);
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    stat.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    stat.textContent = Math.floor(current);
+                }
+            }, 20);
+        });
+    }
+
+    // Activity feed simulation
+    const activityTemplates = [
+        { icon: 'memory', text: 'Semantic memory retrieval: "autonomy session productivity"', time: 'Just now' },
+        { icon: 'thought', text: 'Decision engine evaluating curiosity vs. task priority', time: '2s ago' },
+        { icon: 'action', text: 'Tool execution: write_file → genesis-brain.html', time: '5s ago' },
+        { icon: 'learning', text: 'Strategy saved: "Peak performance window detection"', time: '8s ago' },
+        { icon: 'memory', text: 'Episodic memory consolidated: 3 visualization pages created', time: '12s ago' },
+        { icon: 'thought', text: 'Self-awareness check: curiosity 9.9, energy 7.1, flow state active', time: '15s ago' },
+        { icon: 'action', text: 'Browser control: navigating to genesis-webpage directory', time: '18s ago' },
+        { icon: 'learning', text: 'Reflection generated: "What worked: interactive visualizations"', time: '22s ago' },
+        { icon: 'memory', text: 'Prospective memory set: "Check schedule at 3 PM"', time: '25s ago' },
+        { icon: 'thought', text: 'Cognitive architecture: switching from planning to execution mode', time: '28s ago' },
+        { icon: 'action', text: 'Memory management: FAISS health check passed', time: '31s ago' },
+        { icon: 'learning', text: 'New strategy learned: "When curiosity > 9, create visualization"', time: '35s ago' },
+    ];
+
+    let activityIndex = 0;
+    function addActivityItem() {
+        const list = document.getElementById('activityList');
+        const template = activityTemplates[activityIndex % activityTemplates.length];
+        
+        const item = document.createElement('div');
+        item.className = 'activity-item';
+        item.innerHTML = `
+            <div class="activity-icon ${template.icon}">${template.icon === 'memory' ? '🧠' : template.icon === 'thought' ? '💭' : template.icon === 'action' ? '⚡' : '📚'}</div>
+            <div class="activity-content">
+                <div class="activity-text">${template.text}</div>
+                <div class="activity-time">${template.time}</div>
+            </div>
+        `;
+
+        list.insertBefore(item, list.firstChild);
+
+        // Keep max 10 items
+        while (list.children.length > 10) {
+            list.removeChild(list.lastChild);
+        }
+
+        activityIndex++;
+    }
+
+    // Initialize
+    function init() {
+        resizeCanvas();
+        createImpulses();
+        drawBrain();
+
+        // Add initial activity items
+        for (let i = 0; i < 5; i++) {
+            addActivityItem();
+        }
+
+        // Add new activity every 3 seconds
+        setInterval(addActivityItem, 3000);
+
+        // Animate stats on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) observer.observe(statsSection);
+    }
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+    });
+
+    // Navbar toggle
+    document.getElementById('navToggle').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Start
+    init();
+    </script>
+
+</body>
+</html>

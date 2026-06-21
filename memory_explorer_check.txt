@@ -1,0 +1,11 @@
+switchTab function: FOUND
+Tab button onclick handlers: 7
+  - switchTab(
+  - switchTab(
+  - switchTab(
+  - switchTab(
+  - switchTab(
+  - switchTab(
+  - createMemory()
+Tab content divs: ['overview', 'workflow', 'builder', 'retrieval', 'forgetting', 'network']
+Script block 0: BALANCED

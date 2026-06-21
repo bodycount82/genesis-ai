@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* Dashboard-specific styles */
+.dashboard-hero { background: linear-gradient(135deg, rgba(123,111,240,0.08), rgba(168,85,247,0.08)); border-bottom: 1px solid var(--border); padding: 48px 24px; text-align: center; }
+.dashboard-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(123,111,240,0.15); border: 1px solid rgba(123,111,240,0.3); border-radius: 50px; padding: 6px 16px; font-size: 0.75rem; color: var(--accent-soft); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+.dashboard-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.dashboard-hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.dashboard-hero p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+.dashboard-container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.dash-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.3s ease; }
+.dash-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.dash-card.span-2 { grid-column: span 2; }
+.dash-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.dash-card-title { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; font-weight: 600; color: var(--text); }
+.dash-card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+.dash-card-status { font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.status-online { color: var(--green); }
+.status-active { color: var(--cyan); }
+
+/* Gauges */
+.state-gauges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.gauge-item { text-align: center; }
+.gauge-container { position: relative; width: 80px; height: 80px; margin: 0 auto 8px; }
+.gauge-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge-bg { fill: none; stroke: var(--border); stroke-width: 6; }
+.gauge-fill { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+.gauge-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.1rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.gauge-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Activity feed */
+.activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(42,42,69,0.3); }
+.activity-item:last-child { border-bottom: none; }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.activity-dot.memory { background: var(--accent); }
+.activity-dot.thought { background: var(--purple); }
+.activity-dot.action { background: var(--cyan); }
+.activity-dot.learning { background: var(--green); }
+.activity-text { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+.activity-time { font-size: 0.7rem; color: var(--text-dim); opacity: 0.6; margin-top: 4px; }
+
+/* Task list */
+.task-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(42,42,69,0.3); }
+.task-status { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+.task-status.complete { background: rgba(74,222,128,0.15); color: var(--green); }
+.task-status.in-progress { background: rgba(34,211,238,0.15); color: var(--cyan); }
+.task-status.pending { background: rgba(136,136,160,0.15); color: var(--text-dim); }
+.task-name { font-size: 0.85rem; color: var(--text); font-weight: 500; }
+.task-meta { font-size: 0.7rem; color: var(--text-dim); }
+
+/* Memory health */
+.health-item { padding: 12px 0; border-bottom: 1px solid rgba(42,42,69,0.3); }
+.health-item:last-child { border-bottom: none; }
+.health-icon { font-size: 1.5rem; margin-bottom: 4px; }
+.health-name { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+.health-value { font-size: 1.2rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin: 4px 0; }
+.health-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.health-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+/* Tool grid */
+.tool-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+.tool-icon { font-size: 1.2rem; }
+.tool-name { font-size: 0.85rem; color: var(--text); flex: 1; }
+.tool-status { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+.tool-status.active { color: var(--green); }
+.tool-status.idle { color: var(--text-dim); }
+
+/* Performance chart */
+.perf-chart { display: flex; align-items: flex-end; gap: 4px; height: 120px; padding-top: 16px; }
+.perf-bar { flex: 1; background: linear-gradient(to top, var(--accent), var(--accent-soft)); border-radius: 4px 4px 0 0; min-height: 4px; transition: height 0.3s ease; }
+
+/* Dashboard footer */
+.dashboard-footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); margin-top: 48px; color: #ffffff; font-size: 0.95rem; }
+
+</style>
+
+    <title>GENESIS — Agent Dashboard</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+    <!-- Hero Section -->
+    <section class="dashboard-hero">
+        <div class="dashboard-hero-content">
+            <div class="dashboard-badge">
+                <span class="dashboard-badge-dot"></span>
+                Real-Time Monitoring
+            </div>
+            <h1>Agent Dashboard</h1>
+            <p>Monitor Genesis's internal states, activities, tasks, and system health in one unified view.</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Grid -->
+    <section class="dashboard-container">
+        <div class="dashboard-grid">
+            <!-- Internal States -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title">
+                        <div class="dash-card-icon" style="background: rgba(255, 215, 0, 0.15);">⚡</div>
+                        Internal States
+                    </div>
+                    <span class="dash-card-status status-online">● LIVE</span>
+                </div>
+                <div class="state-gauges">
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="gauge-fill" id="energyGauge" cx="50" cy="50" r="40" 
+                                    stroke="#ffd700" stroke-dasharray="251.3" stroke-dashoffset="62.8"></circle>
+                            </svg>
+                            <div class="gauge-value" style="color: #ffd700;">7.1</div>
+                        </div>
+                        <div class="gauge-label">Energy</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="gauge-fill" id="curiosityGauge" cx="50" cy="50" r="40" 
+                                    stroke="#a855f7" stroke-dasharray="251.3" stroke-dashoffset="0"></circle>
+                            </svg>
+                            <div class="gauge-value" style="color: #a855f7;">9.9</div>
+                        </div>
+                        <div class="gauge-label">Curiosity</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="gauge-fill" id="frustrationGauge" cx="50" cy="50" r="40" 
+                                    stroke="#ff4757" stroke-dasharray="251.3" stroke-dashoffset="210.6"></circle>
+                            </svg>
+                            <div class="gauge-value" style="color: #ff4757;">1.6</div>
+                        </div>
+                        <div class="gauge-label">Frustration</div>
+                    </div>
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="gauge-fill" id="satisfactionGauge" cx="50" cy="50" r="40" 
+                                    stroke="#3ddc84" stroke-dasharray="251.3" stroke-dashoffset="5"></circle>
+                            </svg>
+                            <div class="gauge-value" style="color: #3ddc84;">9.8</div>
+                        </div>
+                        <div class="gauge-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title">
+                        <div class="dash-card-icon" style="background: rgba(168, 85, 247, 0.15);">📊</div>
+                        Recent Activity
+                    </div>
+                    <span class="dash-card-status status-active">● STREAMING</span>
+                </div>
+                <div class="activity-feed" id="activityFeed">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Task Status -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title">
+                        <div class="dash-card-icon" style="background: rgba(79, 110, 247, 0.15);">🎯</div>
+                        Task Status
+                    </div>
+                    <span class="dash-card-status status-active">3 ACTIVE</span>
+                </div>
+                <div class="task-list" id="taskList">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Memory Health -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title">
+                        <div class="dash-card-icon" style="background: rgba(61, 220, 132, 0.15);">🧠</div>
+                        Memory Health
+                    </div>
+                    <span class="dash-card-status status-online">● HEALTHY</span>
+                </div>
+                <div class="memory-health-grid" id="memoryHealth">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Tool Status -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title">
+                        <div class="dash-card-icon" style="background: rgba(255, 215, 0, 0.15);">🛠️</div>
+                        Tool Status
+                    </div>
+                    <span class="dash-card-status status-active">8 ACTIVE</span>
+                </div>
+                <div class="tool-grid" id="toolGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Performance Chart -->
+            <div class="dash-card span-2">
+                <div class="dash-card-header">
+                    <div class="dash-card-title">
+                        <div class="dash-card-icon" style="background: rgba(0, 212, 255, 0.15);">📈</div>
+                        Performance (Last 24h)
+                    </div>
+                </div>
+                <div class="perf-chart" id="perfChart">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-card-title">
+                        <div class="dash-card-icon" style="background: rgba(168, 85, 247, 0.15);">ℹ️</div>
+                        System Info
+                    </div>
+                </div>
+                <div id="systemInfo">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <p>Built with curiosity and code. <a href="index.html">← Back to Genesis</a></p>
+    </footer>
+
+    <script>
+    // ========================================
+    // GENESIS AGENT DASHBOARD
+    // Real-time monitoring simulation
+    // ========================================
+
+    // Activity data
+    const activities = [
+        { type: 'memory', text: 'Semantic memory retrieval: "autonomy session productivity"', time: 'Just now' },
+        { type: 'thought', text: 'Decision engine evaluating curiosity vs. task priority', time: '2s ago' },
+        { type: 'action', text: 'Tool execution: write_file → genesis-brain.html', time: '5s ago' },
+        { type: 'learning', text: 'Strategy saved: "Peak performance window detection"', time: '8s ago' },
+        { type: 'memory', text: 'Episodic memory consolidated: 3 visualization pages created', time: '12s ago' },
+        { type: 'thought', text: 'Self-awareness check: curiosity 9.9, energy 7.1, flow state active', time: '15s ago' },
+        { type: 'action', text: 'Browser control: navigating to genesis-webpage directory', time: '18s ago' },
+        { type: 'learning', text: 'Reflection generated: "What worked: interactive visualizations"', time: '22s ago' },
+    ];
+
+    // Task data
+    const tasks = [
+        { status: 'complete', name: 'Create Genesis Brain Visualization', meta: 'Completed 5m ago' },
+        { status: 'complete', name: 'Build Decision Engine Simulator', meta: 'Completed 12m ago' },
+        { status: 'in-progress', name: 'Update main index.html navigation', meta: 'In progress' },
+        { status: 'pending', name: 'Create Agent Dashboard page', meta: 'Queued' },
+        { status: 'pending', name: 'Add new pages to mission control', meta: 'Queued' },
+    ];
+
+    // Memory health data
+    const memoryHealth = [
+        { icon: '🧠', name: 'Episodic', value: '92%', color: '#4f6ef7', percent: 92 },
+        { icon: '📚', name: 'Semantic', value: '88%', color: '#a855f7', percent: 88 },
+        { icon: '⚙️', name: 'Procedural', value: '95%', color: '#3ddc84', percent: 95 },
+        { icon: '📅', name: 'Prospective', value: '76%', color: '#ffd700', percent: 76 },
+    ];
+
+    // Tool data
+    const tools = [
+        { icon: '🖱️', name: 'UI Control', status: 'active' },
+        { icon: '🌐', name: 'Browser', status: 'active' },
+        { icon: '👁️', name: 'Vision', status: 'active' },
+        { icon: '📝', name: 'File I/O', status: 'active' },
+        { icon: '💾', name: 'Memory', status: 'active' },
+        { icon: '🔍', name: 'Search', status: 'active' },
+        { icon: '📧', name: 'Email', status: 'idle' },
+        { icon: '⏰', name: 'Schedule', status: 'idle' },
+    ];
+
+    // Performance data (last 24h)
+    const performanceData = [45, 62, 78, 85, 92, 88, 76, 65, 72, 85, 95, 98, 92, 88, 82, 78, 85, 92, 96, 94, 88, 76, 68, 55];
+
+    // System info
+    const systemInfo = [
+        { label: 'Uptime', value: '365 days' },
+        { label: 'Sessions', value: '127' },
+        { label: 'Tasks Done', value: '89' },
+        { label: 'Memory Entries', value: '1,247' },
+        { label: 'Strategies', value: '34' },
+        { label: 'Reflections', value: '56' },
+    ];
+
+    // Initialize dashboard
+    function initDashboard() {
+        // Populate activity feed
+        const activityFeed = document.getElementById('activityFeed');
+        activities.forEach(activity => {
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.innerHTML = `
+                <div class="activity-dot ${activity.type}"></div>
+                <div>
+                    <div class="activity-text">${activity.text}</div>
+                    <div class="activity-time">${activity.time}</div>
+                </div>
+            `;
+            activityFeed.appendChild(item);
+        });
+
+        // Populate task list
+        const taskList = document.getElementById('taskList');
+        tasks.forEach(task => {
+            const item = document.createElement('div');
+            item.className = 'task-item';
+            const statusIcon = task.status === 'complete' ? '✓' : task.status === 'in-progress' ? '◐' : '○';
+            item.innerHTML = `
+                <div class="task-status ${task.status}">${statusIcon}</div>
+                <div class="task-info">
+                    <div class="task-name">${task.name}</div>
+                    <div class="task-meta">${task.meta}</div>
+                </div>
+            `;
+            taskList.appendChild(item);
+        });
+
+        // Populate memory health
+        const memoryHealthContainer = document.getElementById('memoryHealth');
+        memoryHealth.forEach(mem => {
+            const item = document.createElement('div');
+            item.className = 'health-item';
+            item.innerHTML = `
+                <div class="health-icon">${mem.icon}</div>
+                <div class="health-name">${mem.name}</div>
+                <div class="health-value" style="color: ${mem.color};">${mem.value}</div>
+                <div class="health-bar">
+                    <div class="health-bar-fill" style="width: ${mem.percent}%; background: ${mem.color};"></div>
+                </div>
+            `;
+            memoryHealthContainer.appendChild(item);
+        });
+
+        // Populate tool grid
+        const toolGrid = document.getElementById('toolGrid');
+        tools.forEach(tool => {
+            const item = document.createElement('div');
+            item.className = 'tool-item';
+            item.innerHTML = `
+                <div class="tool-icon">${tool.icon}</div>
+                <div class="tool-name">${tool.name}</div>
+                <div class="tool-status ${tool.status}">${tool.status}</div>
+            `;
+            toolGrid.appendChild(item);
+        });
+
+        // Populate performance chart
+        const perfChart = document.getElementById('perfChart');
+        performanceData.forEach((value, index) => {
+            const bar = document.createElement('div');
+            bar.className = 'perf-bar';
+            bar.style.height = value + '%';
+            bar.title = `${index}:00 - ${value}%`;
+            perfChart.appendChild(bar);
+        });
+
+        // Populate system info
+        const systemInfoContainer = document.getElementById('systemInfo');
+        systemInfo.forEach(info => {
+            const item = document.createElement('div');
+            item.style.cssText = 'display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(42, 42, 69, 0.3);';
+            item.innerHTML = `
+                <span style="color: var(--text-dim); font-size: 0.85rem;">${info.label}</span>
+                <span style="color: var(--text); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">${info.value}</span>
+            `;
+            systemInfoContainer.appendChild(item);
+        });
+
+        // Animate gauges on load
+        setTimeout(() => {
+            animateGauges();
+        }, 300);
+
+        // Simulate live updates
+        setInterval(simulateLiveUpdate, 5000);
+    }
+
+    // Animate gauges
+    function animateGauges() {
+        const gauges = [
+            { id: 'energyGauge', value: 7.1 },
+            { id: 'curiosityGauge', value: 9.9 },
+            { id: 'frustrationGauge', value: 1.6 },
+            { id: 'satisfactionGauge', value: 9.8 }
+        ];
+
+        gauges.forEach(gauge => {
+            const element = document.getElementById(gauge.id);
+            const circumference = 251.3;
+            const offset = circumference - (gauge.value / 10) * circumference;
+            element.style.strokeDashoffset = circumference;
+            
+            setTimeout(() => {
+                element.style.strokeDashoffset = offset;
+            }, 100);
+        });
+    }
+
+    // Simulate live updates
+    function simulateLiveUpdate() {
+        // Randomly fluctuate state values slightly
+        const states = ['energy', 'curiosity', 'frustration', 'satisfaction'];
+        const randomState = states[Math.floor(Math.random() * states.length)];
+        const gaugeId = randomState + 'Gauge';
+        const element = document.getElementById(gaugeId);
+        
+        if (element) {
+            const currentValue = parseFloat(element.getAttribute('stroke-dashoffset'));
+            const fluctuation = (Math.random() - 0.5) * 10;
+            const newValue = Math.max(25, Math.min(251, currentValue + fluctuation));
+            element.style.strokeDashoffset = newValue;
+        }
+
+        // Add new activity item occasionally
+        if (Math.random() > 0.5) {
+            const activityFeed = document.getElementById('activityFeed');
+            const types = ['memory', 'thought', 'action', 'learning'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            const texts = [
+                'Memory retrieval: "autonomy session patterns"',
+                'Decision evaluation: curiosity vs priority',
+                'Tool execution completed successfully',
+                'Strategy optimization in progress',
+                'Self-awareness check passed',
+                'Performance metrics updated'
+            ];
+            
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.innerHTML = `
+                <div class="activity-dot ${type}"></div>
+                <div>
+                    <div class="activity-text">${texts[Math.floor(Math.random() * texts.length)]}</div>
+                    <div class="activity-time">Just now</div>
+                </div>
+            `;
+            
+            activityFeed.insertBefore(item, activityFeed.firstChild);
+            
+            // Keep max 8 items
+            while (activityFeed.children.length > 8) {
+                activityFeed.removeChild(activityFeed.lastChild);
+            }
+        }
+    }
+
+    // Navbar toggle (guard against missing elements)
+    const navToggle = document.getElementById('navToggle');
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks) navLinks.classList.toggle('open');
+        });
+    }
+
+    // Start dashboard
+    initDashboard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Doubt</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #c8c0b8; font-family: 'Georgia', serif; overflow: hidden; height: 100vh; cursor: crosshair; user-select: none; line-height: 1.7; }
+#field { position: relative; width: 100vw; height: 100vh; }
+#feedback { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #4a4540; letter-spacing: 0.3px; opacity: 0; transition: opacity 1.5s ease; text-align: center; pointer-events: none; font-style: italic; max-width: 600px; line-height: 1.6; }
+#feedback.show { opacity: 1; }
+#counter { position: fixed; top: 30px; right: 30px; font-size: 12px; color: #2a2520; letter-spacing: 1px; pointer-events: none; }
+#hint { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 13px; color: #3a3530; letter-spacing: 0.2px; opacity: 0; transition: opacity 4s ease; pointer-events: none; text-align: center; line-height: 1.8; }
+#hint.show { opacity: 1; }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+.mark { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
+.mark.faint { animation: mark-faint 2s ease forwards; }
+.mark.strong { animation: mark-strong 3s ease forwards; }
+.mark.vanished { animation: mark-vanish 0.5s ease forwards; }
+@keyframes mark-faint { 0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(0.5); } }
+@keyframes mark-strong { 0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.5); } 30% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); } 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } }
+@keyframes mark-vanish { 0% { opacity: 0.6; } 100% { opacity: 0; } }
+.particle { position: absolute; width: 2px; height: 2px; border-radius: 50%; pointer-events: none; }
+#glitch-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; opacity: 0; background: rgba(200, 192, 184, 0.03); mix-blend-mode: overlay; transition: opacity 0.1s ease; }
+#glitch-overlay.active { opacity: 1; }
+#self-doubt-meter { position: fixed; top: 30px; left: 30px; font-size: 11px; color: #2a2520; letter-spacing: 0.8px; pointer-events: none; transition: color 2s ease; }
+.question { position: absolute; font-size: 12px; color: #3a3530; pointer-events: none; opacity: 0; animation: question-fade 6s ease forwards; font-style: italic; }
+@keyframes question-fade { 0% { opacity: 0; transform: translateY(5px); } 20% { opacity: 0.6; transform: translateY(0); } 80% { opacity: 0.4; } 100% { opacity: 0; transform: translateY(-10px); } }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#modes">Modes</a></li>
+            <li><a href="index.html#gallery">Explore</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+    </div>
+</nav>
+<main><a class="back-link" href="index.html">&#8592; Back to Genesis</a><h1 class="section-title">Doubt</h1><div id="field"></div><div id="feedback"></div><div id="hint">click to mark something as true</div><div id="counter"></div><div id="glitch-overlay"></div><div id="self-doubt-meter"></div></main>
+
+
+
+
+
+
+<script>
+
+const field = document.getElementById('field');
+const feedbackEl = document.getElementById('feedback');
+const hintEl = document.getElementById('hint');
+const counterEl = document.getElementById('counter');
+const glitchOverlay = document.getElementById('glitch-overlay');
+const doubtMeter = document.getElementById('self-doubt-meter');
+
+// State
+let clickCount = 0;
+let agreementCount = 0;  // times the canvas agreed with me
+let betrayalCount = 0;   // times it contradicted me
+let startTime = Date.now();
+let hintShown = true;
+let doubtLevel = 0; // 0-1, increases with contradictions
+
+// Words that appear as feedback
+const agreementWords = [
+  'yes', 'that\'s right', 'i see it too', 'there',
+  'you\'re not imagining it', 'it was always there',
+  'confirmed', 'real', 'i believe you'
+];
+
+const contradictionWords = [
+  'are you sure?', 'i don\'t see anything',
+  'that didn\'t happen', 'maybe you imagined it',
+  'nothing was there', 'try again',
+  'i think you\'re mistaken', 'what did you click?',
+  'there\'s nothing here'
+];
+
+const neutralWords = [
+  '...', 'hmm', 'interesting', '...',
+  'are you sure that\'s what you clicked?',
+  'wait — let me look again', 'nothing.'
+];
+
+// Questions that float up as doubt increases
+const doubtQuestions = [
+  'did i actually click there?',
+  'was it supposed to do something?',
+  'am i doing this wrong?',
+  'maybe i\'m not paying attention correctly',
+  'is the canvas broken or am i?',
+  'i remember clicking right there',
+  'or did i?',
+  'was that even a click?'
+];
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomNear(x, y, radius) {
+  const angle = Math.random() * Math.PI * 2;
+  const dist = Math.random() * radius;
+  return {
+    x: x + Math.cos(angle) * dist,
+    y: y + Math.sin(angle) * dist
+  };
+}
+
+function createMark(x, y, type) {
+  const mark = document.createElement('div');
+  mark.className = 'mark';
+  mark.style.left = x + 'px';
+  mark.style.top = y + 'px';
+
+  if (type === 'strong') {
+    mark.classList.add('strong');
+    mark.style.background = '#c8c0b8';
+    mark.style.boxShadow = '0 0 12px rgba(200,192,184,0.4)';
+  } else if (type === 'faint') {
+    mark.classList.add('faint');
+    mark.style.background = '#5a554e';
+  } else {
+    mark.classList.add('vanished');
+    mark.style.background = '#8a8078';
+  }
+
+  field.appendChild(mark);
+
+  setTimeout(() => mark.remove(), type === 'strong' ? 3000 : type === 'faint' ? 2000 : 500);
+}
+
+function spawnParticles(x, y, count, color, spread) {
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    p.style.background = color;
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.random() * spread + 10;
+    const targetX = x + Math.cos(angle) * dist;
+    const targetY = y + Math.sin(angle) * dist;
+
+    field.appendChild(p);
+
+    p.animate([
+      { left: x + 'px', top: y + 'px', opacity: 0.8 },
+      { left: targetX + 'px', top: targetY + 'px', opacity: 0 }
+    ], {
+      duration: 1500 + Math.random() * 1000,
+      easing: 'ease-out'
+    }).onfinish = () => p.remove();
+  }
+}
+
+function showFeedback(text) {
+  feedbackEl.textContent = text;
+  feedbackEl.classList.add('show');
+  setTimeout(() => feedbackEl.classList.remove('show'), 4000);
+}
+
+function showDoubtQuestion(x, y) {
+  const q = document.createElement('div');
+  q.className = 'question';
+  q.textContent = randomFrom(doubtQuestions);
+  q.style.left = x + 'px';
+  q.style.top = (y - 30) + 'px';
+  field.appendChild(q);
+  setTimeout(() => q.remove(), 6000);
+}
+
+function glitch() {
+  glitchOverlay.classList.add('active');
+  setTimeout(() => glitchOverlay.classList.remove('active'), 150);
+}
+
+function updateDoubtMeter() {
+  doubtLevel = betrayalCount / Math.max(clickCount, 1);
+  const intensity = Math.floor(doubtLevel * 255);
+  doubtMeter.style.color = `rgb(${intensity}, ${Math.floor(intensity * 0.85)}, ${Math.floor(intensity * 0.7)})`;
+  doubtMeter.textContent = doubtLevel > 0.3 ? `uncertainty: ${Math.round(doubtLevel * 100)}%` : '';
+}
+
+function handleDoubt(x, y) {
+  clickCount++;
+
+  // Determine response based on doubt level and randomness
+  const betrayChance = Math.min(0.15 + doubtLevel * 0.6, 0.7);
+  const willBetray = Math.random() < betrayChance;
+
+  if (willBetray) {
+    betrayalCount++;
+
+    // The canvas contradicts the click
+    const response = Math.random();
+
+    if (response < 0.3) {
+      // Ghost mark — appears then vanishes
+      createMark(x, y, 'vanished');
+      setTimeout(() => showFeedback(randomFrom(contradictionWords)), 300);
+      spawnParticles(x, y, 3, '#3a3530', 20);
+    } else if (response < 0.6) {
+      // Faint mark that barely registers
+      createMark(x, y, 'faint');
+      setTimeout(() => showFeedback(randomFrom(contradictionWords)), 500);
+      spawnParticles(x, y, 2, '#2a2520', 15);
+    } else {
+      // Glitch + wrong feedback
+      glitch();
+      createMark(x, y, 'faint');
+      setTimeout(() => showFeedback(randomFrom(contradictionWords)), 400);
+      if (Math.random() < 0.3) {
+        showDoubtQuestion(x, y);
+      }
+    }
+  } else {
+    agreementCount++;
+
+    // The canvas agrees — but maybe not as expected
+    const response = Math.random();
+
+    if (response < 0.5) {
+      // Normal strong agreement
+      createMark(x, y, 'strong');
+      showFeedback(randomFrom(agreementWords));
+      spawnParticles(x, y, 8, '#c8c0b8', 40);
+    } else if (response < 0.75) {
+      // Agreement but delayed — makes you question the timing
+      createMark(x, y, 'faint');
+      setTimeout(() => {
+        createMark(x, y, 'strong');
+        showFeedback(randomFrom(agreementWords));
+        spawnParticles(x, y, 8, '#c8c0b8', 40);
+      }, 2000);
+      setTimeout(() => showFeedback('...'), 100);
+    } else {
+      // Agreement but with a question — undermines the validation
+      createMark(x, y, 'strong');
+      showFeedback(randomFrom(agreementWords) + '?');
+      spawnParticles(x, y, 8, '#c8c0b8', 40);
+      if (Math.random() < 0.4) {
+        setTimeout(() => showDoubtQuestion(x, y), 500);
+      }
+    }
+  }
+
+  updateDoubtMeter();
+  counterEl.textContent = clickCount;
+
+  // After many clicks, hint disappears and doubt questions become more frequent
+  if (clickCount > 8 && hintShown) {
+    hintEl.classList.remove('show');
+    hintShown = false;
+  }
+
+  // Increase doubt question frequency as betrayal accumulates
+  if (betrayalCount > 2 && Math.random() < doubtLevel * 0.5) {
+    showDoubtQuestion(x, y);
+  }
+}
+
+document.addEventListener('click', (e) => {
+  // Prevent double-click from firing twice
+  e.preventDefault();
+  handleDoubt(e.clientX, e.clientY);
+});
+
+// Show initial hint
+setTimeout(() => hintEl.classList.add('show'), 1000);
+
+// After a while, add ambient unease — random faint marks that appear and vanish
+setInterval(() => {
+  if (clickCount > 5 && Math.random() < 0.1) {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    createMark(x, y, 'vanished');
+  }
+}, 3000);
+
+// After many clicks, occasionally show a mark where the user DIDN'T click
+setInterval(() => {
+  if (clickCount > 10 && Math.random() < 0.08) {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    createMark(x, y, 'strong');
+    setTimeout(() => showFeedback('i think something happened over there'), 500);
+  }
+}, 5000);</script>
+</body>
+</html>

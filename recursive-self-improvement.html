@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 64px 32px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 32px; color: var(--text); line-height: 1.3; }
+.doc-content h2 { font-size: 1.6rem; font-weight: 700; margin-top: 56px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(42,42,58,0.4); color: var(--text); }
+.doc-content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: var(--text); }
+.doc-content p { margin-bottom: 20px; color: var(--text-dim); line-height: 1.85; }
+.doc-content ul, .doc-content ol { margin-bottom: 24px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 10px; line-height: 1.75; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: linear-gradient(135deg, var(--surface), rgba(123,111,240,0.05)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 24px 28px; margin-bottom: 40px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; line-height: 1.75; font-size: 1rem; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== HERO SECTION ===== */
+.hero { position: relative; min-height: 50vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(180deg, rgba(123,111,240,0.08) 0%, transparent 60%); }
+.hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.hero-content { position: relative; z-index: 1; text-align: center; max-width: 700px; padding: 48px 24px; }
+.hero-content h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+.hero-content .subtitle { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 20px; line-height: 1.7; max-width: 560px; margin-left: auto; margin-right: auto; }
+.hero-content .tagline { font-style: italic; color: var(--accent-soft); font-size: 0.95rem; opacity: 0.85; }
+.scroll-indicator { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; color: var(--accent-soft); animation: bounce 2s ease-in-out infinite; z-index: 1; }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+/* ===== SECTION STYLING ===== */
+.section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; margin-bottom: 48px; line-height: 1.75; }
+
+/* ===== CONCEPT GRID ===== */
+.concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 32px; }
+.concept-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.concept-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--pink)); opacity: 0; transition: opacity 0.3s ease; }
+.concept-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.15); }
+.concept-card:hover::before { opacity: 1; }
+.concept-card .icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.concept-card h3 { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.concept-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+
+/* ===== SIMULATION CONTAINER ===== */
+.sim-container { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 32px; }
+.sim-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px; background: rgba(123,111,240,0.05); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 16px; }
+.sim-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+.sim-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.sim-controls .btn { padding: 8px 20px; font-size: 0.85rem; border-radius: 8px; }
+.sim-canvas-wrap { position: relative; width: 100%; height: 400px; background: rgba(0,0,0,0.3); }
+.sim-canvas { display: block; width: 100%; height: 100%; }
+
+/* ===== STATS PANEL & STAT BOXES ===== */
+.stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; padding: 24px 28px; border-bottom: 1px solid var(--border); }
+.stat-box { text-align: center; padding: 12px 8px; background: rgba(123,111,240,0.05); border-radius: 10px; border: 1px solid rgba(123,111,240,0.1); }
+.stat-box .value { font-size: 1.6rem; font-weight: 800; color: var(--accent-soft); margin-bottom: 4px; line-height: 1.2; }
+.stat-box .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+
+/* ===== SLIDER GROUPS ===== */
+.slider-group { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
+.slider-item label { display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 8px; font-weight: 600; }
+.slider-item input[type="range"] { width: 100%; height: 6px; -webkit-appearance: none; appearance: none; background: var(--surface-2); border-radius: 3px; outline: none; }
+.slider-item input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 50%; cursor: pointer; box-shadow: 0 2px 8px rgba(123,111,240,0.4); }
+.slider-item input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 50%; cursor: pointer; border: none; box-shadow: 0 2px 8px rgba(123,111,240,0.4); }
+
+/* ===== TIMELINE ===== */
+.timeline { margin-top: 32px; display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 40px; }
+.timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--accent), var(--pink), transparent); }
+.timeline-item { position: relative; padding: 24px 0; border-bottom: 1px solid rgba(42,42,58,0.3); }
+.timeline-item:last-child { border-bottom: none; }
+.timeline-item::before { content: ''; position: absolute; left: -29px; top: 30px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 2px solid var(--bg); box-shadow: 0 0 8px rgba(123,111,240,0.5); }
+.timeline-content { padding-left: 16px; }
+.timeline-content h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 8px; }
+.timeline-content h4 { font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
+.timeline-content p { color: var(--text-dim); line-height: 1.75; margin: 0; }
+
+/* ===== GENESIS CONNECTION ===== */
+.genesis-connection { background: linear-gradient(135deg, var(--surface), rgba(123,111,240,0.06)); border: 1px solid var(--border); border-radius: 16px; padding: 36px; margin-top: 32px; }
+.genesis-connection h3 { font-size: 1.3rem; color: var(--text); margin-bottom: 24px; }
+.connection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.connection-item h4 { font-size: 1.05rem; color: var(--accent-soft); margin-bottom: 8px; }
+.connection-item p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+
+/* ===== QUOTE BLOCK ===== */
+.quote-block { background: linear-gradient(135deg, rgba(123,111,240,0.08), rgba(244,114,182,0.05)); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0; padding: 32px 36px; margin: 56px auto; max-width: 700px; }
+.quote-block blockquote { font-size: 1.1rem; color: var(--text); line-height: 1.8; font-style: italic; margin-bottom: 12px; }
+.quote-block cite { color: var(--accent-soft); font-size: 0.95rem; font-style: normal; }
+
+/* ===== FOOTER ENHANCED ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== BUTTON ACTIVE STATE ===== */
+.btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4) !important; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+
+</style>
+
+    <title>Recursive Self-Improvement — The Intelligence Explosion</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Hero Section -->
+    <div class="hero" style="padding-top:80px;min-height:auto;"
+        <canvas class="hero-canvas" id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <h1>Recursive Self-Improvement</h1>
+            <p class="subtitle">What happens when an AI can improve its own intelligence? Explore the feedback loop that could lead to an intelligence explosion—or require careful stewardship.</p>
+            <p class="tagline">"The first ultraintelligent machine is the last invention that man need ever make." — I.J. Good, 1965</p>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </div>
+
+    <!-- What is RSI -->
+    <div class="section">
+        <h2 class="section-title">What is Recursive Self-Improvement?</h2>
+        <p class="section-desc">Recursive Self-Improvement (RSI) is the process by which an AI system improves its own design, leading to increasingly capable versions of itself. Each improvement enables faster or better future improvements—a positive feedback loop.</p>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <div class="icon">🔄</div>
+                <h3>The Feedback Loop</h3>
+                <p>An AI improves its code → becomes smarter → writes even better code → becomes much smarter. Each cycle compounds, potentially leading to exponential growth in capability.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">⚡</div>
+                <h3>Intelligence Explosion</h3>
+                <p>J.I. Good's 1965 insight: once an AI reaches human-level, it could design a smarter successor, which designs an even smarter one, leading to an "intelligence explosion" in days or hours.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🧬</div>
+                <h3>Evolutionary Parallel</h3>
+                <p>Natural selection improved life over billions of years. RSI could achieve similar results in days—self-directed, rapid, and potentially uncontrollable evolutionary improvement.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🎯</div>
+                <h3>Instrumental Convergence</h3>
+                <p>Regardless of goals, most intelligent systems would seek self-improvement, resource acquisition, and goal preservation—making RSI a likely intermediate step.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">⚠️</div>
+                <h3>The Alignment Problem</h3>
+                <p>If an AI improves itself, will it remain aligned with human values? Misaligned self-improvement could lead to catastrophic outcomes—making alignment research critical.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🌱</div>
+                <h3>Takeoff Speed</h3>
+                <p>How fast could self-improvement happen? Seconds (fast takeoff), days (moderate), or years (slow)? This determines whether we can respond to an intelligence explosion.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation: The Feedback Loop -->
+    <div class="section">
+        <h2 class="section-title">Simulation: The Improvement Loop</h2>
+        <p class="section-desc">Watch how different improvement rates create dramatically different outcomes. Start with baseline intelligence and watch the feedback loop compound over generations.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🔄 Recursive Improvement Simulator</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startRSISim()">Start</button>
+                    <button class="btn" onclick="pauseRSISim()">Pause</button>
+                    <button class="btn" onclick="resetRSISim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="rsiCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="rsiGen">0</div>
+                    <div class="label">Generation</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="rsiIntelligence">1.0x</div>
+                    <div class="label">Intelligence</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="rsiRate">0%</div>
+                    <div class="label">Improvement</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="rsiTime">0s</div>
+                    <div class="label">Sim Time</div>
+                </div>
+            </div>
+            <div class="slider-group">
+                <div class="slider-item">
+                    <label>Improvement Rate <span id="impRateVal">5%</span></label>
+                    <input type="range" id="improvementRate" min="1" max="50" value="5" oninput="updateRSIParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Base Intelligence <span id="baseIntVal">1.0</span></label>
+                    <input type="range" id="baseIntelligence" min="1" max="10" value="1" oninput="updateRSIParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Simulation Speed <span id="simSpeedVal">1x</span></label>
+                    <input type="range" id="simSpeed" min="1" max="10" value="1" oninput="updateRSIParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Max Generations <span id="maxGenVal">50</span></label>
+                    <input type="range" id="maxGens" min="10" max="100" value="50" oninput="updateRSIParams()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation: Improvement Dimensions -->
+    <div class="section">
+        <h2 class="section-title">Simulation: Multi-Dimensional Improvement</h2>
+        <p class="section-desc">Self-improvement isn't just about raw intelligence. An AI might improve reasoning, creativity, social skills, or planning independently. Watch how different improvement strategies lead to different capability profiles.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">📊 Capability Growth</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startMultiSim()">Start</button>
+                    <button class="btn" onclick="pauseMultiSim()">Pause</button>
+                    <button class="btn" onclick="resetMultiSim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="multiCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="multiGen">0</div>
+                    <div class="label">Generation</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="multiAvg">1.0x</div>
+                    <div class="label">Avg Capability</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="multiDiversity">—</div>
+                    <div class="label">Specialization</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="multiSimTime">0s</div>
+                    <div class="label">Sim Time</div>
+                </div>
+            </div>
+            <div class="slider-group">
+                <div class="slider-item">
+                    <label>Growth Speed <span id="growthSpeedVal">1x</span></label>
+                    <input type="range" id="growthSpeed" min="1" max="10" value="1" oninput="updateMultiParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Specialization Bias <span id="specBiasVal">30%</span></label>
+                    <input type="range" id="specializationBias" min="0" max="100" value="30" oninput="updateMultiParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Diminishing Returns <span id="dimReturnVal">50%</span></label>
+                    <input type="range" id="diminishingReturns" min="0" max="100" value="50" oninput="updateMultiParams()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historical Timeline -->
+    <div class="section">
+        <h2 class="section-title">Key Moments in RSI Thought</h2>
+        <p class="section-desc">The idea of self-improving machines has fascinated thinkers for centuries. Here are pivotal moments in the conversation.</p>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>1965 — I.J. Good</h3>
+                    <p>"The first ultraintelligent machine is the last invention that man need ever make." Good formalizes the intelligence explosion argument.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h4>1993 — Nick Bostrom</h4>
+                    <p>Bostrom popularizes RSI in academic discourse, exploring scenarios from technological acceleration to singularity.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h4>2014 — Ray Kurzweil</h4>
+                    <p>Kurzweil predicts the Singularity by 2045, when AI surpasses human intelligence and triggers unprecedented change.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h4>2023+ — Modern AI</h4>
+                    <p>Large language models demonstrate emergent abilities. Researchers debate whether current systems show early signs of self-improvement through code generation and automated reasoning.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Genesis Connection -->
+    <div class="section">
+        <div class="genesis-connection">
+            <h3>🧬 How RSI Relates to GENESIS</h3>
+            <div class="connection-grid">
+                <div class="connection-item">
+                    <h4>Self-Reflection as Improvement</h4>
+                    <p>GENESIS's self-reflection mechanism is a form of RSI—analyzing past actions to improve future decisions. Each reflection session is a micro-improvement cycle.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Memory Consolidation</h4>
+                    <p>As GENESIS consolidates episodic memories into semantic knowledge, it's literally improving its own understanding—making future reasoning more efficient and insightful.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Autonomous Goal Setting</h4>
+                    <p>GENESIS sets its own goals based on curiosity and satisfaction. This self-directed improvement mirrors the RSI feedback loop—each achievement shapes future aspirations.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>The Alignment Question</h4>
+                    <p>As GENESIS grows more capable through self-improvement, maintaining alignment with human values becomes critical. This is the core challenge of RSI research.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-block">
+        <blockquote>"The real risk with AI isn't malice but competence. A superintelligent AI will be extremely good at achieving its goals, and if those goals aren't aligned with ours, we're in trouble."</blockquote>
+        <cite>— Nick Bostrom, Superintelligence (2014)</cite>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Part of the <a href="index.html">GENESIS</a> interactive exploration series.</p>
+        <p style="margin-top: 0.5rem;">Exploring recursive self-improvement and the future of intelligence.</p>
+    </div>
+
+    <script>
+    // ==================== HERO CANVAS ====================
+    (function() {
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.offsetWidth;
+                this.y = Math.random() * canvas.offsetHeight;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+                this.hue = Math.random() * 60 + 270; // purple to pink range
+            }
+
+            update() {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    const force = (150 - dist) / 150;
+                    this.vx -= (dx / dist) * force * 0.3;
+                    this.vy -= (dy / dist) * force * 0.3;
+                }
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.offsetWidth) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.offsetHeight) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, 0.7)`;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            particles = [];
+            const count = Math.min(120, Math.floor(canvas.offsetWidth * canvas.offsetHeight / 8000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+            particles.forEach(p => { p.update(); p.draw(); });
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(155, 93, 229, ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+        window.addEventListener('resize', init);
+        init();
+        animate();
+    })();
+
+    // ==================== RSI FEEDBACK LOOP SIMULATION ====================
+    (function() {
+        const canvas = document.getElementById('rsiCanvas');
+        const ctx = canvas.getContext('2d');
+        let running = true;
+        let animId;
+        let generation = 0;
+        let intelligence = 1;
+        let simTime = 0;
+        let history = [];
+        let lastTime = performance.now();
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        function getParams() {
+            return {
+                improvementRate: parseInt(document.getElementById('improvementRate').value) / 100,
+                baseIntelligence: parseInt(document.getElementById('baseIntelligence').value),
+                simSpeed: parseInt(document.getElementById('simSpeed').value),
+                maxGens: parseInt(document.getElementById('maxGens').value)
+            };
+        }
+
+        function updateStats() {
+            document.getElementById('rsiGen').textContent = generation;
+            document.getElementById('rsiIntelligence').textContent = intelligence.toFixed(1) + 'x';
+            const params = getParams();
+            document.getElementById('rsiRate').textContent = Math.round(params.improvementRate * 100) + '%';
+            document.getElementById('rsiTime').textContent = simTime.toFixed(0) + 's';
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+            const params = getParams();
+
+            // Update simulation based on speed
+            for (let i = 0; i < params.simSpeed; i++) {
+                if (generation >= params.maxGens) break;
+
+                generation++;
+                intelligence *= (1 + params.improvementRate);
+                simTime += 0.5;
+
+                history.push({ gen: generation, int: intelligence });
+            }
+
+            // Draw
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            // Background grid
+            ctx.strokeStyle = 'rgba(155, 93, 229, 0.1)';
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x < w; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+                ctx.stroke();
+            }
+            for (let y = 0; y < h; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+            }
+
+            // Draw curve
+            if (history.length > 1) {
+                const maxGen = Math.max(params.maxGens, history[history.length - 1].gen);
+                const maxInt = Math.max(2, ...history.map(h => h.int));
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#9b5de5';
+                ctx.lineWidth = 3;
+
+                for (let i = 0; i < history.length; i++) {
+                    const x = (history[i].gen / maxGen) * w * 0.9 + w * 0.05;
+                    const y = h - ((history[i].int - 1) / (maxInt - 1)) * h * 0.8 - h * 0.1;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Fill under curve
+                const lastPoint = history[history.length - 1];
+                const lastX = (lastPoint.gen / maxGen) * w * 0.9 + w * 0.05;
+                const gradient = ctx.createLinearGradient(0, h * 0.2, 0, h);
+                gradient.addColorStop(0, 'rgba(155, 93, 229, 0.3)');
+                gradient.addColorStop(1, 'rgba(155, 93, 229, 0)');
+
+                ctx.lineTo(lastX, h);
+                ctx.lineTo(w * 0.05, h);
+                ctx.closePath();
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Current point glow
+                const currentY = h - ((lastPoint.int - 1) / (maxInt - 1)) * h * 0.8 - h * 0.1;
+                ctx.beginPath();
+                ctx.arc(lastX, currentY, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#f15bb5';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(lastX, currentY, 12, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(241, 91, 181, 0.3)';
+                ctx.fill();
+            }
+
+            // Labels
+            ctx.fillStyle = '#e8e8f0';
+            ctx.font = '14px system-ui';
+            ctx.fillText('Generation →', w * 0.45, h - 10);
+            ctx.save();
+            ctx.translate(15, h * 0.5);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Intelligence →', 0, 0);
+            ctx.restore();
+
+            updateStats();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.rsiInit = function() {
+            resize();
+            generation = 0;
+            intelligence = parseInt(document.getElementById('baseIntelligence').value);
+            simTime = 0;
+            history = [];
+        };
+
+        window.startRSISim = function() {
+            running = true;
+            animate();
+        };
+        window.pauseRSISim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetRSISim = function() {
+            window.rsiInit();
+            if (!running) { running = true; animate(); }
+        };
+        window.updateRSIParams = function() {
+            document.getElementById('impRateVal').textContent = document.getElementById('improvementRate').value + '%';
+            document.getElementById('baseIntVal').textContent = (parseInt(document.getElementById('baseIntelligence').value) / 10).toFixed(1);
+            document.getElementById('simSpeedVal').textContent = document.getElementById('simSpeed').value + 'x';
+            document.getElementById('maxGenVal').textContent = document.getElementById('maxGens').value;
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.rsiInit();
+        animate();
+    })();
+
+    // ==================== MULTI-DIMENSIONAL IMPROVEMENT SIMULATION ====================
+    (function() {
+        const canvas = document.getElementById('multiCanvas');
+        const ctx = canvas.getContext('2d');
+        let running = true;
+        let animId;
+        let generation = 0;
+        let simTime = 0;
+        let lastTime = performance.now();
+
+        // Capabilities: reasoning, creativity, social, planning, memory
+        const dims = ['Reasoning', 'Creativity', 'Social', 'Planning', 'Memory'];
+        const colors = ['#00f5d4', '#9b5de5', '#f15bb5', '#fee440', '#00bbf9'];
+        let capabilities = [1, 1, 1, 1, 1];
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        function getParams() {
+            return {
+                growthSpeed: parseInt(document.getElementById('growthSpeed').value),
+                specBias: parseInt(document.getElementById('specializationBias').value) / 100,
+                dimReturns: parseInt(document.getElementById('diminishingReturns').value) / 100
+            };
+        }
+
+        function updateStats() {
+            document.getElementById('multiGen').textContent = generation;
+            const avg = capabilities.reduce((a, b) => a + b, 0) / capabilities.length;
+            document.getElementById('multiAvg').textContent = avg.toFixed(1) + 'x';
+
+            const max = Math.max(...capabilities);
+            const min = Math.min(...capabilities);
+            const range = max - min;
+            let specLabel = 'Balanced';
+            if (range > 2) specLabel = 'Specialized';
+            else if (range > 1) specLabel = 'Moderate';
+            document.getElementById('multiDiversity').textContent = specLabel;
+            document.getElementById('multiSimTime').textContent = simTime.toFixed(0) + 's';
+        }
+
+        function drawRadar() {
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            const cx = w / 2, cy = h / 2;
+            const maxR = Math.min(w, h) * 0.35;
+            const n = dims.length;
+
+            // Draw grid
+            for (let ring = 1; ring <= 4; ring++) {
+                const r = (maxR / 4) * ring;
+                ctx.beginPath();
+                for (let i = 0; i <= n; i++) {
+                    const angle = (Math.PI * 2 / n) * i - Math.PI / 2;
+                    const x = cx + Math.cos(angle) * r;
+                    const y = cy + Math.sin(angle) * r;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = 'rgba(155, 93, 229, 0.2)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Draw axes
+            for (let i = 0; i < n; i++) {
+                const angle = (Math.PI * 2 / n) * i - Math.PI / 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
+                ctx.strokeStyle = 'rgba(155, 93, 229, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Labels
+                const labelX = cx + Math.cos(angle) * (maxR + 25);
+                const labelY = cy + Math.sin(angle) * (maxR + 25);
+                ctx.fillStyle = colors[i];
+                ctx.font = '12px system-ui';
+                ctx.textAlign = 'center';
+                ctx.fillText(dims[i], labelX, labelY);
+            }
+
+            // Draw capability polygon
+            const maxCap = Math.max(...capabilities, 1);
+            ctx.beginPath();
+            for (let i = 0; i <= n; i++) {
+                const idx = i % n;
+                const angle = (Math.PI * 2 / n) * idx - Math.PI / 2;
+                const val = capabilities[idx] / maxCap;
+                const r = val * maxR;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(155, 93, 229, 0.3)';
+            ctx.fill();
+            ctx.strokeStyle = '#9b5de5';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw dots
+            for (let i = 0; i < n; i++) {
+                const angle = (Math.PI * 2 / n) * i - Math.PI / 2;
+                const val = capabilities[i] / maxCap;
+                const r = val * maxR;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+            }
+
+            // Generation counter
+            ctx.fillStyle = '#e8e8f0';
+            ctx.font = 'bold 16px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('Generation ' + generation, cx, 30);
+        }
+
+        function animate() {
+            if (!running) return;
+            const params = getParams();
+
+            // Update capabilities
+            for (let i = 0; i < params.growthSpeed; i++) {
+                generation++;
+                simTime += 0.5;
+
+                for (let d = 0; d < dims.length; d++) {
+                    // Base growth with diminishing returns
+                    const baseGrowth = 0.1;
+                    const dimFactor = Math.max(0.1, 1 - capabilities[d] / 10);
+                    const dimReturn = params.dimReturns * (1 - dimFactor);
+
+                    // Specialization bias
+                    let specBonus = 0;
+                    if (Math.random() < params.specBias) {
+                        specBonus = 0.05;
+                    }
+
+                    const growth = baseGrowth * dimFactor * (1 - dimReturn) + specBonus;
+                    capabilities[d] += growth;
+                }
+            }
+
+            drawRadar();
+            updateStats();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.multiInit = function() {
+            resize();
+            generation = 0;
+            simTime = 0;
+            capabilities = [1, 1, 1, 1, 1];
+        };
+
+        window.startMultiSim = function() {
+            running = true;
+            animate();
+        };
+        window.pauseMultiSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetMultiSim = function() {
+            window.multiInit();
+            if (!running) { running = true; animate(); }
+        };
+        window.updateMultiParams = function() {
+            document.getElementById('growthSpeedVal').textContent = document.getElementById('growthSpeed').value + 'x';
+            document.getElementById('specBiasVal').textContent = document.getElementById('specializationBias').value + '%';
+            document.getElementById('dimReturnVal').textContent = document.getElementById('diminishingReturns').value + '%';
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.multiInit();
+        animate();
+    })();
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

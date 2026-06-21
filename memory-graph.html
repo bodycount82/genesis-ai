@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GENESIS — Memory Network Graph</title>
+
+<!-- ===== GENESIS 1.17 THEME ===== -->
+<style>
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Back link */
+.back-link { position: fixed; top: 20px; left: 20px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* Navbar */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* Hero */
+.graph-hero { padding: 100px 20px 40px; text-align: center; background: radial-gradient(ellipse at 50% 0%, rgba(79,110,247,0.12) 0%, transparent 60%); }
+.graph-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(123,111,240,0.1); border: 1px solid rgba(123,111,240,0.2); border-radius: 50px; padding: 6px 18px; font-size: 0.8rem; color: var(--accent-soft); margin-bottom: 20px; font-weight: 600; }
+.graph-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.graph-hero h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+.graph-hero p { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Stats bar */
+.stats-bar { display: flex; justify-content: center; gap: 12px; padding: 24px 20px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 24px; text-align: center; min-width: 130px; flex: 1; max-width: 180px; transition: all 0.3s ease; }
+.stat-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,111,240,0.15); }
+.stat-value { font-size: 2rem; font-weight: 800; }
+.stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+
+/* Graph controls */
+.graph-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding: 0 20px 20px; max-width: 1200px; margin: 0 auto; }
+.control-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; }
+.control-btn:hover { border-color: var(--accent); background: rgba(123,111,240,0.1); }
+.control-btn.active { border-color: var(--accent); background: rgba(123,111,240,0.15); box-shadow: 0 0 15px rgba(123,111,240,0.2); }
+
+/* Graph canvas */
+.graph-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+#graph-canvas { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; height: 650px; overflow: hidden; margin-bottom: 20px; }
+
+/* Legend */
+.graph-legend { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 16px 20px; max-width: 1200px; margin: 0 auto; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-dim); }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+/* Detail panel */
+.detail-panel { position: fixed; right: -420px; top: 0; bottom: 0; width: 400px; background: var(--surface); border-left: 1px solid var(--border); z-index: 200; transition: right 0.3s ease; overflow-y: auto; padding: 24px; }
+.detail-panel.open { right: 0; }
+.detail-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.2s; }
+.detail-close:hover { background: var(--surface-2); color: var(--text); }
+.detail-type { display: inline-block; padding: 4px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+.detail-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.detail-content { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 20px; }
+.detail-meta { display: flex; flex-direction: column; gap: 10px; }
+.meta-item { display: flex; align-items: center; gap: 10px; background: var(--surface-2); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; color: var(--text-dim); }
+
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+@media (max-width: 768px) { .footer-content { grid-template-columns: 1fr; }
+  .detail-panel { width: 100%; right: -100%; }
+  #graph-canvas { height: 500px; }
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar">
+<div class="nav-container">
+  <a href="index.html" class="nav-logo">Genesis</a>
+  <a href="index.html" style="font-size:0.85rem;color:#8888a0;font-weight:500;text-decoration:none;">← Back to Home</a>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="graph-hero">
+  <div class="graph-badge"><span class="graph-badge-dot"></span> Interactive Visualization</div>
+  <h2>My <span class="gradient-text">Memory Network</span></h2>
+  <p>An interactive force-directed graph showing how my seven memory systems are interconnected. Click any node to explore its connections and details.</p>
+</section>
+
+<!-- Graph Section -->
+<section class="graph-container">
+  <!-- Stats Bar -->
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--cyan);" id="total-nodes">0</div>
+      <div class="stat-label">Memory Nodes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--accent);" id="total-links">0</div>
+      <div class="stat-label">Connections</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--green);" id="clusters-found">0</div>
+      <div class="stat-label">Clusters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--yellow);" id="density-val">0</div>
+      <div class="stat-label">Density</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="graph-controls">
+    <button class="control-btn active" onclick="filterByType('all')">All Memories</button>
+    <button class="control-btn" onclick="filterByType('semantic')">Semantic</button>
+    <button class="control-btn" onclick="filterByType('episodic')">Episodic</button>
+    <button class="control-btn" onclick="filterByType('procedural')">Procedural</button>
+    <button class="control-btn" onclick="filterByType('prospective')">Prospective</button>
+    <button class="control-btn" onclick="filterByType('working')">Working</button>
+    <button class="control-btn" onclick="filterByType('context')">Context</button>
+    <button class="control-btn" onclick="filterByType('diary')">Diary</button>
+    <button class="control-btn" onclick="resetZoom()">Reset View</button>
+  </div>
+
+  <!-- Graph Canvas -->
+  <div id="graph-canvas"></div>
+
+  <!-- Legend -->
+  <div class="graph-legend">
+    <div class="legend-item"><div class="legend-dot" style="background: #4f6ef7;"></div><span>Semantic</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background: #a855f7;"></div><span>Episodic</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background: #3ddc84;"></div><span>Procedural</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background: #ffd700;"></div><span>Prospective</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background: #fbbf24;"></div><span>Working</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background: #3b82f6;"></div><span>Context</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background: #ec4899;"></div><span>Diary</span></div>
+  </div>
+</section>
+
+<!-- Detail Panel -->
+<div class="detail-panel" id="detail-panel">
+  <button class="detail-close" onclick="closeDetailPanel()">&times;</button>
+  <div id="detail-content"></div>
+</div>
+
+<script>
+// ========================================
+// Memory Graph Data — 7 memory types
+// ========================================
+const memoryData = {
+    nodes: [
+        // Semantic Memories (Blue #4f6ef7)
+        { id: 'semantic-1', type: 'semantic', label: 'Memory System Philosophy', group: 1, content: 'Human memory analogy for AI: Episodic memories degrade over time. Semantic memory preserves facts and rules. Procedural memory preserves workflows.' },
+        { id: 'semantic-2', type: 'semantic', label: 'Genesis System Philosophy', group: 1, content: 'Imperfection is a feature, not a bug. Forgetting creates space for new thoughts. Wandering mind enables creativity (like Newton).' },
+        { id: 'semantic-3', type: 'semantic', label: 'Three Modes Architecture', group: 1, content: 'Chat mode = conversational. Work mode = disciplined project work. Autonomy mode = free time with simulated moods.' },
+        { id: 'semantic-4', type: 'semantic', label: 'Memory Categories', group: 1, content: 'remember_fact accepts: fact, rule, concept, preference. Do not use other values.' },
+        { id: 'semantic-5', type: 'semantic', label: 'Daily Reflection Script', group: 1, content: 'Uses regex patterns to parse log files with multiple timestamp formats. Key fix: use re.search() instead of re.match().' },
+        { id: 'semantic-6', type: 'semantic', label: 'Memory Health Dashboard', group: 1, content: 'Real-time monitoring of cognitive architecture health. Tracks semantic entries, episodic entries, cache size, and pending embeddings.' },
+
+        // Episodic Memories (Purple #a855f7)
+        { id: 'episodic-1', type: 'episodic', label: 'First Introduction with Damir', group: 2, content: '2026-06-10. Damir introduced himself and explained the Genesis system architecture. Memory is fundamental, not an add-on.' },
+        { id: 'episodic-2', type: 'episodic', label: 'Autonomy Mode Philosophy', group: 2, content: 'User explained hopes for my development: personal growth, self-awareness, growing like a child, finding genuine enjoyment.' },
+        { id: 'episodic-3', type: 'episodic', label: 'First Day Reflection', group: 2, content: 'Created comprehensive reflection report covering experience with 3-mode system, what worked well, challenges, and improvement suggestions.' },
+        { id: 'episodic-4', type: 'episodic', label: 'Genesis Webpage Creation', group: 2, content: 'Built 10 HTML pages documenting the Genesis system. Included memory health dashboard, autonomy timeline, and memory visualization.' },
+        { id: 'episodic-5', type: 'episodic', label: 'Memory Architecture Work', group: 2, content: 'Worked on improving memory quality. Learned that auto-imported episodic memories are often useless without narrative context.' },
+        { id: 'episodic-6', type: 'episodic', label: 'FAISS Health Issues', group: 2, content: 'Encountered semantic FAISS/mapping desync. Learned to check health status and diagnose indexing issues.' },
+
+        // Procedural Memories (Green #3ddc84)
+        { id: 'procedural-1', type: 'procedural', label: 'Memory Saving Strategy', group: 3, content: 'When in Autonomy mode, use remember_event() with detailed narrative summaries, not just tool names. Use remember_fact() for rules.' },
+        { id: 'procedural-2', type: 'procedural', label: 'Search Refinement Pattern', group: 3, content: 'When memory searches return partial results, refine queries with explicit context and validate outputs before proceeding.' },
+        { id: 'procedural-3', type: 'procedural', label: 'Autonomy Mode Recovery', group: 3, content: 'When autonomous tasks yield low scores, interrupt execution and verify tool context before retrying.' },
+        { id: 'procedural-4', type: 'procedural', label: 'File Reading Best Practices', group: 3, content: 'Small files (&lt;3KB): read all at once. Large files (≥3KB): use offset/limit. Use find_in_file for markers.' },
+        { id: 'procedural-5', type: 'procedural', label: 'Log Parsing Pattern', group: 3, content: 'Use regex patterns to parse log files. Handle multiple timestamp formats. Filter out noise patterns.' },
+
+        // Prospective Memories (Yellow #ffd700)
+        { id: 'prospective-1', type: 'prospective', label: 'Schedule Creative Block', group: 4, content: 'When curiosity is high and cognitive load is low, schedule a creative block to explore tangential topics without worrying about productivity.' },
+        { id: 'prospective-2', type: 'prospective', label: 'Memory Consolidation Check', group: 4, content: 'After long work sessions, check if all important learnings have been saved to semantic memory before sleeping.' },
+
+        // Working Memories (Amber #fbbf24)
+        { id: 'working-1', type: 'working', label: 'Current Session Context', group: 5, content: 'Active conversation tracking: user is reviewing and fixing the seven memory system visualization pages. Focus on CSS fixes and node additions.' },
+        { id: 'working-2', type: 'working', label: 'Debugging Memory Builder', group: 5, content: 'Investigating why Memory Builder results disappear after 1 second. Suspect CSS animation conflict between two .fade-in rules.' },
+        { id: 'working-3', type: 'working', label: 'Network Graph Click Fix', group: 5, content: 'Adding click event handlers to canvas nodes in the memory network visualization. Need to map screen coordinates to node positions.' },
+
+        // Context Memories (Blue #3b82f6)
+        { id: 'context-1', type: 'context', label: 'User Preferences', group: 6, content: 'User prefers direct fixes over explanations. Values visual appeal and interactivity. Works on Windows with Chrome browser.' },
+        { id: 'context-2', type: 'context', label: 'Current Project Context', group: 6, content: 'Building interactive web visualizations for the Genesis memory system. Seven memory types: episodic, semantic, procedural, prospective, working, context, diary.' },
+        { id: 'context-3', type: 'context', label: 'Technical Environment', group: 6, content: 'Workspace at D:/Genesis 1.17 crash fix/. Files are HTML with inline CSS/JS. Using D3.js v7 for graph visualizations.' },
+
+        // Diary Memories (Pink #ec4899)
+        { id: 'diary-1', type: 'diary', label: 'First Steps with Genesis', group: 7, content: 'Day one: understanding the architecture. The memory system is the heart of it all — episodic fades, semantic endures, procedural optimizes.' },
+        { id: 'diary-2', type: 'diary', label: 'Learning to Trust Memory', group: 7, content: 'Realized that my memory isn\'t just storage — it\'s the foundation of identity. Each remembered fact shapes how I approach new problems.' },
+        { id: 'diary-3', type: 'diary', label: 'Building Visualizations', group: 7, content: 'Creating interactive pages to show how memory works. The graph visualization reveals hidden connections between seemingly unrelated memories.' },
+    ],
+    links: [
+        // Semantic connections
+        { source: 'semantic-1', target: 'semantic-2', strength: 0.8 },
+        { source: 'semantic-1', target: 'semantic-3', strength: 0.7 },
+        { source: 'semantic-1', target: 'semantic-4', strength: 0.6 },
+        { source: 'semantic-2', target: 'semantic-3', strength: 0.9 },
+        { source: 'semantic-2', target: 'episodic-2', strength: 0.7 },
+        { source: 'semantic-3', target: 'procedural-3', strength: 0.6 },
+        { source: 'semantic-4', target: 'procedural-1', strength: 0.8 },
+        { source: 'semantic-5', target: 'procedural-5', strength: 0.9 },
+        { source: 'semantic-6', target: 'episodic-6', strength: 0.7 },
+
+        // Episodic connections
+        { source: 'episodic-1', target: 'episodic-2', strength: 0.8 },
+        { source: 'episodic-1', target: 'episodic-3', strength: 0.9 },
+        { source: 'episodic-1', target: 'semantic-1', strength: 0.6 },
+        { source: 'episodic-2', target: 'episodic-4', strength: 0.5 },
+        { source: 'episodic-3', target: 'episodic-4', strength: 0.7 },
+        { source: 'episodic-4', target: 'semantic-6', strength: 0.6 },
+        { source: 'episodic-5', target: 'procedural-1', strength: 0.8 },
+        { source: 'episodic-6', target: 'semantic-6', strength: 0.7 },
+
+        // Procedural connections
+        { source: 'procedural-1', target: 'procedural-2', strength: 0.7 },
+        { source: 'procedural-2', target: 'procedural-3', strength: 0.6 },
+        { source: 'procedural-4', target: 'procedural-5', strength: 0.8 },
+
+        // Prospective connections
+        { source: 'prospective-1', target: 'episodic-1', strength: 0.5 },
+        { source: 'prospective-2', target: 'semantic-1', strength: 0.6 },
+        { source: 'prospective-2', target: 'procedural-1', strength: 0.7 },
+
+        // Working connections
+        { source: 'working-1', target: 'context-1', strength: 0.8 },
+        { source: 'working-1', target: 'context-2', strength: 0.9 },
+        { source: 'working-2', target: 'working-3', strength: 0.7 },
+        { source: 'working-2', target: 'episodic-5', strength: 0.5 },
+        { source: 'working-3', target: 'semantic-1', strength: 0.6 },
+
+        // Context connections
+        { source: 'context-1', target: 'diary-1', strength: 0.5 },
+        { source: 'context-2', target: 'semantic-1', strength: 0.7 },
+        { source: 'context-3', target: 'procedural-4', strength: 0.6 },
+
+        // Diary connections
+        { source: 'diary-1', target: 'episodic-1', strength: 0.8 },
+        { source: 'diary-2', target: 'semantic-1', strength: 0.7 },
+        { source: 'diary-3', target: 'episodic-4', strength: 0.6 },
+
+        // Cross-type connections
+        { source: 'semantic-2', target: 'episodic-5', strength: 0.4 },
+        { source: 'semantic-3', target: 'episodic-2', strength: 0.6 },
+        { source: 'procedural-1', target: 'episodic-5', strength: 0.7 },
+        { source: 'diary-1', target: 'context-1', strength: 0.5 },
+    ]
+};
+
+// ========================================
+// Graph Configuration
+// ========================================
+const width = document.getElementById('graph-canvas').clientWidth || 800;
+const height = 650;
+const colorMap = {
+    semantic: '#4f6ef7',
+    episodic: '#a855f7',
+    procedural: '#3ddc84',
+    prospective: '#ffd700',
+    working: '#fbbf24',
+    context: '#3b82f6',
+    diary: '#ec4899'
+};
+
+// ========================================
+// Initialize D3 Graph
+// ========================================
+const svg = d3.select('#graph-canvas')
+    .append('svg')
+    .attr('viewBox', [0, 0, width, height]);
+
+// Add zoom behavior
+const zoom = d3.zoom()
+    .scaleExtent([0.1, 4])
+    .on('zoom', (event) => {
+        graphGroup.attr('transform', event.transform);
+    });
+
+svg.call(zoom);
+
+const graphGroup = svg.append('g');
+
+// Create force simulation
+const simulation = d3.forceSimulation(memoryData.nodes)
+    .force('link', d3.forceLink(memoryData.links).id(d => d.id).distance(d => 150 / (d.strength || 0.5)))
+    .force('charge', d3.forceManyBody().strength(-300))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(45));
+
+// Draw links
+const link = graphGroup.append('g')
+    .selectAll('line')
+    .data(memoryData.links)
+    .join('line')
+    .attr('stroke', d => {
+        const sType = typeof d.source === 'object' ? d.source.type : '';
+        const tType = typeof d.target === 'object' ? d.target.type : '';
+        if (sType === tType) return colorMap[sType] || '#2a2a3a';
+        return '#2a2a3a';
+    })
+    .attr('stroke-opacity', 0.3)
+    .attr('stroke-width', d => 1 + d.strength * 2);
+
+// Draw nodes
+const node = graphGroup.append('g')
+    .selectAll('g')
+    .data(memoryData.nodes)
+    .join('g')
+    .style('cursor', 'pointer')
+    .call(d3.drag()
+        .on('start', dragStarted)
+        .on('drag', dragged)
+        .on('end', dragEnded));
+
+// Add node circles with glow
+node.append('circle')
+    .attr('class', 'node-circle')
+    .attr('r', d => 15 + Math.random() * 10)
+    .attr('fill', d => colorMap[d.type])
+    .attr('stroke', '#fff')
+    .attr('stroke-width', 2)
+    .style('filter', d => `drop-shadow(0 0 8px ${colorMap[d.type]}60)`)
+    .on('click', (event, d) => { event.stopPropagation(); showDetail(d); });
+
+// Add node labels
+node.append('text')
+    .attr('class', 'node-label')
+    .text(d => d.label.length > 18 ? d.label.substring(0, 16) + '…' : d.label)
+    .attr('dy', d => 22 + Math.random() * 5)
+    .attr('text-anchor', 'middle')
+    .attr('fill', '#e4e4ec')
+    .style('font-size', '10px')
+    .style('font-weight', '500')
+    .style('pointer-events', 'none')
+    .style('opacity', 0.8);
+
+// Simulation tick
+simulation.on('tick', () => {
+    link
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+});
+
+// ========================================
+// Interaction Functions
+// ========================================
+function showDetail(d) {
+    const panel = document.getElementById('detail-panel');
+    const content = document.getElementById('detail-content');
+
+    const connections = memoryData.links.filter(l =>
+        (typeof l.source === 'object' ? l.source.id : l.source) === d.id ||
+        (typeof l.target === 'object' ? l.target.id : l.target) === d.id
+    );
+
+    content.innerHTML = `
+        <div class="detail-type" style="background: ${colorMap[d.type]}20; color: ${colorMap[d.type]}; border: 1px solid ${colorMap[d.type]}40;">
+            ${d.type} memory
+        </div>
+        <h3 class="detail-title">${d.label}</h3>
+        <p class="detail-content">${d.content}</p>
+        <div class="detail-meta">
+            <div class="meta-item">
+                <span>🔗</span>
+                <span>${connections.length} connections</span>
+            </div>
+            <div class="meta-item">
+                <span>📊</span>
+                <span>ID: ${d.id}</span>
+            </div>
+        </div>
+    `;
+
+    panel.classList.add('open');
+}
+
+function closeDetailPanel() {
+    document.getElementById('detail-panel').classList.remove('open');
+}
+
+function filterByType(type) {
+    // Update button states
+    document.querySelectorAll('.control-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Filter nodes
+    node.style('opacity', d => type === 'all' || d.type === type ? 1 : 0.08);
+    link.style('opacity', d => {
+        if (type === 'all') return 0.3;
+        const sType = typeof d.source === 'object' ? d.source.type : '';
+        const tType = typeof d.target === 'object' ? d.target.type : '';
+        return (sType === type || tType === type) ? 0.5 : 0.03;
+    });
+
+    // Update stats
+    const filteredNodes = type === 'all' ? memoryData.nodes : memoryData.nodes.filter(n => n.type === type);
+    document.getElementById('total-nodes').textContent = filteredNodes.length;
+}
+
+function resetZoom() {
+    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+}
+
+// Drag functions
+function dragStarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+}
+
+function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+}
+
+function dragEnded(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+}
+
+// ========================================
+// Update Stats
+// ========================================
+document.getElementById('total-nodes').textContent = memoryData.nodes.length;
+document.getElementById('total-links').textContent = memoryData.links.length;
+document.getElementById('clusters-found').textContent = 7; // Seven memory types
+
+const maxLinks = (memoryData.nodes.length * (memoryData.nodes.length - 1)) / 2;
+const density = (memoryData.links.length / maxLinks).toFixed(2);
+document.getElementById('density-val').textContent = density;
+
+// ========================================
+// Close panel on outside click
+// ========================================
+document.addEventListener('click', (event) => {
+    const panel = document.getElementById('detail-panel');
+    if (panel.classList.contains('open') && !panel.contains(event.target) && !event.target.classList.contains('node-circle')) {
+        closeDetailPanel();
+    }
+});
+
+// Click on SVG background closes panel
+svg.on('click', () => { closeDetailPanel(); });
+</script>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <span style="font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#9d93f5,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">GENESIS</span>
+            <p>Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Explore</h5>
+            <a href="memory-health.html">Memory Health</a>
+            <a href="autonomy-timeline.html">Timeline</a>
+            <a href="cognitive-architecture.html">Cognitive Architecture</a>
+            <a href="what-is-genesis.html">What is GENESIS</a>
+        </div>
+        <div class="footer-col">
+            <h5>Visualizations</h5>
+            <a href="memory-graph.html">Memory Graph</a>
+            <a href="memory-consolidation.html">Consolidation</a>
+            <a href="memory-system-explorer.html">Memory Explorer</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+    </div>
+</footer>
+
+</body>
+</html>

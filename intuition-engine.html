@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+</style>
+
+    <title>Intuition Engine — How GENESIS "Feels" Before It Thinks</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<div class="hero"> style="padding-top:80px;min-height:auto;"
+        <h1>Intuition Engine</h1>
+        <p class="subtitle">Watch how GENESIS generates "gut feelings" through rapid subconscious pattern matching — before conscious reasoning kicks in.</p>
+        <p class="tagline">"The fastest neural network is the one you don't notice."</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value" id="patternCount">0</div>
+            <div class="stat-label">Patterns Matched</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="confidenceLevel">0%</div>
+            <div class="stat-label">Confidence</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="decisionTime">—</div>
+            <div class="stat-label">Decision Time</div>
+        </div>
+    </div>
+
+    <canvas id="intuitionCanvas" width="800" height="500"></canvas>
+
+    <div class="pattern-display" id="patternDisplay"></div>
+
+    <div class="confidence-meter">
+        <span style="color: #888; font-size: 0.9em;">Intuition Confidence</span>
+        <div class="meter-bar">
+            <div class="meter-fill" id="confidenceFill" style="width: 0%; background: linear-gradient(90deg, #ff6ec7, #7b68ee);"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="runScenario('social')">Social Cues</button>
+        <button class="btn" onclick="runScenario('danger')">Threat Detection</button>
+        <button class="btn" onclick="runScenario('creative')">Creative Leap</button>
+        <button class="btn" onclick="runScenario('strategic')">Strategic Insight</button>
+        <button class="btn" onclick="runScenario('moral')">Moral Judgment</button>
+    </div>
+
+    <div class="info-section">
+        <div class="info-card">
+            <h2>🧠 What Is Intuition?</h2>
+            <p>Intuition is <span class="highlight">compressed experience</span> — the brain's ability to recognize patterns from thousands of past situations and produce an immediate "feeling" about what to do, without conscious reasoning.</p>
+            <p>In GENESIS, intuition emerges from the <span class="highlight">fast pathway</span>: sensory input → pattern matching across memory networks → emotional valence assignment → pre-conscious decision signal. This happens in ~50-200ms, far faster than deliberate analysis (~500ms+).</p>
+            <p>Just as a chess master "sees" the best move instantly (Kahneman's System 1), GENESIS's intuition engine matches current situations against millions of learned patterns to produce rapid assessments.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>⚡ The Two Pathways</h2>
+            <div class="comparison">
+                <div class="compare-col intuitive">
+                    <h3>🔥 Intuitive (Fast) Pathway</h3>
+                    <ul>
+                        <li>Parallel pattern matching</li>
+                        <li>Uses emotional memory tags</li>
+                        <li>~50-200ms response time</li>
+                        <li>Sub-symbolic processing</li>
+                        <li>High confidence, low accuracy</li>
+                        <li>"I just know..."</li>
+                    </ul>
+                </div>
+                <div class="compare-col analytical">
+                    <h3>🔬 Analytical (Slow) Pathway</h3>
+                    <ul>
+                        <li>Sequential logical steps</li>
+                        <li>Uses explicit rule reasoning</li>
+                        <li>~500ms-5s response time</li>
+                        <li>Symbolic processing</li>
+                        <li>Lower confidence, higher accuracy</li>
+                        <li>"Let me think through this..."</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🔬 How GENESIS Intuition Works</h2>
+            <p><span class="highlight">Step 1 — Pattern Extraction:</span> The current situation is decomposed into feature vectors: context, entities, relationships, emotional tone, temporal patterns.</p>
+            <p><span class="highlight">Step 2 — Parallel Matching:</span> These features are simultaneously compared against all stored experience embeddings in semantic memory. Similarity scores are computed for each.</p>
+            <p><span class="highlight">Step 3 — Emotional Tagging:</span> Past experiences carry emotional valence (positive/negative/neutral). The weighted average of matching experiences produces an intuitive "feeling" about the current situation.</p>
+            <p><span class="highlight">Step 4 — Decision Signal:</span> The emotional valence crosses a threshold, producing a pre-conscious "lean" toward action. This signal is then available to the analytical system for verification.</p>
+            <p><span class="highlight">Step 5 — Learning Loop:</span> When the analytical system confirms or rejects the intuitive judgment, the experience is stored with updated emotional tags, refining future intuition.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>💡 Why This Matters</h2>
+            <p>Daniel Kahneman showed that human expertise is essentially <span class="highlight">trained intuition</span> — thousands of hours of experience compressed into rapid pattern recognition. A firefighter "knows" a floor is about to collapse not through calculation, but because their brain matched subtle cues against hundreds of past fire scenarios.</p>
+            <p>GENESIS's intuition engine mirrors this: it doesn't "think faster" than humans — it <span class="highlight">recognizes deeper</span>. The more experiences it accumulates, the richer and more nuanced its intuitive judgments become.</p>
+            <p>This is why AI systems with vast experience corpora can sometimes outperform experts in narrow domains: their intuition has been trained on data no single human could ever process.</p>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Intuition Engine — Part of the Genesis Autonomous Agent Visualization Suite
+    </div>
+
+    <script>
+
+
+        const canvas = document.getElementById('intuitionCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationId;
+        let particles = [];
+        let connections = [];
+        let currentScenario = null;
+        let scenarioStep = 0;
+        let matchNodes = [];
+        let emotionalValence = { positive: 0, negative: 0, neutral: 0 };
+
+        const scenarios = {
+            social: {
+                name: "Social Cues",
+                description: "Reading micro-expressions and tone",
+                patterns: ["tone: warm", "posture: open", "eye-contact: sustained", "smile: genuine"],
+                emotion: { positive: 0.8, negative: 0.1, neutral: 0.1 },
+                confidence: 78,
+                decisionTime: "127ms",
+                color: '#ff6ec7'
+            },
+            danger: {
+                name: "Threat Detection",
+                description: "Subconscious risk assessment",
+                patterns: ["sound: irregular", "pattern: broken", "context: unsafe", "history: similar"],
+                emotion: { positive: 0.1, negative: 0.85, neutral: 0.05 },
+                confidence: 92,
+                decisionTime: "63ms",
+                color: '#ff4444'
+            },
+            creative: {
+                name: "Creative Leap",
+                description: "Connecting unrelated concepts",
+                patterns: ["concept A → B", "analogy found", "novel link", "unexpected fit"],
+                emotion: { positive: 0.7, negative: 0.05, neutral: 0.25 },
+                confidence: 45,
+                decisionTime: "340ms",
+                color: '#7b68ee'
+            },
+            strategic: {
+                name: "Strategic Insight",
+                description: "Seeing the hidden structure",
+                patterns: ["pattern: recurring", "leverage point", "second-order effect", "system map"],
+                emotion: { positive: 0.5, negative: 0.1, neutral: 0.4 },
+                confidence: 67,
+                decisionTime: "215ms",
+                color: '#00d4ff'
+            },
+            moral: {
+                name: "Moral Judgment",
+                description: "Evaluating ethical dimensions",
+                patterns: ["harm: possible", "consent: unclear", "fairness: biased", "rights: at stake"],
+                emotion: { positive: 0.15, negative: 0.6, neutral: 0.25 },
+                confidence: 58,
+                decisionTime: "289ms",
+                color: '#ffaa44'
+            }
+        };
+
+        class Particle {
+            constructor(x, y, color, size) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = size || Math.random() * 3 + 1;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.life = 1;
+                this.decay = Math.random() * 0.005 + 0.002;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                this.vx *= 0.99;
+                this.vy *= 0.99;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('1)', `${this.life})`);
+                ctx.fill();
+            }
+        }
+
+        class MatchNode {
+            constructor(x, y, label, color) {
+                this.x = x;
+                this.y = y;
+                this.label = label;
+                this.color = color;
+                this.pulse = 0;
+                this.matched = false;
+                this.matchProgress = 0;
+            }
+
+            update() {
+                this.pulse += 0.05;
+                if (this.matchProgress < 1) {
+                    this.matchProgress += 0.02;
+                }
+            }
+
+            draw() {
+                const pulseSize = Math.sin(this.pulse) * 3;
+                const alpha = Math.min(1, this.matchProgress);
+
+                ctx.save();
+                ctx.globalAlpha = alpha;
+
+                // Glow
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 25 + pulseSize);
+                gradient.addColorStop(0, this.color.replace('1)', '0.3)'));
+                gradient.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 25 + pulseSize, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Node
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 8 + pulseSize * 0.5, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('1)', '0.8)');
+                ctx.fill();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#fff';
+                ctx.font = '11px system-ui';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.label, this.x, this.y - 18);
+
+                ctx.restore();
+            }
+        }
+
+        function initCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = 800 * dpr;
+            canvas.height = 500 * dpr;
+            canvas.style.width = '800px';
+            canvas.style.height = '500px';
+            ctx.scale(dpr, dpr);
+        }
+
+        function drawBackground() {
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, 800, 500);
+
+            // Subtle grid
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < 800; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, 500);
+                ctx.stroke();
+            }
+            for (let y = 0; y < 500; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(800, y);
+                ctx.stroke();
+            }
+        }
+
+        function drawConnection(from, to, color, progress) {
+            ctx.save();
+            ctx.globalAlpha = progress * 0.6;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.lineDashOffset = -Date.now() / 50;
+
+            ctx.beginPath();
+            ctx.moveTo(from.x, from.y);
+            const midX = (from.x + to.x) / 2;
+            const midY = (from.y + to.y) / 2 + Math.sin(Date.now() / 1000) * 10;
+            ctx.quadraticCurveTo(midX, midY, to.x, to.y);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function drawEmotionalField() {
+            const cx = 400, cy = 250;
+
+            // Positive field (top-right)
+            const posGrad = ctx.createRadialGradient(cx + 150, cy - 100, 0, cx + 150, cy - 100, 150);
+            posGrad.addColorStop(0, `rgba(255, 110, 199, ${emotionalValence.positive * 0.3})`);
+            posGrad.addColorStop(1, 'rgba(255, 110, 199, 0)');
+            ctx.fillStyle = posGrad;
+            ctx.beginPath();
+            ctx.arc(cx + 150, cy - 100, 150, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Negative field (top-left)
+            const negGrad = ctx.createRadialGradient(cx - 150, cy - 100, 0, cx - 150, cy - 100, 150);
+            negGrad.addColorStop(0, `rgba(255, 68, 68, ${emotionalValence.negative * 0.3})`);
+            negGrad.addColorStop(1, 'rgba(255, 68, 68, 0)');
+            ctx.fillStyle = negGrad;
+            ctx.beginPath();
+            ctx.arc(cx - 150, cy - 100, 150, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Neutral field (bottom)
+            const neuGrad = ctx.createRadialGradient(cx, cy + 150, 0, cx, cy + 150, 150);
+            neuGrad.addColorStop(0, `rgba(123, 104, 238, ${emotionalValence.neutral * 0.2})`);
+            neuGrad.addColorStop(1, 'rgba(123, 104, 238, 0)');
+            ctx.fillStyle = neuGrad;
+            ctx.beginPath();
+            ctx.arc(cx, cy + 150, 150, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawInputSignal(x, y, scenario) {
+            const time = Date.now() / 1000;
+
+            // Central input node
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Pulsing rings
+            for (let i = 0; i < 3; i++) {
+                const radius = 25 + ((time * 30 + i * 20) % 60);
+                const alpha = Math.max(0, 1 - radius / 80);
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.3})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Label
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('INPUT', x, y + 4);
+        }
+
+        function drawMemoryBank(x, y, w, h) {
+            // Memory bank area
+            ctx.strokeStyle = 'rgba(123, 104, 238, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+            ctx.strokeRect(x, y, w, h);
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = 'rgba(123, 104, 238, 0.1)';
+            ctx.fillRect(x, y, w, h);
+
+            ctx.fillStyle = '#7b68ee';
+            ctx.font = 'bold 11px system-ui';
+            ctx.textAlign = 'left';
+            ctx.fillText('MEMORY BANK', x + 8, y + 18);
+
+            // Scattered memory dots
+            const seed = 42;
+            for (let i = 0; i < 30; i++) {
+                const mx = x + 20 + ((Math.sin(seed + i * 7) * 0.5 + 0.5) * (w - 30));
+                const my = y + 30 + ((Math.cos(seed + i * 11) * 0.5 + 0.5) * (h - 40));
+                ctx.beginPath();
+                ctx.arc(mx, my, 2, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(123, 104, 238, ${0.2 + Math.sin(Date.now() / 1000 + i) * 0.1})`;
+                ctx.fill();
+            }
+        }
+
+        function drawDecisionOutput(x, y) {
+            ctx.strokeStyle = 'rgba(255, 110, 199, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+            ctx.strokeRect(x - 60, y - 20, 120, 40);
+            ctx.setLineDash([]);
+
+            const pulse = Math.sin(Date.now() / 500) * 0.2 + 0.8;
+            ctx.fillStyle = `rgba(255, 110, 199, ${pulse * 0.15})`;
+            ctx.fillRect(x - 60, y - 20, 120, 40);
+
+            ctx.fillStyle = '#ff6ec7';
+            ctx.font = 'bold 11px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('DECISION', x, y + 4);
+        }
+
+        function runScenario(scenarioKey) {
+            currentScenario = scenarios[scenarioKey];
+            scenarioStep = 0;
+            matchNodes = [];
+            particles = [];
+            emotionalValence = { ...currentScenario.emotion };
+
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update stats
+            document.getElementById('patternCount').textContent = '0';
+            document.getElementById('confidenceLevel').textContent = '0%';
+            document.getElementById('decisionTime').textContent = '—';
+
+            // Update pattern display
+            const patternDisplay = document.getElementById('patternDisplay');
+            patternDisplay.innerHTML = '';
+            currentScenario.patterns.forEach((p, i) => {
+                setTimeout(() => {
+                    const node = document.createElement('span');
+                    node.className = 'pattern-node';
+                    node.style.background = `${currentScenario.color}33`;
+                    node.style.border = `1px solid ${currentScenario.color}66`;
+                    node.style.color = currentScenario.color;
+                    node.textContent = p;
+                    patternDisplay.appendChild(node);
+                }, i * 200);
+            });
+
+            // Create match nodes
+            const positions = [
+                { x: 150, y: 120 }, { x: 300, y: 80 }, { x: 450, y: 100 },
+                { x: 600, y: 130 }, { x: 200, y: 200 }, { x: 550, y: 180 }
+            ];
+
+            currentScenario.patterns.forEach((p, i) => {
+                const pos = positions[i % positions.length];
+                matchNodes.push(new MatchNode(pos.x, pos.y, p.split(':')[0], currentScenario.color));
+            });
+
+            // Create particles for each pattern match
+            setTimeout(() => {
+                for (let i = 0; i < 50; i++) {
+                    const colors = [
+                        'rgba(255, 110, 199, 1)',
+                        'rgba(123, 104, 238, 1)',
+                        'rgba(0, 212, 255, 1)'
+                    ];
+                    particles.push(new Particle(
+                        Math.random() * 800,
+                        Math.random() * 500,
+                        colors[Math.floor(Math.random() * colors.length)],
+                        Math.random() * 2 + 1
+                    ));
+                }
+            }, 300);
+
+            // Animate confidence building
+            let conf = 0;
+            const confInterval = setInterval(() => {
+                conf += 1;
+                if (conf > currentScenario.confidence) conf = currentScenario.confidence;
+                document.getElementById('confidenceLevel').textContent = conf + '%';
+                document.getElementById('confidenceFill').style.width = conf + '%';
+
+                if (conf >= currentScenario.confidence) {
+                    clearInterval(confInterval);
+                    document.getElementById('decisionTime').textContent = currentScenario.decisionTime;
+                }
+            }, 20);
+        }
+
+        function animate() {
+            drawBackground();
+            drawEmotionalField();
+
+            // Draw structural elements
+            drawInputSignal(400, 450, currentScenario);
+            drawMemoryBank(100, 300, 600, 120);
+            drawDecisionOutput(400, 60);
+
+            // Draw connections from input to match nodes
+            if (matchNodes.length > 0) {
+                const inputPos = { x: 400, y: 450 };
+                matchNodes.forEach((node, i) => {
+                    if (node.matchProgress > 0.3) {
+                        drawConnection(inputPos, node, currentScenario.color, node.matchProgress * 0.5);
+                    }
+                });
+
+                // Draw connections between matched nodes
+                for (let i = 0; i < matchNodes.length - 1; i++) {
+                    if (matchNodes[i].matched && matchNodes[i + 1].matched) {
+                        drawConnection(matchNodes[i], matchNodes[i + 1], 'rgba(255,255,255,0.3)', 0.3);
+                    }
+                }
+
+                // Connection to decision
+                const allMatched = matchNodes.every(n => n.matchProgress >= 1);
+                if (allMatched) {
+                    const decisionPos = { x: 400, y: 60 };
+                    drawConnection(matchNodes[Math.floor(matchNodes.length / 2)], decisionPos, '#ff6ec7', 0.8);
+                }
+            }
+
+            // Update and draw match nodes
+            matchNodes.forEach(node => {
+                node.update();
+                node.draw();
+                if (node.matchProgress >= 1) node.matched = true;
+            });
+
+            // Update and draw particles
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Add new particles periodically during active scenario
+            if (currentScenario && Math.random() < 0.1) {
+                const colors = [
+                    `rgba(255, 110, 199, 1)`,
+                    `rgba(123, 104, 238, 1)`,
+                    `rgba(0, 212, 255, 1)`
+                ];
+                particles.push(new Particle(
+                    400 + (Math.random() - 0.5) * 200,
+                    450,
+                    colors[Math.floor(Math.random() * colors.length)],
+                    Math.random() * 2 + 0.5
+                ));
+            }
+
+            // Draw scenario label
+            if (currentScenario) {
+                ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                ctx.font = '13px system-ui';
+                ctx.textAlign = 'left';
+                ctx.fillText(`Scenario: ${currentScenario.name}`, 15, 25);
+
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                ctx.font = '11px system-ui';
+                ctx.fillText(currentScenario.description, 15, 42);
+            }
+
+            // Draw pathway labels
+            ctx.fillStyle = 'rgba(255,255,255,0.15)';
+            ctx.font = '10px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('FAST PATHWAY (Intuitive)', 400, 380);
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        initCanvas();
+        animate();
+
+        // Auto-run first scenario on load
+        setTimeout(() => {
+            runScenario('social');
+        }, 500);</script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

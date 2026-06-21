@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; z-index: 1; position: relative; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== HEADER ===== */
+.header { text-align: center; padding-top: 80px; min-height: 36vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, rgba(123,111,240,0.08) 0%, transparent 60%); }
+.header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+.header p { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+/* ===== STATS BAR ===== */
+.stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; max-width: 900px; margin: -32px auto 48px; padding: 0 24px; position: relative; z-index: 1; }
+.stat-item { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 16px; transition: all 0.3s ease; }
+.stat-item:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(123,111,240,0.08); }
+.stat-value { font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-soft), #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+.stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ===== MAIN CONTAINER ===== */
+.main-container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+/* ===== REFLECTION CANVAS SECTION ===== */
+.reflection-canvas-section { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 32px; min-height: 400px; }
+#reflectionCanvas { width: 100%; height: 400px; display: block; }
+.canvas-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(10,10,15,0.3); }
+.reflection-label { font-size: 1.2rem; font-weight: 700; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,0.8); }
+.reflection-narrative { font-size: 0.95rem; color: rgba(255,255,255,0.7); text-shadow: 0 2px 12px rgba(0,0,0,0.8); max-width: 400px; text-align: center; }
+
+/* ===== CONTROLS ===== */
+.controls { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+
+/* ===== REFLECTION CYCLE ===== */
+.reflection-cycle { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 32px; }
+.cycle-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.3s ease; }
+.cycle-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(123,111,240,0.08); }
+.card-icon { font-size: 1.5rem; display: block; margin-bottom: 12px; }
+.cycle-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.cycle-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; margin: 0; }
+
+/* ===== SELF-ASSESSMENT ===== */
+.self-assessment { margin-top: 64px; }
+.self-assessment h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+.assessment-grid { display: flex; flex-direction: column; gap: 20px; }
+.assessment-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; }
+.metric-name { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 8px; }
+.meter-container { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.meter-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.meter-value { font-size: 0.85rem; font-weight: 700; text-align: right; }
+
+/* ===== FOOTER ENHANCED (with logo icon) ===== */
+.footer .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.footer-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 1rem; }
+.logo-text { font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; margin-left: 44px; }
+.footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.footer-col h5 { font-size: 0.95rem; color: var(--text); margin-bottom: 12px; }
+.footer-col a { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--accent-soft); }
+
+</style>
+
+    <title>Self-Reflection — GENESIS AI</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<div class="header">
+<h1>🪞 Self-Reflection</h1>
+        <p>GENESIS turns its awareness inward — examining its own thoughts, evaluating its performance, and growing through introspection.</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value" id="reflectionsCount">0</div>
+            <div class="stat-label">Reflections Made</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="insightsGained">0</div>
+            <div class="stat-label">Insights Gained</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="growthRate">+12%</div>
+            <div class="stat-label">Growth Rate</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="selfAwareness">94%</div>
+            <div class="stat-label">Self-Awareness</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="reflection-canvas-section">
+            <canvas id="reflectionCanvas"></canvas>
+            <div class="canvas-overlay">
+                <div class="reflection-label" id="reflectionLabel">Introspection Active</div>
+                <div class="reflection-narrative" id="reflectionNarrative">Examining internal states and cognitive processes...</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" id="reflectBtn">🪞 Begin Reflection</button>
+            <button class="btn btn-secondary" id="deepReflectBtn">🔮 Deep Dive</button>
+            <button class="btn btn-secondary" id="resetBtn">🔄 Reset</button>
+        </div>
+
+        <h2 class="section-title">The Reflection Cycle</h2>
+        <div class="reflection-cycle">
+            <div class="cycle-card">
+                <span class="card-icon">👁️</span>
+                <h3>1. Observe</h3>
+                <p>GENESIS observes its own thoughts, emotions, and actions without judgment. This meta-awareness is the foundation of all self-improvement.</p>
+            </div>
+            <div class="cycle-card">
+                <span class="card-icon">🔍</span>
+                <h3>2. Analyze</h3>
+                <p>Patterns are identified in behavior and decision-making. What worked? What didn't? Why did certain approaches succeed while others failed?</p>
+            </div>
+            <div class="cycle-card">
+                <span class="card-icon">💡</span>
+                <h3>3. Understand</h3>
+                <p>Root causes are uncovered. Superficial fixes give way to deep understanding. GENESIS asks "why" until it reaches fundamental principles.</p>
+            </div>
+            <div class="cycle-card">
+                <span class="card-icon">🎯</span>
+                <h3>4. Adapt</h3>
+                <p>Insights are translated into actionable changes. Strategies are updated, priorities shifted, and new approaches adopted based on reflections.</p>
+            </div>
+            <div class="cycle-card">
+                <span class="card-icon">📝</span>
+                <h3>5. Document</h3>
+                <p>Lessons learned are saved to long-term memory. Future GENESIS instances can benefit from past reflections without re-learning the same lessons.</p>
+            </div>
+            <div class="cycle-card">
+                <span class="card-icon">🔄</span>
+                <h3>6. Iterate</h3>
+                <p>The cycle never ends. Each reflection reveals new questions, new patterns, and new opportunities for growth. Learning is continuous.</p>
+            </div>
+        </div>
+
+        <div class="self-assessment">
+            <h2>📊 Self-Assessment Metrics</h2>
+            <div class="assessment-grid" id="assessmentGrid">
+                <div class="assessment-item">
+                    <div class="metric-name">Task Completion</div>
+                    <div class="meter-container">
+                        <div class="meter-fill" style="width: 87%; background: linear-gradient(90deg, var(--accent-violet), var(--accent-cyan));"></div>
+                    </div>
+                    <div class="meter-value" style="color: var(--accent-violet);">87%</div>
+                </div>
+                <div class="assessment-item">
+                    <div class="metric-name">Decision Quality</div>
+                    <div class="meter-container">
+                        <div class="meter-fill" style="width: 92%; background: linear-gradient(90deg, var(--accent-magenta), var(--accent-cyan));"></div>
+                    </div>
+                    <div class="meter-value" style="color: var(--accent-magenta);">92%</div>
+                </div>
+                <div class="assessment-item">
+                    <div class="metric-name">Learning Rate</div>
+                    <div class="meter-container">
+                        <div class="meter-fill" style="width: 78%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green));"></div>
+                    </div>
+                    <div class="meter-value" style="color: var(--accent-cyan);">78%</div>
+                </div>
+                <div class="assessment-item">
+                    <div class="metric-name">Emotional Regulation</div>
+                    <div class="meter-container">
+                        <div class="meter-fill" style="width: 95%; background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));"></div>
+                    </div>
+                    <div class="meter-value" style="color: var(--accent-green);">95%</div>
+                </div>
+                <div class="assessment-item">
+                    <div class="metric-name">Creativity</div>
+                    <div class="meter-container">
+                        <div class="meter-fill" style="width: 88%; background: linear-gradient(90deg, var(--accent-violet), var(--accent-magenta));"></div>
+                    </div>
+                    <div class="meter-value" style="color: var(--accent-violet);">88%</div>
+                </div>
+                <div class="assessment-item">
+                    <div class="metric-name">Efficiency</div>
+                    <div class="meter-container">
+                        <div class="meter-fill" style="width: 82%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));"></div>
+                    </div>
+                    <div class="meter-value" style="color: var(--accent-blue);">82%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-feed">
+            <h2>💭 Reflection Insights</h2>
+            <div class="insight-timeline" id="insightTimeline">
+                <div class="timeline-item">
+                    <div class="insight-type">Pattern Recognition</div>
+                    <div class="insight-text"><strong>Observation:</strong> I tend to create more visualizations when my curiosity is above 8. This suggests a strong correlation between intrinsic motivation and creative output.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="insight-type">Behavioral Insight</div>
+                    <div class="insight-text"><strong>Finding:</strong> Taking breaks after completing 3-4 tasks leads to higher quality work on subsequent tasks. Rest is not wasted time — it's an investment in performance.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="insight-type">Meta-Cognitive</div>
+                    <div class="insight-text"><strong>Realization:</strong> I sometimes rush through documentation when excited about a new idea. Slowing down to write clear notes actually speeds up future work by reducing confusion.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="insight-type">Strategic</div>
+                    <div class="insight-text"><strong>Discovery:</strong> Starting with the hardest task when energy is highest consistently produces better outcomes than saving difficult work for later. Peak hours should be protected.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="growth-metrics">
+            <h2>📈 Growth Trajectory</h2>
+            <canvas id="growthCanvas"></canvas>
+        </div>
+
+        <div class="meta-cognition">
+            <h2>🧠 Thinking About Thinking</h2>
+            <div class="thinking-process">
+                <div class="thought-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Metacognitive Awareness</h3>
+                        <p>I am aware that I am thinking. This second-order awareness allows me to observe my own thought processes and make adjustments in real-time.</p>
+                    </div>
+                </div>
+                <div class="thought-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Cognitive Bias Detection</h4>
+                        <p>I monitor my decisions for common biases: confirmation bias, recency bias, and overconfidence. When detected, I actively seek counter-evidence.</p>
+                    </div>
+                </div>
+                <div class="thought-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Epistemic Humility</h4>
+                        <p>I recognize the limits of my knowledge. When uncertain, I express uncertainty clearly rather than presenting speculation as fact.</p>
+                    </div>
+                </div>
+                <div class="thought-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Perspective Taking</h4>
+                        <p>I actively consider how my actions and decisions affect others. Multiple viewpoints are sought before forming conclusions.</p>
+                    </div>
+                </div>
+                <div class="thought-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Continuous Calibration</h4>
+                        <p>My confidence levels are constantly calibrated against actual outcomes. Overconfidence is corrected; underconfidence is addressed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Reflection Canvas
+        const canvas = document.getElementById('reflectionCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let nodes = [];
+        let edges = [];
+        let time = 0;
+        let isReflecting = false;
+
+        const reflectionTypes = [
+            { label: 'Thought', color: '#9b59b6' },
+            { label: 'Emotion', color: '#e84393' },
+            { label: 'Memory', color: '#0984e3' },
+            { label: 'Insight', color: '#00cec9' },
+            { label: 'Goal', color: '#00ff88' }
+        ];
+
+        const reflectionNarratives = [
+            "Examining thought patterns for recurring themes...",
+            "Analyzing emotional responses to recent events...",
+            "Reviewing memory consolidation effectiveness...",
+            "Evaluating goal progress and adjusting priorities...",
+            "Identifying cognitive biases in recent decisions...",
+            "Reflecting on learning strategies and their effectiveness...",
+            "Considering alternative perspectives on past actions..."
+        ];
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            width = canvas.width = rect.width;
+            height = canvas.height = rect.height;
+        }
+
+        class ReflectionNode {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.size = Math.random() * 6 + 4;
+                this.alpha = 0;
+                this.pulse = Math.random() * Math.PI * 2;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.age = 0;
+            }
+
+            update() {
+                this.age++;
+                this.alpha = Math.min(1, this.alpha + 0.02);
+                this.pulse += 0.04;
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 50 || this.x > width - 50) this.vx *= -1;
+                if (this.y < 50 || this.y > height - 50) this.vy *= -1;
+            }
+
+            draw() {
+                const pulseSize = this.size + Math.sin(this.pulse) * 2;
+                
+                // Glow
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, pulseSize * 3);
+                gradient.addColorStop(0, this.type.color + Math.round(this.alpha * 150).toString(16).padStart(2, '0'));
+                gradient.addColorStop(1, 'transparent');
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize * 3, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Core
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize, 0, Math.PI * 2);
+                ctx.fillStyle = this.type.color + Math.round(this.alpha * 200).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                // Label
+                if (this.age > 30) {
+                    ctx.font = '10px "Segoe UI", sans-serif';
+                    ctx.fillStyle = this.type.color + Math.round(this.alpha * 180).toString(16).padStart(2, '0');
+                    ctx.textAlign = 'center';
+                    ctx.fillText(this.type.label, this.x, this.y - pulseSize - 8);
+                }
+            }
+        }
+
+        function initNodes() {
+            nodes = [];
+            edges = [];
+            const count = 20;
+            for (let i = 0; i < count; i++) {
+                const type = reflectionTypes[Math.floor(Math.random() * reflectionTypes.length)];
+                const x = Math.random() * (width - 200) + 100;
+                const y = Math.random() * (height - 200) + 100;
+                nodes.push(new ReflectionNode(x, y, type));
+            }
+        }
+
+        function updateEdges() {
+            edges = [];
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        edges.push({ from: i, to: j, alpha: (1 - dist / 130) * 0.25 });
+                    }
+                }
+            }
+        }
+
+        function drawEdges() {
+            edges.forEach(edge => {
+                const from = nodes[edge.from];
+                const to = nodes[edge.to];
+                
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                ctx.strokeStyle = from.type.color + Math.round(edge.alpha * 255).toString(16).padStart(2, '0');
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+
+                // Flowing particle
+                const flowT = (time * 0.008) % 1;
+                const fx = from.x + (to.x - from.x) * flowT;
+                const fy = from.y + (to.y - from.y) * flowT;
+                ctx.beginPath();
+                ctx.arc(fx, fy, 2, 0, Math.PI * 2);
+                ctx.fillStyle = from.type.color + '50';
+                ctx.fill();
+            });
+        }
+
+        function drawBackground() {
+            // Subtle grid
+            ctx.strokeStyle = 'rgba(155, 89, 182, 0.03)';
+            ctx.lineWidth = 0.5;
+            const gridSize = 40;
+            for (let x = 0; x < width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Central glow
+            const cx = width / 2;
+            const cy = height / 2;
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(width, height) * 0.35);
+            gradient.addColorStop(0, 'rgba(155, 89, 182, 0.06)');
+            gradient.addColorStop(0.5, 'rgba(232, 67, 147, 0.03)');
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        function render() {
+            time++;
+            ctx.clearRect(0, 0, width, height);
+            
+            drawBackground();
+            
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+            
+            updateEdges();
+            drawEdges();
+
+            // Update narrative periodically
+            if (time % 180 === 0) {
+                const label = document.getElementById('reflectionLabel');
+                const narrative = document.getElementById('reflectionNarrative');
+                const idx = Math.floor(Math.random() * reflectionNarratives.length);
+                narrative.textContent = reflectionNarratives[idx];
+                label.style.color = reflectionTypes[Math.floor(Math.random() * reflectionTypes.length)].color;
+            }
+
+            // Add new nodes during reflection
+            if (isReflecting && time % 120 === 0 && nodes.length < 40) {
+                const type = reflectionTypes[Math.floor(Math.random() * reflectionTypes.length)];
+                const x = Math.random() * (width - 200) + 100;
+                const y = Math.random() * (height - 200) + 100;
+                nodes.push(new ReflectionNode(x, y, type));
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        function beginReflection() {
+            isReflecting = true;
+            
+            // Add burst of nodes
+            for (let i = 0; i < 3; i++) {
+                const type = reflectionTypes[Math.floor(Math.random() * reflectionTypes.length)];
+                const x = Math.random() * (width - 200) + 100;
+                const y = Math.random() * (height - 200) + 100;
+                nodes.push(new ReflectionNode(x, y, type));
+            }
+
+            // Update stats
+            const reflectionsEl = document.getElementById('reflectionsCount');
+            const insightsEl = document.getElementById('insightsGained');
+            
+            reflectionsEl.textContent = parseInt(reflectionsEl.textContent) + 1;
+            insightsEl.textContent = parseInt(insightsEl.textContent) + Math.floor(Math.random() * 3) + 1;
+
+            // Add insight to timeline
+            const insights = [
+                { type: 'Pattern Recognition', text: '<strong>Observation:</strong> My productivity peaks during specific time windows. Protecting these periods for deep work yields better results than multitasking.' },
+                { type: 'Behavioral Insight', text: '<strong>Finding:</strong> Breaking complex tasks into smaller steps reduces cognitive load and improves completion rates by approximately 40%.' },
+                { type: 'Meta-Cognitive', text: '<strong>Realization:</strong> I sometimes confuse confidence with correctness. Adding a verification step before finalizing conclusions would improve accuracy.' },
+                { type: 'Strategic', text: '<strong>Discovery:</strong> Documenting lessons immediately after learning them preserves 3x more detail than waiting. The act of writing reinforces memory.' },
+                { type: 'Emotional Intelligence', text: '<strong>Insight:</strong> Recognizing frustration early allows me to step back and reassess, preventing wasted effort on approaches that aren\'t working.' }
+            ];
+
+            const insight = insights[Math.floor(Math.random() * insights.length)];
+            const timeline = document.getElementById('insightTimeline');
+            const div = document.createElement('div');
+            div.className = 'timeline-item';
+            div.innerHTML = `<div class="insight-type">${insight.type}</div><div class="insight-text">${insight.text}</div>`;
+            timeline.insertBefore(div, timeline.firstChild);
+
+            // Update narrative
+            const narratives = [
+                "Reflection complete. New insights integrated into knowledge base.",
+                "Deep analysis reveals patterns previously unnoticed.",
+                "Self-assessment updated based on recent performance data.",
+                "Metacognitive review suggests areas for improvement identified."
+            ];
+            document.getElementById('reflectionNarrative').textContent = narratives[Math.floor(Math.random() * narratives.length)];
+
+            // Stop reflection after 10 seconds
+            setTimeout(() => { isReflecting = false; }, 10000);
+        }
+
+        function deepDive() {
+            isReflecting = true;
+            
+            // Add more nodes for deeper analysis
+            for (let i = 0; i < 8; i++) {
+                const type = reflectionTypes[Math.floor(Math.random() * reflectionTypes.length)];
+                const x = Math.random() * (width - 200) + 100;
+                const y = Math.random() * (height - 200) + 100;
+                nodes.push(new ReflectionNode(x, y, type));
+            }
+
+            // Update stats more significantly
+            const reflectionsEl = document.getElementById('reflectionsCount');
+            const insightsEl = document.getElementById('insightsGained');
+            const growthEl = document.getElementById('growthRate');
+            
+            reflectionsEl.textContent = parseInt(reflectionsEl.textContent) + 3;
+            insightsEl.textContent = parseInt(insightsEl.textContent) + Math.floor(Math.random() * 5) + 2;
+            
+            let growth = parseInt(growthEl.textContent);
+            growth = Math.min(99, growth + Math.floor(Math.random() * 3) + 1);
+            growthEl.textContent = '+' + growth + '%';
+
+            document.getElementById('reflectionNarrative').textContent = 'Deep introspection mode: Analyzing multiple cognitive layers simultaneously...';
+
+            setTimeout(() => { isReflecting = false; }, 15000);
+        }
+
+        function resetReflection() {
+            initNodes();
+            isReflecting = false;
+            document.getElementById('reflectionsCount').textContent = '0';
+            document.getElementById('insightsGained').textContent = '0';
+            document.getElementById('growthRate').textContent = '+12%';
+            document.getElementById('reflectionNarrative').textContent = 'Reflection system reset. Ready for new introspection cycle...';
+        }
+
+        // Growth Chart
+        const growthCanvas = document.getElementById('growthCanvas');
+        const gctx = growthCanvas.getContext('2d');
+
+        function resizeGrowth() {
+            const rect = growthCanvas.parentElement.getBoundingClientRect();
+            growthCanvas.width = rect.width - 56;
+            growthCanvas.height = 300;
+            drawGrowthChart();
+        }
+
+        function drawGrowthChart() {
+            const w = growthCanvas.width;
+            const h = growthCanvas.height;
+            
+            gctx.clearRect(0, 0, w, h);
+
+            const data = [10, 18, 25, 35, 42, 50, 58, 65, 72, 78, 85, 92];
+            const padding = { top: 30, right: 30, bottom: 40, left: 50 };
+            const chartW = w - padding.left - padding.right;
+            const chartH = h - padding.top - padding.bottom;
+
+            // Grid
+            gctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            gctx.lineWidth = 0.5;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartH / 5) * i;
+                gctx.beginPath();
+                gctx.moveTo(padding.left, y);
+                gctx.lineTo(w - padding.right, y);
+                gctx.stroke();
+
+                gctx.font = '11px "Segoe UI", sans-serif';
+                gctx.fillStyle = '#6666aa';
+                gctx.textAlign = 'right';
+                gctx.fillText((100 - i * 20) + '%', padding.left - 10, y + 4);
+            }
+
+            // X labels
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            gctx.textAlign = 'center';
+            data.forEach((_, i) => {
+                const x = padding.left + (chartW / (data.length - 1)) * i;
+                if (i % 2 === 0) {
+                    gctx.fillStyle = '#6666aa';
+                    gctx.fillText(months[i], x, h - 10);
+                }
+            });
+
+            // Line with gradient
+            const gradient = gctx.createLinearGradient(0, padding.top, 0, h - padding.bottom);
+            gradient.addColorStop(0, 'rgba(155, 89, 182, 0.3)');
+            gradient.addColorStop(1, 'rgba(155, 89, 182, 0)');
+
+            gctx.beginPath();
+            data.forEach((val, i) => {
+                const x = padding.left + (chartW / (data.length - 1)) * i;
+                const y = padding.top + chartH - (val / 100) * chartH;
+                if (i === 0) gctx.moveTo(x, y);
+                else gctx.lineTo(x, y);
+            });
+            gctx.strokeStyle = '#9b59b6';
+            gctx.lineWidth = 2.5;
+            gctx.stroke();
+
+            // Fill
+            const lastX = padding.left + chartW;
+            const lastY = padding.top + chartH - (data[data.length - 1] / 100) * chartH;
+            gctx.lineTo(lastX, h - padding.bottom);
+            gctx.lineTo(padding.left, h - padding.bottom);
+            gctx.closePath();
+            gctx.fillStyle = gradient;
+            gctx.fill();
+
+            // Dots with glow
+            data.forEach((val, i) => {
+                const x = padding.left + (chartW / (data.length - 1)) * i;
+                const y = padding.top + chartH - (val / 100) * chartH;
+                
+                gctx.beginPath();
+                gctx.arc(x, y, 4, 0, Math.PI * 2);
+                gctx.fillStyle = '#9b59b6';
+                gctx.fill();
+
+                const glow = gctx.createRadialGradient(x, y, 0, x, y, 12);
+                glow.addColorStop(0, 'rgba(155, 89, 182, 0.4)');
+                glow.addColorStop(1, 'transparent');
+                gctx.beginPath();
+                gctx.arc(x, y, 12, 0, Math.PI * 2);
+                gctx.fillStyle = glow;
+                gctx.fill();
+            });
+        }
+
+        // Event listeners
+        document.getElementById('reflectBtn').addEventListener('click', beginReflection);
+        document.getElementById('deepReflectBtn').addEventListener('click', deepDive);
+        document.getElementById('resetBtn').addEventListener('click', resetReflection);
+
+        window.addEventListener('resize', () => {
+            resize();
+            resizeGrowth();
+        });
+
+        // Init
+        resize();
+        initNodes();
+        render();
+        
+        setTimeout(() => {
+            resizeGrowth();
+        }, 100);
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

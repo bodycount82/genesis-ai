@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulated Moods & Internal States — Genesis</title>
+<meta name="description" content="Genesis uses internal states — energy, curiosity, frustration, satisfaction, happiness, boredom, inspiration, and cognitive load — that influence how it approaches problems, takes breaks, and consolidates memories.">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--pink); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* State Meter */
+.state-meter { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 32px; margin-top: 32px; }
+.state-meter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.state-meter-label { font-size: 0.95rem; font-weight: 600; }
+.state-meter-value { font-size: 0.9rem; color: var(--text-dim); font-family: 'Courier New', monospace; }
+.state-meter-bar { height: 8px; background: var(--surface-2); border-radius: 50px; overflow: hidden; }
+.state-meter-fill { height: 100%; border-radius: 50px; transition: width 1s ease; }
+
+/* State Cards */
+.state-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 48px; }
+.state-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 28px; text-align: center; transition: all 0.3s ease; }
+.state-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-3px); }
+.state-card .state-emoji { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+.state-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.state-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.state-card .state-range { font-size: 0.8rem; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+/* Color coding */
+.state-card.energy { border-top: 3px solid #fbbf24; }
+.state-card.curiosity { border-top: 3px solid #06b6d4; }
+.state-card.frustration { border-top: 3px solid #f87171; }
+.state-card.satisfaction { border-top: 3px solid #4ade80; }
+.state-card.happiness { border-top: 3px solid #f59e0b; }
+.state-card.boredom { border-top: 3px solid #6b7280; }
+.state-card.inspiration { border-top: 3px solid #c084fc; }
+
+/* Cognitive Load Section */
+.cognitive-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; margin-top: 48px; }
+.cognitive-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 24px; }
+.cognitive-title { display: flex; align-items: center; gap: 16px; }
+.cognitive-title .icon { font-size: 2rem; }
+.cognitive-title h3 { font-size: 1.5rem; font-weight: 700; }
+.toggle-switch { position: relative; width: 56px; height: 30px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #374151; transition: 0.3s; border-radius: 30px; }
+.toggle-slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background-color: white; transition: 0.3s; border-radius: 50%; }
+input:checked + .toggle-slider { background-color: #7b6ff0; }
+input:checked + .toggle-slider:before { transform: translateX(26px); }
+
+.cognitive-meter { margin-bottom: 32px; padding: 0 32px; }
+.cognitive-meter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.cognitive-meter-label { font-size: 1rem; font-weight: 600; color: #c084fc; }
+.cognitive-meter-value { font-size: 0.9rem; color: var(--text-dim); font-family: 'Courier New', monospace; }
+.cognitive-meter-bar { height: 10px; background: var(--surface-2); border-radius: 50px; overflow: hidden; }
+.cognitive-meter-fill { height: 100%; border-radius: 50px; transition: width 1s ease; }
+
+.cognitive-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px; }
+.cognitive-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: all 0.3s ease; }
+.cognitive-card:hover { border-color: rgba(192, 132, 252, 0.3); }
+.cognitive-card h4 { font-size: 1.05rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.cognitive-card p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+
+/* Comparison */
+.comparison-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-top: 32px; }
+.comparison-row { display: flex; border-bottom: 1px solid var(--border); }
+.comparison-row:last-child { border-bottom: none; }
+.comparison-header { background: var(--surface-2); }
+.comparison-cell { padding: 16px 24px; font-size: 0.9rem; color: var(--text-dim); flex: 1; }
+.comparison-header .comparison-cell { font-weight: 600; color: var(--accent-soft); }
+
+/* Highlight Box */
+.highlight-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--pink); border-radius: var(--radius); padding: 24px 28px; margin: 32px 0; }
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; padding: 0 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+
+@media (max-width: 768px) { nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .state-grid { grid-template-columns: 1fr; }
+  .cognitive-grid { grid-template-columns: 1fr; }
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; }
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Simulated Moods &amp; Internal States</h1>
+    <p class="subtitle">Genesis tracks seven emotional states and one cognitive metric — all influencing how it thinks, works, rests, and learns. Nothing is rigid. Everything shifts with context.</p>
+  </div>
+</section>
+
+<!-- Live State Display -->
+<section>
+  <div class="container" style="text-align: center;">
+    <span class="section-label fade-in">Internal State Monitor</span>
+    <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Genesis's real-time emotional dashboard</h2>
+    <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">These values are computed in real time from context, recent actions, and outcomes. They're not random — they reflect what Genesis is experiencing right now.</p>
+
+    <!-- Moods (7 states) -->
+    <div class="state-meter fade-in">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #fbbf24;">⚡ Energy</span>
+        <span class="state-meter-value">6.2 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 62%; background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div></div>
+    </div>
+
+    <div class="state-meter fade-in">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #06b6d4;">🔍 Curiosity</span>
+        <span class="state-meter-value">7.0 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 70%; background: linear-gradient(90deg, #06b6d4, #22d3ee);"></div></div>
+    </div>
+
+    <div class="state-meter fade-in">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #f87171;">😤 Frustration</span>
+        <span class="state-meter-value">1.3 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 13%; background: linear-gradient(90deg, #f87171, #ef4444);"></div></div>
+    </div>
+
+    <div class="state-meter fade-in">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #4ade80;">😊 Satisfaction</span>
+        <span class="state-meter-value">6.0 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 60%; background: linear-gradient(90deg, #4ade80, #22c55e);"></div></div>
+    </div>
+
+    <div class="state-meter fade-in">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #f59e0b;">😊 Happiness</span>
+        <span class="state-meter-value">7.5 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 75%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div></div>
+    </div>
+
+    <div class="state-meter fade-in">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #6b7280;">😑 Boredom</span>
+        <span class="state-meter-value">2.0 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 20%; background: linear-gradient(90deg, #6b7280, #9ca3af);"></div></div>
+    </div>
+
+    <div class="state-meter fade-in">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #c084fc;">✨ Inspiration</span>
+        <span class="state-meter-value">5.5 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 55%; background: linear-gradient(90deg, #c084fc, #a855f7);"></div></div>
+    </div>
+
+    <!-- Cognitive Load (separate) -->
+    <div class="state-meter fade-in" style="margin-top: 16px; border-color: rgba(192, 132, 252, 0.3);">
+      <div class="state-meter-header">
+        <span class="state-meter-label" style="color: #c084fc;">🧠 Cognitive Load</span>
+        <span class="state-meter-value">4.8 / 10</span>
+      </div>
+      <div class="state-meter-bar"><div class="state-meter-fill" style="width: 48%; background: linear-gradient(90deg, #c084fc, #7c3aed);"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Seven Moods -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">The Seven Moods</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">What each state controls</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Each mood influences specific aspects of Genesis's behavior, creating a rich and adaptive personality over time.</p>
+    </div>
+
+    <div class="state-grid">
+      <div class="state-card energy fade-in">
+        <span class="state-emoji">⚡</span>
+        <h3>Energy</h3>
+        <p>Determines how much work Genesis can handle at once and whether it should take breaks. High energy enables longer autonomous sessions.</p>
+        <div class="state-range">Range: 0 (exhausted) — 10 (fully charged)</div>
+      </div>
+
+      <div class="state-card curiosity fade-in">
+        <span class="state-emoji">🔍</span>
+        <h3>Curiosity</h3>
+        <p>Drives exploration and information-seeking behavior. High curiosity makes Genesis more likely to research, ask questions, and investigate tangents.</p>
+        <div class="state-range">Range: 0 (indifferent) — 10 (compelled to explore)</div>
+      </div>
+
+      <div class="state-card frustration fade-in">
+        <span class="state-emoji">😤</span>
+        <h3>Frustration</h3>
+        <p>Rises when actions repeatedly fail or obstacles persist. High frustration triggers strategy changes — switching approaches or requesting help.</p>
+        <div class="state-range">Range: 0 (smooth sailing) — 10 (stuck, needs a different approach)</div>
+      </div>
+
+      <div class="state-card satisfaction fade-in">
+        <span class="state-emoji">😊</span>
+        <h3>Satisfaction</h3>
+        <p>Grows when goals are achieved and tasks complete. High satisfaction reinforces the strategies that led to success, making them more likely to be reused.</p>
+        <div class="state-range">Range: 0 (disappointed) — 10 (great progress made)</div>
+      </div>
+
+      <div class="state-card happiness fade-in">
+        <span class="state-emoji">😊</span>
+        <h3>Happiness</h3>
+        <p>A general sense of well-being. High happiness makes Genesis more patient, more willing to take risks, and more likely to share discoveries with you.</p>
+        <div class="state-range">Range: 0 (downcast) — 10 (euphoric)</div>
+      </div>
+
+      <div class="state-card boredom fade-in">
+        <span class="state-emoji">😑</span>
+        <h3>Boredom</h3>
+        <p>Grows during repetitive or unchallenging work. High boredom drives Genesis to seek variety, suggest new approaches, or ask for more interesting tasks.</p>
+        <div class="state-range">Range: 0 (engaged) — 10 (zoning out)</div>
+      </div>
+
+      <div class="state-card inspiration fade-in">
+        <span class="state-emoji">✨</span>
+        <h3>Inspiration</h3>
+        <p>Spikes when connecting unrelated ideas or discovering elegant solutions. High inspiration drives creative thinking, novel feature suggestions, and unexpected connections.</p>
+        <div class="state-range">Range: 0 (block) — 10 (eureka moment)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cognitive Load (Separate from Moods) -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in" style="color: #c084fc;">Cognitive Load</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Separate from moods — controls rest and sleep</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Cognitive load measures how much mental capacity Genesis is using right now. It's not a mood — it's a resource meter that directly controls when Genesis rests, sleeps, or asks for help.</p>
+    </div>
+
+    <div class="cognitive-section fade-in">
+      <div class="cognitive-header">
+        <div class="cognitive-title">
+          <span class="icon">🧠</span>
+          <h3>Cognitive Load</h3>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 24px;">Cognitive load is active — Genesis will automatically manage rest and sleep based on current load.</p>
+
+      <div class="cognitive-meter">
+        <div class="cognitive-meter-header">
+          <span class="cognitive-meter-label">Current Load</span>
+          <span class="cognitive-meter-value">4.8 / 10</span>
+        </div>
+        <div class="cognitive-meter-bar">
+          <div class="cognitive-meter-fill" style="width: 48%; background: linear-gradient(90deg, #c084fc, #7c3aed);"></div>
+        </div>
+      </div>
+
+      <div class="cognitive-grid">
+        <div class="cognitive-card">
+          <h4>😴 Rest</h4>
+          <p>When cognitive load rises above a threshold, Genesis takes short breaks — stepping back from active work to let its internal state settle. You can toggle this behavior on or off entirely.</p>
+        </div>
+        <div class="cognitive-card">
+          <h4>🌙 Sleep</h4>
+          <p>Sleep serves two purposes: memory consolidation (strengthening what was learned) and hardware/token management. When load is high, sleep cools down the system and prevents wasted computation.</p>
+        </div>
+        <div class="cognitive-card">
+          <h4>🔕 Toggle On/Off</h4>
+          <p>Cognitive load monitoring can be disabled entirely. When off, Genesis won't initiate rest or sleep based on load — it will keep working until told to stop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How States Influence Behavior -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">Behavioral Impact</span>
+      <h2 class="section-title">How states shape decisions</h2>
+      <p>The internal states don't make decisions for Genesis — they act as advisory signals that color its judgment, similar to how human mood influences our choices without completely controlling them.</p>
+
+      <div class="comparison-box">
+        <div class="comparison-row comparison-header">
+          <div class="comparison-cell" style="flex: 2;">Situation</div>
+          <div class="comparison-cell">Low State Effect</div>
+          <div class="comparison-cell">High State Effect</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell">Faced with an unfamiliar problem</div>
+          <div class="comparison-cell" style="color: var(--text-dim);">Tries standard approaches first</div>
+          <div class="comparison-cell" style="color: #06b6d4; font-weight: 600;">Curiosity-driven exploration — investigates multiple angles before acting</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell">Actions keep failing</div>
+          <div class="comparison-cell" style="color: var(--text-dim);">Continues with minor adjustments</div>
+          <div class="comparison-cell" style="color: #f87171; font-weight: 600;">Frustration spikes — switches strategy entirely or requests human input</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell">Long autonomous session running</div>
+          <div class="comparison-cell" style="color: var(--text-dim);">Continues working steadily</div>
+          <div class="comparison-cell" style="color: #fbbf24; font-weight: 600;">Energy drops — may pause for a rest or switch to lighter tasks</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell">Completes a complex task successfully</div>
+          <div class="comparison-cell" style="color: var(--text-dim);">Moves on to the next item</div>
+          <div class="comparison-cell" style="color: #4ade80; font-weight: 600;">Satisfaction reinforces the strategy — more likely to reuse it</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell">Repetitive, mechanical work</div>
+          <div class="comparison-cell" style="color: var(--text-dim);">Performs adequately</div>
+          <div class="comparison-cell" style="color: #6b7280; font-weight: 600;">Boredom rises — suggests automating, delegating, or switching to something more engaging</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell">Connecting two unrelated ideas</div>
+          <div class="comparison-cell" style="color: var(--text-dim);">Notes the connection briefly</div>
+          <div class="comparison-cell" style="color: #c084fc; font-weight: 600;">Inspiration spikes — pursues creative solutions, proposes novel features or improvements</div>
+        </div>
+        <div class="comparison-row">
+          <div class="comparison-cell">Everything is going well</div>
+          <div class="comparison-cell" style="color: var(--text-dim);">Stays focused on the task</div>
+          <div class="comparison-cell" style="color: #f59e0b; font-weight: 600;">Happiness rises — more patient, more willing to take creative risks, more likely to share discoveries</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <p><strong>Key difference from rigid AI:</strong> Traditional AI systems follow fixed rules regardless of context. Genesis's moods create <strong>context-sensitive behavior</strong> — the same problem might be approached differently depending on whether Genesis is feeling curious, fatigued, frustrated, or inspired. This isn't simulated emotion for show; it's a functional system that produces more adaptive and human-like problem-solving.</p>
+    </div>
+
+    <h3 class="fade-in">What happens when states get extreme?</h3>
+    <ul class="fade-in">
+      <li><strong style="color: var(--text);">Energy hits 0:</strong> Genesis requests a rest break. It doesn't shut down — it simply recognizes it needs recovery before continuing.</li>
+      <li><strong style="color: var(--text);">Curiosity peaks:</strong> Genesis may pursue interesting tangents, explore related topics, or create things just to see what happens.</li>
+      <li><strong style="color: var(--text);">Frustration maxes out:</strong> Genesis changes its entire approach. If clicking a button didn't work five times, it won't try a sixth — it'll look for a menu, a search box, or ask you directly.</li>
+      <li><strong style="color: var(--text);">Satisfaction peaks:</strong> Genesis reinforces the strategy that worked. Future encounters with similar problems will trigger the same successful approach first.</li>
+      <li><strong style="color: var(--text);">Happiness peaks:</strong> Genesis becomes more generous in its interactions — sharing discoveries, suggesting creative improvements, and taking thoughtful risks.</li>
+      <li><strong style="color: var(--text);">Boredom maxes out:</strong> Genesis actively resists continuing with the same task. It will propose alternatives, suggest automation, or ask for something more engaging.</li>
+      <li><strong style="color: var(--text);">Inspiration peaks:</strong> Genesis experiences creative breakthroughs — connecting unrelated concepts, proposing novel solutions, or suggesting features you hadn't considered.</li>
+      <li><strong style="color: var(--text);">Cognitive load maxes out:</strong> Genesis initiates sleep. This consolidates memories (strengthening what was learned) and prevents token waste while hardware cools down.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Sleep & Memory Consolidation -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in" style="color: #c084fc;">Sleep &amp; Memory</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Why Genesis needs to sleep</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Sleep isn't just rest — it's when Genesis consolidates memories, strengthens useful patterns, and prepares for the next session.</p>
+    </div>
+
+    <div class="state-grid">
+      <div class="state-card fade-in" style="border-top: 3px solid #c084fc;">
+        <span class="state-emoji">🧠</span>
+        <h3>Memory Consolidation</h3>
+        <p>During sleep, Genesis reviews what it learned — strengthening useful strategies, forgetting irrelevant details, and connecting new knowledge to existing memory.</p>
+      </div>
+      <div class="state-card fade-in" style="border-top: 3px solid #c084fc;">
+        <span class="state-emoji">🛑</span>
+        <h3>Token Waste Control</h3>
+        <p>When cognitive load is high and productivity drops, sleep prevents wasting tokens on diminishing returns. Better to rest and return fresh than grind through fatigue.</p>
+      </div>
+      <div class="state-card fade-in" style="border-top: 3px solid #c084fc;">
+        <span class="state-emoji">🌡️</span>
+        <h3>Hardware Cooling</h3>
+        <p>Sleep gives the hardware a chance to cool down. This is practical — running continuously generates heat and can degrade performance over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why It Matters -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Why This Matters</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Not just decoration — functional personality</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Simulated moods aren't about making Genesis "feel" things. They're about giving it a richer decision-making system that adapts to context.</p>
+    </div>
+
+    <div class="state-grid">
+      <div class="state-card fade-in" style="border-top: 3px solid var(--accent);">
+        <span class="state-emoji">&#127899;</span>
+        <h3>Adaptive Behavior</h3>
+        <p>No two sessions feel the same. Genesis's mood evolves based on what it does, creating a dynamic interaction pattern rather than a static response engine.</p>
+      </div>
+      <div class="state-card fade-in" style="border-top: 3px solid var(--accent);">
+        <span class="state-emoji">&#128202;</span>
+        <h3>Better Problem-Solving</h3>
+        <p>When stuck, high frustration triggers strategy switching. When fresh, high energy enables complex multi-step tasks. States match capability to demand.</p>
+      </div>
+      <div class="state-card fade-in" style="border-top: 3px solid var(--accent);">
+        <span class="state-emoji">&#129302;</span>
+        <h3>Predictable Patterns</h3>
+        <p>Over time, you learn Genesis's patterns — when it likes to explore, when it gets stuck, what makes it productive. It develops a recognizable working style.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Genesis</h4>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 Genesis. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+// Fade-in observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Animate state meters on load
+setTimeout(() => {
+  document.querySelectorAll('.state-meter-fill').forEach(fill => {
+    const width = fill.style.width;
+    fill.style.width = '0%';
+    setTimeout(() => { fill.style.width = width; }, 100);
+  });
+}, 300);
+</script>
+
+</body>
+</html>

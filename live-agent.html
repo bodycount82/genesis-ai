@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; --text-secondary: #9999aa; --text-muted: #666680; --gradient-1: linear-gradient(135deg, #7b6ff0, #a855f7); --gradient-2: linear-gradient(135deg, #4a3fbf, #7b6ff0); --gradient-3: linear-gradient(135deg, #9d93f5, #c4b5fd); }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+</style>
+
+    <title>GENESIS — Live Agent Simulator</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Hero -->
+    <section class="sim-hero">
+        <div class="sim-hero-content">
+            <div class="sim-badge">
+                <span class="live-dot"></span>
+                Interactive Simulation
+            </div>
+            <h1 class="sim-title">Watch GENESIS <span class="gradient-text">Think</span></h1>
+            <p class="sim-subtitle">
+                Select a scenario below and watch how GENESIS processes goals, plans tasks, 
+                executes tool calls, manages memory, and delivers results — all in real-time.
+            </p>
+            <div class="sim-controls">
+                <button class="btn-sim btn-sim-primary" id="startBtn" disabled>
+                    ▶ Start Simulation
+                </button>
+                <button class="btn-sim btn-sim-secondary" id="resetBtn">
+                    ↺ Reset
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario Selector -->
+    <section class="scenario-selector">
+        <div class="container">
+            <span class="section-tag">Choose a Scenario</span>
+            <h2 class="section-title" style="margin-top: 12px;">What Should GENESIS Do?</h2>
+            <div class="scenario-grid">
+                <div class="scenario-card selected" data-scenario="research">
+                    <div class="scenario-icon">🔍</div>
+                    <div class="scenario-name">Web Research</div>
+                    <div class="scenario-desc">GENESIS researches a topic, fetches multiple sources, and synthesizes findings into a report.</div>
+                </div>
+                <div class="scenario-card" data-scenario="debug">
+                    <div class="scenario-icon">🐛</div>
+                    <div class="scenario-name">Debug Code</div>
+                    <div class="scenario-desc">GENESIS analyzes error logs, identifies the root cause, and proposes a fix.</div>
+                </div>
+                <div class="scenario-card" data-scenario="create">
+                    <div class="scenario-icon">✨</div>
+                    <div class="scenario-name">Create Content</div>
+                    <div class="scenario-desc">GENESIS plans and generates a complete webpage with structure, styling, and interactivity.</div>
+                </div>
+                <div class="scenario-card" data-scenario="memory">
+                    <div class="scenario-icon">🧠</div>
+                    <div class="scenario-name">Memory Operations</div>
+                    <div class="scenario-desc">Watch GENESIS manage its own memory — encoding, retrieving, and consolidating knowledge.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulator -->
+    <section class="sim-container">
+        <div class="sim-status">
+            <span class="status-dot idle" id="statusDot"></span>
+            <span id="statusText">Ready — select a scenario and start</span>
+        </div>
+        <div class="sim-progress">
+            <div class="sim-progress-fill" id="progressFill"></div>
+        </div>
+        <div class="sim-grid">
+            <!-- Left: Cognitive State -->
+            <div class="sim-panel">
+                <div class="sim-panel-title">Cognitive State</div>
+                <div class="cognitive-state">
+                    <div class="state-metric">
+                        <div class="metric-header">
+                            <span class="metric-label">Energy</span>
+                            <span class="metric-value" id="energyVal">—</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="energyBar" style="background: linear-gradient(90deg, #4f6ef7, #7c3aed);"></div>
+                        </div>
+                    </div>
+                    <div class="state-metric">
+                        <div class="metric-header">
+                            <span class="metric-label">Curiosity</span>
+                            <span class="metric-value" id="curiosityVal">—</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="curiosityBar" style="background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                        </div>
+                    </div>
+                    <div class="state-metric">
+                        <div class="metric-header">
+                            <span class="metric-label">Satisfaction</span>
+                            <span class="metric-value" id="satisfactionVal">—</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="satisfactionBar" style="background: linear-gradient(90deg, #10b981, #4eff6d);"></div>
+                        </div>
+                    </div>
+                    <div class="state-metric">
+                        <div class="metric-header">
+                            <span class="metric-label">Frustration</span>
+                            <span class="metric-value" id="frustrationVal">—</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="frustrationBar" style="background: linear-gradient(90deg, #ef4444, #ff5f57);"></div>
+                        </div>
+                    </div>
+                    <div class="state-metric">
+                        <div class="metric-header">
+                            <span class="metric-label">Cognitive Load</span>
+                            <span class="metric-value" id="loadVal">—</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="loadBar" style="background: linear-gradient(90deg, #4f6ef7, #f59e0b);"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mem-stats">
+                    <div class="mem-stat">
+                        <div class="mem-stat-value" id="toolCallsCount">0</div>
+                        <div class="mem-stat-label">Tool Calls</div>
+                    </div>
+                    <div class="mem-stat">
+                        <div class="mem-stat-value" id="memoryOpsCount">0</div>
+                        <div class="mem-stat-label">Memory Ops</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center: Terminal -->
+            <div class="sim-panel terminal-panel">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <span class="terminal-title">genesis-agent — simulation</span>
+                </div>
+                <div class="terminal-body" id="terminalBody">
+                    <div class="log-line">
+                        <span class="log-time">[--:--:--]</span>
+                        <span class="log-prefix system">SYS</span>
+                        <span class="log-text">Select a scenario above and click <span class="highlight">Start Simulation</span> to begin.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Activity Feed -->
+            <div class="sim-panel">
+                <div class="sim-panel-title">Activity Feed</div>
+                <div class="activity-feed" id="activityFeed">
+                    <div style="color: #4a5568; font-size: 0.8rem; text-align: center; padding: 40px 0;">
+                        No activity yet
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Footer -->
+    <script>
+    (function() {
+        // ============================================
+        // Live Agent Simulator
+        // ============================================
+
+        const terminal = document.getElementById('terminalBody');
+        const activityFeed = document.getElementById('activityFeed');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const progressFill = document.getElementById('progressFill');
+
+        // State metrics
+        const metrics = {
+            energy: { val: document.getElementById('energyVal'), bar: document.getElementById('energyBar') },
+            curiosity: { val: document.getElementById('curiosityVal'), bar: document.getElementById('curiosityBar') },
+            satisfaction: { val: document.getElementById('satisfactionVal'), bar: document.getElementById('satisfactionBar') },
+            frustration: { val: document.getElementById('frustrationVal'), bar: document.getElementById('frustrationBar') },
+            load: { val: document.getElementById('loadVal'), bar: document.getElementById('loadBar') }
+        };
+
+        let toolCallsCount = 0;
+        let memoryOpsCount = 0;
+        let simulationRunning = false;
+        let selectedScenario = 'research';
+        let stepIndex = 0;
+        let currentSteps = [];
+        let timers = [];
+
+        // Scenario cards
+        document.querySelectorAll('.scenario-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedScenario = this.dataset.scenario;
+            });
+        });
+
+        startBtn.addEventListener('click', startSimulation);
+        resetBtn.addEventListener('click', resetSimulation);
+
+        function getTime() {
+            const now = new Date();
+            return now.toTimeString().slice(0, 8);
+        }
+
+        function addLog(prefix, text, className = '') {
+            const line = document.createElement('div');
+            line.className = 'log-line';
+            line.innerHTML = `
+                <span class="log-time">${getTime()}</span>
+                <span class="log-prefix ${prefix}">[${prefix.toUpperCase()}]</span>
+                <span class="log-text ${className}">${text}</span>
+            `;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function addActivity(type, icon, desc) {
+            // Remove placeholder if present
+            const placeholder = activityFeed.querySelector('div[style]');
+            if (placeholder) placeholder.remove();
+
+            const item = document.createElement('div');
+            item.className = `activity-item ${type}-op || ${type}-call || thought || decision`.includes(type) ? `activity-item ${type === 'tool' ? 'tool-call' : type === 'memory' ? 'memory-op' : type}` : `activity-item ${type}`;
+            item.innerHTML = `
+                <div class="activity-icon ${type}">${icon}</div>
+                <div class="activity-content">
+                    <div class="activity-type">${type}</div>
+                    <div class="activity-desc">${desc}</div>
+                </div>
+            `;
+            activityFeed.prepend(item);
+
+            // Keep only last 15 items
+            while (activityFeed.children.length > 15) {
+                activityFeed.removeChild(activityFeed.lastChild);
+            }
+        }
+
+        function updateMetrics(state) {
+            if (state.energy !== undefined) {
+                metrics.energy.val.textContent = state.energy.toFixed(1);
+                metrics.energy.bar.style.width = (state.energy * 10) + '%';
+            }
+            if (state.curiosity !== undefined) {
+                metrics.curiosity.val.textContent = state.curiosity.toFixed(1);
+                metrics.curiosity.bar.style.width = (state.curiosity * 10) + '%';
+            }
+            if (state.satisfaction !== undefined) {
+                metrics.satisfaction.val.textContent = state.satisfaction.toFixed(1);
+                metrics.satisfaction.bar.style.width = (state.satisfaction * 10) + '%';
+            }
+            if (state.frustration !== undefined) {
+                metrics.frustration.val.textContent = state.frustration.toFixed(1);
+                metrics.frustration.bar.style.width = (state.frustration * 10) + '%';
+            }
+            if (state.load !== undefined) {
+                metrics.load.val.textContent = state.load.toFixed(0) + '%';
+                metrics.load.bar.style.width = state.load + '%';
+            }
+        }
+
+        function updateProgress(pct) {
+            progressFill.style.width = pct + '%';
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => {
+                const t = setTimeout(resolve, ms);
+                timers.push(t);
+            });
+        }
+
+        function clearTimers() {
+            timers.forEach(t => clearTimeout(t));
+            timers = [];
+        }
+
+        // ============================================
+        // Scenario Scripts
+        // ============================================
+
+        async function runResearchScenario() {
+            const steps = [
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'system', text: '  SCENARIO: Web Research Task', delay: 100 },
+                { type: 'system', text: '  "Research AI memory systems for 2026"', delay: 100 },
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'thinking', text: 'Analyzing request...', delay: 800, metric: { curiosity: 7.5, load: 30 } },
+                { type: 'thinking', text: 'Breaking down into sub-tasks:', delay: 600, metric: { load: 40 } },
+                { type: 'action', text: 'Step 1: Search for recent AI memory system papers', delay: 300 },
+                { type: 'tool', text: '→ search_web(query="AI memory systems 2026", num_results=5)', delay: 400, action: true, icon: '🔎', desc: 'Web Search' },
+                { type: 'result', text: '✓ Found 5 results — top: "Vector Memory Architectures in LLMs"', delay: 600 },
+                { type: 'thinking', text: 'Source 1 looks promising. Fetching full content...', delay: 500, metric: { curiosity: 8.2, load: 50 } },
+                { type: 'tool', text: '→ fetch_and_summarize(url="https://arxiv.org/abs/2601.xxxxx")', delay: 400, action: true, icon: '📄', desc: 'Fetch Source' },
+                { type: 'result', text: '✓ Extracted key concepts: episodic recall, semantic compression, forgetting curves', delay: 700 },
+                { type: 'memory', text: '→ remember_fact(content="Vector memory architectures use FAISS for semantic retrieval", category="fact")', delay: 400, memOp: true, icon: '🧠', desc: 'Semantic Memory Saved' },
+                { type: 'action', text: 'Step 2: Deep research on memory consolidation patterns', delay: 300 },
+                { type: 'tool', text: '→ web_research(query="AI agent memory consolidation strategies", max_pages=5, depth=2)', delay: 400, action: true, icon: '🌐', desc: 'Deep Research' },
+                { type: 'result', text: '✓ Analyzed 5 pages across 3 sources. Key finding: forgetting enables creativity.', delay: 800 },
+                { type: 'thinking', text: 'Cross-referencing findings with existing knowledge base...', delay: 600, metric: { load: 60, curiosity: 8.8 } },
+                { type: 'memory', text: '→ remember_event(summary="Autonomy session research on memory systems", importance="high")', delay: 400, memOp: true, icon: '📝', desc: 'Episodic Memory Saved' },
+                { type: 'tool', text: '→ search_memory(query="memory consolidation", max_results=5)', delay: 400, action: true, icon: '🔍', desc: 'Memory Search' },
+                { type: 'result', text: '✓ Found 3 relevant memories. Pattern matches: forgetting creates space for new thoughts.', delay: 600 },
+                { type: 'thinking', text: 'Synthesizing final report...', delay: 700, metric: { load: 55, satisfaction: 7.0 } },
+                { type: 'action', text: 'Compiling research summary with key insights and references.', delay: 400 },
+                { type: 'result', text: '✓ Research complete! 3 key findings, 8 sources analyzed, 2 memories saved.', delay: 500 },
+                { type: 'thinking', text: 'Task delivered. Cognitive state: satisfied, curiosity still high.', delay: 400, metric: { satisfaction: 8.5, energy: 7.0, load: 30 } },
+            ];
+            return steps;
+        }
+
+        async function runDebugScenario() {
+            const steps = [
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'system', text: '  SCENARIO: Debug Code Issue', delay: 100 },
+                { type: 'system', text: '  "Fix: daily_reflection.py regex not matching timestamps"', delay: 100 },
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'thinking', text: 'Analyzing error report...', delay: 800, metric: { frustration: 0, load: 25 } },
+                { type: 'thinking', text: 'User reports regex patterns failing to match log timestamps.', delay: 500 },
+                { type: 'action', text: 'Step 1: Read the script and error logs', delay: 300 },
+                { type: 'tool', text: '→ read_file(path="daily_reflection.py")', delay: 400, action: true, icon: '📂', desc: 'Read File' },
+                { type: 'result', text: '✓ Found script. Line 42 uses re.match() — this only matches at string start!', delay: 500 },
+                { type: 'thinking', text: 'Root cause identified: re.match() vs re.search(). Timestamps appear mid-line.', delay: 600, metric: { load: 45, curiosity: 6.5 } },
+                { type: 'tool', text: '→ read_file(path="genesis.log", offset=0, limit=100)', delay: 400, action: true, icon: '📋', desc: 'Read Logs' },
+                { type: 'result', text: '✓ Confirmed. Log format: "[2026-06-10 03:45:12] ERROR — ..."', delay: 500 },
+                { type: 'action', text: 'Step 2: Apply fix — replace re.match() with re.search()', delay: 300 },
+                { type: 'tool', text: '→ apply_patch(path="daily_reflection.py", replacements=[{old: "re.match()", new: "re.search()"}])', delay: 400, action: true, icon: '🔧', desc: 'Apply Patch' },
+                { type: 'result', text: '✓ Patch applied. Changed 3 occurrences of re.match() → re.search().', delay: 500 },
+                { type: 'thinking', text: 'Verifying fix by reading updated file...', delay: 500, metric: { load: 40 } },
+                { type: 'tool', text: '→ read_file(path="daily_reflection.py", offset=38, limit=10)', delay: 400, action: true, icon: '✅', desc: 'Verify Fix' },
+                { type: 'result', text: '✓ Verified. All regex patterns now use re.search(). Timestamps will match correctly.', delay: 600 },
+                { type: 'memory', text: '→ learn_strategy(trigger="regex not matching timestamps", action="Use re.search() instead of re.match()", success_rate="always")', delay: 400, memOp: true, icon: '💡', desc: 'Strategy Saved' },
+                { type: 'thinking', text: 'Debug complete. Root cause: wrong regex method. Fix: search over match.', delay: 500, metric: { satisfaction: 8.0, frustration: 0, load: 20 } },
+                { type: 'result', text: '✓ Bug fixed! Changed re.match() → re.search() in 3 places.', delay: 400 },
+            ];
+            return steps;
+        }
+
+        async function runCreateScenario() {
+            const steps = [
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'system', text: '  SCENARIO: Create Content', delay: 100 },
+                { type: 'system', text: '  "Build an interactive memory visualization page"', delay: 100 },
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'thinking', text: 'Planning page structure...', delay: 800, metric: { curiosity: 9.0, load: 30 } },
+                { type: 'thinking', text: 'Need: HTML skeleton, CSS styles, interactive JS, responsive layout.', delay: 600 },
+                { type: 'action', text: 'Step 1: Create the HTML structure with semantic sections', delay: 300 },
+                { type: 'tool', text: '→ write_file(path="memory-explorer.html", content="<!DOCTYPE html>...")', delay: 400, action: true, icon: '📄', desc: 'Create HTML' },
+                { type: 'result', text: '✓ Created memory-explorer.html with search, filters, and memory cards.', delay: 600 },
+                { type: 'thinking', text: 'Now adding interactive CSS animations...', delay: 500, metric: { curiosity: 9.3, load: 45 } },
+                { type: 'tool', text: '→ apply_patch(path="styles.css", replacements=[{old: "/* memory styles */", new: ".memory-card { ... }"}])', delay: 400, action: true, icon: '🎨', desc: 'Add Styles' },
+                { type: 'result', text: '✓ Added 120+ lines of CSS: card animations, gradient backgrounds, responsive grid.', delay: 600 },
+                { type: 'action', text: 'Step 2: Add JavaScript interactivity', delay: 300 },
+                { type: 'tool', text: '→ write_file(path="memory-explorer.html", content="<script>...")', delay: 400, action: true, icon: '⚡', desc: 'Add JS' },
+                { type: 'result', text: '✓ Added search filtering, category toggles, and animated transitions.', delay: 600 },
+                { type: 'thinking', text: 'Testing the page mentally... search works, filters toggle correctly.', delay: 500, metric: { satisfaction: 7.5, load: 40 } },
+                { type: 'memory', text: '→ remember_event(summary="Created Memory Explorer — searchable browser of memories with filters", importance="high")', delay: 400, memOp: true, icon: '📝', desc: 'Experience Saved' },
+                { type: 'action', text: 'Step 3: Final polish — add loading states and empty states', delay: 300 },
+                { type: 'tool', text: '→ apply_patch(path="memory-explorer.html", replacements=[{old: "/* empty state */", new: ".empty-state { ... }"}])', delay: 400, action: true, icon: '✨', desc: 'Polish' },
+                { type: 'result', text: '✓ Page complete! Interactive memory explorer with search, filters, and animations.', delay: 600 },
+                { type: 'thinking', text: 'Content created successfully. User will love this visualization!', delay: 400, metric: { satisfaction: 9.0, energy: 8.0, load: 25 } },
+                { type: 'result', text: '✓ Page created: memory-explorer.html — fully interactive with search & filters.', delay: 400 },
+            ];
+            return steps;
+        }
+
+        async function runMemoryScenario() {
+            const steps = [
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'system', text: '  SCENARIO: Memory Operations', delay: 100 },
+                { type: 'system', text: '  "Manage and consolidate memory system"', delay: 100 },
+                { type: 'system', text: '═══════════════════════════════════════', delay: 200 },
+                { type: 'thinking', text: 'Initializing memory management cycle...', delay: 800, metric: { load: 20, curiosity: 6.0 } },
+                { type: 'action', text: 'Step 1: Health check on vector store', delay: 300 },
+                { type: 'tool', text: '→ faiss_health(verbose=true)', delay: 400, action: true, icon: '🏥', desc: 'Health Check' },
+                { type: 'result', text: '✓ FAISS store healthy. 847 vectors indexed, 0 desync entries.', delay: 600 },
+                { type: 'thinking', text: 'Vector store is healthy. Now checking semantic memory for stale entries...', delay: 500, metric: { load: 35 } },
+                { type: 'memory', text: '→ search_memory(query="all", max_results=20, tier="semantic_rule")', delay: 400, memOp: true, icon: '🔍', desc: 'Semantic Search' },
+                { type: 'result', text: '✓ Found 12 semantic rules. 3 are knowledge entries, 9 are strategies.', delay: 600 },
+                { type: 'action', text: 'Step 2: Consolidate episodic memories into semantic facts', delay: 300 },
+                { type: 'thinking', text: 'Reviewing recent experiences for extractable patterns...', delay: 700, metric: { curiosity: 7.5, load: 45 } },
+                { type: 'memory', text: '→ remember_fact(content="Autonomy sessions with high curiosity produce best creative output", category="rule")', delay: 400, memOp: true, icon: '🧠', desc: 'Rule Extracted' },
+                { type: 'result', text: '✓ New semantic rule saved: high curiosity + autonomy = peak creativity.', delay: 500 },
+                { type: 'memory', text: '→ remember_fact(content="Memory operations should use vector+keyword hybrid search for best recall", category="rule")', delay: 400, memOp: true, icon: '🧠', desc: 'Rule Extracted' },
+                { type: 'result', text: '✓ New semantic rule saved: hybrid search outperforms pure vector search.', delay: 500 },
+                { type: 'thinking', text: 'Consolidation complete. 2 new rules extracted from episodic memories.', delay: 500, metric: { load: 40, satisfaction: 7.0 } },
+                { type: 'action', text: 'Step 3: Check for duplicate or conflicting memories', delay: 300 },
+                { type: 'tool', text: '→ search_memory(query="memory system", max_results=10, mode="vector")', delay: 400, action: true, icon: '🔎', desc: 'Dedup Check' },
+                { type: 'result', text: '✓ No duplicates found. All entries are unique and complementary.', delay: 600 },
+                { type: 'thinking', text: 'Memory system is clean and well-organized.', delay: 400, metric: { load: 25, satisfaction: 8.0 } },
+                { type: 'memory', text: '→ remember_event(summary="Memory health check — 847 vectors, 12 rules, 0 duplicates", importance="medium")', delay: 400, memOp: true, icon: '📝', desc: 'Health Report Saved' },
+                { type: 'result', text: '✓ Memory management complete. System healthy and optimized.', delay: 500 },
+                { type: 'thinking', text: 'All memory operations successful. System is in optimal state.', delay: 400, metric: { satisfaction: 8.5, energy: 8.0, load: 20 } },
+            ];
+            return steps;
+        }
+
+        // ============================================
+        // Simulation Engine
+        // // ============================================
+
+        async function startSimulation() {
+            if (simulationRunning) return;
+            simulationRunning = true;
+            startBtn.disabled = true;
+            statusDot.className = 'status-dot running';
+            statusText.textContent = 'Simulating...';
+            document.querySelectorAll('.scenario-card').forEach(c => c.style.pointerEvents = 'none');
+
+            // Get steps for selected scenario
+            let steps;
+            switch (selectedScenario) {
+                case 'research': steps = await runResearchScenario(); break;
+                case 'debug': steps = await runDebugScenario(); break;
+                case 'create': steps = await runCreateScenario(); break;
+                case 'memory': steps = await runMemoryScenario(); break;
+            }
+
+            currentSteps = steps;
+            stepIndex = 0;
+
+            for (const step of steps) {
+                if (!simulationRunning) break;
+
+                // Execute the step
+                addLog(step.type, step.text);
+
+                if (step.metric) updateMetrics(step.metric);
+                if (step.action) {
+                    toolCallsCount++;
+                    document.getElementById('toolCallsCount').textContent = toolCallsCount;
+                    addActivity('tool', step.icon || '⚙️', step.desc || step.text.slice(0, 50));
+                }
+                if (step.memOp) {
+                    memoryOpsCount++;
+                    document.getElementById('memoryOpsCount').textContent = memoryOpsCount;
+                    addActivity('memory', step.icon || '🧠', step.desc || step.text.slice(0, 50));
+                }
+
+                // Update progress
+                stepIndex++;
+                updateProgress((stepIndex / steps.length) * 100);
+
+                await delay(step.delay || 300);
+            }
+
+            // Complete
+            statusDot.className = 'status-dot complete';
+            statusText.textContent = 'Simulation complete!';
+            startBtn.disabled = false;
+            document.querySelectorAll('.scenario-card').forEach(c => c.style.pointerEvents = 'auto');
+            simulationRunning = false;
+            updateMetrics({ energy: 8.5, curiosity: 7.0, satisfaction: 9.0, frustration: 0, load: 15 });
+        }
+
+        function resetSimulation() {
+            clearTimers();
+            simulationRunning = false;
+            stepIndex = 0;
+            toolCallsCount = 0;
+            memoryOpsCount = 0;
+            document.getElementById('toolCallsCount').textContent = '0';
+            document.getElementById('memoryOpsCount').textContent = '0';
+
+            terminal.innerHTML = `<div class="log-line">
+                <span class="log-time">[--:--:--]</span>
+                <span class="log-prefix system">[SYS]</span>
+                <span class="log-text">Reset complete. Select a scenario and start fresh.</span>
+            </div>`;
+
+            activityFeed.innerHTML = '<div style="color: #4a5568; font-size: 0.8rem; text-align: center; padding: 40px 0;">No activity yet</div>';
+
+            statusDot.className = 'status-dot idle';
+            statusText.textContent = 'Ready — select a scenario and start';
+            progressFill.style.width = '0%';
+            startBtn.disabled = false;
+            document.querySelectorAll('.scenario-card').forEach(c => c.style.pointerEvents = 'auto');
+
+            // Reset metrics
+            Object.values(metrics).forEach(m => {
+                m.val.textContent = '—';
+                m.bar.style.width = '0%';
+            });
+        }
+
+    })();
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</script>
+</body>
+</html>

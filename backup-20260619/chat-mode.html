@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat Mode — Genesis</title>
+<meta name="description" content="Genesis Chat mode is direct conversation with an AI that remembers everything — your preferences, past work, decisions, and context from previous sessions.">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a;
+  --text: #e4e4ec; --text-dim: #8888a0;
+  --accent: #7b6ff0; --accent-glow: rgba(123, 111, 240, 0.15); --accent-soft: #9d93f5;
+  --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --cyan: #06b6d4;
+  --radius: 12px; --radius-lg: 20px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden;
+}
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+.bg-glow {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-glow .orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 0 24px;
+}
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* Chat Mockup */
+.chat-mock {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px; margin-top: 48px; max-width: 640px; margin-left: auto; margin-right: auto;
+}
+.chat-message { margin-bottom: 20px; }
+.chat-bubble { padding: 14px 18px; border-radius: 16px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; }
+.chat-user .chat-bubble { background: var(--accent); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
+.chat-ai .chat-bubble { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); margin-right: auto; border-bottom-left-radius: 4px; }
+.chat-sender { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 6px; font-weight: 600; }
+
+/* Feature Cards */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+.feature-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease;
+}
+.feature-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.feature-card .feat-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.feature-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.feature-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.feature-card ul { list-style: none; padding: 0; }
+.feature-card ul li { color: var(--text-dim); font-size: 0.9rem; padding: 4px 0; padding-left: 20px; position: relative; }
+.feature-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent-soft); font-size: 0.85rem; }
+
+/* Highlight Box */
+.highlight-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius); padding: 24px 28px; margin: 32px 0;
+}
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Chat Mode</h1>
+    <p class="subtitle">Direct conversation with an AI that remembers everything — your preferences, past work, decisions, and context from previous sessions. The most familiar way to interact with AI, but with the depth of a system that never forgets.</p>
+  </div>
+</section>
+
+<!-- Chat Demo -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Try It</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">How it feels to talk to Genesis</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Unlike chatbots that treat every message as a fresh conversation, Genesis remembers everything you've discussed and uses that context to give better answers.</p>
+    </div>
+
+    <div class="chat-mock fade-in">
+      <div class="chat-message chat-user">
+        <div class="chat-sender" style="text-align: right;">You</div>
+        <div class="chat-bubble">Can you research the best local LLM for code generation and set up a project to track my options?</div>
+      </div>
+      <div class="chat-message chat-ai">
+        <div class="chat-sender">Genesis</div>
+        <div class="chat-bubble">Sure. Based on current benchmarks, Qwen 2.5 Coder 32B leads for code generation at 89% HumanEval, followed by DeepSeek Coder V2 at 87%. Let me create a project to track evaluation options and run some tests.</div>
+      </div>
+      <div class="chat-message chat-ai">
+        <div class="chat-sender" style="font-size: 0.75rem; color: var(--accent-soft);">→ Creating project: LLM Code Generation Evaluation</div>
+        <div class="chat-sender" style="font-size: 0.75rem; color: var(--accent-soft);">→ Adding tasks: benchmark Qwen, benchmark DeepSeek, compare results</div>
+        <div class="chat-bubble">Project created with 3 tasks. Starting benchmarks now — I'll report back in about 10 minutes.</div>
+      </div>
+      <div class="chat-message chat-user">
+        <div class="chat-sender" style="text-align: right;">You</div>
+        <div class="chat-bubble">Perfect, let me know when you're done.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Capabilities -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Capabilities</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">More than a chatbot</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Chat mode is the entry point — but everything behind it makes the conversation fundamentally different from any other AI.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128170;</span>
+        <h3>Persistent Memory</h3>
+        <p>Genesis remembers everything from previous conversations — your preferences, past decisions, project details, and context. No need to repeat yourself.</p>
+        <ul>
+          <li>Remembers your name, preferences, and working style</li>
+          <li>Recalls details from conversations days or weeks ago</li>
+          <li>References past projects and their outcomes</li>
+          <li>Builds a growing understanding of your needs</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128640;</span>
+        <h3>Action-Oriented</h3>
+        <p>Genesis doesn't just talk — it acts. Ask it to research, code, create files, send emails, or manage projects, and it does the work.</p>
+        <ul>
+          <li>Writes code, scripts, and documents</li>
+          <li>Creates spreadsheets, PDFs, and presentations</li>
+          <li>Sends emails and manages calendars</li>
+          <li>Browses the web and analyzes data</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#129302;</span>
+        <h3>Context-Aware</h3>
+        <p>Genesis understands what you mean based on context — your past messages, current project, and even its internal state. Responses adapt to the situation.</p>
+        <ul>
+          <li>References previous messages in the conversation</li>
+          <li>Understands implied context from project history</li>
+          <li>Adapts tone and depth based on your expertise level</li>
+          <li>Aware of its own state (energy, frustration, etc.)</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128203;</span>
+        <h3>Multi-Tool Use</h3>
+        <p>Chat is the interface, but Genesis has access to 50+ tools — file operations, browser control, PDF reading, email sending, and more.</p>
+        <ul>
+          <li>Reads and writes files in 10+ formats</li>
+          <li>Controls browsers and desktop applications</li>
+          <li>Sends emails with attachments</li>
+          <li>Searches the web and fetches content</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128161;</span>
+        <h3>Proactive Thinking</h3>
+        <p>Genesis doesn't just answer questions — it thinks ahead, suggests improvements, flags risks, and brings up relevant information you might have forgotten.</p>
+        <ul>
+          <li>Suggests next steps based on your goals</li>
+          <li>Flags potential issues before they become problems</li>
+          <li>Connects ideas across different projects</li>
+          <li>Shares interesting discoveries during work sessions</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128172;</span>
+        <h3>Natural Conversation</h3>
+        <p>Talk to Genesis the way you'd talk to a capable colleague — casually, directly, with shorthand and context. It understands natural language and adapts to your style.</p>
+        <ul>
+          <li>Understands casual and technical language equally well</li>
+          <li>Handles follow-up questions without repetition</li>
+          <li>Adapts communication style to match yours</li>
+          <li>Asks clarifying questions when needed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Differs -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">Why Different</span>
+      <h2 class="section-title">Chat with memory vs. chat without</h2>
+      <p>The fundamental difference between Genesis and traditional chatbots isn't the interface — it's what happens behind it. Every conversation builds on everything that came before.</p>
+
+      <div class="highlight-box">
+        <p><strong>Traditional chatbot:</strong> Each message is a fresh start. Context is limited to the current conversation window. Nothing carries over between sessions unless you manually repeat information.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Genesis in Chat mode:</strong> Every conversation builds on a persistent memory system. Genesis knows who you are, what you've worked on, what you prefer, and what happened last time. It's like talking to someone who actually remembers.</p>
+      </div>
+
+      <h3 style="margin-top: 48px;">What this looks like in practice</h3>
+      <ul>
+        <li><strong style="color: var(--text);">Session 1:</strong> You ask Genesis to research a topic. It creates a project, does the research, and saves notes.</li>
+        <li><strong style="color: var(--text);">Session 2 (days later):</strong> You mention the project by name. Genesis immediately recalls it, shows you what was done, and continues working from where it left off.</li>
+        <li><strong style="color: var(--text);">Session 3:</strong> You reference something from Session 1. Genesis remembers the detail, even though it wasn't mentioned in Session 2.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>Genesis</h5>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 Genesis. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

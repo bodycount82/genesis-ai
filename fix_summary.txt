@@ -1,0 +1,444 @@
+Fix Summary — 115 files processed
+Total fixes applied: 259
+Successful: 115
+Failed: 0
+
+
+ai-art.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to ai-art.html
+
+ai-consciousness.html:
+  + Fixed heading skip: h4 → h2
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to ai-consciousness.html
+
+ai-ethics.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to ai-ethics.html
+
+alignment-problem.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to alignment-problem.html
+
+attention-mechanism.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to attention-mechanism.html
+
+autonomous-operation.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to autonomous-operation.html
+
+autonomy-loop.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to autonomy-loop.html
+
+autonomy-mode.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to autonomy-mode.html
+
+autonomy-simulator.html:
+  + Fixed heading skip: h4 → h2
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to autonomy-simulator.html
+
+autonomy-timeline.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to autonomy-timeline.html
+
+biological-memory.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to biological-memory.html
+
+brain-network.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to brain-network.html
+
+buttons-features.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to buttons-features.html
+
+capabilities.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to capabilities.html
+
+chat-mode.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to chat-mode.html
+
+cognitive-architecture.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to cognitive-architecture.html
+
+cognitive-evolution.html:
+  + Fixed heading skip: h4 → h2
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to cognitive-evolution.html
+
+cognitive-journey.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to cognitive-journey.html
+
+cognitive-load.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to cognitive-load.html
+
+cognitive-map.html:
+  + Fixed heading skip: h4 → h2
+  + ✓ Written to cognitive-map.html
+
+consciousness-spectrum.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to consciousness-spectrum.html
+
+consciousness.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to consciousness.html
+
+context-window.html:
+  + Fixed heading skip: h3 → h2
+  + ✓ Written to context-window.html
+
+counterfactual-reasoning.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to counterfactual-reasoning.html
+
+creative-engine.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to creative-engine.html
+
+creativity-engine.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to creativity-engine.html
+
+daily-reflection.html:
+  + Fixed heading skip: h3 → h2
+  + ✓ Written to daily-reflection.html
+
+day-in-life.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to day-in-life.html
+
+decision-engine.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to decision-engine.html
+
+decision-visualization.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to decision-visualization.html
+
+desktop-control.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to desktop-control.html
+
+dream-simulator.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to dream-simulator.html
+
+dream-state.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to dream-state.html
+
+dreamscape.html:
+  + Fixed heading skip: h5 → h2
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to dreamscape.html
+
+ecosystem.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to ecosystem.html
+
+emergent-intelligence.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to emergent-intelligence.html
+
+ethics-alignment.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to ethics-alignment.html
+
+evolution-of-intelligence.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to evolution-of-intelligence.html
+
+gallery-full.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to gallery-full.html
+
+gallery.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to gallery.html
+
+genesis-brain.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + Replaced external d3.js script tag with inline comment
+  + ✓ Written to genesis-brain.html
+
+genesis-lab.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to genesis-lab.html
+
+genesis-os.html:
+  + Fixed heading skip: h5 → h2
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to genesis-os.html
+
+godels-theorems.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to godels-theorems.html
+
+hallucination-explorer.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to hallucination-explorer.html
+
+hard-problem.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to hard-problem.html
+
+how-i-think.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to how-i-think.html
+
+index.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + Fixed 1 placeholder href='#' links
+  + ✓ Written to index.html
+
+inner-world.html:
+  + Fixed heading skip: h4 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to inner-world.html
+
+intuition-engine.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to intuition-engine.html
+
+learning-journey.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to learning-journey.html
+
+live-agent.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to live-agent.html
+
+local-private.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to local-private.html
+
+meet-genesis.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to meet-genesis.html
+
+memory-consolidation.html:
+  + Fixed heading skip: h3 → h2
+  + ✓ Written to memory-consolidation.html
+
+memory-explorer.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to memory-explorer.html
+
+memory-graph.html:
+  + Fixed heading skip: h5 → h4
+  + Replaced external d3.js script tag with inline comment
+  + ✓ Written to memory-graph.html
+
+memory-health.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to memory-health.html
+
+memory-system-explorer.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to memory-system-explorer.html
+
+memory-visualization.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to memory-visualization.html
+
+meta-cognition.html:
+  + Fixed heading skip: h3 → h2
+  + ✓ Written to meta-cognition.html
+
+mission-control.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to mission-control.html
+
+modes-comparison.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to modes-comparison.html
+
+neural-interface.html:
+  + Fixed heading skip: h4 → h3
+  + Fixed heading skip: h5 → h4
+  + Replaced external d3.js script tag with inline comment
+  + ✓ Written to neural-interface.html
+
+neural-mindmap.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to neural-mindmap.html
+
+neural-network.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to neural-network.html
+
+philosophy-of-mind.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to philosophy-of-mind.html
+
+predictive-processing.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to predictive-processing.html
+
+project-management.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to project-management.html
+
+queue-behavior.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to queue-behavior.html
+
+recursive-self-improvement.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to recursive-self-improvement.html
+
+recursive-thought.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to recursive-thought.html
+
+reinforcement-learning.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to reinforcement-learning.html
+
+resilience-engine.html:
+  + Fixed heading skip: h4 → h2
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to resilience-engine.html
+
+roadmap.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to roadmap.html
+
+self-awareness.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to self-awareness.html
+
+self-portrait.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to self-portrait.html
+
+self-reflection.html:
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to self-reflection.html
+
+session-replay.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to session-replay.html
+
+simulated-moods.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to simulated-moods.html
+
+simulation.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to simulation.html
+
+simulator.html:
+  + Fixed heading skip: h5 → h2
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to simulator.html
+
+state-dynamics.html:
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to state-dynamics.html
+
+state-explorer.html:
+  + Fixed heading skip: h4 → h2
+  + Fixed heading skip: h4 → h3
+  + ✓ Written to state-explorer.html
+
+theory-of-mind.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to theory-of-mind.html
+
+thought-process.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to thought-process.html
+
+tutorials.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to tutorials.html
+
+what-is-genesis.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to what-is-genesis.html
+
+work-mode.html:
+  + Fixed heading skip: h5 → h3
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to work-mode.html
+
+world-model.html:
+  + Fixed heading skip: h3 → h2
+  + Fixed heading skip: h5 → h4
+  + ✓ Written to world-model.html

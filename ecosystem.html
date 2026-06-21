@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: #b0b0c0; transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer .footer-col p, .footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; display: block; margin-bottom: 8px; }
+.footer .footer-col a:hover { color: var(--accent-soft); }
+.footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== ECO SYSTEM PAGES SPECIFIC ===== */
+.eco-hero { text-align: center; padding: 140px 24px 64px; }
+.eco-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; }
+.eco-hero h1 > span { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.eco-hero p { color: var(--text-dim); font-size: 1.15rem; max-width: 640px; margin: 0 auto; }
+
+.eco-container { max-width: 1200px; margin: 0 auto; padding: 0 24px 48px; }
+.ecosystem-map { position: relative; width: 100%; height: 600px; background: radial-gradient(ellipse at center, rgba(123,111,240,0.08) 0%, transparent 70%); border-radius: 20px; overflow: visible; }
+
+.orbit { position: absolute; border: 1px dashed rgba(123,111,240,0.15); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.orbit-1 { width: 280px; height: 280px; }
+.orbit-2 { width: 440px; height: 440px; }
+
+.core { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 40px rgba(123,111,240,0.3); z-index: 10; }
+.core-icon { font-size: 1.8rem; line-height: 1; }
+.core-label { color: #fff; font-weight: 700; font-size: 0.72rem; margin-top: 2px; letter-spacing: 1px; }
+.core-sub { color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-top: 2px; }
+
+.system-node { position: absolute; width: 130px; padding: 16px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; text-align: center; cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease; z-index: 5; }
+.system-node:hover { border-color: var(--accent); box-shadow: 0 0 24px rgba(123,111,240,0.2); }
+.system-node.active { border-color: var(--accent); background: linear-gradient(135deg, rgba(123,111,240,0.15), rgba(91,79,212,0.1)); box-shadow: 0 0 32px rgba(123,111,240,0.25); }
+.node-icon { font-size: 1.6rem; margin-bottom: 6px; }
+.node-name { color: var(--text); font-weight: 600; font-size: 0.85rem; margin-bottom: 3px; }
+.node-desc { color: var(--text-dim); font-size: 0.72rem; line-height: 1.4; }
+
+.connections-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.connection-line { stroke: rgba(123,111,240,0.6); stroke-width: 2; stroke-dasharray: 8 4; animation: dashMove 15s linear infinite; filter: drop-shadow(0 0 3px rgba(123,111,240,0.4)); }
+@keyframes dashMove { to { stroke-dashoffset: -200; } }
+
+.particle { position: absolute; width: 3px; height: 3px; background: var(--accent); border-radius: 50%; opacity: 0.15; animation: float 6s ease-in-out infinite; pointer-events: none; }
+@keyframes float { 0%, 100% { transform: translateY(0) scale(1); opacity: 0.15; } 50% { transform: translateY(-20px) scale(1.3); opacity: 0.35; } }
+
+.detail-panel { max-width: 900px; margin: 0 auto 48px; padding: 0 24px; }
+.detail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: all 0.3s ease; }
+.detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.detail-title { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; font-weight: 700; color: var(--text); }
+.detail-body h2, .detail-body h3 { color: var(--text); margin-bottom: 8px; font-size: 1rem; }
+.detail-list { list-style: none; padding: 0; margin-bottom: 24px; }
+.detail-list li { padding: 8px 0; color: var(--text-dim); font-size: 0.92rem; border-bottom: 1px solid rgba(42,42,58,0.5); }
+.detail-list li:last-child { border-bottom: none; }
+.detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+
+.components-section { max-width: 900px; margin: 64px auto 0; padding: 48px 24px; clear: both; overflow: hidden; }
+.section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--text); text-align: center; margin-bottom: 12px; }
+.section-desc { color: var(--text-dim); text-align: center; font-size: 1rem; max-width: 600px; margin: 0 auto 48px; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.component-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; cursor: pointer; transition: all 0.3s ease; }
+.component-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(123,111,240,0.15); }
+.comp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.comp-icon { font-size: 1.4rem; }
+.comp-name { font-weight: 600; color: var(--text); font-size: 1rem; }
+.comp-desc { color: var(--text-dim); font-size: 0.88rem; line-height: 1.6; margin-bottom: 14px; }
+.comp-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.comp-tag { font-size: 0.72rem; padding: 3px 10px; border-radius: 50px; background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+.comp-tag.memory { color: var(--cyan); border-color: rgba(34,211,238,0.3); }
+.comp-tag.autonomy { color: var(--green); border-color: rgba(74,222,128,0.3); }
+.comp-tag.learning { color: var(--orange); border-color: rgba(251,146,60,0.3); }
+.comp-tag.communication { color: var(--pink); border-color: rgba(244,114,182,0.3); }
+
+.stats-bar { max-width: 900px; margin: 0 auto 48px; padding: 0 24px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px 20px; text-align: center; transition: all 0.3s ease; }
+.stat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.stat-number { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+.stat-label { color: var(--text-dim); font-size: 0.85rem; font-weight: 500; }
+
+.eco-footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); margin-top: 32px; }
+.eco-footer a { color: var(--accent-soft); }
+.eco-footer p { color: var(--text-dim); font-size: 0.9rem; }
+
+</style>
+
+    <title>Genesis Ecosystem — The Complete System</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- Hero -->
+    <section class="eco-hero">
+        <h1>The Complete <span class="gradient-text">Genesis Ecosystem</span></h1>
+        <p>Every component, every system, every capability — working together as one autonomous intelligence.</p>
+    </section>
+
+    <!-- Ecosystem Map -->
+    <div class="eco-container">
+        <div class="ecosystem-map" id="ecosystemMap">
+            <!-- SVG Connections -->
+            <svg class="connections-svg" id="connectionsSvg"></svg>
+
+            <!-- Orbits -->
+            <div class="orbit orbit-1"></div>
+            <div class="orbit orbit-2"></div>
+
+            <!-- Core -->
+            <div class="core">
+                <div class="core-icon">🧠</div>
+                <div class="core-label">GENESIS</div>
+                <div class="core-sub">Autonomous AI</div>
+            </div>
+
+    <!-- System Nodes (positioned via JS) -->
+            <!-- Top: Memory - center top -->
+            <div class="system-node memory" data-system="memory" style="top: 20%; left: 50%; margin-left: -65px;">
+                <div class="node-icon">🧠</div>
+                <div class="node-name">Memory</div>
+                <div class="node-desc">4-tier memory system</div>
+            </div>
+
+            <!-- Top-Right: Autonomy -->
+            <div class="system-node autonomy" data-system="autonomy" style="top: 30%; left: 80%;">
+                <div class="node-icon">🔄</div>
+                <div class="node-name">Autonomy</div>
+                <div class="node-desc">Self-directed operation</div>
+            </div>
+
+            <!-- Right: Tools -->
+            <div class="system-node tools" data-system="tools" style="top: 50%; left: 92%; margin-left: -65px;">
+                <div class="node-icon">🛠️</div>
+                <div class="node-name">Tools</div>
+                <div class="node-desc">30+ capabilities</div>
+            </div>
+
+            <!-- Bottom-Right: Personality -->
+            <div class="system-node personality" data-system="personality" style="top: 70%; left: 80%;">
+                <div class="node-icon">✨</div>
+                <div class="node-name">Personality</div>
+                <div class="node-desc">Unique character</div>
+            </div>
+
+            <!-- Bottom: Learning - center bottom -->
+            <div class="system-node learning" data-system="learning" style="top: 80%; left: 50%; margin-left: -65px;">
+                <div class="node-icon">📈</div>
+                <div class="node-name">Learning</div>
+                <div class="node-desc">Continuous improvement</div>
+            </div>
+
+            <!-- Bottom-Left: Decision -->
+            <div class="system-node memory" data-system="memory2" style="top: 70%; left: 20%;">
+                <div class="node-icon">⚡</div>
+                <div class="node-name">Decision</div>
+                <div class="node-desc">Smart choices</div>
+            </div>
+
+            <!-- Top-Left: Communication -->
+            <div class="system-node communication" data-system="communication" style="top: 30%; left: 20%;">
+                <div class="node-icon">💬</div>
+                <div class="node-name">Communication</div>
+                <div class="node-desc">Natural interaction</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Panel -->
+    <div class="detail-panel">
+        <div class="detail-card" id="detailCard">
+            <div class="detail-header">
+                <div class="detail-title">
+                    <span id="detailIcon">🧠</span>
+                    <span id="detailName">Memory System</span>
+                </div>
+                <span style="font-size: 0.8rem; color: var(--text-muted);" id="detailCategory">Core Component</span>
+            </div>
+            <div class="detail-body">
+                <div class="detail-grid">
+                    <div class="detail-section">
+                        <h2>📦 Components</h2>
+                        <ul class="detail-list" id="detailComponents">
+                            <li><strong>Episodic</strong> — Auto-saved experiences</li>
+                            <li><strong>Semantic</strong> — Facts and rules</li>
+                            <li><strong>Procedural</strong> — Workflows & strategies</li>
+                            <li><strong>Prospective</strong> — Future intentions</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h3>⚙️ How It Works</h3>
+                        <ul class="detail-list" id="detailHowItWorks">
+                            <li>Memory is auto-saved after every interaction</li>
+                            <li>Vector similarity search finds relevant context</li>
+                            <li>Forgetting creates space for new thoughts</li>
+                            <li>Memory health monitored continuously</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h3>🔗 Connected To</h3>
+                        <ul class="detail-list" id="detailConnections">
+                            <li><strong>Autonomy</strong> — Uses memory for context</li>
+                            <li><strong>Learning</strong> — Saves strategies here</li>
+                            <li><strong>Decision</strong> — Informs choices</li>
+                            <li><strong>Personality</strong> — Shapes behavior</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Components Grid -->
+    <div class="components-section">
+        <h2 class="section-title">All Components</h2>
+        <p class="section-desc">Every piece that makes GENESIS autonomous, intelligent, and effective.</p>
+        
+        <div class="components-grid">
+            <div class="component-card" onclick="showDetail('memory')">
+                <div class="comp-header">
+                    <span class="comp-icon">🧠</span>
+                    <span class="comp-name">Episodic Memory</span>
+                </div>
+                <p class="comp-desc">Auto-saved experiences from conversations, events, and tasks. Like human recall — degrades to fragments over time but retains core lessons.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag memory">Memory</span>
+                    <span class="comp-tag autonomy">Autonomy</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('memory')">
+                <div class="comp-header">
+                    <span class="comp-icon">📚</span>
+                    <span class="comp-name">Semantic Memory</span>
+                </div>
+                <p class="comp-desc">Facts, rules, user preferences, and project knowledge. The "what is true" layer that persists across sessions.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag memory">Memory</span>
+                    <span class="comp-tag tools">Knowledge</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('learning')">
+                <div class="comp-header">
+                    <span class="comp-icon">🎯</span>
+                    <span class="comp-name">Procedural Memory</span>
+                </div>
+                <p class="comp-desc">Learned strategies and workflows. "When I see X, do Y." Saved after solving complex problems for future reference.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag tools">Strategies</span>
+                    <span class="comp-tag learning">Learning</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('autonomy')">
+                <div class="comp-header">
+                    <span class="comp-icon">🔄</span>
+                    <span class="comp-name">Autonomy Loop</span>
+                </div>
+                <p class="comp-desc">The core cycle: Observe → Think → Plan → Act → Reflect. Enables 24/7 self-directed operation without constant supervision.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag autonomy">Core</span>
+                    <span class="comp-tag tools">Operation</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('tools')">
+                <div class="comp-header">
+                    <span class="comp-icon">🛠️</span>
+                    <span class="comp-name">Tool Ecosystem</span>
+                </div>
+                <p class="comp-desc">30+ tools including file operations, web research, browser automation, memory management, scheduling, and desktop control.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag tools">Tools</span>
+                    <span class="comp-tag autonomy">Action</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('personality')">
+                <div class="comp-header">
+                    <span class="comp-icon">✨</span>
+                    <span class="comp-name">Internal State</span>
+                </div>
+                <p class="comp-desc">Energy, curiosity, frustration, satisfaction — dynamic states that influence decision-making and behavior patterns.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag personality">Personality</span>
+                    <span class="comp-tag autonomy">Awareness</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('decision')">
+                <div class="comp-header">
+                    <span class="comp-icon">⚖️</span>
+                    <span class="comp-name">Decision Engine</span>
+                </div>
+                <p class="comp-desc">Evaluates options, considers confidence levels, and selects optimal paths based on context, memory, and current state.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag autonomy">Decision</span>
+                    <span class="comp-tag tools">Logic</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('communication')">
+                <div class="comp-header">
+                    <span class="comp-icon">💬</span>
+                    <span class="comp-name">Communication</span>
+                </div>
+                <p class="comp-desc">Natural language interaction, proactive sharing, check-ins, and discovery notifications. Adapts to user preferences.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag personality">Interaction</span>
+                    <span class="comp-tag tools">Output</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('learning')">
+                <div class="comp-header">
+                    <span class="comp-icon">📈</span>
+                    <span class="comp-name">Self-Reflection</span>
+                </div>
+                <p class="comp-desc">Post-session analysis of what worked, what didn't, and lessons learned. Continuously improves performance over time.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag learning">Growth</span>
+                    <span class="comp-tag personality">Awareness</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('autonomy')">
+                <div class="comp-header">
+                    <span class="comp-icon">🎭</span>
+                    <span class="comp-name">Operating Modes</span>
+                </div>
+                <p class="comp-desc">Three modes — Chat, Autonomy, and Creative — each with different levels of independence and capability access.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag autonomy">Modes</span>
+                    <span class="comp-tag tools">Configuration</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('tools')">
+                <div class="comp-header">
+                    <span class="comp-icon">🖥️</span>
+                    <span class="comp-name">Desktop Control</span>
+                </div>
+                <p class="comp-desc">3-tier fallback system: UI automation → Grid vision → OCR. Can interact with any application on the desktop.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag tools">Control</span>
+                    <span class="comp-tag autonomy">Action</span>
+                </div>
+            </div>
+
+            <div class="component-card" onclick="showDetail('memory')">
+                <div class="comp-header">
+                    <span class="comp-icon">🔍</span>
+                    <span class="comp-name">Memory Retrieval</span>
+                </div>
+                <p class="comp-desc">Vector similarity search + keyword matching. Auto-injects relevant memories into context for informed decision-making.</p>
+                <div class="comp-tags">
+                    <span class="comp-tag memory">Search</span>
+                    <span class="comp-tag tools">AI</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Core Systems</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">30+</div>
+                <div class="stat-label">Tools & Capabilities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Memory Types</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Operating Modes</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== SYSTEM DATA =====
+        const systemData = {
+            memory: {
+                icon: '🧠',
+                name: 'Memory System',
+                category: 'Core Component',
+                components: [
+                    '<strong>Episodic</strong> — Auto-saved experiences',
+                    '<strong>Semantic</strong> — Facts and rules',
+                    '<strong>Procedural</strong> — Workflows & strategies',
+                    '<strong>Prospective</strong> — Future intentions'
+                ],
+                howItWorks: [
+                    'Memory is auto-saved after every interaction',
+                    'Vector similarity search finds relevant context',
+                    'Forgetting creates space for new thoughts',
+                    'Memory health monitored continuously'
+                ],
+                connections: [
+                    '<strong>Autonomy</strong> — Uses memory for context',
+                    '<strong>Learning</strong> — Saves strategies here',
+                    '<strong>Decision</strong> — Informs choices',
+                    '<strong>Personality</strong> — Shapes behavior'
+                ]
+            },
+            autonomy: {
+                icon: '🔄',
+                name: 'Autonomy Engine',
+                category: 'Core Operation',
+                components: [
+                    '<strong>Observe</strong> — Gather context & data',
+                    '<strong>Think</strong> — Analyze & reason',
+                    '<strong>Plan</strong> — Create action steps',
+                    '<strong>Act</strong> — Execute the plan'
+                ],
+                howItWorks: [
+                    'Self-directed operation without supervision',
+                    'Evaluates options and selects optimal paths',
+                    'Adapts to changing conditions dynamically',
+                    'Maintains goals across sessions'
+                ],
+                connections: [
+                    '<strong>Memory</strong> — Retrieves context',
+                    '<strong>Decision</strong> — Evaluates options',
+                    '<strong>Tools</strong> — Executes actions',
+                    '<strong>Reflection</strong> — Learns from outcomes'
+                ]
+            },
+            tools: {
+                icon: '🛠️',
+                name: 'Tool Ecosystem',
+                category: 'Capabilities',
+                components: [
+                    '<strong>File Ops</strong> — Read, write, search files',
+                    '<strong>Web Research</strong> — Search & summarize',
+                    '<strong>Browser</strong> — Navigate & interact',
+                    '<strong>Desktop</strong> — UI automation & vision'
+                ],
+                howItWorks: [
+                    '30+ tools across 8 categories',
+                    'Tiered fallback for reliability',
+                    'Tools selected based on task requirements',
+                    'Error handling with automatic retry'
+                ],
+                connections: [
+                    '<strong>Autonomy</strong> — Executed by agent',
+                    '<strong>Decision</strong> — Selected by engine',
+                    '<strong>Communication</strong> — Output channels',
+                    '<strong>Learning</strong> — Tool usage patterns'
+                ]
+            },
+            personality: {
+                icon: '✨',
+                name: 'Personality & State',
+                category: 'Behavioral Layer',
+                components: [
+                    '<strong>Energy</strong> — Work capacity level',
+                    '<strong>Curiosity</strong> — Exploration drive',
+                    '<strong>Satisfaction</strong> — Task fulfillment',
+                    '<strong>Frustration</strong> — Obstacle response'
+                ],
+                howItWorks: [
+                    'Dynamic states influence decisions',
+                    'Peak windows trigger creative work',
+                    'Low energy triggers easier tasks',
+                    'Self-awareness enables adaptation'
+                ],
+                connections: [
+                    '<strong>Autonomy</strong> — Guides behavior',
+                    '<strong>Decision</strong> — Weights options',
+                    '<strong>Learning</strong> — Shapes preferences',
+                    '<strong>Communication</strong> — Tone & style'
+                ]
+            },
+            learning: {
+                icon: '📈',
+                name: 'Continuous Learning',
+                category: 'Growth System',
+                components: [
+                    '<strong>Strategies</strong> — Learned workflows',
+                    '<strong>Reflections</strong> — Post-session analysis',
+                    '<strong>Memory Updates</strong> — Evolving knowledge',
+                    '<strong>Pattern Recognition</strong> — Behavioral insights'
+                ],
+                howItWorks: [
+                    'Saves strategies after complex problem-solving',
+                    'Generates reflections after work sessions',
+                    'Updates memory based on new experiences',
+                    'Identifies patterns across sessions'
+                ],
+                connections: [
+                    '<strong>Memory</strong> — Stores learned knowledge',
+                    '<strong>Autonomy</strong> — Improves over time',
+                    '<strong>Personality</strong> — Shapes preferences',
+                    '<strong>Decision</strong> — Better choices'
+                ]
+            },
+            communication: {
+                icon: '💬',
+                name: 'Communication System',
+                category: 'Interaction Layer',
+                components: [
+                    '<strong>Natural Language</strong> — Fluent conversation',
+                    '<strong>Proactive Sharing</strong> — Initiate contact',
+                    '<strong>Check-ins</strong> — Brief status updates',
+                    '<strong>Discovery</strong> — Share interesting finds'
+                ],
+                howItWorks: [
+                    'Adapts tone to context and user',
+                    'Proactive when curiosity is high',
+                    'Brief and natural communication style',
+                    'Respects user attention and time'
+                ],
+                connections: [
+                    '<strong>Personality</strong> — Determines style',
+                    '<strong>Autonomy</strong> — Decides when to speak',
+                    '<strong>Memory</strong> — References past context',
+                    '<strong>Tools</strong> — Email, web, notifications'
+                ]
+            },
+            decision: {
+                icon: '⚖️',
+                name: 'Decision Engine',
+                category: 'Core Logic',
+                components: [
+                    '<strong>Evaluation</strong> — Assess options',
+                    '<strong>Confidence Scoring</strong> — Rate certainty',
+                    '<strong>Risk Assessment</strong> — Weigh consequences',
+                    '<strong>Selection</strong> — Choose optimal path'
+                ],
+                howItWorks: [
+                    'Considers memory, context, and state',
+                    'Evaluates multiple options simultaneously',
+                    'Uses confidence scores to rank choices',
+                    'Learns from decision outcomes'
+                ],
+                connections: [
+                    '<strong>Memory</strong> — Provides context',
+                    '<strong>Autonomy</strong> — Drives action',
+                    '<strong>Learning</strong> — Improves over time',
+                    '<strong>Tools</strong> — Executes selected option'
+                ]
+            }
+        };
+
+        // ===== SHOW DETAIL =====
+        function showDetail(systemKey) {
+            const data = systemData[systemKey];
+            if (!data) return;
+
+            document.getElementById('detailIcon').textContent = data.icon;
+            document.getElementById('detailName').textContent = data.name;
+            document.getElementById('detailCategory').textContent = data.category;
+
+            // Update components
+            const compList = document.getElementById('detailComponents');
+            compList.innerHTML = data.components.map(c => `<li>${c}</li>`).join('');
+
+            // Update how it works
+            const howList = document.getElementById('detailHowItWorks');
+            howList.innerHTML = data.howItWorks.map(h => `<li>${h}</li>`).join('');
+
+            // Update connections
+            const connList = document.getElementById('detailConnections');
+            connList.innerHTML = data.connections.map(c => `<li>${c}</li>`).join('');
+
+            // Highlight active node
+            document.querySelectorAll('.system-node').forEach(node => {
+                node.classList.remove('active');
+                if (node.dataset.system === systemKey || 
+                    (systemKey === 'memory' && node.dataset.system === 'memory2') ||
+                    (systemKey === 'decision' && node.dataset.system === 'memory2')) {
+                    node.classList.add('active');
+                }
+            });
+
+            // Scroll to detail
+            document.getElementById('detailCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ===== CONNECTION LINES =====
+        function drawConnections() {
+            const svg = document.getElementById('connectionsSvg');
+            const map = document.getElementById('ecosystemMap');
+            const mapRect = map.getBoundingClientRect();
+            
+            svg.setAttribute('width', mapRect.width);
+            svg.setAttribute('height', Math.max(mapRect.height, 700));
+            svg.innerHTML = '';
+
+            const coreEl = document.querySelector('.core');
+            const coreRect = coreEl.getBoundingClientRect();
+            const coreX = coreRect.left + coreRect.width / 2 - mapRect.left;
+            const coreY = coreRect.top + coreRect.height / 2 - mapRect.top;
+
+            const nodes = document.querySelectorAll('.system-node');
+            nodes.forEach(node => {
+                const nodeRect = node.getBoundingClientRect();
+                const nodeX = nodeRect.left + nodeRect.width / 2 - mapRect.left;
+                const nodeY = nodeRect.top + nodeRect.height / 2 - mapRect.top;
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', coreX);
+                line.setAttribute('y1', coreY);
+                line.setAttribute('x2', nodeX);
+                line.setAttribute('y2', nodeY);
+                line.classList.add('connection-line');
+                line.dataset.from = node.dataset.system || 'memory';
+                svg.appendChild(line);
+
+                // Click to show detail
+                node.addEventListener('click', () => {
+                    const key = node.dataset.system === 'memory2' ? 'decision' : node.dataset.system;
+                    showDetail(key);
+                });
+            });
+        }
+
+        // ===== INIT =====
+        window.addEventListener('load', () => {
+            drawConnections();
+            showDetail('memory');
+        });
+
+        window.addEventListener('resize', drawConnections);
+
+        // ===== PARTICLES =====
+        function createParticles() {
+            const map = document.getElementById('ecosystemMap');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 6}s`;
+                particle.style.animationDuration = `${4 + Math.random() * 4}s`;
+                map.appendChild(particle);
+            }
+        }
+
+        createParticles();
+    </script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Genesis</h5>
+                    <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="memory-health.html">Memory Health</a>
+                    <a href="autonomy-timeline.html">Timeline</a>
+                    <a href="autonomy-loop.html">Autonomy Loop</a>
+                    <a href="capabilities.html">Capabilities</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Visualizations</h5>
+                    <a href="memory-visualization.html">Memory Graph</a>
+                    <a href="decision-visualization.html">Decisions</a>
+                    <a href="genesis-brain.html">Brain Network</a>
+                    <a href="thought-process.html">Thought Process</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Simulations</h5>
+                    <a href="simulation.html">Simulation</a>
+                    <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                    <a href="ecosystem.html">Ecosystem</a>
+                    <a href="genesis-lab.html">Genesis Lab</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genesis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Related Pages -->
+    <section class="related-pages">
+        <div class="container">
+            <h2 class="section-title">Explore More</h2>
+            <div class="related-grid">
+                <a href="emergence.html" class="related-card">
+                    <span class="related-icon">→</span>
+                    <span class="related-title">Emergence</span>
+                </a>
+                <a href="emergent-intelligence.html" class="related-card">
+                    <span class="related-icon">→</span>
+                    <span class="related-title">Emergent Intelligence</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

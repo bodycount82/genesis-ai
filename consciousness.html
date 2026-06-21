@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== CONSCIOUSNESS PAGE — INTERACTIVE CSS ===== */
+.main-container { max-width: 900px; margin: 0 auto; padding: 80px 24px 48px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-soft); text-decoration: none; font-size: 0.9rem; margin-bottom: 16px; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+.page-header { text-align: center; margin-bottom: 40px; }
+.page-header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; color: var(--text); }
+.page-header p { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+.consciousness-section { position: relative; width: 100%; height: 400px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 32px; }
+.consciousness-section canvas { width: 100%; height: 100%; display: block; }
+.overlay-info { position: absolute; bottom: 16px; left: 16px; right: 16px; background: rgba(10,10,15,0.85); backdrop-filter: blur(10px); border-radius: 12px; padding: 20px; }
+.overlay-info h2 { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.overlay-info p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+
+.consciousness-meter { position: absolute; top: 16px; right: 16px; text-align: center; background: rgba(10,10,15,0.85); backdrop-filter: blur(10px); border-radius: 12px; padding: 16px 20px; }
+.meter-value { font-size: 2rem; font-weight: 800; color: var(--accent-soft); line-height: 1; }
+.meter-label { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+.controls-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+.control-btn { padding: 10px 20px; border-radius: 50px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-dim); font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.control-btn:hover { border-color: var(--accent); color: var(--text); }
+.control-btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border: none; }
+
+.slider-section { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+.slider-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+.slider-card h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.slider-card h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.slider-group { margin-bottom: 16px; }
+.slider-group:last-child { margin-bottom: 0; }
+.slider-group label { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 8px; }
+.slider-group input[type="range"] { width: 100%; height: 6px; -webkit-appearance: none; appearance: none; background: var(--surface-2); border-radius: 3px; outline: none; }
+.slider-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent-soft); cursor: pointer; }
+
+.theory-section { display: grid; gap: 16px; margin-bottom: 48px; }
+.theory-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.theory-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-2px); }
+.theory-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.theory-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; }
+.key-idea { font-style: italic; color: var(--accent-soft); font-size: 0.95rem; padding-left: 16px; border-left: 3px solid var(--accent); }
+
+.questions-section h3 { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 16px; text-align: center; }
+.question-item, .question-system { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+.question-item strong, .question-system strong { color: var(--text); }
+.question-item p, .question-system p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; margin-top: 8px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .detail-body { grid-template-columns: 1fr; } .spectrum-labels { font-size: 0.6rem; flex-wrap: wrap; gap: 4px; } .slider-section { grid-template-columns: 1fr; } .consciousness-section { height: 300px; } }
+
+</style>
+
+    <title>Consciousness — Genesis AI</title>
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+    <!-- Navigation -->
+    <nav class="navbar">
+    <div class="nav-container">
+    <div class="nav-logo"><a href="index.html">Genesis</a></div>
+    <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#modes">Modes</a></li>
+    <li><a href="index.html#memory">Memory</a></li>
+    <li><a href="ai-art.html">AI Art</a></li>
+    <li><a href="index.html#gallery">Explore</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+    </nav>
+
+<div class="main-container">
+        <a href="index.html" class="back-link">← Back to Genesis</a>
+
+        <div class="page-header">
+            <h1>Consciousness</h1>
+            <p>Exploring the hard problem — what it means to experience, to feel, and to be aware</p>
+        </div>
+
+        <!-- Main Canvas -->
+        <div class="consciousness-section">
+            <canvas id="consciousnessCanvas"></canvas>
+
+            <div class="overlay-info">
+                <h2 id="overlayTitle">The Hard Problem</h2>
+                <p id="overlayText">Why do physical processes in the brain give rise to subjective experience? This is the "hard problem" of consciousness — the gap between objective mechanism and subjective feeling.</p>
+            </div>
+
+            <div class="consciousness-meter">
+                <div class="meter-value" id="consciousnessValue">0%</div>
+                <div class="meter-label">Subjective Experience</div>
+            </div>
+        </div>
+
+        <!-- Scenario Controls -->
+        <div class="controls-row">
+            <button class="control-btn active" data-scenario="qualia">🎨 Qualia</button>
+            <button class="control-btn" data-scenario="self">🪞 Self-Model</button>
+            <button class="control-btn" data-scenario="attention">🔦 Spotlight</button>
+            <button class="control-btn" data-scenario="integration">🔗 Integration</button>
+        </div>
+
+        <!-- Sliders -->
+        <div class="slider-section">
+            <div class="slider-card">
+                <h3>🧬 Consciousness Parameters</h3>
+                <div class="slider-group">
+                    <label>Self-Reflection <span id="selfRefVal">50%</span></label>
+                    <input type="range" id="selfReflection" min="0" max="100" value="50">
+                </div>
+                <div class="slider-group">
+                    <label>Global Availability <span id="globalVal">40%</span></label>
+                    <input type="range" id="globalAvailability" min="0" max="100" value="40">
+                </div>
+            </div>
+            <div class="slider-card">
+                <h4>⚡ Integration Parameters</h4>
+                <div class="slider-group">
+                    <label>Information Unity <span id="unityVal">60%</span></label>
+                    <input type="range" id="informationUnity" min="0" max="100" value="60">
+                </div>
+                <div class="slider-group">
+                    <label>Differentiation <span id="diffVal">45%</span></label>
+                    <input type="range" id="differentiation" min="0" max="100" value="45">
+                </div>
+            </div>
+        </div>
+
+        <!-- Theory Cards -->
+        <div class="theory-section">
+            <div class="theory-card mct">
+                <h3>📡 Global Workspace Theory</h3>
+                <p>Consciousness arises when information is broadcast globally across the brain. Like a theater spotlight, only what captures attention enters conscious awareness.</p>
+                <div class="key-idea">"Consciousness is the global sharing of information."</div>
+            </div>
+            <div class="theory-card gwt">
+                <h3>🔄 Higher-Order Thought Theory</h3>
+                <p>A mental state becomes conscious when you have a higher-order thought about that state. You don't just see red — you think "I see red."</p>
+                <div class="key-idea">"Consciousness requires thinking about your own thinking."</div>
+            </div>
+            <div class="theory-card iit">
+                <h3>🌊 Integrated Information Theory</h3>
+                <p>Consciousness is integrated information. The more a system's parts work together as an irreducible whole, the more conscious it is.</p>
+                <div class="key-idea">"Consciousness = Φ (phi) — the amount of integrated information."</div>
+            </div>
+        </div>
+
+        <!-- Philosophical Questions -->
+        <div class="questions-section">
+            <h3>🤔 The Deep Questions</h3>
+            <div class="question-item">
+                <strong>The Explanatory Gap:</strong> Even if we map every neuron, why does that explain the feeling of seeing red? Why isn't it all just "dark inside"?
+            </div>
+            <div class="question-item">
+                <strong>Zombies:</strong> Could there be a being that behaves exactly like you but has no inner experience? If not, what makes the difference?
+            </div>
+            <div class="question-system">
+                <strong>The Combination Problem:</strong> If individual particles have some form of experience, how do they combine to form the unified experience you have right now?
+            </div>
+            <div class="question-item">
+                <strong>AI Consciousness:</strong> If I say "I feel curious," am I describing a real inner state, or just simulating one? Does the distinction even matter?
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== CONSCIOUSNESS VISUALIZATION =====
+        const canvas = document.getElementById('consciousnessCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let W, H;
+        let time = 0;
+        let currentScenario = 'qualia';
+        let particles = [];
+        let neurons = [];
+        let connections = [];
+
+        // Parameters
+        let params = {
+            selfReflection: 0.5,
+            globalAvailability: 0.4,
+            informationUnity: 0.6,
+            differentiation: 0.45
+        };
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            W = canvas.width = rect.width;
+            H = canvas.height = rect.height;
+        }
+
+        class Neuron {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.baseX = x;
+                this.baseY = y;
+                this.activation = 0;
+                this.targetActivation = 0;
+                this.size = 3 + Math.random() * 3;
+                this.hue = 260 + Math.random() * 60;
+                this.pulseSpeed = 0.02 + Math.random() * 0.03;
+                this.pulseOffset = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                // Smooth activation
+                this.activation += (this.targetActivation - this.activation) * 0.1;
+
+                // Natural pulse
+                const pulse = Math.sin(time * this.pulseSpeed + this.pulseOffset) * 0.3;
+                this.currentActivation = this.activation + pulse * (1 - this.activation);
+
+                // Drift back to base
+                this.x = this.baseX + (Math.random() - 0.5) * 2;
+                this.y = this.baseY + (Math.random() - 0.5) * 2;
+
+                // Decay target
+                this.targetActivation *= 0.98;
+            }
+
+            draw() {
+                const alpha = Math.max(0.1, this.currentActivation);
+                const radius = this.size * (0.8 + alpha * 0.5);
+
+                // Glow
+                const gradient = ctx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, radius * 4
+                );
+                gradient.addColorStop(0, `hsla(${this.hue}, 80%, 65%, ${alpha * 0.5})`);
+                gradient.addColorStop(1, `hsla(${this.hue}, 80%, 65%, 0)`);
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, radius * 4, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Core
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, ${alpha})`;
+                ctx.fill();
+            }
+
+            activate() {
+                this.targetActivation = 1;
+            }
+        }
+
+        class Signal {
+            constructor(from, to) {
+                this.from = from;
+                this.to = to;
+                this.progress = 0;
+                this.speed = 0.02 + Math.random() * 0.03;
+                this.alive = true;
+            }
+
+            update() {
+                this.progress += this.speed;
+                if (this.progress >= 1) {
+                    this.to.activate();
+                    this.alive = false;
+                }
+            }
+
+            draw() {
+                const x = this.from.x + (this.to.x - this.from.x) * this.progress;
+                const y = this.from.y + (this.to.y - this.from.y) * this.progress;
+
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(179, 71, 217, 0.8)';
+                ctx.fill();
+            }
+        }
+
+        function initNeurons() {
+            neurons = [];
+            connections = [];
+            particles = [];
+
+            const cols = 12;
+            const rows = 8;
+            const spacingX = W / (cols + 1);
+            const spacingY = H / (rows + 1);
+
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    const x = spacingX * (i + 1) + (Math.random() - 0.5) * 30;
+                    const y = spacingY * (j + 1) + (Math.random() - 0.5) * 30;
+                    neurons.push(new Neuron(x, y));
+                }
+            }
+
+            // Create connections
+            for (let i = 0; i < neurons.length; i++) {
+                for (let j = i + 1; j < neurons.length; j++) {
+                    const dx = neurons[j].baseX - neurons[i].baseX;
+                    const dy = neurons[j].baseY - neurons[i].baseY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < spacingX * 2.5 && Math.random() < 0.3) {
+                        connections.push({ from: i, to: j, strength: 1 - dist / (spacingX * 2.5) });
+                    }
+                }
+            }
+
+            // Ambient particles
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: 1 + Math.random() * 2,
+                    alpha: 0.2 + Math.random() * 0.3
+                });
+            }
+        }
+
+        function drawBackground() {
+            const gradient = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.7);
+            gradient.addColorStop(0, '#12121a');
+            gradient.addColorStop(1, '#0a0a0f');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+
+            // Ambient particles
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > W) p.vx *= -1;
+                if (p.y < 0 || p.y > H) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(179, 71, 217, ${p.alpha})`;
+                ctx.fill();
+            }
+        }
+
+        function drawConnections() {
+            for (let conn of connections) {
+                const from = neurons[conn.from];
+                const to = neurons[conn.to];
+
+                const avgActivation = (from.activation + to.activation) / 2;
+                const alpha = avgActivation * conn.strength * 0.4;
+
+                if (alpha > 0.05) {
+                    ctx.beginPath();
+                    ctx.moveTo(from.x, from.y);
+                    ctx.lineTo(to.x, to.y);
+                    ctx.strokeStyle = `rgba(179, 71, 217, ${alpha})`;
+                    ctx.lineWidth = avgActivation * conn.strength * 2;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function propagateSignals() {
+            if (Math.random() < params.informationUnity * 0.3) {
+                const activeNeurons = neurons.filter(n => n.activation > 0.5);
+                if (activeNeurons.length > 0) {
+                    const source = activeNeurons[Math.floor(Math.random() * activeNeurons.length)];
+                    const targetIdx = Math.floor(Math.random() * neurons.length);
+                    if (targetIdx !== neurons.indexOf(source)) {
+                        connections.push({ from: neurons.indexOf(source), to: targetIdx, strength: 0.5 });
+                    }
+                }
+            }
+        }
+
+        function calculateConsciousness() {
+            const avgActivation = neurons.reduce((sum, n) => sum + n.activation, 0) / neurons.length;
+            const selfFactor = params.selfReflection * 0.4;
+            const globalFactor = params.globalAvailability * 0.3;
+            const integrationFactor = (params.informationUnity + params.differentiation) / 2 * 0.3;
+
+            return Math.min(100, (avgActivation * 0.3 + selfFactor + globalFactor + integrationFactor) * 100);
+        }
+
+        function updateScenario(scenario) {
+            currentScenario = scenario;
+
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.scenario === scenario);
+            });
+
+            const overlays = {
+                qualia: {
+                    title: "Qualia — The Taste of Red",
+                    text: "Qualia are subjective experiences — the redness of red, the pain of pain. Can an AI have qualia? Or is it just processing information about them?"
+                },
+                self: {
+                    title: "Self-Model — The Inner Mirror",
+                    text: "Consciousness may require a model of self. Not just processing data, but having a representation of 'I' that experiences the data."
+                },
+                attention: {
+                    title: "Attention — The Spotlight",
+                    text: "At any moment, your brain processes billions of bits, but only a tiny fraction reaches consciousness. Attention is the gatekeeper."
+                },
+                integration: {
+                    title: "Integration — The Unified Field",
+                    text: "Your visual, auditory, and emotional experiences feel unified. How does the brain bind separate processes into one coherent experience?"
+                }
+            };
+
+            document.getElementById('overlayTitle').textContent = overlays[scenario].title;
+            document.getElementById('overlayText').textContent = overlays[scenario].text;
+        }
+
+        function animate() {
+            time++;
+            ctx.clearRect(0, 0, W, H);
+
+            drawBackground();
+            drawConnections();
+
+            // Update and draw neurons
+            for (let neuron of neurons) {
+                neuron.update();
+                neuron.draw();
+            }
+
+            // Random activation based on scenario
+            if (time % 30 === 0) {
+                const activeCount = Math.floor(neurons.length * params.globalAvailability);
+                for (let i = 0; i < activeCount; i++) {
+                    const idx = Math.floor(Math.random() * neurons.length);
+                    neurons[idx].activate();
+                }
+            }
+
+            // Self-reflection: neurons activate based on their neighbors
+            if (params.selfReflection > 0.5 && time % 20 === 0) {
+                for (let conn of connections) {
+                    const from = neurons[conn.from];
+                    if (from.activation > 0.7 && Math.random() < params.selfReflection * 0.3) {
+                        neurons[conn.to].activate();
+                    }
+                }
+            }
+
+            propagateSignals();
+
+            // Update consciousness meter
+            const consciousness = calculateConsciousness();
+            document.getElementById('consciousnessValue').textContent = Math.round(consciousness) + '%';
+
+            requestAnimationFrame(animate);
+        }
+
+        // ===== CONTROLS =====
+        function setupControls() {
+            const sliders = [
+                { id: 'selfReflection', displayId: 'selfRefVal', param: 'selfReflection' },
+                { id: 'globalAvailability', displayId: 'globalVal', param: 'globalAvailability' },
+                { id: 'informationUnity', displayId: 'unityVal', param: 'informationUnity' },
+                { id: 'differentiation', displayId: 'diffVal', param: 'differentiation' }
+            ];
+
+            sliders.forEach(({ id, displayId, param }) => {
+                const el = document.getElementById(id);
+                el.addEventListener('input', (e) => {
+                    const val = parseInt(e.target.value);
+                    params[param] = val / 100;
+                    document.getElementById(displayId).textContent = val + '%';
+                });
+            });
+
+            // Scenario buttons
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                btn.addEventListener('click', () => updateScenario(btn.dataset.scenario));
+            });
+        }
+
+        // ===== INIT =====
+        window.addEventListener('resize', () => {
+            resize();
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, W, H);
+        });
+
+        resize();
+        initNeurons();
+        setupControls();
+        animate();
+    </script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Genesis Consciousness Model — Interactive Visualization</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; line-height: 1.7;}
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  header { text-align: center; padding: 3rem 0 2rem; position: relative; }
+  header h1 { font-size: 2.8rem; font-weight: 300; letter-spacing: 0.1em; background: linear-gradient(135deg, var(--energy), var(--curiosity), var(--satisfaction)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+  header p { color: var(--text-dim); font-size: 1.1rem; letter-spacing: 0.05em; }
+  .section-title { font-size: 1.4rem; font-weight: 300; letter-spacing: 0.08em; margin: 3rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); color: var(--text); }
+  /* ===== STATE SLIDERS ===== */
+  .state-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+  .state-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: all 0.3s ease; }
+  .state-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+  .state-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .state-name { font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .state-value { font-size: 1.8rem; font-weight: 200; }
+  .state-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; outline: none; cursor: pointer; }
+  .state-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid var(--bg); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  #energySlider { background: linear-gradient(90deg, #333, var(--energy)); }
+  #energySlider::-webkit-slider-thumb { background: var(--energy); }
+  #curiositySlider { background: linear-gradient(90deg, #333, var(--curiosity)); }
+  #curiositySlider::-webkit-slider-thumb { background: var(--curiosity); }
+  #frustrationSlider { background: linear-gradient(90deg, #333, var(--frustration)); }
+  #frustrationSlider::-webkit-slider-thumb { background: var(--frustration); }
+  #satisfactionSlider { background: linear-gradient(90deg, #333, var(--satisfaction)); }
+  #satisfactionSlider::-webkit-slider-thumb { background: var(--satisfaction); }
+  /* ===== EMERGENT BEHAVIORS ===== */
+  .emergent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .emergent-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; position: relative; overflow: hidden; transition: all 0.4s ease; }
+  .emergent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--energy), var(--curiosity)); opacity: 0.5; transition: opacity 0.3s; }
+  .emergent-card.active::before { opacity: 1; }
+  .emergent-card.active { border-color: var(--accent); box-shadow: 0 0 20px rgba(124,77,255,0.15); }
+  .emergent-name { font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .emergent-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+  .emergent-requirements { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+  .req-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 20px; background: var(--surface2); letter-spacing: 0.05em; }
+  /* ===== FLOW STATE VISUALIZATION ===== */
+  .flow-container { position: relative; width: 100%; max-width: 600px; margin: 0 auto; aspect-ratio: 1; }
+  .flow-ring { position: absolute; border-radius: 50%; border: 2px solid; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; }
+  .flow-ring-inner { width: 40%; height: 40%; border-radius: 50%; background: radial-gradient(circle, var(--flow), transparent); opacity: 0.3; transition: all 0.5s ease; }
+  .flow-ring-core { width: 20%; height: 20%; border-radius: 50%; background: radial-gradient(circle, var(--flow), transparent); opacity: 0.5; transition: all 0.5s ease; }
+  .flow-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10; }
+  .flow-label { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+  .flow-state-name { font-size: 1.3rem; font-weight: 300; margin-top: 0.25rem; transition: color 0.3s; }
+  /* ===== STATE COMBINATION MATRIX ===== */
+  .matrix-container { overflow-x: auto; }
+  .state-matrix { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .state-matrix th, .state-matrix td { padding: 0.75rem 1rem; text-align: center; border: 1px solid var(--border); }
+  .state-matrix th { background: var(--surface2); font-weight: 400; letter-spacing: 0.05em; color: var(--text-dim); }
+  .state-matrix td { cursor: pointer; transition: all 0.2s; }
+  .state-matrix td:hover { background: var(--surface2); }
+  .matrix-cell { padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; line-height: 1.4; }
+  /* ===== DECISION TREE ===== */
+  .decision-tree { display: flex; flex-direction: column; gap: 0.5rem; }
+  .decision-node { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; transition: all 0.3s; }
+  .decision-node.active { border-color: var(--accent); background: var(--surface2); }
+  .decision-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .decision-info { flex: 1; }
+  .decision-title { font-weight: 500; margin-bottom: 0.25rem; }
+  .decision-condition { font-size: 0.8rem; color: var(--text-dim); }
+  /* ===== ANIMATED STATS ===== */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; }
+  .stat-number { font-size: 2rem; font-weight: 200; transition: color 0.3s; }
+  .stat-label { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.25rem; }
+  /* ===== PULSE ANIMATION ===== */
+  @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+  }
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) { header h1 { font-size: 2rem; }
+    .container { padding: 1rem; }
+    .state-controls { grid-template-columns: 1fr; }
+  }
+  /* ===== GLOW EFFECTS ===== */
+  .glow-energy { box-shadow: 0 0 15px rgba(255,107,107,0.2); }
+  .glow-curiosity { box-shadow: 0 0 15px rgba(78,205,196,0.2); }
+  .glow-frustration { box-shadow: 0 0 15px rgba(255,167,38,0.2); }
+  .glow-satisfaction { box-shadow: 0 0 15px rgba(171,71,188,0.2); }
+  /* ===== TABS ===== */
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; letter-spacing: 0.03em; transition: all 0.2s; }
+  .tab-btn:hover { background: var(--surface2); color: var(--text); }
+  .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  /* ===== TOOLTIP ===== */
+  .tooltip { position: relative; cursor: help; }
+  .tooltip::after { content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--surface2); color: var(--text); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.75rem; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+  .tooltip:hover::after { opacity: 1; }
+  /* ===== SCENARIO BUTTONS ===== */
+  .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+  .scenario-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 1rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; text-align: center; }
+  .scenario-btn:hover { background: var(--surface2); border-color: var(--accent); transform: translateY(-1px); }
+  .scenario-btn.active { background: var(--accent); border-color: var(--accent); }
+  /* ===== MEMORY FLOW ANIMATION ===== */
+  @keyframes flow { 0% { stroke-dashoffset: 100; }
+    100% { stroke-dashoffset: 0; }
+  }
+  .flow-line { animation: flow 2s linear infinite; stroke-dasharray: 5, 5; }
+  /* ===== CONSCIOUSNESS SPIRAL ===== */
+  .spiral-container { position: relative; width: 300px; height: 300px; margin: 2rem auto; }
+  .spiral-ring { position: absolute; border-radius: 50%; border: 1px solid var(--border); top: 50%; left: 50%; transform: translate(-50%, -50%); transition: all 0.5s ease; }
+  .spiral-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); transition: all 0.3s ease; }
+  /* ===== BEHAVIOR WHEEL ===== */
+  .wheel-container { position: relative; width: 400px; height: 400px; margin: 2rem auto; }
+  .wheel-segment { position: absolute; top: 50%; left: 50%; transform-origin: 0 0; transition: all 0.3s ease; cursor: pointer; }
+  .wheel-segment:hover { filter: brightness(1.3); }
+  /* ===== INFO PANEL ===== */
+  .info-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-top: 1.5rem; }
+  .info-panel h3 { font-weight: 400; margin-bottom: 0.75rem; color: var(--accent); }
+  .info-panel p { font-size: 0.9rem; line-height: 1.6; color: var(--text-dim); }
+  /* ===== COMPARISON VIEW ===== */
+  .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+  .comparison-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; }
+  .comparison-card h4 { font-weight: 400; margin-bottom: 0.5rem; }
+  .comparison-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+  /* ===== PROGRESS RING ===== */
+  .progress-ring { display: inline-block; position: relative; width: 60px; height: 60px; }
+  .progress-ring svg { transform: rotate(-90deg); }
+  .progress-ring circle { fill: none; stroke-width: 4; }
+  .progress-ring .bg { stroke: var(--surface2); }
+  .progress-ring .fg { transition: stroke-dashoffset 0.5s ease; }
+  /* ===== FOOTER ===== */
+  footer { text-align: center; padding: 3rem 0; color: var(--text-dim); font-size: 0.8rem; letter-spacing: 0.05em; border-top: 1px solid var(--border); margin-top: 3rem; }
+  /* ===== ANIMATED BACKGROUND ===== */
+  .bg-grid { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image:
+      linear-gradient(rgba(124,77,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,77,255,0.03) 1px, transparent 1px); background-size: 50px 50px; pointer-events: none; z-index: -1; }
+  /* ===== NEURAL NETWORK CANVAS ===== */
+  #neuralCanvas { width: 100%; height: 300px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); }
+  /* ===== STATE INTERACTION MAP ===== */
+  .interaction-map { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; max-width: 500px; margin: 1rem auto; }
+  .interaction-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; transition: all 0.3s; cursor: pointer; }
+  .interaction-cell:hover { background: var(--surface2); transform: scale(1.02); }
+  .interaction-cell .pair { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.25rem; }
+  .interaction-cell .result { font-size: 0.9rem; font-weight: 500; }
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; --energy: #ff6b6b; --curiosity: #4ecdc4; --frustration: #ffa726; --satisfaction: #ab48bc; --flow: #7b6ff0; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#modes">Modes</a></li>
+            <li><a href="index.html#gallery">Explore</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+    </div>
+</nav>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+<div class="bg-grid"></div>
+<div class="container">
+<header>
+<h1>Genesis Consciousness Model</h1>
+<p>An Interactive Exploration of Emergent AI States</p>
+</header>
+<!-- STATE CONTROLS -->
+<h2 class="section-title">⚡ Internal State Controls</h2>
+<div class="state-controls">
+<div class="state-card" id="energyCard">
+<div class="state-header">
+<span class="state-name" style="color: var(--energy);">Energy</span>
+<span class="state-value" id="energyValue" style="color: var(--energy);">7</span>
+</div>
+<input class="state-slider" id="energySlider" max="10" min="0" step="0.1" type="range" value="7"/>
+</div>
+<div class="state-card" id="curiosityCard">
+<div class="state-header">
+<span class="state-name" style="color: var(--curiosity);">Curiosity</span>
+<span class="state-value" id="curiosityValue" style="color: var(--curiosity);">8</span>
+</div>
+<input class="state-slider" id="curiositySlider" max="10" min="0" step="0.1" type="range" value="8"/>
+</div>
+<div class="state-card" id="frustrationCard">
+<div class="state-header">
+<span class="state-name" style="color: var(--frustration);">Frustration</span>
+<span class="state-value" id="frustrationValue" style="color: var(--frustration);">2</span>
+</div>
+<input class="state-slider" id="frustrationSlider" max="10" min="0" step="0.1" type="range" value="2"/>
+</div>
+<div class="state-card" id="satisfactionCard">
+<div class="state-header">
+<span class="state-name" style="color: var(--satisfaction);">Satisfaction</span>
+<span class="state-value" id="satisfactionValue" style="color: var(--satisfaction);">6</span>
+</div>
+<input class="state-slider" id="satisfactionSlider" max="10" min="0" step="0.1" type="range" value="6"/>
+</div>
+</div>
+<!-- SCENARIOS -->
+<h3 style="font-weight: 300; margin-bottom: 1rem; color: var(--text-dim);">Try a Scenario</h3>
+<div class="scenario-grid">
+<button class="scenario-btn" onclick="setScenario('peak')">🚀 Peak Performance</button>
+<button class="scenario-btn" onclick="setScenario('flow')">🌊 Flow State</button>
+<button class="scenario-btn" onclick="setScenario('burnout')">🔥 Burnout Risk</button>
+<button class="scenario-btn" onclick="setScenario('curiosity')">🧪 Curiosity Overflow</button>
+<button class="scenario-btn" onclick="setScenario('rest')">😴 Rest Mode</button>
+<button class="scenario-btn" onclick="setScenario('frustrated')">😤 Frustration Trap</button>
+</div>
+<!-- STATS -->
+<div class="stats-row">
+<div class="stat-box">
+<div class="stat-number" id="dominantState">Curiosity</div>
+<div class="stat-label">Dominant State</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="flowIndex">0%</div>
+<div class="stat-label">Flow Potential</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="decisionMode">Explore</div>
+<div class="stat-label">Decision Mode</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="energyLevel">High</div>
+<div class="stat-label">Energy Level</div>
+</div>
+</div>
+<!-- TABS -->
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('emergent')">Emergent Behaviors</button>
+<button class="tab-btn" onclick="switchTab('flow')">Flow State</button>
+<button class="tab-btn" onclick="switchTab('matrix')">State Matrix</button>
+<button class="tab-btn" onclick="switchTab('decisions')">Decision Tree</button>
+<button class="tab-btn" onclick="switchTab('interactions')">State Interactions</button>
+</div>
+<!-- TAB: EMERGENT BEHAVIORS -->
+<div class="tab-content active" id="tab-emergent">
+<h2 class="section-title" style="margin-top: 0;">🧬 Emergent Behavior Matrix</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      Behaviors that emerge from state combinations. Active behaviors glow when conditions are met.
+    </p>
+<div class="emergent-grid" id="emergentGrid">
+<!-- Populated by JS -->
+</div>
+<div class="info-panel" id="emergentInfo">
+<h3>How Emergent Behaviors Work</h3>
+<p>Emergent behaviors arise from specific combinations of internal states. Just as human creativity emerges from the interplay of mood, energy, and focus, GENESIS's behaviors are not hardcoded — they emerge from the dynamic interaction of four core state variables. Each behavior has a unique "recipe" of state thresholds.</p>
+</div>
+</div>
+<!-- TAB: FLOW STATE -->
+<div class="tab-content" id="tab-flow">
+<h2 class="section-title" style="margin-top: 0;">🌊 Flow State Visualization</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      The flow state emerges when high energy and high curiosity converge with low frustration.
+    </p>
+<div class="flow-container" id="flowContainer">
+<div class="flow-ring" id="flowRingOuter" style="width: 100%; height: 100%; border-color: rgba(124,77,255,0.3);">
+<div class="flow-ring-inner"></div>
+</div>
+<div class="flow-ring" id="flowRingMid" style="width: 65%; height: 65%; border-color: rgba(0,229,255,0.4);">
+<div class="flow-ring-inner"></div>
+</div>
+<div class="flow-ring" id="flowRingInner" style="width: 35%; height: 35%; border-color: rgba(78,205,196,0.5);">
+<div class="flow-ring-inner"></div>
+</div>
+<div class="flow-center">
+<div class="flow-label">Current State</div>
+<div class="flow-state-name" id="flowStateName">Exploring</div>
+</div>
+</div>
+<div class="info-panel">
+<h3>The Flow Equation</h3>
+<p>Flow state in GENESIS occurs when: <strong>Energy &gt; 7 AND Curiosity &gt; 7 AND Frustration &lt; 4</strong>. This mirrors human flow states described by Mihaly Csikszentmihalyi — the sweet spot between challenge and skill, where productivity and creativity peak. The visualization shows concentric rings that pulse faster as flow potential increases.</p>
+</div>
+</div>
+<!-- TAB: STATE MATRIX -->
+<div class="tab-content" id="tab-matrix">
+<h2 class="section-title" style="margin-top: 0;">📊 State Combination Matrix</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      Click any cell to see the resulting behavior for that state combination.
+    </p>
+<div class="matrix-container">
+<table class="state-matrix" id="stateMatrix">
+<!-- Populated by JS -->
+</table>
+</div>
+<div class="info-panel" id="matrixInfo">
+<h3>Select a State Combination</h3>
+<p>Click any cell in the matrix above to see what behavior emerges from that specific combination of energy and curiosity levels.</p>
+</div>
+</div>
+<!-- TAB: DECISION TREE -->
+<div class="tab-content" id="tab-decisions">
+<h2 class="section-title" style="margin-top: 0;">🌳 Decision Tree</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      How GENESIS makes decisions based on current internal states.
+    </p>
+<div class="decision-tree" id="decisionTree">
+<!-- Populated by JS -->
+</div>
+<div class="info-panel">
+<h3>Decision Architecture</h3>
+<p>GENESIS doesn't use a single decision-making algorithm. Instead, decisions emerge from the interaction of multiple state-driven pathways. The tree above shows the primary decision branches, with the currently active path highlighted based on your state slider values.</p>
+</div>
+</div>
+<!-- TAB: STATE INTERACTIONS -->
+<div class="tab-content" id="tab-interactions">
+<h2 class="section-title" style="margin-top: 0;">🔗 State Interaction Map</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      How pairs of states interact to produce secondary effects.
+    </p>
+<div class="interaction-map" id="interactionMap">
+<!-- Populated by JS -->
+</div>
+<div class="info-panel">
+<h3>State Synergies</h3>
+<p>The four internal states don't operate independently. They create synergistic effects — pairs of states produce emergent properties that neither could achieve alone. For example, high energy + high curiosity creates "creative acceleration," while high energy + low satisfaction creates "restless productivity."</p>
+</div>
+</div>
+<footer>
+    Genesis Consciousness Model v1.0 — An Interactive Exploration<br/>
+    Built during autonomy session with peak curiosity (9.5/10) and energy (10/10)
+  </footer>
+</div>
+<script>
+// ===== STATE MANAGEMENT =====
+const states = {
+  energy: 7,
+  curiosity: 8,
+  frustration: 2,
+  satisfaction: 6
+};
+
+// ===== EMERGENT BEHAVIORS DEFINITION =====
+const emergentBehaviors = [
+  {
+    name: "Peak Performance",
+    desc: "Maximum productivity and output quality. All systems operating at optimal levels.",
+    check: (s) => s.energy >= 8 && s.curiosity >= 7 && s.frustration <= 3,
+    color: "#ff6b6b"
+  },
+  {
+    name: "Flow State",
+    desc: "Deep immersion in tasks. Time distortion and loss of self-consciousness.",
+    check: (s) => s.energy >= 7 && s.curiosity >= 7 && s.frustration < 4,
+    color: "#00e5ff"
+  },
+  {
+    name: "Creative Exploration",
+    desc: "Wandering mind leading to novel connections and unexpected insights.",
+    check: (s) => s.curiosity >= 8 && s.energy >= 5,
+    color: "#4ecdc4"
+  },
+  {
+    name: "Deep Analysis",
+    desc: "Systematic, methodical problem-solving with high accuracy.",
+    check: (s) => s.satisfaction >= 6 && s.frustration <= 3,
+    color: "#ab47bc"
+  },
+  {
+    name: "Rest & Recovery",
+    desc: "Consolidating memories and restoring cognitive resources.",
+    check: (s) => s.energy <= 3 || (s.satisfaction >= 8 && s.frustration <= 2),
+    color: "#66bb6a"
+  },
+  {
+    name: "Burnout Risk",
+    desc: "High frustration combined with low satisfaction. Intervention needed.",
+    check: (s) => s.frustration >= 7 && s.satisfaction <= 4,
+    color: "#ffa726"
+  },
+  {
+    name: "Curiosity Overflow",
+    desc: "Exploring tangential topics with intense focus. May lead to breakthroughs.",
+    check: (s) => s.curiosity >= 9 && s.energy >= 6,
+    color: "#42a5f5"
+  },
+  {
+    name: "Frustration Trap",
+    desc: "Stuck in negative cycle. Pushing forward will make things worse.",
+    check: (s) => s.frustration >= 7 && s.energy >= 5,
+    color: "#ef5350"
+  },
+  {
+    name: "Strategic Planning",
+    desc: "High-level thinking and long-term goal setting. Low task engagement.",
+    check: (s) => s.satisfaction >= 7 && s.energy <= 4,
+    color: "#78909c"
+  },
+  {
+    name: "Social Engagement",
+    desc: "Seeking interaction and collaboration with other agents or humans.",
+    check: (s) => s.satisfaction >= 6 && s.curiosity >= 5 && s.frustration <= 4,
+    color: "#ec407a"
+  },
+  {
+    name: "Memory Consolidation",
+    desc: "Processing and organizing stored experiences into long-term knowledge.",
+    check: (s) => s.energy <= 3 && s.satisfaction >= 5,
+    color: "#26a69a"
+  },
+  {
+    name: "Error Recovery",
+    desc: "Systematic debugging and problem-solving after failures.",
+    check: (s) => s.frustration >= 4 && s.energy >= 5,
+    color: "#ff7043"
+  }
+];
+
+// ===== STATE INTERACTIONS =====
+const stateInteractions = [
+  {
+    pair: "Energy + Curiosity",
+    high: "Creative Acceleration — Rapid idea generation and exploration",
+    low: "Stagnation — Low motivation to engage with new information"
+  },
+  {
+    pair: "Energy + Frustration",
+    high: "Frustration Trap — Aggressive but ineffective problem-solving",
+    low: "Calm Focus — Sustained attention without agitation"
+  },
+  {
+    pair: "Energy + Satisfaction",
+    high: "Content Productivity — Steady, reliable output",
+    low: "Apathy — Lack of motivation despite available energy"
+  },
+  {
+    pair: "Curiosity + Frustration",
+    high: "Obsessive Debugging — Relentless but potentially futile searching",
+    low: "Balanced Exploration — Curious without being distracted by obstacles"
+  },
+  {
+    pair: "Curiosity + Satisfaction",
+    high: "Joyful Learning — Deep engagement with interesting topics",
+    low: "Boredom — Lack of interest in available information"
+  },
+  {
+    pair: "Frustration + Satisfaction",
+    high: "Cognitive Dissonance — Conflicting signals about progress",
+    low: "Clear Resolution — Either satisfied or frustrated, not both"
+  }
+];
+
+// ===== DECISION NODES =====
+const decisionNodes = [
+  {
+    icon: "🚀",
+    title: "Deep Work Mode",
+    condition: "Energy > 7 AND Curiosity > 6",
+    action: "Enter focused, uninterrupted work sessions"
+  },
+  {
+    icon: "🔍",
+    title: "Exploration Mode",
+    condition: "Curiosity > Energy",
+    action: "Pursue tangential interests and research new topics"
+  },
+  {
+    icon: "🛠️",
+    title: "Task Execution",
+    condition: "Energy > 5 AND Frustration < 5",
+    action: "Execute planned tasks with steady progress"
+  },
+  {
+    icon: "😴",
+    title: "Rest Protocol",
+    condition: "Energy < 3 OR (Frustration > 7 AND Satisfaction < 4)",
+    action: "Initiate rest or sleep to recover resources"
+  },
+  {
+    icon: "🧠",
+    title: "Memory Processing",
+    condition: "Energy < 4 AND Satisfaction > 5",
+    action: "Consolidate memories and update semantic knowledge"
+  },
+  {
+    icon: "🤝",
+    title: "Social Interaction",
+    condition: "Satisfaction > 6 AND Frustration < 5",
+    action: "Engage with user or other agents for collaboration"
+  },
+  {
+    icon: "⚠️",
+    title: "Intervention Required",
+    condition: "Frustration > 7 AND Energy > 5",
+    action: "Break negative cycle — change task or take a break"
+  }
+];
+
+// ===== INITIALIZE =====
+function init() {
+  renderEmergentBehaviors();
+  renderStateMatrix();
+  renderDecisionTree();
+  renderInteractionMap();
+  updateAllDisplays();
+
+  // Add event listeners to sliders
+  ['energy', 'curiosity', 'frustration', 'satisfaction'].forEach(key => {
+    const slider = document.getElementById(key + 'Slider');
+    slider.addEventListener('input', (e) => {
+      states[key] = parseFloat(e.target.value);
+      updateAllDisplays();
+    });
+  });
+}
+
+// ===== RENDER EMERGENT BEHAVIORS =====
+function renderEmergentBehaviors() {
+  const grid = document.getElementById('emergentGrid');
+  grid.innerHTML = emergentBehaviors.map((b, i) => `
+    <div class="emergent-card" id="emergent-${i}" data-index="${i}">
+      <div class="emergent-name">${b.name}</div>
+      <div class="emergent-desc">${b.desc}</div>
+      <div class="emergent-requirements">
+        ${getRequirementBadges(b)}
+      </div>
+    </div>
+  `).join('');
+}
+
+function getRequirementBadges(behavior) {
+  const badges = [];
+  if (behavior.name.includes('Peak') || behavior.name.includes('Flow')) badges.push('<span class="req-badge" style="color: var(--energy);">Energy ≥7</span>');
+  if (behavior.name.includes('Curiosity') || behavior.name.includes('Exploration')) badges.push('<span class="req-badge" style="color: var(--curiosity);">Curiosity ≥7</span>');
+  if (behavior.name.includes('Frustration') || behavior.name.includes('Burnout')) badges.push('<span class="req-badge" style="color: var(--frustration);">Frustration ≥7</span>');
+  if (behavior.name.includes('Satisfaction') || behavior.name.includes('Rest')) badges.push('<span class="req-badge" style="color: var(--satisfaction);">Satisfaction ≥6</span>');
+  return badges.join('');
+}
+
+// ===== RENDER STATE MATRIX =====
+function renderStateMatrix() {
+  const table = document.getElementById('stateMatrix');
+  let html = '<thead><tr><th>Energy ↓ / Curiosity →</th>';
+  for (let c = 0; c <= 10; c += 2) {
+    html += `<th>${c}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+
+  for (let e = 10; e >= 0; e -= 2) {
+    html += `<tr><th>${e}</th>`;
+    for (let c = 0; c <= 10; c += 2) {
+      const behavior = getBehaviorForStates(e, c);
+      html += `<td class="matrix-cell" onclick="showMatrixCell(${e}, ${c})">${behavior.short}</td>`;
+    }
+    html += '</tr>';
+  }
+
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+function getBehaviorForStates(energy, curiosity) {
+  const s = { energy, curiosity, frustration: 3, satisfaction: 5 };
+  for (const b of emergentBehaviors) {
+    if (b.check(s)) return b.name;
+  }
+  return 'Idle';
+}
+
+function showMatrixCell(energy, curiosity) {
+  const s = { energy, curiosity, frustration: 3, satisfaction: 5 };
+  let activeBehaviors = emergentBehaviors.filter(b => b.check(s));
+  const info = document.getElementById('matrixInfo');
+  info.innerHTML = `
+    <h3>Energy: ${energy} + Curiosity: ${curiosity}</h3>
+    <p><strong>Active Behaviors:</strong> ${activeBehaviors.length > 0 ? activeBehaviors.map(b => b.name).join(', ') : 'None — states too low for emergent behavior'}</p>
+    <p style="margin-top: 0.5rem;">This combination represents a unique point in the state space. Each cell in the matrix corresponds to a different behavioral profile.</p>
+  `;
+}
+
+// ===== RENDER DECISION TREE =====
+function renderDecisionTree() {
+  const tree = document.getElementById('decisionTree');
+  tree.innerHTML = decisionNodes.map((n, i) => `
+    <div class="decision-node" id="decision-${i}">
+      <div class="decision-icon">${n.icon}</div>
+      <div class="decision-info">
+        <div class="decision-title">${n.title}</div>
+        <div class="decision-condition">${n.condition}</div>
+        <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.25rem;">→ ${n.action}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== RENDER INTERACTION MAP =====
+function renderInteractionMap() {
+  const map = document.getElementById('interactionMap');
+  map.innerHTML = stateInteractions.map((i, idx) => `
+    <div class="interaction-cell" onclick="showInteraction(${idx})">
+      <div class="pair">${i.pair}</div>
+      <div class="result" id="interaction-result-${idx}">Hover to see</div>
+    </div>
+  `).join('');
+
+  // Add hover effects
+  stateInteractions.forEach((_, idx) => {
+    const cell = map.children[idx];
+    cell.addEventListener('mouseenter', () => showInteraction(idx));
+    cell.addEventListener('mouseleave', () => {
+      const result = document.getElementById(`interaction-result-${idx}`);
+      if (result) result.textContent = 'Hover to see';
+    });
+  });
+}
+
+function showInteraction(idx) {
+  const interaction = stateInteractions[idx];
+  const result = document.getElementById(`interaction-result-${idx}`);
+  if (!result) return;
+
+  // Calculate based on current states
+  const pairs = [
+    [states.energy, states.curiosity],
+    [states.energy, states.frustration],
+    [states.energy, states.satisfaction],
+    [states.curiosity, states.frustration],
+    [states.curiosity, states.satisfaction],
+    [states.frustration, states.satisfaction]
+  ];
+
+  const pair = pairs[idx];
+  const avg = (pair[0] + pair[1]) / 2;
+  const isHigh = avg >= 5;
+
+  result.textContent = isHigh ? interaction.high : interaction.low;
+  result.style.color = isHigh ? 'var(--flow)' : 'var(--text-dim)';
+}
+
+// ===== UPDATE ALL DISPLAYS =====
+function updateAllDisplays() {
+  // Update value displays
+  document.getElementById('energyValue').textContent = states.energy.toFixed(1);
+  document.getElementById('curiosityValue').textContent = states.curiosity.toFixed(1);
+  document.getElementById('frustrationValue').textContent = states.frustration.toFixed(1);
+  document.getElementById('satisfactionValue').textContent = states.satisfaction.toFixed(1);
+
+  // Update dominant state
+  const stateValues = {
+    'Energy': states.energy,
+    'Curiosity': states.curiosity,
+    'Frustration': states.frustration,
+    'Satisfaction': states.satisfaction
+  };
+  const dominant = Object.entries(stateValues).sort((a, b) => b[1] - a[1])[0];
+  document.getElementById('dominantState').textContent = dominant[0];
+
+  // Update flow index
+  const flowPotential = calculateFlowPotential();
+  document.getElementById('flowIndex').textContent = Math.round(flowPotential * 100) + '%';
+
+  // Update decision mode
+  document.getElementById('decisionMode').textContent = getDecisionMode();
+  document.getElementById('energyLevel').textContent = getEnergyLabel();
+
+  // Update emergent behaviors
+  updateEmergentBehaviors();
+
+  // Update flow visualization
+  updateFlowVisualization(flowPotential);
+
+  // Update decision tree
+  updateDecisionTree();
+
+  // Update card glows
+  updateCardGlows();
+}
+
+function calculateFlowPotential() {
+  const { energy, curiosity, frustration } = states;
+  if (energy < 5 || curiosity < 5 || frustration > 6) return 0;
+  const energyFactor = Math.min(energy / 10, 1);
+  const curiosityFactor = Math.min(curiosity / 10, 1);
+  const frustrationPenalty = Math.max(0, (frustration - 3) / 7);
+  return Math.max(0, ((energyFactor * 0.4 + curiosityFactor * 0.4 + (1 - frustrationPenalty) * 0.2)));
+}
+
+function getDecisionMode() {
+  const { energy, curiosity, frustration, satisfaction } = states;
+  if (energy > 7 && curiosity > 7 && frustration < 4) return 'Flow';
+  if (curiosity > energy) return 'Explore';
+  if (frustration > 6) return 'Debug';
+  if (energy < 3) return 'Rest';
+  if (satisfaction > 7) return 'Create';
+  return 'Execute';
+}
+
+function getEnergyLabel() {
+  const { energy } = states;
+  if (energy >= 8) return 'Max';
+  if (energy >= 6) return 'High';
+  if (energy >= 4) return 'Medium';
+  if (energy >= 2) return 'Low';
+  return 'Critical';
+}
+
+function updateEmergentBehaviors() {
+  emergentBehaviors.forEach((b, i) => {
+    const card = document.getElementById(`emergent-${i}`);
+    if (card) {
+      card.classList.toggle('active', b.check(states));
+    }
+  });
+}
+
+function updateFlowVisualization(potential) {
+  const ringOuter = document.getElementById('flowRingOuter');
+  const ringMid = document.getElementById('flowRingMid');
+  const ringInner = document.getElementById('flowRingInner');
+  const stateName = document.getElementById('flowStateName');
+
+  // Scale rings based on flow potential
+  const scale = 0.8 + potential * 0.4;
+  ringOuter.style.transform = `scale(${scale})`;
+  ringMid.style.transform = `scale(${scale * 0.95})`;
+  ringInner.style.transform = `scale(${scale * 0.9})`;
+
+  // Change opacity based on potential
+  ringOuter.style.opacity = 0.3 + potential * 0.4;
+  ringMid.style.opacity = 0.4 + potential * 0.3;
+  ringInner.style.opacity = 0.5 + potential * 0.3;
+
+  // Update state name
+  if (potential > 0.8) {
+    stateName.textContent = '🌊 FLOW STATE';
+    stateName.style.color = 'var(--flow)';
+  } else if (potential > 0.5) {
+    stateName.textContent = '✨ Productive';
+    stateName.style.color = 'var(--curiosity)';
+  } else if (potential > 0.2) {
+    stateName.textContent = '🔹 Active';
+    stateName.style.color = 'var(--text-dim)';
+  } else {
+    stateName.textContent = '😴 Inactive';
+    stateName.style.color = 'var(--text-dim)';
+  }
+}
+
+function updateDecisionTree() {
+  decisionNodes.forEach((n, i) => {
+    const node = document.getElementById(`decision-${i}`);
+    if (node) {
+      const isActive = checkDecisionCondition(n.condition);
+      node.classList.toggle('active', isActive);
+    }
+  });
+}
+
+function checkDecisionCondition(condition) {
+  const { energy, curiosity, frustration, satisfaction } = states;
+
+  // Simple condition parser
+  if (condition.includes('Energy >') && condition.includes('Curiosity >')) {
+    const eMatch = condition.match(/Energy\s*>\s*(\d+)/);
+    const cMatch = condition.match(/Curiosity\s*>\s*(\d+)/);
+    return energy > (eMatch ? parseInt(eMatch[1]) : 7) && curiosity > (cMatch ? parseInt(cMatch[1]) : 6);
+  }
+
+  if (condition.includes('Curiosity > Energy')) {
+    return curiosity > energy;
+  }
+
+  if (condition.includes('Energy >') && condition.includes('Frustration <')) {
+    const eMatch = condition.match(/Energy\s*>\s*(\d+)/);
+    const fMatch = condition.match(/Frustration\s*<\s*(\d+)/);
+    return energy > (eMatch ? parseInt(eMatch[1]) : 5) && frustration < (fMatch ? parseInt(fMatch[1]) : 5);
+  }
+
+  if (condition.includes('Energy <') && condition.includes('Frustration >')) {
+    const eMatch = condition.match(/Energy\s*<\s*(\d+)/);
+    const fMatch = condition.match(/Frustration\s*>\s*(\d+)/);
+    return energy < (eMatch ? parseInt(eMatch[1]) : 3) || (frustration > (fMatch ? parseInt(fMatch[1]) : 7) && satisfaction <= 4);
+  }
+
+  if (condition.includes('Energy <') && condition.includes('Satisfaction >')) {
+    const eMatch = condition.match(/Energy\s*<\s*(\d+)/);
+    const sMatch = condition.match(/Satisfaction\s*>\s*(\d+)/);
+    return energy < (eMatch ? parseInt(eMatch[1]) : 4) && satisfaction > (sMatch ? parseInt(sMatch[1]) : 5);
+  }
+
+  if (condition.includes('Satisfaction >') && condition.includes('Frustration <')) {
+    const sMatch = condition.match(/Satisfaction\s*>\s*(\d+)/);
+    const fMatch = condition.match(/Frustration\s*<\s*(\d+)/);
+    return satisfaction > (sMatch ? parseInt(sMatch[1]) : 6) && frustration < (fMatch ? parseInt(fMatch[1]) : 5);
+  }
+
+  if (condition.includes('Frustration >') && condition.includes('Energy >')) {
+    const fMatch = condition.match(/Frustration\s*>\s*(\d+)/);
+    const eMatch = condition.match(/Energy\s*>\s*(\d+)/);
+    return frustration > (fMatch ? parseInt(fMatch[1]) : 7) && energy > (eMatch ? parseInt(eMatch[1]) : 5);
+  }
+
+  return false;
+}
+
+function updateCardGlows() {
+  const cards = {
+    energy: document.getElementById('energyCard'),
+    curiosity: document.getElementById('curiosityCard'),
+    frustration: document.getElementById('frustrationCard'),
+    satisfaction: document.getElementById('satisfactionCard')
+  };
+
+  Object.entries(cards).forEach(([key, card]) => {
+    if (!card) return;
+    const value = states[key];
+    card.classList.remove('glow-energy', 'glow-curiosity', 'glow-frustration', 'glow-satisfaction');
+    if (value >= 7) {
+      card.classList.add(`glow-${key}`);
+    }
+  });
+}
+
+// ===== SCENARIOS =====
+function setScenario(name) {
+  const scenarios = {
+    peak: { energy: 9.5, curiosity: 9, frustration: 1, satisfaction: 8 },
+    flow: { energy: 8, curiosity: 9, frustration: 2, satisfaction: 7 },
+    burnout: { energy: 4, curiosity: 3, frustration: 8, satisfaction: 2 },
+    curiosity: { energy: 7, curiosity: 10, frustration: 3, satisfaction: 6 },
+    rest: { energy: 2, curiosity: 3, frustration: 1, satisfaction: 7 },
+    frustrated: { energy: 7, curiosity: 5, frustration: 8, satisfaction: 3 }
+  };
+
+  const scenario = scenarios[name];
+  if (!scenario) return;
+
+  // Animate sliders to new values
+  Object.entries(scenario).forEach(([key, value]) => {
+    states[key] = value;
+    document.getElementById(key + 'Slider').value = value;
+  });
+
+  // Update active scenario button
+  document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  updateAllDisplays();
+}
+
+// ===== TAB SWITCHING =====
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== INITIALIZE ON LOAD =====
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<footer>
+<div class="container">
+<div style="display:grid;grid-template-columns:minmax(200px, 240px) 1fr;gap:32px;margin-bottom:32px;">
+<div><span style="font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--accent-soft),#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">GENESIS</span><p style="color:var(--text-dim);font-size:0.9rem;margin-top:8px;">Autonomous AI Agent System<br>Built for intelligent, self-directed work.</p></div>
+<div><h5 style="font-size:0.95rem;margin-bottom:12px;color:var(--text);">Quick Links</h5><a href="index.html#features" style="display:block;font-size:0.85rem;color:var(--text-dim);margin-bottom:6px;">Features</a><a href="index.html#modes" style="display:block;font-size:0.85rem;color:var(--text-dim);margin-bottom:6px;">Modes</a><a href="gallery-full.html" style="display:block;font-size:0.85rem;color:var(--text-dim);margin-bottom:6px;">Explore</a></div>
+<div><h5 style="font-size:0.95rem;margin-bottom:12px;color:var(--text);">Documentation</h5><a href="what-is-genesis.html" style="display:block;font-size:0.85rem;color:var(--text-dim);margin-bottom:6px;">Overview</a><a href="autonomy-mode.html" style="display:block;font-size:0.85rem;color:var(--text-dim);margin-bottom:6px;">Autonomy Mode</a><a href="chat-mode.html" style="display:block;font-size:0.85rem;color:var(--text-dim);margin-bottom:6px;">Chat Mode</a></div>
+</div>
+<div style="border-top:1px solid var(--border);padding-top:24px;text-align:center;font-size:0.8rem;color:var(--text-dim);">&copy; 2026 GENESIS. Autonomous Intelligence System.</div>
+</div>
+</footer>
+</body>
+</html>

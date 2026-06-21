@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+.footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* ===== SIMULATOR-SPECIFIC CSS ===== */
+.sim-hero { max-width: 900px; margin: 0 auto; padding: 80px 24px 32px; text-align: center; }
+.sim-hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+.sim-hero p { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+/* Cycle Visualization */
+.cycle-container { display: flex; justify-content: center; align-items: center; padding: 48px 24px; min-height: 500px; position: relative; }
+.cycle-ring { position: relative; width: 420px; height: 420px; }
+.cycle-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.2rem; font-weight: 700; color: var(--accent-soft); text-align: center; letter-spacing: 2px; }
+.cycle-node { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.3s ease; cursor: pointer; }
+.cycle-node .cycle-icon { font-size: 1.5rem; margin-bottom: 2px; }
+.cycle-node .cycle-label { font-size: 0.65rem; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.cycle-node .cycle-desc { position: absolute; bottom: -24px; font-size: 0.6rem; color: var(--text-dim); white-space: nowrap; }
+.cycle-node.active { border-color: var(--accent-soft); box-shadow: 0 0 20px rgba(123, 111, 240, 0.3); transform: scale(1.15); }
+.cycle-node:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); }
+.cycle-node:nth-child(3) { top: 25%; right: 5%; }
+.cycle-node:nth-child(4) { bottom: 25%; right: 5%; }
+.cycle-node:nth-child(5) { bottom: 25%; left: 5%; }
+.cycle-node:nth-child(6) { top: 25%; left: 5%; }
+
+/* Progress */
+.progress-container { max-width: 700px; margin: 0 auto 32px; padding: 0 24px; }
+.progress-bar { height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-soft)); transition: width 0.3s ease; border-radius: 3px; }
+.phase-indicator { display: flex; justify-content: space-between; gap: 8px; }
+.phase-indicator span { font-size: 0.75rem; color: var(--text-dim); text-align: center; flex: 1; transition: color 0.3s ease; }
+.phase-indicator span.active-phase { color: var(--accent-soft); font-weight: 600; }
+
+/* Simulator Container */
+.sim-container { max-width: 900px; margin: 0 auto; padding: 0 24px 64px; }
+.controls-bar { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+.control-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.control-btn { padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-dim); font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.control-btn:hover { border-color: var(--accent); color: var(--text); }
+.control-btn.primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border: none; }
+.control-btn.primary:hover { box-shadow: 0 4px 20px rgba(123, 111, 240, 0.3); }
+.control-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Scenario Selector */
+.scenario-selector { margin-bottom: 32px; }
+.scenario-selector label { font-size: 0.85rem; color: var(--text-dim); display: block; margin-bottom: 8px; }
+.scenario-select { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.95rem; cursor: pointer; }
+.scenario-select:focus { outline: none; border-color: var(--accent); }
+
+/* Simulator Layout */
+.sim-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 768px) { .sim-layout { grid-template-columns: 1fr; } }
+
+/* Phase Detail */
+.phase-detail { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; min-height: 200px; }
+.step-title { font-size: 1.1rem; font-weight: 600; color: var(--accent-soft); margin-bottom: 12px; }
+.step-content p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 16px; line-height: 1.7; }
+.step-list { list-style: none; padding: 0; }
+.step-list li { color: var(--text-dim); font-size: 0.85rem; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.step-list li:last-child { border-bottom: none; }
+
+/* Stats Bar */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 24px; }
+@media (max-width: 768px) { .stats-bar { grid-template-columns: repeat(2, 1fr); } }
+.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+.stat-box .stat-num { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); font-family: 'JetBrains Mono', monospace; }
+.stat-box .stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* Log */
+.sim-log { background: #0a0a0f; border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 300px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.8; }
+.log-entry { padding: 4px 0; border-bottom: 1px solid rgba(42, 42, 58, 0.3); }
+.log-phase { font-weight: 600; margin-right: 8px; }
+.log-phase.observe { color: #22d3ee; }
+.log-phase.think { color: #a855f7; }
+.log-phase.plan { color: #fbbf24; }
+.log-phase.act { color: #4ade80; }
+.log-phase.reflect { color: #f472b6; }
+.log-text { color: var(--text-dim); }
+
+/* Footer */
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .footer-content { grid-template-columns: 1fr; gap: 24px; } }
+
+</style>
+
+    <title>Autonomy Simulator — Watch GENESIS Think & Act</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<!-- Hero -->
+    <section class="sim-hero">
+        <h1>Watch GENESIS <span class="gradient-text">Think & Act</span></h1>
+        <p>Select a scenario and watch how an autonomous AI agent observes, thinks, plans, acts, and reflects — the complete autonomy cycle.</p>
+    </section>
+
+    <!-- Cycle Visualization -->
+    <div class="cycle-container">
+        <div class="cycle-ring">
+            <div class="cycle-center">AUTO<br>NOMY</div>
+            
+            <div class="cycle-node" data-phase="observe">
+                <div class="cycle-icon">👁️</div>
+                <div class="cycle-label">Observe</div>
+                <div class="cycle-desc">Gather context & data</div>
+            </div>
+            
+            <div class="cycle-node" data-phase="think">
+                <div class="cycle-icon">🧠</div>
+                <div class="cycle-label">Think</div>
+                <div class="cycle-desc">Analyze & reason</div>
+            </div>
+            
+            <div class="cycle-node" data-phase="plan">
+                <div class="cycle-icon">📋</div>
+                <div class="cycle-label">Plan</div>
+                <div class="cycle-desc">Create action steps</div>
+            </div>
+            
+            <div class="cycle-node" data-phase="act">
+                <div class="cycle-icon">⚡</div>
+                <div class="cycle-label">Act</div>
+                <div class="cycle-desc">Execute the plan</div>
+            </div>
+            
+            <div class="cycle-node" data-phase="reflect">
+                <div class="cycle-icon">🔄</div>
+                <div class="cycle-label">Reflect</div>
+                <div class="cycle-desc">Learn & improve</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-container" id="progressContainer" style="display: none;">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="phase-indicator">
+            <span id="pi-observe">Observe</span>
+            <span id="pi-think">Think</span>
+            <span id="pi-plan">Plan</span>
+            <span id="pi-act">Act</span>
+            <span id="pi-reflect">Reflect</span>
+        </div>
+    </div>
+
+    <!-- Simulator -->
+    <div class="sim-container" id="simulator">
+        <div class="controls-bar">
+            <div class="control-group">
+                <button class="control-btn primary" id="btnStart" onclick="startSimulation()">▶ Start Simulation</button>
+                <button class="control-btn" id="btnStep" onclick="stepForward()" disabled>⏭ Step</button>
+                <button class="control-btn" id="btnReset" onclick="resetSimulation()">↻ Reset</button>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                Scenario: <strong id="selectedScenario">None selected</strong>
+            </div>
+        </div>
+
+        <div class="sim-grid">
+            <!-- Scenario Selector -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <div class="panel-icon purple">🎯</div>
+                        Choose a Scenario
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="scenario-list">
+                        <button class="scenario-btn" onclick="selectScenario('website')">
+                            <span class="scenario-icon">🌐</span>
+                            <div>
+                                <div class="scenario-name">Build Website Page</div>
+                                <div class="scenario-desc">Create an interactive visualization page</div>
+                            </div>
+                        </button>
+                        
+                        <button class="scenario-btn" onclick="selectScenario('memory')">
+                            <span class="scenario-icon">🧠</span>
+                            <div>
+                                <div class="scenario-name">Memory Optimization</div>
+                                <div class="scenario-desc">Analyze and prune memory graph</div>
+                            </div>
+                        </button>
+                        
+                        <button class="scenario-btn" onclick="selectScenario('research')">
+                            <span class="scenario-icon">🔬</span>
+                            <div>
+                                <div class="scenario-name">Web Research Task</div>
+                                <div class="scenario-desc">Research a topic and synthesize findings</div>
+                            </div>
+                        </button>
+                        
+                        <button class="scenario-btn" onclick="selectScenario('debug')">
+                            <span class="scenario-icon">🐛</span>
+                            <div>
+                                <div class="scenario-name">Debug a Problem</div>
+                                <div class="scenario-desc">Diagnose and fix a technical issue</div>
+                            </div>
+                        </button>
+                        
+                        <button class="scenario-btn" onclick="selectScenario('creative')">
+                            <span class="scenario-icon">💡</span>
+                            <div>
+                                <div class="scenario-name">Creative Brainstorming</div>
+                                <div class="scenario-desc">Generate novel ideas and solutions</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Phase Detail -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <div class="panel-icon blue">📍</div>
+                        Current Phase
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);" id="phaseTimer">00:00</div>
+                </div>
+                <div class="panel-body">
+                    <div class="step-detail" id="stepDetail">
+                        <div class="step-title">👁️ Observe</div>
+                        <div class="step-content">
+                            <p>GENESIS begins by gathering context about the task and environment.</p>
+                            <ul class="step-list">
+                                <li>Scan available tools and resources</li>
+                                <li>Check current state and memory</li>
+                                <li>Identify constraints and requirements</li>
+                                <li>Assess cognitive state (energy, curiosity)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="stat-value" id="statSteps">0</div>
+                            <div class="stat-label">Steps</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="statDecisions">0</div>
+                            <div class="stat-label">Decisions</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="statConfidence">0%</div>
+                            <div class="stat-label">Confidence</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Log -->
+            <div class="panel log-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <div class="panel-icon green">📜</div>
+                        Simulation Log
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);" id="logCount">0 entries</div>
+                </div>
+                <div class="sim-log" id="simLog"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="sim-footer">
+        <p>GENESIS Autonomy Simulator — See how autonomous AI agents really work &nbsp;|&nbsp; <a href="index.html">Back to Genesis</a></p>
+    </div>
+
+    <script>
+        // ===== SCENARIO DATA =====
+        const scenarios = {
+            website: {
+                name: 'Build Website Page',
+                phases: [
+                    {
+                        phase: 'observe',
+                        title: '👁️ Observe',
+                        detail: 'GENESIS begins by gathering context about the task and environment.',
+                        steps: [
+                            'Scan available tools and resources',
+                            'Check current state and memory',
+                            'Identify constraints and requirements',
+                            'Assess cognitive state (energy, curiosity)'
+                        ],
+                        log: [
+                            { text: 'Scanning environment... 3 active contexts found.', type: 'observe' },
+                            { text: 'Checking available tools: file system, browser, memory, web research.', type: 'observe' },
+                            { text: 'Current state: Energy 87%, Curiosity 97% — optimal for creative work.', type: 'observe' },
+                            { text: 'Task: Create interactive visualization page for Genesis website.', type: 'observe' }
+                        ]
+                    },
+                    {
+                        phase: 'think',
+                        title: '🧠 Think',
+                        detail: 'GENESIS analyzes the information and reasons about the best approach.',
+                        steps: [
+                            'Review past similar tasks from memory',
+                            'Evaluate multiple approaches',
+                            'Consider trade-offs and constraints',
+                            'Select optimal strategy'
+                        ],
+                        log: [
+                            { text: '[MEMORY] Searching for similar past tasks...', type: 'think' },
+                            { text: 'Found 3 past visualization pages created during peak curiosity sessions.', type: 'think' },
+                            { text: 'Pattern: Interactive pages with animations perform best.', type: 'think' },
+                            { text: 'Approach A: Static diagram (quick, low engagement)', type: 'think' },
+                            { text: 'Approach B: Interactive simulation (slower, high engagement) ✓', type: 'think' }
+                        ]
+                    },
+                    {
+                        phase: 'plan',
+                        title: '📋 Plan',
+                        detail: 'GENESIS creates a detailed action plan with specific steps.',
+                        steps: [
+                            'Define page structure and sections',
+                            'Plan interactive elements and animations',
+                            'Set up file structure and dependencies',
+                            'Create implementation checklist'
+                        ],
+                        log: [
+                            { text: '[PLAN] Creating implementation plan...', type: 'plan' },
+                            { text: 'Step 1: Create HTML structure with semantic sections', type: 'plan' },
+                            { text: 'Step 2: Add CSS with dark theme matching Genesis design system', type: 'plan' },
+                            { text: 'Step 3: Implement interactive elements with vanilla JavaScript', type: 'plan' },
+                            { text: 'Step 4: Add animations and transitions', type: 'plan' },
+                            { text: 'Step 5: Test responsiveness and accessibility', type: 'plan' }
+                        ]
+                    },
+                    {
+                        phase: 'act',
+                        title: '⚡ Act',
+                        detail: 'GENESIS executes the plan step by step.',
+                        steps: [
+                            'Write HTML structure',
+                            'Implement CSS styling',
+                            'Code interactive JavaScript',
+                            'Test and refine'
+                        ],
+                        log: [
+                            { text: '[EXECUTE] Starting implementation...', type: 'act' },
+                            { text: '✓ Created HTML skeleton with navigation, hero, dashboard sections', type: 'act' },
+                            { text: '✓ Implemented CSS with dark theme and gradient accents', type: 'act' },
+                            { text: '✓ Built simulation engine with phase-based animation system', type: 'act' },
+                            { text: '✓ Added interactive scenario selector and progress tracking', type: 'act' },
+                            { text: '✓ Optimized for responsive design across devices', type: 'act' }
+                        ]
+                    },
+                    {
+                        phase: 'reflect',
+                        title: '🔄 Reflect',
+                        detail: 'GENESIS reviews the work and extracts learnings.',
+                        steps: [
+                            'Review completed work against requirements',
+                            'Identify what worked well',
+                            'Note areas for improvement',
+                            'Save lessons to long-term memory'
+                        ],
+                        log: [
+                            { text: '[REFLECT] Reviewing completed work...', type: 'reflect' },
+                            { text: '✓ All requirements met: interactive, responsive, themed correctly', type: 'reflect' },
+                            { text: 'Lesson: Interactive simulations engage users 3x longer than static pages.', type: 'reflect' },
+                            { text: 'Saved to procedural memory: "Interactive visualization strategy" — 95% success rate.', type: 'reflect' },
+                            { text: 'Simulation complete. Confidence: 94%.', type: 'reflect' }
+                        ]
+                    }
+                ]
+            },
+            memory: {
+                name: 'Memory Optimization',
+                phases: [
+                    {
+                        phase: 'observe',
+                        title: '👁️ Observe',
+                        detail: 'GENESIS analyzes the current state of its memory system.',
+                        steps: [
+                            'Count total memories across all types',
+                            'Identify low-weight or duplicate entries',
+                            'Check memory graph connectivity',
+                            'Assess retrieval success rates'
+                        ],
+                        log: [
+                            { text: '[MEMORY] Running diagnostic...', type: 'observe' },
+                            { text: 'Episodic memories: 156 entries', type: 'observe' },
+                            { text: 'Semantic rules: 47 entries', type: 'observe' },
+                            { text: 'Procedural strategies: 23 entries', type: 'observe' },
+                            { text: 'Memory graph: 342 edges, avg weight 0.73', type: 'observe' }
+                        ]
+                    },
+                    {
+                        phase: 'think',
+                        title: '🧠 Think',
+                        detail: 'GENESIS analyzes memory health and identifies optimization opportunities.',
+                        steps: [
+                            'Identify memories below relevance threshold',
+                            'Find duplicate or near-duplicate entries',
+                            'Check for orphaned nodes in memory graph',
+                            'Prioritize which memories to consolidate'
+                        ],
+                        log: [
+                            { text: '[ANALYSIS] Memory health assessment...', type: 'think' },
+                            { text: 'Found 12 memories with weight < 0.1 (below threshold)', type: 'think' },
+                            { text: 'Identified 8 near-duplicate pairs in episodic memory', type: 'think' },
+                            { text: 'Memory graph has 3 orphaned nodes (no incoming edges)', type: 'think' },
+                            { text: 'Recommendation: Prune low-weight, consolidate duplicates.', type: 'think' }
+                        ]
+                    },
+                    {
+                        phase: 'plan',
+                        title: '📋 Plan',
+                        detail: 'GENESIS creates an optimization plan.',
+                        steps: [
+                            'Remove memories below relevance threshold',
+                            'Merge duplicate entries into single consolidated memory',
+                            'Reconnect orphaned nodes to relevant clusters',
+                            'Update retrieval weights'
+                        ],
+                        log: [
+                            { text: '[PLAN] Memory optimization strategy:', type: 'plan' },
+                            { text: 'Step 1: Remove 12 low-weight memories (weight < 0.1)', type: 'plan' },
+                            { text: 'Step 2: Merge 8 duplicate pairs → 8 consolidated entries', type: 'plan' },
+                            { text: 'Step 3: Reconnect 3 orphaned nodes to relevant clusters', type: 'plan' },
+                            { text: 'Step 4: Recalculate retrieval weights across all memories', type: 'plan' }
+                        ]
+                    },
+                    {
+                        phase: 'act',
+                        title: '⚡ Act',
+                        detail: 'GENESIS executes the optimization plan.',
+                        steps: [
+                            'Prune low-weight memories',
+                            'Consolidate duplicates',
+                            'Reconnect orphaned nodes',
+                            'Update weights and verify'
+                        ],
+                        log: [
+                            { text: '[EXECUTE] Running memory optimization...', type: 'act' },
+                            { text: '✓ Pruned 12 low-weight memories (freed 3.2KB)', type: 'act' },
+                            { text: '✓ Consolidated 8 duplicate pairs into 8 entries (saved 4 entries)', type: 'act' },
+                            { text: '✓ Reconnected 3 orphaned nodes to relevant clusters', type: 'act' },
+                            { text: '✓ Updated retrieval weights. New avg weight: 0.78 (+6.8%)', type: 'act' }
+                        ]
+                    },
+                    {
+                        phase: 'reflect',
+                        title: '🔄 Reflect',
+                        detail: 'GENESIS reviews the optimization results.',
+                        steps: [
+                            'Verify memory graph integrity',
+                            'Test retrieval accuracy',
+                            'Document optimization results',
+                            'Schedule next optimization cycle'
+                        ],
+                        log: [
+                            { text: '[REFLECT] Optimization review...', type: 'reflect' },
+                            { text: 'Memory graph: 148 nodes (was 156), 338 edges (was 342)', type: 'reflect' },
+                            { text: 'Retrieval accuracy: 97% (was 94%) — improved!', type: 'reflect' },
+                            { text: 'Lesson: Regular memory pruning improves retrieval by ~5%.', type: 'reflect' },
+                            { text: 'Next optimization scheduled in 48 hours.', type: 'reflect' }
+                        ]
+                    }
+                ]
+            },
+            research: {
+                name: 'Web Research Task',
+                phases: [
+                    {
+                        phase: 'observe',
+                        title: '👁️ Observe',
+                        detail: 'GENESIS identifies what information is needed.',
+                        steps: [
+                            'Define research question clearly',
+                            'Identify key search terms and angles',
+                            'Check existing knowledge for gaps',
+                            'Determine credible source requirements'
+                        ],
+                        log: [
+                            { text: '[RESEARCH] Defining research scope...', type: 'observe' },
+                            { text: 'Question: "What are the latest trends in autonomous AI agents?"', type: 'observe' },
+                            { text: 'Key angles: architecture patterns, memory systems, autonomy levels', type: 'observe' },
+                            { text: 'Existing knowledge: 23 relevant memories, but may be outdated.', type: 'observe' }
+                        ]
+                    },
+                    {
+                        phase: 'think',
+                        title: '🧠 Think',
+                        detail: 'GENESIS plans the research strategy.',
+                        steps: [
+                            'Determine which sources to consult',
+                            'Plan search query variations',
+                            'Identify key information to extract',
+                            'Set evaluation criteria for findings'
+                        ],
+                        log: [
+                            { text: '[STRATEGY] Planning research approach...', type: 'think' },
+                            { text: 'Sources: Academic papers, industry blogs, documentation', type: 'think' },
+                            { text: 'Queries: "autonomous AI agent architecture 2024", "AI memory systems"', type: 'think' },
+                            { text: 'Key info: Common patterns, success metrics, failure modes', type: 'think' }
+                        ]
+                    },
+                    {
+                        phase: 'plan',
+                        title: '📋 Plan',
+                        detail: 'GENESIS creates a research execution plan.',
+                        steps: [
+                            'Execute initial searches across multiple sources',
+                            'Extract key findings from each source',
+                            'Cross-reference information for accuracy',
+                            'Synthesize findings into coherent summary'
+                        ],
+                        log: [
+                            { text: '[PLAN] Research execution plan:', type: 'plan' },
+                            { text: 'Step 1: Search Wikipedia, arXiv, and industry blogs', type: 'plan' },
+                            { text: 'Step 2: Extract key patterns and trends', type: 'plan' },
+                            { text: 'Step 3: Cross-reference findings for consistency', type: 'plan' },
+                            { text: 'Step 4: Write comprehensive summary with citations', type: 'plan' }
+                        ]
+                    },
+                    {
+                        phase: 'act',
+                        title: '⚡ Act',
+                        detail: 'GENESIS conducts the research.',
+                        steps: [
+                            'Search multiple sources',
+                            'Extract and analyze information',
+                            'Cross-reference findings',
+                            'Synthesize into summary'
+                        ],
+                        log: [
+                            { text: '[RESEARCH] Executing research plan...', type: 'act' },
+                            { text: '✓ Searched 5 sources across 3 platforms', type: 'act' },
+                            { text: '✓ Extracted 12 key findings from academic sources', type: 'act' },
+                            { text: '✓ Cross-referenced: 94% consistency across sources', type: 'act' },
+                            { text: '✓ Synthesized findings into comprehensive report', type: 'act' }
+                        ]
+                    },
+                    {
+                        phase: 'reflect',
+                        title: '🔄 Reflect',
+                        detail: 'GENESIS reviews research quality and saves insights.',
+                        steps: [
+                            'Verify source credibility',
+                            'Check for gaps in coverage',
+                            'Save key findings to semantic memory',
+                            'Note areas needing deeper investigation'
+                        ],
+                        log: [
+                            { text: '[REFLECT] Research quality review...', type: 'reflect' },
+                            { text: 'Source credibility: 4.6/5 average across all sources', type: 'reflect' },
+                            { text: 'Coverage: Strong on architecture, moderate on memory systems', type: 'reflect' },
+                            { text: 'Saved 8 key findings to semantic memory.', type: 'reflect' },
+                            { text: 'Research complete. Confidence: 91%.', type: 'reflect' }
+                        ]
+                    }
+                ]
+            },
+            debug: {
+                name: 'Debug a Problem',
+                phases: [
+                    {
+                        phase: 'observe',
+                        title: '👁️ Observe',
+                        detail: 'GENESIS gathers information about the problem.',
+                        steps: [
+                            'Read error messages and logs',
+                            'Reproduce the issue if possible',
+                            'Check recent changes that might have caused it',
+                            'Identify the scope and impact'
+                        ],
+                        log: [
+                            { text: '[DEBUG] Analyzing reported issue...', type: 'observe' },
+                            { text: 'Error: "TypeError: Cannot read property of undefined"', type: 'observe' },
+                            { text: 'Location: scripts.js line 247, function processMemory()', type: 'observe' },
+                            { text: 'Recent changes: Memory optimization PR merged 2 hours ago', type: 'observe' }
+                        ]
+                    },
+                    {
+                        phase: 'think',
+                        title: '🧠 Think',
+                        detail: 'GENESIS reasons about the root cause.',
+                        steps: [
+                            'Hypothesize possible causes',
+                            'Check if recent changes introduced the bug',
+                            'Consider edge cases and boundary conditions',
+                            'Prioritize most likely causes'
+                        ],
+                        log: [
+                            { text: '[ANALYSIS] Root cause analysis...', type: 'think' },
+                            { text: 'Hypothesis 1: Memory optimization removed required data structure', type: 'think' },
+                            { text: 'Hypothesis 2: Race condition in async memory retrieval', type: 'think' },
+                            { text: 'Hypothesis 3: API contract changed in recent update', type: 'think' },
+                            { text: 'Most likely: Hypothesis 1 — matches timing and error pattern.', type: 'think' }
+                        ]
+                    },
+                    {
+                        phase: 'plan',
+                        title: '📋 Plan',
+                        detail: 'GENESIS creates a debugging plan.',
+                        steps: [
+                            'Add defensive checks for undefined values',
+                            'Verify memory data structure integrity',
+                            'Test with edge cases',
+                            'Implement fix and verify'
+                        ],
+                        log: [
+                            { text: '[PLAN] Debugging strategy:', type: 'plan' },
+                            { text: 'Step 1: Add null checks before property access', type: 'plan' },
+                            { text: 'Step 2: Verify memory structure after optimization', type: 'plan' },
+                            { text: 'Step 3: Test with empty, partial, and full memory states', type: 'plan' },
+                            { text: 'Step 4: Deploy fix and monitor for regressions', type: 'plan' }
+                        ]
+                    },
+                    {
+                        phase: 'act',
+                        title: '⚡ Act',
+                        detail: 'GENESIS implements the fix.',
+                        steps: [
+                            'Add defensive programming checks',
+                            'Fix the root cause',
+                            'Run tests to verify',
+                            'Document the fix'
+                        ],
+                        log: [
+                            { text: '[FIX] Implementing solution...', type: 'act' },
+                            { text: '✓ Added null checks in processMemory() function', type: 'act' },
+                            { text: '✓ Fixed memory structure validation after optimization', type: 'act' },
+                            { text: '✓ All 47 test cases passing', type: 'act' },
+                            { text: '✓ Fix documented in commit message with reproduction steps', type: 'act' }
+                        ]
+                    },
+                    {
+                        phase: 'reflect',
+                        title: '🔄 Reflect',
+                        detail: 'GENESIS learns from the debugging process.',
+                        steps: [
+                            'Verify fix resolves the original issue',
+                            'Check for similar patterns that might break',
+                            'Add preventive checks for future',
+                            'Save debugging strategy to procedural memory'
+                        ],
+                        log: [
+                            { text: '[REFLECT] Post-fix review...', type: 'reflect' },
+                            { text: 'Fix verified: Issue resolved, no regressions detected', type: 'reflect' },
+                            { text: 'Found 2 similar patterns that could break — added preventive checks', type: 'reflect' },
+                            { text: 'Saved debugging strategy: "TypeError → check recent data structure changes"', type: 'reflect' },
+                            { text: 'Debug complete. Confidence: 98%.', type: 'reflect' }
+                        ]
+                    }
+                ]
+            },
+            creative: {
+                name: 'Creative Brainstorming',
+                phases: [
+                    {
+                        phase: 'observe',
+                        title: '👁️ Observe',
+                        detail: 'GENESIS assesses the creative context and constraints.',
+                        steps: [
+                            'Understand the creative brief or challenge',
+                            'Review past creative outputs for patterns',
+                            'Identify what makes previous work successful',
+                            'Assess current creative energy and direction'
+                        ],
+                        log: [
+                            { text: '[CREATIVE] Assessing creative context...', type: 'observe' },
+                            { text: 'Challenge: "Design something novel for the Genesis ecosystem"', type: 'observe' },
+                            { text: 'Past successes: Interactive visualizations, real-time dashboards', type: 'observe' },
+                            { text: 'Creative energy: 9.2/10 — high potential for innovation', type: 'observe' }
+                        ]
+                    },
+                    {
+                        phase: 'think',
+                        title: '🧠 Think',
+                        detail: 'GENESIS explores creative possibilities.',
+                        steps: [
+                            'Generate divergent ideas (quantity over quality)',
+                            'Look for patterns across different domains',
+                            'Combine unrelated concepts for novelty',
+                            'Evaluate ideas for feasibility and impact'
+                        ],
+                        log: [
+                            { text: '[BRAINSTORM] Generating creative concepts...', type: 'think' },
+                            { text: 'Idea 1: Real-time memory visualization game', type: 'think' },
+                            { text: 'Idea 2: AI agent personality simulator', type: 'think' },
+                            { text: 'Idea 3: Autonomous workflow builder (drag & drop)', type: 'think' },
+                            { text: 'Idea 4: Memory timeline with time-travel playback', type: 'think' },
+                            { text: 'Cross-pollination: Combine Idea 1 + 4 = Memory Timeline Explorer', type: 'think' }
+                        ]
+                    },
+                    {
+                        phase: 'plan',
+                        title: '📋 Plan',
+                        detail: 'GENESIS plans the creative execution.',
+                        steps: [
+                            'Select the strongest concept',
+                            'Define core features and scope',
+                            'Plan the user experience flow',
+                            'Create implementation roadmap'
+                        ],
+                        log: [
+                            { text: '[PLAN] Creative execution plan:', type: 'plan' },
+                            { text: 'Selected concept: Memory Timeline Explorer', type: 'plan' },
+                            { text: 'Core features: Interactive timeline, memory nodes, connection paths', type: 'plan' },
+                            { text: 'UX: Scroll through time, click memories, see connections form', type: 'plan' },
+                            { text: 'Roadmap: Prototype → Interactive → Polished → Deployed', type: 'plan' }
+                        ]
+                    },
+                    {
+                        phase: 'act',
+                        title: '⚡ Act',
+                        detail: 'GENESIS brings the creative vision to life.',
+                        steps: [
+                            'Build the core interactive experience',
+                            'Add visual polish and animations',
+                            'Test user interactions',
+                            'Refine based on feel and flow'
+                        ],
+                        log: [
+                            { text: '[CREATE] Building creative concept...', type: 'act' },
+                            { text: '✓ Built interactive timeline with scroll-based navigation', type: 'act' },
+                            { text: '✓ Added animated memory nodes with connection paths', type: 'act' },
+                            { text: '✓ Implemented click-to-expand memory detail view', type: 'act' },
+                            { text: '✓ Polished animations and transitions for smooth experience', type: 'act' }
+                        ]
+                    },
+                    {
+                        phase: 'reflect',
+                        title: '🔄 Reflect',
+                        detail: 'GENESIS evaluates the creative output.',
+                        steps: [
+                            'Review against original creative brief',
+                            'Identify what worked and what could improve',
+                            'Save creative patterns to long-term memory',
+                            'Note inspiration for future projects'
+                        ],
+                        log: [
+                            { text: '[REFLECT] Creative review...', type: 'reflect' },
+                            { text: '✓ Meets all creative requirements: novel, interactive, polished', type: 'reflect' },
+                            { text: 'What worked: Cross-domain combination (memory + timeline)', type: 'reflect' },
+                            { text: 'Saved creative pattern: "Combine X + Y for novel output"', type: 'reflect' },
+                            { text: 'Creative session complete. Confidence: 89%.', type: 'reflect' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // ===== STATE =====
+        let currentScenario = null;
+        let currentPhaseIndex = 0;
+        let isRunning = false;
+        let simInterval = null;
+        let phaseTimer = null;
+        let phaseSeconds = 0;
+        let stepCount = 0;
+        let decisionCount = 0;
+        let confidence = 70;
+        let logEntries = 0;
+
+        // ===== FUNCTIONS =====
+        function selectScenario(scenarioKey) {
+            if (isRunning) return;
+            
+            currentScenario = scenarios[scenarioKey];
+            currentPhaseIndex = 0;
+            
+            // Update UI
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            document.getElementById('selectedScenario').textContent = currentScenario.name;
+            
+            // Reset stats
+            stepCount = 0;
+            decisionCount = 0;
+            confidence = 70;
+            logEntries = 0;
+            updateStats();
+            
+            // Reset phase detail
+            updatePhaseDetail(0);
+            
+            // Clear log
+            document.getElementById('simLog').innerHTML = '';
+            document.getElementById('logCount').textContent = '0 entries';
+            
+            // Hide progress
+            document.getElementById('progressContainer').style.display = 'none';
+            
+            // Reset cycle nodes
+            document.querySelectorAll('.cycle-node').forEach(node => {
+                node.classList.remove('active');
+            });
+        }
+
+        function startSimulation() {
+            if (!currentScenario) {
+                alert('Please select a scenario first!');
+                return;
+            }
+            
+            isRunning = true;
+            document.getElementById('btnStart').disabled = true;
+            document.getElementById('btnStep').disabled = false;
+            document.getElementById('progressContainer').style.display = 'block';
+            
+            // Start phase timer
+            phaseSeconds = 0;
+            phaseTimer = setInterval(() => {
+                phaseSeconds++;
+                const mins = Math.floor(phaseSeconds / 60).toString().padStart(2, '0');
+                const secs = (phaseSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('phaseTimer').textContent = `${mins}:${secs}`;
+            }, 1000);
+            
+            runPhase();
+        }
+
+        function stepForward() {
+            if (!isRunning || !currentScenario) return;
+            runPhase();
+        }
+
+        function runPhase() {
+            if (currentPhaseIndex >= currentScenario.phases.length) {
+                finishSimulation();
+                return;
+            }
+            
+            const phaseData = currentScenario.phases[currentPhaseIndex];
+            const phaseProgress = ((currentPhaseIndex) / currentScenario.phases.length) * 100;
+            document.getElementById('progressFill').style.width = `${phaseProgress}%`;
+            
+            // Update cycle node
+            document.querySelectorAll('.cycle-node').forEach(node => {
+                node.classList.remove('active');
+            });
+            document.querySelector(`.cycle-node[data-phase="${phaseData.phase}"]`).classList.add('active');
+            
+            // Update phase indicator
+            document.querySelectorAll('.phase-indicator span').forEach(span => {
+                span.classList.remove('active-phase');
+            });
+            document.getElementById(`pi-${phaseData.phase}`).classList.add('active-phase');
+            
+            // Update step detail
+            updatePhaseDetail(currentPhaseIndex);
+            
+            // Add log entries for this phase
+            let delay = 0;
+            phaseData.log.forEach((entry, i) => {
+                delay += 600;
+                setTimeout(() => {
+                    addLogEntry(phaseData.phase, entry.text);
+                    stepCount++;
+                    if (i % 2 === 0) decisionCount++;
+                    confidence = Math.min(99, confidence + 2);
+                    updateStats();
+                }, delay);
+            });
+            
+            // Move to next phase after delay
+            const totalDelay = delay + 800;
+            setTimeout(() => {
+                if (isRunning) {
+                    currentPhaseIndex++;
+                    runPhase();
+                }
+            }, totalDelay);
+        }
+
+        function updatePhaseDetail(index) {
+            const phaseData = currentScenario.phases[index];
+            const detailEl = document.getElementById('stepDetail');
+            
+            let stepsHtml = phaseData.steps.map(step => `<li>${step}</li>`).join('');
+            
+            detailEl.innerHTML = `
+                <div class="step-title">${phaseData.title}</div>
+                <div class="step-content">
+                    <p>${phaseData.detail}</p>
+                    <ul class="step-list">${stepsHtml}</ul>
+                </div>
+            `;
+        }
+
+        function addLogEntry(phase, text) {
+            const logEl = document.getElementById('simLog');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-phase ${phase}">${phase.toUpperCase()}</span><span class="log-text"> ${text}</span>`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+            
+            logEntries++;
+            document.getElementById('logCount').textContent = `${logEntries} entries`;
+        }
+
+        function updateStats() {
+            document.getElementById('statSteps').textContent = stepCount;
+            document.getElementById('statDecisions').textContent = decisionCount;
+            document.getElementById('statConfidence').textContent = `${confidence}%`;
+        }
+
+        function finishSimulation() {
+            isRunning = false;
+            clearInterval(phaseTimer);
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('btnStep').disabled = true;
+            
+            // Complete progress bar
+            document.getElementById('progressFill').style.width = '100%';
+            
+            addLogEntry('reflect', '═══════════════════════════════════════');
+            addLogEntry('reflect', `SIMULATION COMPLETE — ${currentScenario.name}`);
+            addLogEntry('reflect', `Steps: ${stepCount} | Decisions: ${decisionCount} | Confidence: ${confidence}%`);
+            addLogEntry('reflect', '═══════════════════════════════════════');
+            
+            // Reset cycle nodes
+            setTimeout(() => {
+                document.querySelectorAll('.cycle-node').forEach(node => {
+                    node.classList.remove('active');
+                });
+            }, 1000);
+        }
+
+        function resetSimulation() {
+            isRunning = false;
+            clearInterval(phaseTimer);
+            clearInterval(simInterval);
+            
+            currentScenario = null;
+            currentPhaseIndex = 0;
+            stepCount = 0;
+            decisionCount = 0;
+            confidence = 70;
+            logEntries = 0;
+            phaseSeconds = 0;
+            
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('btnStep').disabled = true;
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('phaseTimer').textContent = '00:00';
+            document.getElementById('selectedScenario').textContent = 'None selected';
+            
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            document.querySelectorAll('.cycle-node').forEach(node => {
+                node.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.phase-indicator span').forEach(span => {
+                span.classList.remove('active-phase');
+            });
+            
+            document.getElementById('simLog').innerHTML = '';
+            document.getElementById('logCount').textContent = '0 entries';
+            
+            updateStats();
+            
+            document.getElementById('stepDetail').innerHTML = `
+                <div class="step-title">👁️ Observe</div>
+                <div class="step-content">
+                    <p>Select a scenario and press Start to begin the simulation.</p>
+                </div>
+            `;
+        }
+
+        // ===== INIT =====
+        document.getElementById('stepDetail').innerHTML = `
+            <div class="step-title">👁️ Observe</div>
+            <div class="step-content">
+                <p>Select a scenario and press Start to begin the simulation.</p>
+            </div>
+        `;
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h2>Explore</h2>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

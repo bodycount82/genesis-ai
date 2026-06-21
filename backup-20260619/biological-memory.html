@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biological Memory — Genesis</title>
+<meta name="description" content="Genesis uses five interconnected memory tiers with real forgetting, reinforcement, and consolidation — just like a human mind.">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface-2: #1a1a26;
+  --border: #2a2a3a;
+  --text: #e4e4ec;
+  --text-dim: #8888a0;
+  --accent: #7b6ff0;
+  --accent-glow: rgba(123, 111, 240, 0.15);
+  --accent-soft: #9d93f5;
+  --green: #4ade80;
+  --orange: #fb923c;
+  --pink: #f472b6;
+  --cyan: #06b6d4;
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-glow .orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+.bg-glow .orb:nth-child(1) {
+  width: 600px; height: 600px; background: var(--accent);
+  top: -200px; left: -100px; animation-delay: 0s;
+}
+.bg-glow .orb:nth-child(2) {
+  width: 500px; height: 500px; background: #4a3fbf;
+  bottom: -150px; right: -100px; animation-delay: -7s;
+}
+.bg-glow .orb:nth-child(3) {
+  width: 400px; height: 400px; background: #2d1b69;
+  top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s;
+}
+
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1;
+}
+
+section { padding: 100px 0; }
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 0 24px;
+}
+nav .inner {
+  max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
+  justify-content: space-between; height: 64px;
+}
+nav .logo {
+  font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--accent-soft), #c4b5fd);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a {
+  font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s;
+  font-weight: 500;
+}
+nav ul li a:hover { color: var(--text); }
+
+/* ===== HERO (SUBPAGE) ===== */
+.subpage-hero {
+  padding-top: 160px;
+  padding-bottom: 80px;
+  text-align: center;
+}
+.subpage-hero .back-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px;
+}
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15;
+  letter-spacing: -1.5px; margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.subpage-hero .subtitle {
+  font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim);
+  max-width: 640px; margin: 0 auto; line-height: 1.7;
+}
+
+/* ===== SECTION COMMON ===== */
+.section-label {
+  display: inline-block; font-size: 0.8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700;
+  letter-spacing: -1px; margin-bottom: 16px;
+}
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* ===== MEMORY TIER CARDS ===== */
+.memory-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px;
+}
+.memory-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease;
+}
+.memory-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.memory-card .memory-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+.memory-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.memory-card .memory-alias {
+  font-size: 0.85rem; color: var(--text-dim); font-style: italic; margin-bottom: 12px;
+}
+.memory-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.memory-card .memory-meta {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.memory-card .meta-chip {
+  font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 50px;
+  background: var(--surface-2); color: var(--text-dim);
+}
+
+/* Tier-specific colors */
+.memory-card.tier-episodic { border-top: 3px solid #ff2d95; }
+.memory-card.tier-episodic .memory-icon { color: #ff2d95; }
+.memory-card.tier-semantic { border-top: 3px solid #06b6d4; }
+.memory-card.tier-semantic .memory-icon { color: #06b6d4; }
+.memory-card.tier-procedural { border-top: 3px solid #a855f7; }
+.memory-card.tier-procedural .memory-icon { color: #a855f7; }
+.memory-card.tier-working { border-top: 3px solid #4ade80; }
+.memory-card.tier-working .memory-icon { color: #4ade80; }
+.memory-card.tier-prospective { border-top: 3px solid #fb923c; }
+.memory-card.tier-prospective .memory-icon { color: #fb923c; }
+
+/* ===== MEMORY FLOW ===== */
+.memory-flow {
+  display: flex; gap: 16px; justify-content: center; align-items: center;
+  flex-wrap: wrap; margin-top: 48px; padding: 40px 0;
+}
+.flow-node {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 24px; text-align: center;
+  min-width: 160px; flex: 1; max-width: 220px; transition: all 0.3s ease;
+}
+.flow-node:hover { border-color: var(--accent); transform: scale(1.05); }
+.flow-node h4 { font-size: 0.95rem; margin-bottom: 6px; color: var(--accent-soft); }
+.flow-node p { font-size: 0.8rem; color: var(--text-dim); }
+.flow-arrow {
+  font-size: 1.5rem; color: var(--text-dim); flex-shrink: 0;
+}
+
+/* ===== HIGHLIGHT BOX ===== */
+.highlight-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius); padding: 24px 28px; margin: 32px 0;
+}
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+/* ===== CONTENT BLOCKS ===== */
+.content-block { margin-top: 64px; }
+.content-block h2 {
+  font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700;
+  letter-spacing: -0.5px; margin-bottom: 16px;
+}
+.content-block h3 {
+  font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px;
+}
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol {
+  color: var(--text-dim); font-size: 0.95rem; line-height: 1.8;
+  padding-left: 24px; margin-bottom: 16px;
+}
+.content-block li { margin-bottom: 8px; }
+.content-block code {
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 6px; font-size: 0.85rem;
+  font-family: 'Courier New', monospace; color: var(--accent-soft);
+}
+
+/* ===== EXAMPLE BOXES ===== */
+.example-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+.example-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 24px; border-left: 3px solid var(--accent);
+}
+.example-item strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 0.95rem; }
+.example-item small { color: var(--text-dim); font-size: 0.85rem; }
+
+/* ===== TRANSFORMATION FLOW ===== */
+.transform-flow {
+  display: flex; gap: 24px; justify-content: center; align-items: stretch;
+  flex-wrap: wrap; margin-top: 32px;
+}
+.transform-step {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 28px 24px; flex: 1; min-width: 200px; max-width: 300px;
+  text-align: center;
+}
+.transform-step .step-label {
+  font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--accent-soft); margin-bottom: 8px;
+}
+.transform-step p { color: var(--text-dim); font-size: 0.9rem; }
+
+/* ===== FOOTER ===== */
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a {
+  font-size: 0.85rem; color: var(--text-dim); line-height: 1.8;
+}
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright {
+  border-top: 1px solid var(--border); padding-top: 24px;
+  margin-top: 32px; font-size: 0.8rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .memory-grid { grid-template-columns: 1fr; }
+  .transform-flow { flex-direction: column; align-items: center; }
+}
+
+/* ===== FADE-IN ANIMATION ===== */
+.fade-in {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+
+<!-- Background Glow -->
+<div class="bg-glow">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<!-- Navigation -->
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Biological Memory</h1>
+    <p class="subtitle">Five interconnected memory tiers with real forgetting, reinforcement, and consolidation — just like a human mind. Memories fade if unused; important ones persist.</p>
+  </div>
+</section>
+
+<!-- Five Tiers Overview -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Memory Architecture</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">A memory system that works like a mind</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Each memory type serves a unique purpose, working together to create a robust and adaptive knowledge system.</p>
+    </div>
+
+    <div class="memory-grid">
+      <!-- Episodic -->
+      <div class="memory-card tier-episodic fade-in">
+        <span class="memory-icon">&#128247;</span>
+        <h3>Episodic Memory</h3>
+        <p class="memory-alias">"Like human recall"</p>
+        <p>Stores specific events and experiences with temporal context — like your memories of yesterday. Rich in detail but decays rapidly, preserving only fragments over time. This is the most volatile memory type.</p>
+        <div class="memory-meta">
+          <span class="meta-chip">Capacity: Limited</span>
+          <span class="meta-chip">Decay: Fast</span>
+        </div>
+      </div>
+
+      <!-- Semantic -->
+      <div class="memory-card tier-semantic fade-in">
+        <span class="memory-icon">&#128218;</span>
+        <h3>Semantic Memory</h3>
+        <p class="memory-alias">"Like human knowledge"</p>
+        <p>Contains facts, rules, and concepts organized in categories — like your general knowledge of the world. Persists indefinitely and grows through learning. This is where "what is true" lives permanently.</p>
+        <div class="memory-meta">
+          <span class="meta-chip">Capacity: Virtually unlimited</span>
+          <span class="meta-chip">Decay: Nearly none</span>
+        </div>
+      </div>
+
+      <!-- Procedural -->
+      <div class="memory-card tier-procedural fade-in">
+        <span class="memory-icon">&#9881;</span>
+        <h3>Procedural Memory</h3>
+        <p class="memory-alias">"Like human skills"</p>
+        <p>Encodes learned strategies and workflows — "when X happens, do Y" patterns. Like riding a bike, it's refined through repetition and enables efficient problem-solving without conscious thought.</p>
+        <div class="memory-meta">
+          <span class="meta-chip">Capacity: Large</span>
+          <span class="meta-chip">Decay: Very slow</span>
+        </div>
+      </div>
+
+      <!-- Working -->
+      <div class="memory-card tier-working fade-in">
+        <span class="memory-icon">&#128203;</span>
+        <h3>Working Memory</h3>
+        <p class="memory-alias">"Like human attention"</p>
+        <p>Active context for current tasks — the mental workspace you use right now. Holds information that's actively being processed, enabling reasoning and decision-making in real time.</p>
+        <div class="memory-meta">
+          <span class="meta-chip">Capacity: Small</span>
+          <span class="meta-chip">Decay: Instant</span>
+        </div>
+      </div>
+
+      <!-- Prospective -->
+      <div class="memory-card tier-prospective fade-in">
+        <span class="memory-icon">&#128203;</span>
+        <h3>Prospective Memory</h3>
+        <p class="memory-alias">"Like remembering to do"</p>
+        <p>Holds future intentions — reminders, scheduled tasks, and trigger-based actions. Like remembering to pick up groceries on the way home or fire a reminder when a specific condition occurs.</p>
+        <div class="memory-meta">
+          <span class="meta-chip">Capacity: Medium</span>
+          <span class="meta-chip">Decay: On trigger/firing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Memory Flow -->
+<section style="background: var(--surface);">
+  <div class="container">
+    <div style="text-align: center;" class="fade-in">
+      <span class="section-label">Memory Transformation</span>
+      <h2 class="section-title" style="margin-left: auto; margin-right: auto;">How experiences become knowledge</h2>
+      <p class="section-desc" style="margin-left: auto; margin-right: auto;">Memories aren't static — they transform over time, becoming more abstract and useful as they mature.</p>
+    </div>
+
+    <div class="memory-flow fade-in">
+      <div class="flow-node" style="border-top: 3px solid #ff2d95;">
+        <h4 style="color: #ff2d95;">Episodic</h4>
+        <p>Specific event with context</p>
+      </div>
+      <span class="flow-arrow">&#8594;</span>
+      <div class="flow-node" style="border-top: 3px solid #06b6d4;">
+        <h4 style="color: #06b6d4;">Semantic</h4>
+        <p>Facts &amp; rules extracted</p>
+      </div>
+      <span class="flow-arrow">&#8594;</span>
+      <div class="flow-node" style="border-top: 3px solid #a855f7;">
+        <h4 style="color: #a855f7;">Procedural</h4>
+        <p>Strategies refined</p>
+      </div>
+    </div>
+
+    <div class="transform-flow fade-in">
+      <div class="transform-step">
+        <div class="step-label">Step 1: Experience</div>
+        <p>"Encountered a 404 error → checked file path → rebuilt project"</p>
+      </div>
+      <div class="transform-step">
+        <div class="step-label">Step 2: Rule</div>
+        <p>"When I see a 404 error → check if file exists, then rebuild"</p>
+      </div>
+      <div class="transform-step">
+        <div class="step-label">Step 3: Strategy</div>
+        <p>"When creating visualization pages → identify concept, build canvas animation, submit for review"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How Memory Works -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">How It Works</span>
+      <h2 class="section-title">Real forgetting, reinforcement, and consolidation</h2>
+      <p class="section-desc">Genesis's memory doesn't just store — it actively manages what to keep, what to strengthen, and what to let go.</p>
+
+      <div class="highlight-box">
+        <p><strong>The key insight:</strong> Forgetting is a feature, not a bug. If a memory isn't used, it fades — creating space for new thoughts and enabling creativity. Only the most relevant and frequently accessed memories persist long-term.</p>
+      </div>
+
+      <h3>Memory Strengthening</h3>
+      <p>Every time Genesis uses or recalls a memory, that memory becomes stronger and more easily accessible. Frequently used facts, strategies, and experiences rise to the top of retrieval — making them faster to find when needed.</p>
+
+      <ul>
+        <li><strong>Episodic memories</strong> encode real events from interactions — conversations, actions taken, problems solved</li>
+        <li><strong>Semantic memories</strong> store distilled knowledge — facts about the world, rules learned, concepts understood</li>
+        <li><strong>Procedural memories</strong> capture successful patterns — strategies that worked, workflows that are efficient</li>
+        <li><strong>Working memory</strong> holds the active context needed for current reasoning and decision-making</li>
+        <li><strong>Prospective memory</strong> holds future intentions — reminders, scheduled tasks, and trigger-based actions that fire when conditions are met</li>
+      </ul>
+
+      <h3>Examples of Each Memory Type</h3>
+      <div class="example-list">
+        <div class="example-item" style="border-left-color: #ff2d95;">
+          <strong>"User asked me to refactor the API. I completed it at 3 PM."</strong>
+          <small>— Specific event with context (Episodic)</small>
+        </div>
+        <div class="example-item" style="border-left-color: #06b6d4;">
+          <strong>"When I see a 404 error → check if file exists, then rebuild"</strong>
+          <small>— Rule distilled from experience (Semantic)</small>
+        </div>
+        <div class="example-item" style="border-left-color: #a855f7;">
+          <strong>"When creating visualization pages → identify concept, build canvas animation, submit for review"</strong>
+          <small>— Strategy from repeated patterns (Procedural)</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>Genesis</h5>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2026 Genesis. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// Disable browser autoscroll on refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.addEventListener('DOMContentLoaded', function() {
+  window.scrollTo(0, 0);
+});
+window.addEventListener('load', function() {
+  window.scrollTo(0, 0);
+});
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

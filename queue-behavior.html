@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; }
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.75; overflow-x: hidden; }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; position: relative; z-index: 10; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== NAVBAR ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; text-decoration: none; }
+.nav-links li a:hover { color: var(--text); }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; position: relative; z-index: 1; }
+.doc-container { max-width: 960px; margin: 0 auto; padding: 64px 32px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 48px; transition: color 0.2s; padding: 12px 0; position: relative; z-index: 10; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 32px; color: var(--text); line-height: 1.3; }
+.doc-content h2 { font-size: 1.6rem; font-weight: 700; margin-top: 56px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(42,42,58,0.4); color: var(--text); }
+.doc-content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: var(--text); }
+.doc-content p { margin-bottom: 20px; color: var(--text-dim); line-height: 1.85; }
+.doc-content ul, .doc-content ol { margin-bottom: 24px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 10px; line-height: 1.75; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: linear-gradient(135deg, var(--surface), rgba(123,111,240,0.05)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 24px 28px; margin-bottom: 40px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; line-height: 1.75; font-size: 1rem; }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); position: relative; z-index: 1; }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .doc-container { padding: 40px 20px; }
+  .footer-content { grid-template-columns: 1fr; gap: 28px; }
+}
+
+</style>
+    <title>Queue Behavior — GENESIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar"><div class="nav-container"><a href="index.html" class="nav-logo">GENESIS</a><ul class="nav-links"><li><a href="index.html#features">Features</a></li><li><a href="index.html#modes">Modes</a></li><li><a href="index.html#gallery">Explore</a></li><li><a href="index.html#how-it-works">Get Started</a></li></ul></div></nav>
+    <section class="doc-page"><div class="doc-container"><a href="index.html" class="doc-back">← Back to Website</a>
+    <div class="doc-content">
+        <h1>⏱️ Queue Behavior</h1>
+        <div class="doc-highlight"><p><strong>Queue Behavior</strong> describes how Genesis handles multiple requests, tasks, and goals when they arrive simultaneously or in rapid succession — ensuring orderly, efficient processing without losing context.</p></div>
+        <h2>How the Queue Works</h2>
+        <p>When Genesis receives multiple inputs — whether from chat messages, autonomous goals, scheduled tasks, or system events — it places them in a prioritized queue. Each item in the queue is evaluated and processed in order based on urgency, importance, and current context.</p>
+        <h3>Queue Prioritization</h3>
+        <ul>
+            <li><strong>Immediate Actions</strong> — Direct user requests in chat mode are typically highest priority</li>
+            <li><strong>Autonomous Goals</strong> — Goals set during autonomy mode follow their own internal priority system</li>
+            <li><strong>Scheduled Tasks</strong> — Tasks from the timetable are processed at their designated times</li>
+            <li><strong>System Events</strong> — Internal events like memory consolidation or state updates run at lower priority</li>
+        </ul>
+        <h3>Queue Processing</h3>
+        <ol>
+            <li><strong>Arrival</strong> — A new request enters the queue</li>
+            <li><strong>Assessment</strong> — Genesis evaluates the request's priority and resource requirements</li>
+            <li><strong>Scheduling</strong> — The request is placed in the appropriate position in the queue</li>
+            <li><strong>Execution</strong> — When it reaches the front, Genesis processes the request</li>
+            <li><strong>Completion</strong> — Results are delivered and the next item moves to the front</li>
+        </ol>
+        <h2>Handling Interruptions</h2>
+        <p>Genesis is designed to handle interruptions gracefully. If a higher-priority request arrives while processing another:</p>
+        <ul>
+            <li><strong>Interruptible Tasks</strong> — Some tasks can be paused and resumed later without losing context</li>
+            <li><strong>Non-Interruptible Tasks</strong> — Certain operations (like file writes) must complete before switching</li>
+            <li><strong>Emergency Stop</strong> — Users can always halt the current queue processing immediately</li>
+        </ul>
+        <h2>Queue State Indicators</h2>
+        <p>You can see the queue state in Genesis's interface:</p>
+        <ul>
+            <li><strong>Empty</strong> — No pending tasks; waiting for new input</li>
+            <li><strong>Processing</strong> — Currently working on a task</li>
+            <li><strong>Queued</strong> — One or more items waiting behind the current task</li>
+            <li><strong>Paused</strong> — Queue processing has been temporarily suspended</li>
+        </ul>
+        <h2>Tips for Managing the Queue</h2>
+        <ol>
+            <li><strong>Be specific with requests</strong> — Clear, well-defined tasks are processed more efficiently</li>
+            <li><strong>Avoid overwhelming the queue</strong> — Sending too many rapid requests can cause delays</li>
+            <li><strong>Use autonomy mode for long tasks</strong> — Let Genesis handle complex multi-step work in its own time</li>
+            <li><strong>Check the log</strong> — The Full Log shows what's being processed and what's queued</li>
+        </ol>
+        <h2>Related Pages</h2>
+        <ul>
+            <li><a href="autonomy-mode.html">Autonomy Mode</a> — How Genesis works independently</li>
+            <li><a href="chat-mode.html">Chat Mode</a> — Direct conversation with Genesis</li>
+            <li><a href="project-management.html">Project Management</a> — Organizing tasks and goals</li>
+            <li><a href="autonomy-simulator.html">Autonomy Simulator</a> — Watch autonomy in action</li>
+        </ul>
+    </div></div></section>
+    <footer class="footer"><div class="container"><div class="footer-content"><div class="footer-brand"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span><p>Autonomous AI Agent System<br>Built for intelligent, self-directed work.</p></div><div class="footer-links"><h3>Quick Links</h3><a href="index.html#features">Features</a><a href="index.html#modes">Modes</a><a href="index.html#gallery">Explore</a><a href="index.html#how-it-works">Get Started</a></div><div class="footer-links"><h4>Documentation</h4><a href="what-is-genesis.html">Overview</a><a href="autonomy-mode.html">Autonomy Mode</a><a href="chat-mode.html">Chat Mode</a><a href="work-mode.html">Work Mode</a></div></div><div class="footer-bottom"><p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p></div></div></footer>
+</body>
+</html>

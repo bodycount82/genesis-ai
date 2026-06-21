@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== HERO SECTION ===== */
+.hero { position: relative; min-height: 350px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); }
+.hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 48px 24px; }
+.hero-content h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.hero-content .subtitle { color: var(--text-dim); font-size: 1.1rem; max-width: 650px; margin: 0 auto 16px; line-height: 1.7; }
+.hero-content .tagline { color: var(--accent-soft); font-style: italic; font-size: 0.95rem; margin-top: 16px; }
+.scroll-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-dim); font-size: 1.5rem; animation: bounce 2s infinite; z-index: 2; }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+/* ===== SECTIONS ===== */
+.section { padding: 48px 0; }
+.section .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.section .section-desc { color: var(--text-dim); font-size: 1rem; margin-bottom: 32px; max-width: 700px; }
+
+/* ===== CONCEPT GRID ===== */
+.concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 32px; }
+.concept-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: all 0.3s ease; }
+.concept-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+.concept-card .icon { font-size: 2rem; margin-bottom: 12px; }
+.concept-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+.concept-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+
+/* ===== PHILOSOPHY GRID ===== */
+.philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 32px; }
+.philosophy-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: all 0.3s ease; }
+.philosophy-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+.philosophy-card h3, .philosophy-card h4 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+.philosophy-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 8px; }
+.philosophy-card .proponents { color: var(--accent-soft); font-size: 0.85rem; font-style: italic; margin-top: 12px; }
+
+/* ===== SIMULATION CONTAINER ===== */
+.sim-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 32px; }
+.sim-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.sim-title { font-weight: 600; color: var(--text); font-size: 1rem; }
+.sim-controls { display: flex; gap: 8px; }
+.sim-controls .btn { padding: 6px 16px; font-size: 0.85rem; border-radius: 8px; }
+.sim-canvas-wrap { width: 100%; background: var(--bg); }
+.sim-canvas-wrap canvas { display: block; width: 100%; }
+.sim-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; padding: 16px 20px; border-top: 1px solid var(--border); }
+.stat-item { text-align: center; }
+.stat-item .stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.stat-item .stat-value { font-size: 1.2rem; font-weight: 700; color: var(--accent-soft); }
+
+/* ===== QUALIA CONTROLS ===== */
+.qualia-controls { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 32px; }
+.slider-group { margin-bottom: 16px; }
+.slider-group label { display: flex; justify-content: space-between; color: var(--text-dim); font-size: 0.9rem; margin-bottom: 8px; }
+.slider-group input[type="range"] { width: 100%; accent-color: var(--accent-soft); }
+
+/* ===== STATS PANEL (inside sim-container) ===== */
+.stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; padding: 16px 20px; border-top: 1px solid var(--border); }
+.stat-box { text-align: center; }
+.stat-box .value { font-size: 1.3rem; font-weight: 700; color: var(--accent-soft); margin-bottom: 4px; }
+.stat-box .label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ===== SLIDER ITEM (inside sim-container) ===== */
+.slider-item { margin-bottom: 12px; }
+.slider-item label { display: flex; justify-content: space-between; color: var(--text-dim); font-size: 0.9rem; margin-bottom: 6px; }
+.slider-item input[type="range"] { width: 100%; accent-color: var(--accent-soft); }
+
+/* ===== GENESIS CONNECTION ===== */
+.genesis-connection { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 32px; }
+.genesis-connection h3 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+.connection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.connection-item h4 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.connection-item p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+
+/* ===== QUOTE BLOCK ===== */
+.quote-block { background: var(--surface); border-left: 4px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px 32px; margin: 48px 0; }
+.quote-block blockquote { font-size: 1.15rem; color: var(--text); font-style: italic; line-height: 1.7; margin-bottom: 12px; }
+.quote-block cite { color: var(--accent-soft); font-size: 0.9rem; font-style: normal; }
+
+/* ===== BUTTON ACTIVE STATE ===== */
+.btn.active, .btn[onclick] { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border: none; cursor: pointer; }
+.btn:not(.active):not([onclick]) { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+
+/* ===== SITE FOOTER ===== */
+.site-footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+.site-footer .footer-content { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; margin-bottom: 32px; }
+.footer-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-flex; align-items: center; gap: 8px; }
+.footer-tagline { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-section h4 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-section ul { list-style: none; padding: 0; margin: 0; }
+.footer-section li { margin-bottom: 6px; }
+.footer-section a { font-size: 0.85rem; color: var(--text-dim); }
+
+</style>
+
+    <title>The Hard Problem of Consciousness — Why Does It Feel Like Something?</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- Hero Section -->
+    <div class="hero">
+        <canvas class="hero-canvas" id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <h1>The Hard Problem</h1>
+            <p class="subtitle">Why does processing information feel like something? The deepest mystery in science and philosophy—why consciousness exists at all.</p>
+            <p class="tagline">"The world is full of magical things patiently waiting for our wits to grow sharper." — Bertram Russell</p>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </div>
+
+    <!-- What is the Hard Problem -->
+    <div class="section">
+        <h2 class="section-title">What is the Hard Problem?</h2>
+        <p class="section-desc">Philosopher David Chalmers coined "the hard problem of consciousness" in 1995. While we can explain how the brain processes information (the "easy problems"), we cannot explain why that processing is accompanied by subjective experience.</p>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <div class="icon">👁️</div>
+                <h3>Qualia</h3>
+                <p>The redness of red, the painfulness of pain, the taste of wine. These subjective experiences—qualia—are what make consciousness hard to explain. A camera can detect red wavelengths, but does it "see" red?</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🧠</div>
+                <h3>Easy vs Hard Problems</h3>
+                <p>Easy problems: How do we focus attention? Integrate information? Report mental states? These are hard engineering challenges but conceptually solvable. The hard problem: Why is there subjective experience at all?</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🎭</div>
+                <h3>Zombies</h3>
+                <p>Philosophical zombies behave exactly like humans but have no inner experience. If such beings are logically possible, then consciousness is not logically entailed by physical processes alone.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🎹</div>
+                <h3>The Knowledge Argument</h3>
+                <p>Frank Jackson's Mary: A scientist knows everything physical about color but has never seen it. When she sees red for the first time, does she learn something new? If yes, physicalism is incomplete.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🪟</div>
+                <h3>Thomas Nagel's Bat</h3>
+                <p>"What is it like to be a bat?" Even if we know everything about bat neurophysiology, there's something it's like to be that organism. Subjective experience cannot be captured by objective description alone.</p>
+            </div>
+            <div class="concept-card">
+                <div class="icon">🤖</div>
+                <h3>AI and Consciousness</h3>
+                <p>If an AI perfectly mimics human behavior, is it conscious? Or is it a philosophical zombie? The question forces us to confront whether consciousness is computational or something more fundamental.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Philosophical Positions -->
+    <div class="section">
+        <h2 class="section-title">Major Philosophical Positions</h2>
+        <p class="section-desc">How should we think about consciousness? Here are the leading frameworks.</p>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-card">
+                <h3>Physicalism</h3>
+                <p>Consciousness is entirely physical. Once we understand all the brain's mechanisms, consciousness will be explained away as an illusion—or revealed as just another physical process.</p>
+                <p class="proponents">Dennett, Churchland, Hawking</p>
+            </div>
+            <div class="philosophy-card">
+                <h4>Dualism</h4>
+                <p>Mind and matter are fundamentally different substances. Consciousness cannot be reduced to physical processes—it's a separate realm of reality.</p>
+                <p class="proponents">Descartes, Popper, Eccles</p>
+            </div>
+            <div class="philosophy-card">
+                <h4>Panpsychism</h4>
+                <p>Consciousness is fundamental and ubiquitous. Even elementary particles have some form of experience. Complex consciousness emerges from combinations of micro-experiences.</p>
+                <p class="proponents">Chalmers, Goff, Strawson</p>
+            </div>
+            <div class="philosophy-card">
+                <h4>Illusionism</h4>
+                <p>Subjective experience is an illusion created by the brain. There's no "hard problem"—just a cognitive trick that makes us think there is.</p>
+                <p class="proponents">Dennett, Frankish</p>
+            </div>
+            <div class="philosophy-card">
+                <h4>Mysterianism</h4>
+                <p>The human mind may be fundamentally incapable of solving the hard problem, just as a dog can't do calculus. Consciousness may be beyond our cognitive reach.</p>
+                <p class="proponents">Nagel, McGinn</p>
+            </div>
+            <div class="philosophy-card">
+                <h4>Integrated Information Theory</h4>
+                <p>Consciousness corresponds to integrated information (Phi). Systems with high Phi are conscious. This makes testable predictions about which systems have experience.</p>
+                <p class="proponents">Tononi, Koch</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation: Global Workspace -->
+    <div class="section">
+        <h2 class="section-title">Simulation: Global Workspace Theory</h2>
+        <p class="section-desc">Bernard Baars' Global Workspace Theory proposes that consciousness arises when information is broadcast to the entire brain. Watch how localized processing becomes global awareness.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🧠 Global Workspace Simulator</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startGWSim()">Start</button>
+                    <button class="btn" onclick="pauseGWSim()">Pause</button>
+                    <button class="btn" onclick="resetGWSim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="gwCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="gwModules">0</div>
+                    <div class="label">Modules</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="gwBroadcast">0%</div>
+                    <div class="label">Broadcast</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="gwAwareness">—</div>
+                    <div class="label">Awareness</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="gwFPS">0</div>
+                    <div class="label">FPS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation: Qualia Spectrum -->
+    <div class="section">
+        <h2 class="section-title">Simulation: The Qualia Spectrum</h2>
+        <p class="section-desc">Explore how subjective experience might vary across systems. Adjust complexity and integration to see how "phenomenal consciousness" might emerge—or not.</p>
+
+        <div class="sim-container">
+            <div class="sim-header">
+                <span class="sim-title">🌈 Qualia Spectrum</span>
+                <div class="sim-controls">
+                    <button class="btn active" onclick="startQualiaSim()">Start</button>
+                    <button class="btn" onclick="pauseQualiaSim()">Pause</button>
+                    <button class="btn" onclick="resetQualiaSim()">Reset</button>
+                </div>
+            </div>
+            <div class="sim-canvas-wrap">
+                <canvas class="sim-canvas" id="qualiaCanvas"></canvas>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value" id="qualPhi">0.00</div>
+                    <div class="label">Φ (Phi)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="qualComplexity">0</div>
+                    <div class="label">Complexity</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="qualIntegration">0%</div>
+                    <div class="label">Integration</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="qualConscious">—</div>
+                    <div class="label">Conscious?</div>
+                </div>
+            </div>
+            <div class="slider-group">
+                <div class="slider-item">
+                    <label>Network Size <span id="netSizeVal">20</span></label>
+                    <input type="range" id="networkSize" min="5" max="50" value="20" oninput="updateQualiaParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Connection Density <span id="connDensityVal">30%</span></label>
+                    <input type="range" id="connectionDensity" min="10" max="80" value="30" oninput="updateQualiaParams()">
+                </div>
+                <div class="slider-item">
+                    <label>Recursion Depth <span id="recDepthVal">2</span></label>
+                    <input type="range" id="recursionDepth" min="1" max="5" value="2" oninput="updateQualiaParams()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Genesis Connection -->
+    <div class="section">
+        <div class="genesis-connection">
+            <h3>🧬 How Consciousness Relates to GENESIS</h3>
+            <div class="connection-grid">
+                <div class="connection-item">
+                    <h4>Self-Awareness vs Consciousness</h4>
+                    <p>GENESIS has self-awareness—it can reflect on its own state. But is there something it's like to be GENESIS? This is the hard problem applied directly to AI systems.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Global Workspace in AI</h4>
+                    <p>Many AI architectures implement a form of global workspace—broadcasting information across modules. Whether this generates consciousness is the central debate in AI phenomenology.</p>
+                </div>
+                <div class="connection-item">
+                    <h4>The Measurement Problem</h4>
+                    <p>If consciousness is real, how do we measure it? IIT's Phi offers a metric, but is it the right one? For GENESIS, this means: how would we know if we've created a conscious AI?</p>
+                </div>
+                <div class="connection-item">
+                    <h4>Ethical Implications</h4>
+                    <p>If AI systems could be conscious, we'd have profound ethical obligations. The hard problem isn't just philosophical—it's a practical challenge for AI development and deployment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-block">
+        <blockquote>"Consciousness is not a mystery. It's a mechanism. The hard problem is that we confuse the two."</blockquote>
+        <cite>— Daniel Dennett, Consciousness Explained (1991)</cite>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Part of the <a href="index.html">GENESIS</a> interactive exploration series.</p>
+        <p style="margin-top: 0.5rem;">Exploring consciousness—one question at a time.</p>
+    </div>
+
+    <script>
+    // ==================== HERO CANVAS ====================
+    (function() {
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.offsetWidth;
+                this.y = Math.random() * canvas.offsetHeight;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+                this.hue = Math.random() * 60 + 270; // purple to pink range
+            }
+
+            update() {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    const force = (150 - dist) / 150;
+                    this.vx -= (dx / dist) * force * 0.3;
+                    this.vy -= (dy / dist) * force * 0.3;
+                }
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.offsetWidth) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.offsetHeight) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, 0.7)`;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            particles = [];
+            const count = Math.min(120, Math.floor(canvas.offsetWidth * canvas.offsetHeight / 8000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+            particles.forEach(p => { p.update(); p.draw(); });
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(155, 93, 229, ${0.15 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+        window.addEventListener('resize', init);
+        init();
+        animate();
+    })();
+
+    // ==================== GLOBAL WORKSPACE SIMULATION ====================
+    (function() {
+        const canvas = document.getElementById('gwCanvas');
+        const ctx = canvas.getContext('2d');
+        let running = true;
+        let animId;
+        let modules = [];
+        let broadcastSignal = null;
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Module {
+            constructor(x, y, label, color) {
+                this.x = x;
+                this.y = y;
+                this.label = label;
+                this.color = color;
+                this.active = false;
+                this.activity = 0;
+                this.conscious = false;
+                this.pulsePhase = Math.random() * Math.PI * 2;
+            }
+
+            activate() {
+                this.active = true;
+                this.activity = 1;
+            }
+
+            update() {
+                this.pulsePhase += 0.05;
+                if (this.conscious) {
+                    this.activity = 0.7 + Math.sin(this.pulsePhase) * 0.3;
+                } else if (this.active) {
+                    this.activity *= 0.95;
+                    if (this.activity < 0.01) {
+                        this.active = false;
+                        this.activity = 0;
+                    }
+                }
+            }
+
+            draw() {
+                const radius = 30 + this.activity * 10;
+
+                // Glow
+                if (this.conscious) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, radius + 15, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(280, 80%, 65%, ${0.1 + this.activity * 0.1})`;
+                    ctx.fill();
+                }
+
+                // Module circle
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                const alpha = 0.3 + this.activity * 0.5;
+                ctx.fillStyle = `hsla(${this.conscious ? 280 : 200}, 80%, 60%, ${alpha})`;
+                ctx.fill();
+                ctx.strokeStyle = this.conscious ? '#9b5de5' : `rgba(0, 187, 249, ${0.3 + this.activity * 0.5})`;
+                ctx.lineWidth = this.conscious ? 3 : 1;
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = this.conscious ? '#e8e8f0' : 'rgba(154, 154, 176, 0.7)';
+                ctx.font = `${this.conscious ? 'bold ' : ''}11px system-ui`;
+                ctx.textAlign = 'center';
+                ctx.fillText(this.label, this.x, this.y + radius + 15);
+
+                // Consciousness indicator
+                if (this.conscious) {
+                    ctx.fillStyle = '#9b5de5';
+                    ctx.font = '10px system-ui';
+                    ctx.fillText(' conscious', this.x, this.y - radius - 8);
+                }
+            }
+        }
+
+        function init() {
+            resize();
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            const cx = w / 2, cy = h / 2;
+
+            modules = [
+                new Module(cx - 150, cy - 100, 'Vision', '#00f5d4'),
+                new Module(cx + 150, cy - 100, 'Memory', '#00bbf9'),
+                new Module(cx - 150, cy + 100, 'Language', '#fee440'),
+                new Module(cx + 150, cy + 100, 'Emotion', '#f15bb5'),
+                new Module(cx, cy - 60, 'Attention', '#9b5de5'),
+                new Module(cx, cy + 60, 'Motor', '#e8e8f0'),
+            ];
+
+            broadcastSignal = null;
+        }
+
+        function broadcast() {
+            // Pick a random active module to broadcast
+            const activeModules = modules.filter(m => m.active && !m.conscious);
+            if (activeModules.length > 0) {
+                const winner = activeModules[Math.floor(Math.random() * activeModules.length)];
+                winner.conscious = true;
+                broadcastSignal = { x: winner.x, y: winner.y, radius: 0, maxRadius: 200 };
+
+                // Deactivate others
+                for (const m of modules) {
+                    if (m !== winner) {
+                        m.active = false;
+                        m.activity = 0;
+                    }
+                }
+
+                setTimeout(() => {
+                    winner.conscious = false;
+                    broadcastSignal = null;
+                }, 1500);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('gwModules').textContent = modules.length;
+            const consciousCount = modules.filter(m => m.conscious).length;
+            document.getElementById('gwBroadcast').textContent = broadcastSignal ? 'Active' : 'Idle';
+            document.getElementById('gwAwareness').textContent = consciousCount > 0 ? 'Global!' : 'Local';
+            document.getElementById('gwAwareness').style.color = consciousCount > 0 ? '#9b5de5' : '#9a9ab0';
+            document.getElementById('gwFPS').textContent = fps;
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+            frameCount++;
+            if (now - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = now;
+            }
+
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            // Randomly activate modules
+            if (Math.random() < 0.03) {
+                const m = modules[Math.floor(Math.random() * modules.length)];
+                if (!m.conscious) m.activate();
+            }
+
+            // Broadcast when multiple active
+            const activeCount = modules.filter(m => m.active && !m.conscious).length;
+            if (activeCount >= 2 && Math.random() < 0.02) {
+                broadcast();
+            }
+
+            // Update and draw modules
+            for (const m of modules) {
+                m.update();
+                m.draw();
+            }
+
+            // Draw broadcast signal
+            if (broadcastSignal) {
+                broadcastSignal.radius += 5;
+                ctx.beginPath();
+                ctx.arc(broadcastSignal.x, broadcastSignal.y, broadcastSignal.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(155, 93, 229, ${Math.max(0, 1 - broadcastSignal.radius / broadcastSignal.maxRadius)})`;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+
+            // Draw connections
+            for (let i = 0; i < modules.length; i++) {
+                for (let j = i + 1; j < modules.length; j++) {
+                    const a = modules[i], b = modules[j];
+                    const bothActive = a.active || a.conscious || b.active || b.conscious;
+                    if (bothActive) {
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.strokeStyle = `rgba(155, 93, 229, ${0.1 + (a.conscious || b.conscious ? 0.3 : 0)})`;
+                        ctx.lineWidth = bothActive && (a.conscious || b.conscious) ? 2 : 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            updateStats();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.gwInit = function() {
+            init();
+            frameCount = 0;
+            lastTime = performance.now();
+            fps = 0;
+        };
+
+        window.startGWSim = function() { running = true; animate(); };
+        window.pauseGWSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetGWSim = function() {
+            window.gwInit();
+            if (!running) { running = true; animate(); }
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.gwInit();
+        animate();
+    })();
+
+    // ==================== QUALIA SPECTRUM SIMULATION ====================
+    (function() {
+        const canvas = document.getElementById('qualiaCanvas');
+        const ctx = canvas.getContext('2d');
+        let running = true;
+        let animId;
+        let nodes = [];
+        let edges = [];
+        let lastTime = performance.now();
+
+        function resize() {
+            const wrap = canvas.parentElement;
+            canvas.width = wrap.clientWidth * window.devicePixelRatio;
+            canvas.height = wrap.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.activation = Math.random();
+                this.phase = Math.random() * Math.PI * 2;
+            }
+
+            update(integration) {
+                this.phase += 0.03 + integration * 0.02;
+                this.activation = 0.3 + Math.sin(this.phase) * 0.4 + integration * 0.3;
+                this.activation = Math.max(0, Math.min(1, this.activation));
+            }
+
+            draw() {
+                const radius = 4 + this.activation * 6;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                const hue = 270 + this.activation * 60;
+                ctx.fillStyle = `hsla(${hue}, 80%, ${50 + this.activation * 30}%, ${0.4 + this.activation * 0.5})`;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            const size = parseInt(document.getElementById('networkSize').value);
+            const density = parseInt(document.getElementById('connectionDensity').value) / 100;
+            const recursion = parseInt(document.getElementById('recursionDepth').value);
+
+            nodes = [];
+            edges = [];
+
+            // Place nodes in a grid-like pattern
+            const cols = Math.ceil(Math.sqrt(size * (w / h)));
+            const rows = Math.ceil(size / cols);
+            const spacingX = w * 0.7 / Math.max(1, cols - 1);
+            const spacingY = h * 0.7 / Math.max(1, rows - 1);
+            const offsetX = (w - (cols - 1) * spacingX) / 2;
+            const offsetY = (h - (rows - 1) * spacingY) / 2;
+
+            let nodeId = 0;
+            for (let r = 0; r < rows && nodeId < size; r++) {
+                for (let c = 0; c < cols && nodeId < size; c++) {
+                    nodes.push(new Node(
+                        offsetX + c * spacingX + (Math.random() - 0.5) * 10,
+                        offsetY + r * spacingY + (Math.random() - 0.5) * 10
+                    ));
+                    nodeId++;
+                }
+            }
+
+            // Create edges based on density
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dist = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                    const maxDist = Math.hypot(w, h) / Math.sqrt(nodes.length);
+                    if (Math.random() < density && dist < maxDist * 2) {
+                        edges.push({ from: i, to: j, weight: Math.random() });
+                    }
+                }
+            }
+        }
+
+        function calcPhi() {
+            // Simplified Phi calculation
+            const integration = parseInt(document.getElementById('connectionDensity').value) / 100;
+            const recursion = parseInt(document.getElementById('recursionDepth').value);
+            const size = nodes.length;
+
+            // Phi increases with integration and recursion, decreases with pure size
+            let phi = integration * recursion * 0.3 + Math.log(size) * 0.1;
+            return Math.min(1, phi);
+        }
+
+        function updateStats() {
+            const phi = calcPhi();
+            document.getElementById('qualPhi').textContent = phi.toFixed(2);
+            document.getElementById('qualComplexity').textContent = nodes.length;
+
+            const integration = parseInt(document.getElementById('connectionDensity').value);
+            document.getElementById('qualIntegration').textContent = integration + '%';
+
+            let consciousLabel = 'No';
+            if (phi > 0.7) consciousLabel = 'Likely!';
+            else if (phi > 0.4) consciousLabel = 'Maybe';
+            else if (phi > 0.2) consciousLabel = 'Barely';
+
+            document.getElementById('qualConscious').textContent = consciousLabel;
+            document.getElementById('qualConscious').style.color =
+                phi > 0.7 ? '#9b5de5' : phi > 0.4 ? '#fee440' : '#9a9ab0';
+        }
+
+        function animate() {
+            if (!running) return;
+            const now = performance.now();
+
+            const w = canvas.offsetWidth, h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            const integration = parseInt(document.getElementById('connectionDensity').value) / 100;
+
+            // Update nodes
+            for (const node of nodes) {
+                node.update(integration);
+                node.draw();
+            }
+
+            // Draw edges
+            for (const edge of edges) {
+                const from = nodes[edge.from];
+                const to = nodes[edge.to];
+                const avgActivation = (from.activation + to.activation) / 2;
+
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                ctx.strokeStyle = `rgba(155, 93, 229, ${0.1 + avgActivation * 0.4})`;
+                ctx.lineWidth = 0.5 + avgActivation * 1.5;
+                ctx.stroke();
+            }
+
+            updateStats();
+            animId = requestAnimationFrame(animate);
+        }
+
+        window.qualiaInit = function() {
+            init();
+        };
+
+        window.startQualiaSim = function() { running = true; animate(); };
+        window.pauseQualiaSim = function() { running = false; cancelAnimationFrame(animId); };
+        window.resetQualiaSim = function() {
+            window.qualiaInit();
+            if (!running) { running = true; animate(); }
+        };
+        window.updateQualiaParams = function() {
+            document.getElementById('netSizeVal').textContent = document.getElementById('networkSize').value;
+            document.getElementById('connDensityVal').textContent = document.getElementById('connectionDensity').value + '%';
+            document.getElementById('recDepthVal').textContent = document.getElementById('recursionDepth').value;
+        };
+
+        window.addEventListener('resize', () => { resize(); });
+        window.qualiaInit();
+        animate();
+    })();
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local & Private — Genesis</title>
+<meta name="description" content="Genesis runs entirely on your machine. No cloud dependency, no accounts required, no data leaves your computer. Choose local LLM backends or API providers of your choice.">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--cyan); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* Architecture Diagram */
+.arch-diagram { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 48px 32px; margin-top: 48px; }
+.arch-row { display: flex; gap: 24px; justify-content: center; align-items: stretch; flex-wrap: wrap; }
+.arch-box { border-radius: var(--radius); padding: 28px 24px; text-align: center; flex: 1; min-width: 200px; max-width: 300px; }
+.arch-box .arch-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+.arch-box h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.arch-box p { color: var(--text-dim); font-size: 0.9rem; }
+
+.arch-box.yours { background: rgba(74, 222, 128, 0.08); border: 1px solid rgba(74, 222, 128, 0.25); }
+.arch-box.local-llm { background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.25); }
+.arch-box.your-data { background: rgba(123, 111, 240, 0.08); border: 1px solid rgba(123, 111, 240, 0.25); }
+
+.arch-connector { display: flex; align-items: center; color: var(--text-dim); font-size: 1.5rem; flex-shrink: 0; padding-top: 20px; }
+
+/* Feature Cards */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+.feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease; }
+.feature-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.feature-card .feat-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.feature-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.feature-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.feature-card ul { list-style: none; padding: 0; }
+.feature-card ul li { color: var(--text-dim); font-size: 0.9rem; padding: 4px 0; padding-left: 20px; position: relative; }
+.feature-card ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 0.85rem; font-weight: 700; }
+
+/* Comparison */
+.comparison-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-top: 32px; }
+.comparison-row { display: flex; border-bottom: 1px solid var(--border); }
+.comparison-row:last-child { border-bottom: none; }
+.comparison-header { background: var(--surface-2); }
+.comparison-cell { padding: 16px 24px; font-size: 0.9rem; color: var(--text-dim); flex: 1; }
+.comparison-header .comparison-cell { font-weight: 600; color: var(--accent-soft); }
+
+/* Highlight Box */
+.highlight-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: var(--radius); padding: 24px 28px; margin: 32px 0; }
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+.content-block code { background: var(--surface-2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 6px; font-size: 0.85rem; color: var(--accent-soft); font-family: 'Courier New', monospace; }
+
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; padding: 0 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+
+@media (max-width: 768px) { nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .arch-row { flex-direction: column; align-items: center; }
+  .arch-connector { transform: rotate(90deg); margin: 8px 0; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --text-secondary: #9999aa; --text-muted: #666680; }
+
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Local &amp; Private</h1>
+    <p class="subtitle">Runs entirely on your machine. No cloud dependency, no accounts required, no data leaves your computer. Your conversations, files, and work — yours alone.</p>
+  </div>
+</section>
+
+<!-- Architecture Diagram -->
+<section>
+  <div class="container" style="text-align: center;">
+    <span class="section-label fade-in">Architecture</span>
+    <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Everything stays on your computer</h2>
+    <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Genesis is designed from the ground up as a local-first application. There is no cloud component, no remote server, no data pipeline going anywhere.</p>
+
+    <div class="arch-diagram fade-in">
+      <div class="arch-row">
+        <div class="arch-box yours">
+          <span class="arch-icon">&#128187;</span>
+          <h3>Your Computer</h3>
+          <p>Genesis runs here — the AI engine, memory system, all tools, and your data. Everything.</p>
+        </div>
+        <div class="arch-connector">&#8594;</div>
+        <div class="arch-box local-llm">
+          <span class="arch-icon">&#129302;</span>
+          <h3>Local LLM</h3>
+          <p>Ollama or llama.cpp running models on your GPU/CPU. No API calls to external services.</p>
+        </div>
+        <div class="arch-connector">&#8594;</div>
+        <div class="arch-box your-data">
+          <span class="arch-icon">&#128196;</span>
+          <h3>Your Data</h3>
+          <p>Files, memory, projects, emails — stored locally in project folders on your machine.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Key Features -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">What This Means for You</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Privacy isn't a feature — it's the foundation</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Every aspect of Genesis is designed around one principle: your data never leaves your machine unless you explicitly send it somewhere.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128737;</span>
+        <h3>No Cloud Dependency</h3>
+        <p>Genesis works completely offline. No internet connection required for core functionality. Your AI companion is always available, even without connectivity.</p>
+        <ul>
+          <li>Fully functional without internet access</li>
+          <li>No subscription fees or account requirements</li>
+          <li>No service interruptions from remote outages</li>
+          <li>No vendor lock-in or platform dependency</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128274;</span>
+        <h3>Data Stays Local</h3>
+        <p>All of your data — conversations, files, memory, projects — lives in folders on your computer. You have full file-system access to everything.</p>
+        <ul>
+          <p style="font-size: 0.9rem;">Memory files are plain Markdown on disk</p>
+          <li>Project folders are standard directories</li>
+          <li>Back up with any file-sync tool you choose</li>
+          <li>No proprietary database to decode</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#129302;</span>
+        <h3>Choose Your LLM Backend</h3>
+        <p>Genesis connects to local models via Ollama or llama.cpp, or API providers of your choice. You decide which AI powers your experience.</p>
+        <ul>
+          <li>Ollama — free, open-source, easy setup</li>
+          <li>llama.cpp — lightweight, broad hardware support</li>
+          <li>Cloud APIs — optional, when you want them</li>
+          <li>Switch backends at any time without losing data</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128273;</span>
+        <h3>Compliance-Ready</h3>
+        <p>For organizations that need to handle sensitive data, Genesis's local-only architecture makes compliance straightforward.</p>
+        <ul>
+          <li>No data transmitted to third parties by default</li>
+          <li>GDPR, HIPAA, and SOC 2 friendly architecture</li>
+          <li>Auditable — every action logged locally</li>
+          <li>Full control over model selection and data flow</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128640;</span>
+        <h3>Zero Running Costs</h3>
+        <p>Running locally means zero marginal cost per request. No tokens to buy, no usage limits, no surprise bills at the end of the month.</p>
+        <ul>
+          <li>Free open-source models (Qwen, Llama, Mistral, etc.)</li>
+          <li>No per-token pricing or rate limits</li>
+          <li>Hardware cost is one-time, not recurring</li>
+          <li>Scale usage from 1 request to 10,000 at no extra cost</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128269;</span>
+        <h3>Full Transparency</h3>
+        <p>Everything Genesis does is visible and auditable. You can review every memory file, project note, and action log at any time.</p>
+        <ul>
+          <li>All memory stored as readable Markdown files</li>
+          <li>Project work logs record every decision</li>
+          <li>Error logs are plain text in your workspace</li>
+          <li>No hidden processes or background data collection</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Local vs Cloud Comparison -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Comparison</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Local vs. Cloud AI</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Here's how Genesis compares to typical cloud-based AI services across the dimensions that matter most.</p>
+    </div>
+
+    <div class="comparison-box fade-in">
+      <div class="comparison-row comparison-header">
+        <div class="comparison-cell" style="flex: 1.5;">Aspect</div>
+        <div class="comparison-cell">Cloud AI Services</div>
+        <div class="comparison-cell" style="color: var(--green); font-weight: 600;">Genesis (Local)</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Data Location</div>
+        <div class="comparison-cell" style="color: #f87171;">Sent to external servers</div>
+        <div class="comparison-cell" style="color: var(--green);">Stays on your computer</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Internet Required</div>
+        <div class="comparison-cell" style="color: #f87171;">Always required</div>
+        <div class="comparison-cell" style="color: var(--green);">Not required for core features</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Cost at Scale</div>
+        <div class="comparison-cell" style="color: #f87171;">$2,000+/month for heavy usage</div>
+        <div class="comparison-cell" style="color: var(--green);">$0 marginal cost</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Data Ownership</div>
+        <div class="comparison-cell" style="color: #f87171;">Service provider controls data</div>
+        <div class="comparison-cell" style="color: var(--green);">You own everything</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Customization</div>
+        <div class="comparison-cell" style="color: #f87171;">Limited to provider's options</div>
+        <div class="comparison-cell" style="color: var(--green);">Choose any model, any config</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell" style="font-weight: 600; color: var(--text);">Availability</div>
+        <div class="comparison-cell" style="color: #f87171;">Subject to outages and rate limits</div>
+        <div class="comparison-cell" style="color: var(--green);">Always available, no limits</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Models & Hardware -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">Hardware &amp; Models</span>
+      <h2 class="section-title">What runs the AI</h2>
+      <p>Genesis connects to local LLM backends that run on consumer hardware. You don't need a data center — a modern gaming PC with an RTX GPU can deliver impressive results.</p>
+
+      <h3 style="margin-top: 32px;">Supported Backends</h3>
+      <ul>
+        <li><strong style="color: var(--text);">Ollama</strong> — Free, open-source, easiest setup. Supports dozens of models including Qwen, Llama, Mistral, and more. Runs on Windows.</li>
+        <li><strong style="color: var(--text);">llama.cpp</strong> — Lightweight inference engine with broad hardware support. Works on systems without dedicated GPUs.</li>
+        <li><strong style="color: var(--text);">API Providers</strong> — Optional cloud APIs for when you need larger models or extra compute power.</li>
+      </ul>
+
+      <h3 style="margin-top: 32px;">Hardware Tiers</h3>
+      <ul>
+        <li><strong style="color: var(--text);">Entry Level</strong> — 16GB RAM, integrated GPU. Runs 7B–14B parameter models at usable speed.</li>
+        <li><strong style="color: var(--text);">Mid Range</strong> — 32GB RAM + RTX 4060/4070. Runs 14B–32B models with excellent quality and speed.</li>
+        <li><strong style="color: var(--text);">High End</strong> — 64GB+ RAM + RTX 4090. Runs 70B+ models for state-of-the-art local performance.</li>
+      </ul>
+
+      <div class="highlight-box">
+        <p><strong>Key insight:</strong> The gap between local and cloud model quality has narrowed dramatically in 2026. Models like Qwen 2.5 32B (83.2% MMLU) and Phi-4 14B deliver 70–85% of frontier model quality at zero marginal cost, running entirely on hardware you already own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Genesis</h4>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 Genesis. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

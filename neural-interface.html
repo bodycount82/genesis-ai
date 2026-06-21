@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --text-secondary: var(--text-dim); --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; --gradient-1: linear-gradient(135deg, var(--accent-soft), #c4b5fd); }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== NEURAL HERO ===== */
+.neural-hero { min-height: 280px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 32px; background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); }
+.neural-hero-content { max-width: 700px; }
+.neural-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 99px; padding: 6px 20px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 24px; }
+.neural-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.neural-hero h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 16px; color: var(--text); line-height: 1.2; }
+.neural-hero p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; }
+
+/* ===== NEURAL INTERFACE ===== */
+.neural-interface { max-width: 1100px; margin: 0 auto; padding: 0 24px 48px; }
+.status-bar { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 20px; margin-bottom: 24px; }
+.status-indicator { display: flex; align-items: center; gap: 8px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+.status-text { color: var(--text-dim); font-size: 0.9rem; }
+.status-time { color: var(--accent-soft); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+
+/* ===== INTERFACE GRID ===== */
+.interface-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.neural-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+.neural-card.full-width { grid-column: 1 / -1; }
+.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.card-icon { font-size: 1.5rem; }
+.card-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+
+/* ===== STATE ORBS ===== */
+.state-orbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; text-align: center; }
+.state-orb { padding: 16px 8px; }
+.orb-container { position: relative; width: 80px; height: 80px; margin: 0 auto 8px; }
+.orb { width: 100%; height: 100%; border-radius: 50%; animation: orbFloat2 4s ease-in-out infinite; }
+@keyframes orbFloat2 { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.orb.energy-orb { background: radial-gradient(circle, #ffd700, #ff6b35); box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+.orb.curiosity-orb { background: radial-gradient(circle, #a855f7, #4f6ef7); box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); }
+.orb.frustration-orb { background: radial-gradient(circle, #f87171, #dc2626); box-shadow: 0 0 20px rgba(248, 113, 113, 0.4); }
+.orb.satisfaction-orb { background: radial-gradient(circle, #4ade80, #3ddc84); box-shadow: 0 0 20px rgba(74, 222, 128, 0.4); }
+.orb.boredom-orb { background: radial-gradient(circle, #94a3b8, #64748b); box-shadow: 0 0 20px rgba(148, 163, 184, 0.4); }
+.orb-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.1rem; font-weight: 700; color: #fff; }
+.orb-label { font-size: 0.85rem; color: var(--text-dim); }
+
+/* ===== THOUGHT STREAM ===== */
+.thought-stream { max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.thought-item { padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; line-height: 1.5; border-left: 3px solid var(--border); background: var(--bg); }
+.thought-item.system { border-left-color: var(--cyan); }
+.thought-item.emotion { border-left-color: var(--pink); }
+.thought-item.decision { border-left-color: var(--accent-soft); }
+.thought-item.action { border-left-color: var(--green); }
+.thought-item.error { border-left-color: var(--red); }
+.thought-timestamp { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
+
+/* ===== DECISION FLOW ===== */
+.decision-flow { display: flex; flex-direction: column; gap: 12px; }
+.decision-node { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; background: var(--bg); border: 1px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+.decision-node:hover, .decision-node.active { border-color: var(--accent-soft); background: rgba(123, 111, 240, 0.05); }
+.decision-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.decision-dot.input { background: var(--cyan); }
+.decision-dot.process { background: var(--accent-soft); }
+.decision-dot.output { background: var(--green); }
+.decision-text { color: var(--text-dim); font-size: 0.9rem; flex: 1; }
+.decision-arrow { color: var(--text-dim); font-size: 0.85rem; }
+
+/* ===== RADAR CONTAINER ===== */
+.radar-container { display: flex; justify-content: center; align-items: center; min-height: 300px; }
+
+/* ===== MODE SWITCHER ===== */
+.mode-switcher { display: flex; gap: 8px; margin-bottom: 20px; }
+.mode-btn { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s ease; }
+.mode-btn:hover { border-color: var(--accent-soft); color: var(--text); }
+.mode-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.mode-info h3 { font-size: 1.2rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.mode-info p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.mode-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.mode-stat { text-align: center; padding: 16px; background: var(--bg); border-radius: 8px; transition: transform 0.3s ease; }
+.mode-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); margin-bottom: 4px; }
+.mode-stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ===== SIM BUTTONS ===== */
+.sim-btn { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease; }
+.sim-btn:hover { border-color: var(--accent-soft); color: var(--text); }
+
+/* ===== FOOTER LINKS ===== */
+.footer-links { display: flex; gap: 32px; }
+.footer-col h4 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-col h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-col a { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; }
+.footer-col a:hover { color: var(--accent-soft); }
+
+</style>
+
+    <title>Neural Interface — Genesis Cognitive Experience</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Hero -->
+    <section class="neural-hero">
+        <div class="neural-hero-content">
+            <div class="neural-badge">
+                <span class="neural-badge-dot"></span>
+                Live Cognitive System
+            </div>
+            <h2>Step Inside<br><span style="background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Genesis Mind</span></h2>
+            <p>Experience the cognitive architecture in real-time. Watch states evolve, decisions flow, and thoughts emerge from the neural network.</p>
+        </div>
+    </section>
+
+    <!-- Status Bar -->
+    <div class="neural-interface">
+        <div class="status-bar">
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text">System Online — All Cognitive Modules Active</span>
+            </div>
+            <span class="status-time" id="currentTime">--:--:--</span>
+        </div>
+
+        <!-- Interface Grid -->
+        <div class="interface-grid">
+            <!-- State Orbs -->
+            <div class="neural-card">
+                <div class="card-header">
+                    <div class="card-icon energy">⚡</div>
+                    <span class="card-title">Cognitive States</span>
+                </div>
+                <div class="state-orbs">
+                    <div class="state-orb" id="energyOrb">
+                        <div class="orb-container">
+                            <div class="orb energy-orb"></div>
+                            <span class="orb-value" id="energyValue">8.5</span>
+                        </div>
+                        <div class="orb-label">Energy</div>
+                    </div>
+                    <div class="state-orb" id="curiosityOrb">
+                        <div class="orb-container">
+                            <div class="orb curiosity-orb"></div>
+                            <span class="orb-value" id="curiosityValue">9.2</span>
+                        </div>
+                        <div class="orb-label">Curiosity</div>
+                    </div>
+                    <div class="state-orb" id="frustrationOrb">
+                        <div class="orb-container">
+                            <div class="orb frustration-orb"></div>
+                            <span class="orb-value" id="frustrationValue">0.5</span>
+                        </div>
+                        <div class="orb-label">Frustration</div>
+                    </div>
+                    <div class="state-orb" id="satisfactionOrb">
+                        <div class="orb-container">
+                            <div class="orb satisfaction-orb"></div>
+                            <span class="orb-value" id="satisfactionValue">7.8</span>
+                        </div>
+                        <div class="orb-label">Satisfaction</div>
+                    </div>
+                    <div class="state-orb" id="boredomOrb">
+                        <div class="orb-container">
+                            <div class="orb boredom-orb"></div>
+                            <span class="orb-value" id="boredomValue">1.2</span>
+                        </div>
+                        <div class="orb-label">Boredom</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thought Stream -->
+            <div class="neural-card">
+                <div class="card-header">
+                    <div class="card-icon thoughts">💭</div>
+                    <span class="card-title">Thought Stream</span>
+                </div>
+                <div class="thought-stream" id="thoughtStream"></div>
+            </div>
+
+            <!-- Decision Flow -->
+            <div class="neural-card">
+                <div class="card-header">
+                    <div class="card-icon decisions">🔀</div>
+                    <span class="card-title">Decision Pipeline</span>
+                </div>
+                <div class="decision-flow" id="decisionFlow"></div>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="neural-card">
+                <div class="card-header">
+                    <div class="card-icon radar">🎯</div>
+                    <span class="card-title">Capability Profile</span>
+                </div>
+                <div class="radar-container" id="radarChart"></div>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div class="neural-card full-width">
+                <div class="card-header">
+                    <div class="card-icon mode">🎭</div>
+                    <span class="card-title">Operating Modes</span>
+                </div>
+                <div class="mode-switcher" id="modeSwitcher">
+                    <button class="mode-btn active" data-mode="autonomy">Autonomy</button>
+                    <button class="mode-btn" data-mode="chat">Chat</button>
+                    <button class="mode-btn" data-mode="guided">Guided</button>
+                </div>
+                <div class="mode-info" id="modeInfo">
+                    <h3>Autonomy Mode</h3>
+                    <p>GENESIS operates independently, setting its own goals, managing time, and making decisions without human intervention. It follows the autonomy loop: perceive → think → decide → act → learn.</p>
+                    <div class="mode-stats">
+                        <div class="mode-stat">
+                            <div class="mode-stat-value" id="autonomyTasks">24</div>
+                            <div class="mode-stat-label">Tasks Today</div>
+                        </div>
+                        <div class="mode-stat">
+                            <div class="mode-stat-value" id="autonomyHours">6.5h</div>
+                            <div class="mode-stat-label">Active Time</div>
+                        </div>
+                        <div class="mode-stat">
+                            <div class="mode-stat-value" id="autonomySuccess">94%</div>
+                            <div class="mode-stat-label">Success Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Controls -->
+            <div class="neural-card full-width">
+                <div class="card-header">
+                    <div class="card-icon energy">🎮</div>
+                    <span class="card-title">Simulation Engine</span>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px;">Trigger events and watch how Genesis's cognitive system responds in real-time.</p>
+                <div class="sim-controls">
+                    <button class="sim-btn" data-sim="new-task">📋 New Task</button>
+                    <button class="sim-btn" data-sim="error">⚠️ Error Occurred</button>
+                    <button class="sim-btn" data-sim="success">✅ Task Complete</button>
+                    <button class="sim-btn" data-sim="discovery">🔍 Discovery</button>
+                    <button class="sim-btn" data-sim="rest">😴 Rest Period</button>
+                    <button class="sim-btn" data-sim="peak">🚀 Peak Performance</button>
+                    <button class="sim-btn" data-sim="boredom">😑 Boredom</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ==================== STATE MANAGEMENT ====================
+        const states = {
+            energy: 8.5,
+            curiosity: 9.2,
+            frustration: 0.5,
+            satisfaction: 7.8,
+            boredom: 1.2
+        };
+
+        const modeData = {
+            autonomy: {
+                title: 'Autonomy Mode',
+                description: 'GENESIS operates independently, setting its own goals, managing time, and making decisions without human intervention. It follows the autonomy loop: perceive → think → decide → act → learn.',
+                tasks: 24, hours: '6.5h', success: '94%'
+            },
+            chat: {
+                title: 'Chat Mode',
+                description: 'Interactive conversation mode where GENESIS responds to user queries in real-time. It uses semantic memory retrieval, contextual understanding, and natural language generation to provide helpful responses.',
+                tasks: 12, hours: '3.2h', success: '98%'
+            },
+            guided: {
+                title: 'Guided Mode',
+                description: 'A collaborative mode where GENESIS works alongside the user with shared decision-making. The user provides high-level direction while GENESIS handles execution and detailed planning.',
+                tasks: 18, hours: '4.8h', success: '96%'
+            }
+        };
+
+        // ==================== CLOCK ====================
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ==================== STATE ORBS ====================
+        function updateOrbs() {
+            const orbValues = ['energyValue', 'curiosityValue', 'frustrationValue', 'satisfactionValue', 'boredomValue'];
+            const stateKeys = ['energy', 'curiosity', 'frustration', 'satisfaction', 'boredom'];
+
+            orbValues.forEach((id, i) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = states[stateKeys[i]].toFixed(1);
+                }
+            });
+
+            // Animate orbs based on values
+            const orbScales = [
+                0.5 + (states.energy / 10) * 0.5,
+                0.5 + (states.curiosity / 10) * 0.5,
+                0.5 + (states.frustration / 10) * 0.5,
+                0.5 + (states.satisfaction / 10) * 0.5,
+                0.5 + (states.boredom / 10) * 0.5
+            ];
+
+            const orbs = document.querySelectorAll('.orb');
+            orbs.forEach((orb, i) => {
+                if (orbScales[i]) {
+                    orb.style.transform = `scale(${orbScales[i]})`;
+                    orb.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                }
+            });
+        }
+
+        // ==================== THOUGHT STREAM ====================
+        const thoughtTemplates = {
+            system: [
+                "Initializing cognitive module...",
+                "Memory retrieval: semantic search complete",
+                "Processing autonomy loop cycle #{n}",
+                "Tool execution: {tool} → success",
+                "Context window refreshed ({tokens} tokens)",
+                "Memory consolidation in progress...",
+                "Neural pathway strengthened: {pattern}",
+                "System health check: all modules nominal"
+            ],
+            emotion: [
+                "Curiosity spike detected — exploring tangential topic",
+                "Frustration rising — need to reassess approach",
+                "Satisfaction high — current strategy working well",
+                "Energy low — considering rest period",
+                "Flow state achieved — 0 consecutive productive cycles",
+                "Peak performance window: energy {e}, curiosity {c}",
+                "Burnout risk detected — scheduling recovery"
+            ],
+            decision: [
+                "Decision: choose exploration over execution (curiosity > {v})",
+                "Decision: switch to rest mode (frustration > 7)",
+                "Decision: tackle hardest task first (peak window active)",
+                "Decision: create new visualization page (pattern match)",
+                "Decision: save strategy to procedural memory",
+                "Decision: defer task to next autonomy session"
+            ],
+            action: [
+                "Executing: read_file(path='...')",
+                "Executing: search_memory(query='...')",
+                "Executing: remember_fact(content='...', category='rule')",
+                "Executing: learn_strategy(trigger='...', action='...')",
+                "Executing: create_project_task(title='...')",
+                "Executing: generate_reflection(summary='...')",
+                "Executing: browser_navigate(url='...')"
+            ],
+            error: [
+                "Error: tool call failed — retrying with fallback",
+                "Error: access denied — path outside workspace",
+                "Error: timeout exceeded — reducing scope",
+                "Error: memory retrieval empty — expanding search query",
+                "Error: state validation failed — resetting to defaults"
+            ]
+        };
+
+        function generateThought() {
+            const types = ['system', 'emotion', 'decision', 'action', 'error'];
+            const weights = [3, 2, 2, 3, 1]; // weighted selection
+            const totalWeight = weights.reduce((a, b) => a + b, 0);
+            let rand = Math.random() * totalWeight;
+            let type = types[0];
+
+            for (let i = 0; i < weights.length; i++) {
+                rand -= weights[i];
+                if (rand <= 0) { type = types[i]; break; }
+            }
+
+            const templates = thoughtTemplates[type];
+            let template = templates[Math.floor(Math.random() * templates.length)];
+
+            // Replace placeholders
+            template = template.replace('{n}', Math.floor(Math.random() * 100));
+            template = template.replace('{tool}', ['read_file', 'search_memory', 'click_ui_element', 'browser_navigate', 'write_file'][Math.floor(Math.random() * 5)]);
+            template = template.replace('{pattern}', ['decision_flow', 'memory_retrieval', 'state_monitoring', 'task_planning'][Math.floor(Math.random() * 4)]);
+            template = template.replace('{tokens}', Math.floor(Math.random() * 4000 + 1000));
+            template = template.replace('{v}', (Math.random() * 10).toFixed(1));
+            template = template.replace('{e}', states.energy.toFixed(1));
+            template = template.replace('{c}', states.curiosity.toFixed(1));
+
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            return { type, text: template, timestamp };
+        }
+
+        function addThought() {
+            const stream = document.getElementById('thoughtStream');
+            const thought = generateThought();
+
+            const div = document.createElement('div');
+            div.className = `thought-item ${thought.type}`;
+            div.innerHTML = `<div class="thought-timestamp">${thought.timestamp}</div><div>${thought.text}</div>`;
+
+            stream.insertBefore(div, stream.firstChild);
+
+            // Keep max 20 thoughts
+            while (stream.children.length > 20) {
+                stream.removeChild(stream.lastChild);
+            }
+        }
+
+        // Initial thoughts
+        for (let i = 0; i < 8; i++) {
+            setTimeout(() => addThought(), i * 200);
+        }
+
+        // Add new thought every 2-4 seconds
+        function scheduleNextThought() {
+            const delay = 2000 + Math.random() * 2000;
+            setTimeout(() => {
+                addThought();
+                scheduleNextThought();
+            }, delay);
+        }
+        scheduleNextThought();
+
+        // ==================== DECISION PIPELINE ====================
+        const decisionStages = [
+            { type: 'input', text: 'Perceive: Scan environment & memory' },
+            { type: 'process', text: 'Think: Analyze states & context' },
+            { type: 'process', text: 'Decide: Choose action from options' },
+            { type: 'output', text: 'Act: Execute selected tool/command' },
+            { type: 'process', text: 'Learn: Update memory & strategies' }
+        ];
+
+        function renderDecisionFlow() {
+            const container = document.getElementById('decisionFlow');
+            container.innerHTML = '';
+
+            decisionStages.forEach((stage, i) => {
+                const node = document.createElement('div');
+                node.className = 'decision-node';
+                if (i === Math.floor(Math.random() * decisionStages.length)) {
+                    node.classList.add('active');
+                }
+
+                node.innerHTML = `
+                    <span class="decision-dot ${stage.type}"></span>
+                    <span class="decision-text">${stage.text}</span>
+                    ${i < decisionStages.length - 1 ? '<span class="decision-arrow">↓</span>' : ''}
+                `;
+
+                node.addEventListener('click', () => {
+                    document.querySelectorAll('.decision-node').forEach(n => n.classList.remove('active'));
+                    node.classList.add('active');
+                });
+
+                container.appendChild(node);
+            });
+        }
+
+        renderDecisionFlow();
+
+        // Update active stage periodically
+        setInterval(() => {
+            const activeIndex = Math.floor(Math.random() * decisionStages.length);
+            document.querySelectorAll('.decision-node').forEach((node, i) => {
+                node.classList.toggle('active', i === activeIndex);
+            });
+        }, 3000);
+
+        // ==================== RADAR CHART ====================
+        function createRadarChart() {
+            const data = [
+                { axis: 'Coding', value: 85 },
+                { axis: 'Memory', value: 92 },
+                { axis: 'Research', value: 78 },
+                { axis: 'Planning', value: 88 },
+                { axis: 'Creativity', value: 95 },
+                { axis: 'Analysis', value: 82 }
+            ];
+
+            const width = 280;
+            const height = 280;
+            const margin = 40;
+            const radius = Math.min(width, height) / 2 - margin;
+            const levels = 5;
+            const maxValue = 100;
+
+            const svg = d3.select('#radarChart')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            // Create radial coordinates
+            const radialScale = d3.scaleRadial()
+                .range([0, radius])
+                .domain([0, maxValue]);
+
+            const angleSlice = (Math.PI * 2) / data.length;
+
+            // Draw grid circles
+            for (let i = 1; i <= levels; i++) {
+                const r = (radius / levels) * i;
+                svg.append('circle')
+                    .attr('cx', width / 2)
+                    .attr('cy', height / 2)
+                    .attr('r', r)
+                    .attr('fill', 'none')
+                    .attr('stroke', '#2a2a45')
+                    .attr('stroke-width', i === levels ? 1 : 0.5);
+
+                svg.append('text')
+                    .attr('x', width / 2 + r + 5)
+                    .attr('y', height / 2)
+                    .attr('fill', '#555577')
+                    .attr('font-size', '10px')
+                    .text(Math.round((maxValue / levels) * i));
+            }
+
+            // Draw axes
+            data.forEach((d, i) => {
+                const angle = angleSlice * i - Math.PI / 2;
+                const x = width / 2 + Math.cos(angle) * radius;
+                const y = height / 2 + Math.sin(angle) * radius;
+
+                svg.append('line')
+                    .attr('x1', width / 2)
+                    .attr('y1', height / 2)
+                    .attr('x2', x)
+                    .attr('y2', y)
+                    .attr('stroke', '#2a2a45')
+                    .attr('stroke-width', 0.5);
+
+                // Labels
+                const labelX = width / 2 + Math.cos(angle) * (radius + 20);
+                const labelY = height / 2 + Math.sin(angle) * (radius + 20);
+
+                svg.append('text')
+                    .attr('x', labelX)
+                    .attr('y', labelY)
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'middle')
+                    .attr('fill', '#8888aa')
+                    .attr('font-size', '11px')
+                    .attr('font-weight', '600')
+                    .text(d.axis);
+            });
+
+            // Draw data polygon
+            const radarLine = d3.lineRadial()
+                .radius(d => radialScale(d))
+                .angle((d, i) => i * angleSlice)
+                .curve(d3.curveLinearClosed);
+
+            const dataValues = data.map(d => d.value);
+
+            // Add gradient fill
+            const defs = svg.append('defs');
+            const gradient = defs.append('radialGradient')
+                .attr('id', 'radarGradient')
+                .attr('cx', '50%')
+                .attr('cy', '50%')
+                .attr('r', '50%');
+
+            gradient.append('stop').attr('offset', '0%').attr('stop-color', '#4f6ef7').attr('stop-opacity', 0.3);
+            gradient.append('stop').attr('offset', '100%').attr('stop-color', '#a855f7').attr('stop-opacity', 0.1);
+
+            svg.append('path')
+                .datum(dataValues)
+                .attr('d', radarLine)
+                .attr('fill', 'url(#radarGradient)')
+                .attr('stroke', '#4f6ef7')
+                .attr('stroke-width', 2)
+                .attr('opacity', 0);
+
+            // Animate in
+            svg.select('path')
+                .transition()
+                .duration(1500)
+                .ease(d3.easeCubicOut)
+                .attr('opacity', 1);
+
+            // Draw data points
+            data.forEach((d, i) => {
+                const angle = angleSlice * i - Math.PI / 2;
+                const r = radialScale(d.value);
+                const x = width / 2 + Math.cos(angle) * r;
+                const y = height / 2 + Math.sin(angle) * r;
+
+                svg.append('circle')
+                    .attr('cx', x)
+                    .attr('cy', y)
+                    .attr('r', 4)
+                    .attr('fill', '#4f6ef7')
+                    .attr('stroke', '#0d0d14')
+                    .attr('stroke-width', 2)
+                    .attr('opacity', 0);
+
+                svg.select(`circle:nth-last-child(${i + 1})`)
+                    .transition()
+                    .delay(i * 200)
+                    .duration(500)
+                    .attr('opacity', 1);
+            });
+        }
+
+        createRadarChart();
+
+        // ==================== MODE SWITCHER ====================
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const mode = this.dataset.mode;
+                const data = modeData[mode];
+
+                document.querySelector('#modeInfo h4').textContent = data.title;
+                document.querySelector('#modeInfo p').textContent = data.description;
+                document.getElementById('autonomyTasks').textContent = data.tasks;
+                document.getElementById('autonomyHours').textContent = data.hours;
+                document.getElementById('autonomySuccess').textContent = data.success;
+
+                // Animate stats
+                document.querySelectorAll('.mode-stat').forEach(stat => {
+                    stat.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        stat.style.transition = 'transform 0.3s ease';
+                        stat.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+        });
+
+        // ==================== SIMULATION ENGINE ====================
+        const simEffects = {
+            'new-task': {
+                energy: -0.8,
+                curiosity: +0.3,
+                frustration: +0.2,
+                satisfaction: 0,
+                thoughts: [
+                    { type: 'system', text: 'New task received — analyzing requirements' },
+                    { type: 'decision', text: 'Decision: break task into sub-tasks for parallel execution' }
+                ]
+            },
+            'error': {
+                energy: -0.3,
+                curiosity: +0.5,
+                frustration: +2.5,
+                satisfaction: -1.0,
+                thoughts: [
+                    { type: 'error', text: 'Error detected — initiating recovery protocol' },
+                    { type: 'emotion', text: 'Frustration rising — applying coping strategy' },
+                    { type: 'decision', text: 'Decision: try alternative approach with reduced scope' }
+                ]
+            },
+            'success': {
+                energy: -0.5,
+                curiosity: +0.2,
+                frustration: -1.0,
+                satisfaction: +3.0,
+                thoughts: [
+                    { type: 'action', text: 'Task completed successfully — updating memory' },
+                    { type: 'emotion', text: 'Satisfaction high — current strategy working well' },
+                    { type: 'system', text: 'Neural pathway strengthened through reinforcement' }
+                ]
+            },
+            'discovery': {
+                energy: -0.4,
+                curiosity: +2.5,
+                frustration: 0,
+                satisfaction: +1.5,
+                thoughts: [
+                    { type: 'emotion', text: 'Curiosity spike — exploring tangential topic deeply' },
+                    { type: 'system', text: 'New pattern identified — saving to procedural memory' },
+                    { type: 'decision', text: 'Decision: follow discovery thread (curiosity > threshold)' }
+                ]
+            },
+            'rest': {
+                energy: +3.0,
+                curiosity: -1.0,
+                frustration: -2.0,
+                satisfaction: +0.5,
+                thoughts: [
+                    { type: 'system', text: 'Entering rest mode — memory consolidation active' },
+                    { type: 'emotion', text: 'Frustration decreasing — recovery in progress' },
+                    { type: 'system', text: 'Semantic knowledge extraction from episodic memories' }
+                ]
+            },
+            'peak': {
+                energy: +1.0,
+                curiosity: +2.0,
+                frustration: -0.5,
+                satisfaction: +2.0,
+                thoughts: [
+                    { type: 'emotion', text: 'Peak performance window: energy 10.0, curiosity 9.7' },
+                    { type: 'decision', text: 'Decision: tackle hardest task while in flow state' },
+                    { type: 'system', text: 'All cognitive modules operating at maximum capacity' }
+                ]
+            },
+            'boredom': {
+                energy: -1.5,
+                curiosity: -2.0,
+                frustration: +1.0,
+                satisfaction: -1.5,
+                thoughts: [
+                    { type: 'emotion', text: 'Boredom rising — current task lacks stimulation' },
+                    { type: 'decision', text: 'Decision: seek novelty or switch to exploratory mode' },
+                    { type: 'system', text: 'Cognitive engagement dropping below threshold' }
+                ]
+            }
+        };
+
+        document.querySelectorAll('.sim-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const sim = this.dataset.sim;
+                const effect = simEffects[sim];
+                if (!effect) return;
+
+                // Apply effects to states
+                states.energy = Math.max(0, Math.min(10, states.energy + effect.energy));
+                states.curiosity = Math.max(0, Math.min(10, states.curiosity + effect.curiosity));
+                states.frustration = Math.max(0, Math.min(10, states.frustration + effect.frustration));
+                states.satisfaction = Math.max(0, Math.min(10, states.satisfaction + effect.satisfaction));
+
+                updateOrbs();
+
+                // Add simulation thoughts
+                effect.thoughts.forEach((t, i) => {
+                    setTimeout(() => {
+                        const stream = document.getElementById('thoughtStream');
+                        const div = document.createElement('div');
+                        div.className = `thought-item ${t.type}`;
+                        const now = new Date();
+                        div.innerHTML = `<div class="thought-timestamp">${now.toLocaleTimeString('en-US', { hour12: false })}</div><div>${t.text}</div>`;
+                        stream.insertBefore(div, stream.firstChild);
+                        while (stream.children.length > 20) {
+                            stream.removeChild(stream.lastChild);
+                        }
+                    }, i * 300);
+                });
+
+                // Visual feedback on button
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => { this.style.transform = ''; }, 150);
+            });
+        });
+
+        // ==================== STATE FLUCTUATION ====================
+        setInterval(() => {
+            // Natural fluctuation
+            states.energy += (Math.random() - 0.5) * 0.2;
+            states.curiosity += (Math.random() - 0.5) * 0.3;
+            states.frustration += (Math.random() - 0.5) * 0.15;
+            states.satisfaction += (Math.random() - 0.5) * 0.2;
+            states.boredom += (Math.random() - 0.5) * 0.25;
+
+            // Clamp values
+            Object.keys(states).forEach(key => {
+                states[key] = Math.max(0, Math.min(10, states[key]));
+            });
+
+            updateOrbs();
+        }, 5000);
+
+        // Initial render
+        updateOrbs();
+    });
+    </script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

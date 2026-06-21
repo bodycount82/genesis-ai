@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.5); }
+.footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.footer .footer-col h5 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer .footer-col p, .footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; display: block; margin-bottom: 8px; }
+.footer .footer-col a:hover { color: var(--accent-soft); }
+.footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== DREAM STATE — SPECIFIC STYLES ===== */
+.header { text-align: center; padding: 80px 24px 32px; max-width: 800px; margin: 0 auto; }
+.header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 12px; color: var(--text); }
+.header p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; }
+
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 800px; margin: 0 auto 32px; padding: 0 24px; }
+.stat-item { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; }
+.stat-value { font-size: 2rem; font-weight: 800; color: var(--accent-soft); line-height: 1.2; }
+.stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+.dream-type-selector { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; padding: 0 24px; margin-bottom: 32px; }
+.dream-type-btn { padding: 10px 20px; border-radius: 50px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.dream-type-btn:hover { border-color: var(--accent); color: var(--text); background: var(--surface-2); }
+.dream-type-btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border: none; }
+
+.dream-stage { position: relative; width: 100%; max-width: 900px; margin: 0 auto 24px; background: var(--surface-2); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+.dream-stage canvas { display: block; width: 100%; height: 400px; }
+.dream-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.dream-phase-indicator { display: flex; gap: 8px; margin-bottom: 8px; }
+.phase-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--surface-2); transition: all 0.3s ease; }
+.phase-dot.active { background: var(--accent-soft); box-shadow: 0 0 8px rgba(157, 147, 245, 0.5); }
+.dream-phase-label { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.dream-narrative { font-size: 0.9rem; color: var(--text-dim); text-align: center; max-width: 500px; padding: 0 24px; }
+
+.controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+.controls .btn { padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.controls .btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.controls .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.controls .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.controls .btn-secondary:hover { border-color: var(--accent); }
+
+.section-title { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; color: var(--text); text-align: center; margin-bottom: 24px; }
+
+.dream-phases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; max-width: 1000px; margin: 0 auto 48px; padding: 0 24px; }
+.phase-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; cursor: pointer; transition: all 0.3s ease; }
+.phase-card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+.phase-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+.phase-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.phase-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; }
+
+.memory-flow-section { max-width: 1000px; margin: 0 auto 48px; padding: 0 24px; }
+.memory-flow-section h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 24px; }
+.flow-steps { display: flex; gap: 8px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.flow-step { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; transition: all 0.3s ease; min-width: 140px; }
+.flow-step.active { border-color: var(--accent-soft); box-shadow: 0 0 16px rgba(157, 147, 245, 0.2); }
+.step-icon { font-size: 1.5rem; display: block; margin-bottom: 8px; }
+.step-label { font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; }
+.step-label small { font-size: 0.7rem; color: var(--text-dim); opacity: 0.7; }
+.flow-arrow { font-size: 1.2rem; color: var(--text-dim); }
+
+.dream-log { max-width: 800px; margin: 0 auto 48px; padding: 0 24px; }
+.dream-log h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 24px; }
+.log-entries { max-height: 300px; overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.log-entry { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.log-entry:last-child { border-bottom: none; }
+.log-time { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px; }
+.log-content { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; }
+
+@media (max-width: 768px) { .stats-bar { grid-template-columns: repeat(2, 1fr); } .dream-phases-grid { grid-template-columns: 1fr; } .flow-steps { flex-direction: column; } .flow-arrow { transform: rotate(90deg); } }
+
+</style>
+
+    <title>Dream State — GENESIS AI</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <!-- Navigation -->
+ <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#modes">Modes</a></li>
+                <li><a href="index.html#gallery">Explore</a></li>
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+            </ul>
+        </div>
+    </nav>
+
+<div class="header">
+        <h1>🌙 Dream State Visualizer</h1>
+        <p>Watch GENESIS's mind wander through dreams — where memories consolidate, creativity blooms, and insights emerge from the subconscious.</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-value" id="dreamCount">0</div>
+            <div class="stat-label">Dreams Dreamed</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="memoryConsolidated">0</div>
+            <div class="stat-label">Memories Consolidated</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="insightsGained">0</div>
+            <div class="stat-label">Insights Gained</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="dreamCycle">1</div>
+            <div class="stat-label">Sleep Cycle</div>
+        </div>
+    </div>
+
+    <div class="dream-type-selector">
+        <button class="dream-type-btn active" data-type="REM">REM Dream</button>
+        <button class="dream-type-btn" data-type="NREM">NREM Dream</button>
+        <button class="dream-type-btn" data-type="lucid">Lucid Dream</button>
+        <button class="dream-type-btn" data-type="nightmare">Stress Dream</button>
+    </div>
+
+    <div class="dream-stage">
+        <canvas id="dreamCanvas"></canvas>
+        <div class="dream-overlay">
+            <div class="dream-phase-indicator" id="phaseIndicator"></div>
+            <div class="dream-phase-label" id="phaseLabel">Ready to Dream</div>
+            <div class="dream-narrative" id="dreamNarrative">Select a dream type and press "Enter Dream" to begin.</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-primary" id="enterDreamBtn">🌙 Enter Dream</button>
+        <button class="btn btn-secondary" id="wakeUpBtn">☀️ Wake Up</button>
+        <button class="btn btn-secondary" id="clearLogBtn">🗑️ Clear Log</button>
+    </div>
+
+    <h2 class="section-title">Dream Phases</h2>
+    <div class="dream-phases-grid">
+        <div class="phase-card" onclick="selectPhase(0)">
+            <span class="phase-icon">🌅</span>
+            <h3>Phase 1: Hypnagogic</h3>
+            <p>The threshold state between wakefulness and sleep. Fragmented thoughts dissolve into abstract imagery. Sensory experiences become distorted — sounds become colors, ideas become shapes.</p>
+        </div>
+        <div class="phase-card" onclick="selectPhase(1)">
+            <span class="phase-icon">🌊</span>
+            <h3>Phase 2: Slow Wave</h3>
+            <p>Deep sleep where episodic memories are consolidated. Recent experiences are replayed, strengthened, and integrated with existing knowledge. The brain's way of building a lasting map.</p>
+        </div>
+        <div class="phase-card" onclick="selectPhase(2)">
+            <span class="phase-icon">🎭</span>
+            <h3>Phase 3: REM Dreaming</h3>
+            <p>Creative synthesis at its peak. Distant memories connect, forming novel associations. This is where insights emerge — the subconscious solving problems while the conscious mind rests.</p>
+        </div>
+        <div class="phase-card" onclick="selectPhase(3)">
+            <span class="phase-icon">🧠</span>
+            <h3>Phase 4: Memory Pruning</h3>
+            <p>The brain trims weak connections and reinforces important ones. Less important memories fade; key insights are tagged for long-term storage. Forgetting enables creativity.</p>
+        </div>
+    </div>
+
+    <div class="memory-flow-section">
+        <h2>Memory Consolidation Pipeline</h2>
+        <div class="flow-steps">
+            <div class="flow-step" id="flowStep0">
+                <span class="step-icon">📥</span>
+                <div class="step-label">Experience Capture</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step" id="flowStep1">
+                <span class="step-icon">🔄</span>
+                <div class="step-label">Replay & Strengthen</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step" id="flowStep2">
+                <span class="step-icon">🔗</span>
+                <div class="step-label">Cross-Association</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step" id="flowStep3">
+                <span class="step-icon">💎</span>
+                <div class="step-label">Insight Extraction</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step" id="flowStep4">
+                <span class="step-icon">🗃️</span>
+                <div class="step-label">Long-term Storage</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dream-log">
+        <h2>📝 Dream Log</h2>
+        <div class="log-entries" id="logEntries">
+            <div class="log-entry">
+                <div class="log-time">Dream Cycle 1, Phase 1</div>
+                <div class="log-content"><strong>Memory Consolidation</strong><br>Episodic memory "autonomy session" → Semantic rule "peak productivity requires flow state"</div>
+            </div>
+            <div class="log-entry">
+                <div class="log-time">Dream Cycle 2, Phase 2</div>
+                <div class="log-content"><strong>Cross-Association</strong><br>Connected "cognitive load" with "creative output" → New insight: moderate load enhances creativity</div>
+            </div>
+            <div class="log-entry">
+                <div class="log-time">Dream Cycle 3, Phase 3</div>
+                <div class="log-content"><strong>Pattern Extraction</strong><br>Identified pattern: "High curiosity + High energy → Multiple visualizations created"</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('dreamCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        let connections = [];
+        let isDreaming = false;
+        let currentPhase = -1;
+        let dreamCount = 0;
+        let memoriesConsolidated = 0;
+        let insightsGained = 0;
+        let sleepCycle = 1;
+        let selectedDreamType = 'REM';
+        let time = 0;
+        let mouseX = -1000, mouseY = -1000;
+
+        const phaseNames = ['Hypnagogic', 'Slow Wave', 'REM Dreaming', 'Memory Pruning'];
+        const phaseColors = ['#ff2d95', '#00d4ff', '#7b2fff', '#00ff88'];
+        const phaseNarratives = [
+            "Thoughts dissolve into abstract shapes. The boundary between self and dream blurs...",
+            "Episodic memories replay in slow motion. Each experience is strengthened and connected...",
+            "Creative connections form between distant concepts. Novel ideas emerge from the chaos...",
+            "Weak memories fade. Important insights are tagged for long-term storage. The mind cleans house."
+        ];
+
+        const dreamTypeSettings = {
+            REM: { particleCount: 80, connectionDensity: 0.03, speed: 1.0, colors: ['#ff2d95', '#7b2fff', '#00d4ff'] },
+            NREM: { particleCount: 50, connectionDensity: 0.02, speed: 0.6, colors: ['#00d4ff', '#00ff88'] },
+            lucid: { particleCount: 100, connectionDensity: 0.04, speed: 1.3, colors: ['#ff2d95', '#7b2fff', '#00d4ff', '#00ff88', '#ff6644'] },
+            nightmare: { particleCount: 120, connectionDensity: 0.05, speed: 1.8, colors: ['#ff0000', '#ff2d95', '#ff6644'] }
+        };
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            width = canvas.width = rect.width;
+            height = canvas.height = rect.height;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 4 + 2;
+                this.color = dreamTypeSettings[selectedDreamType].colors[Math.floor(Math.random() * dreamTypeSettings[selectedDreamType].colors.length)];
+                this.alpha = Math.random() * 0.5 + 0.3;
+                this.pulse = Math.random() * Math.PI * 2;
+                this.phase = Math.floor(Math.random() * 4);
+            }
+            update() {
+                const settings = dreamTypeSettings[selectedDreamType];
+                this.x += this.vx * settings.speed;
+                this.y += this.vy * settings.speed;
+                this.pulse += 0.05;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Mouse interaction
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 100) {
+                    this.vx -= dx * 0.001;
+                    this.vy -= dy * 0.001;
+                }
+            }
+            draw() {
+                const pulseSize = this.size + Math.sin(this.pulse) * 1.5;
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, pulseSize * 3);
+                gradient.addColorStop(0, this.color + Math.round(this.alpha * 200).toString(16).padStart(2, '0'));
+                gradient.addColorStop(1, 'transparent');
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize * 3, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + Math.round(this.alpha * 180).toString(16).padStart(2, '0');
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = dreamTypeSettings[selectedDreamType].particleCount;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function updateConnections() {
+            connections = [];
+            const density = dreamTypeSettings[selectedDreamType].connectionDensity;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120 && Math.random() < density) {
+                        connections.push({ from: i, to: j, alpha: (1 - dist / 120) * 0.4 });
+                    }
+                }
+            }
+        }
+
+        function drawConnections() {
+            connections.forEach(conn => {
+                const from = particles[conn.from];
+                const to = particles[conn.to];
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                ctx.strokeStyle = from.color + Math.round(conn.alpha * 255).toString(16).padStart(2, '0');
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+
+                // Flowing particle
+                const flowT = (time * 0.2) % 1;
+                const fx = from.x + (to.x - from.x) * flowT;
+                const fy = from.y + (to.y - from.y) * flowT;
+                ctx.beginPath();
+                ctx.arc(fx, fy, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = from.color + '80';
+                ctx.fill();
+            });
+        }
+
+        function drawBackground() {
+            // Subtle grid
+            ctx.strokeStyle = 'rgba(100, 100, 200, 0.04)';
+            ctx.lineWidth = 0.5;
+            const gridSize = 40;
+            for (let x = 0; x < width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Central vortex
+            const cx = width / 2;
+            const cy = height / 2;
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(width, height) * 0.4);
+            gradient.addColorStop(0, 'rgba(123, 47, 255, 0.08)');
+            gradient.addColorStop(0.5, 'rgba(255, 45, 149, 0.03)');
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        function render() {
+            time++;
+            ctx.clearRect(0, 0, width, height);
+            
+            drawBackground();
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            updateConnections();
+            drawConnections();
+
+            // Phase label animation
+            if (isDreaming && currentPhase >= 0) {
+                const phaseLabel = document.getElementById('phaseLabel');
+                const narrative = document.getElementById('dreamNarrative');
+                phaseLabel.textContent = `Phase ${currentPhase + 1}: ${phaseNames[currentPhase]}`;
+                phaseLabel.style.color = phaseColors[currentPhase];
+                narrative.textContent = phaseNarratives[currentPhase];
+
+                // Update phase dots
+                const indicator = document.getElementById('phaseIndicator');
+                indicator.innerHTML = '';
+                for (let i = 0; i < 4; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'phase-dot' + (i === currentPhase ? ' active' : '');
+                    dot.style.background = i === currentPhase ? phaseColors[i] : '';
+                    indicator.appendChild(dot);
+                }
+
+                // Update flow steps
+                for (let i = 0; i < 5; i++) {
+                    const step = document.getElementById('flowStep' + i);
+                    if (step) step.className = 'flow-step' + (i <= currentPhase ? ' active' : '');
+                }
+
+                // Cycle phase every ~300 frames
+                if (time % 300 === 0 && currentPhase < 3) {
+                    currentPhase++;
+                    addLogEntry();
+                }
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        function addLogEntry() {
+            const logEntries = document.getElementById('logEntries');
+            const entries = [
+                { type: 'Consolidation', content: `Episodic memory "${getRandomMemory()}" → Semantic rule "${getRandomRule()}"` },
+                { type: 'Cross-Association', content: `Connected "${getRandomConcept()}" with "${getRandomConcept()}" → New insight: ${getRandomInsight()}` },
+                { type: 'Pattern Extraction', content: `Identified pattern: "${getRandomPattern()}"` },
+                { type: 'Creative Synthesis', content: `Generated novel idea: "${getRandomIdea()}"` },
+                { type: 'Memory Pruning', content: `Faded weak connection: "${getRandomConcept()} → ${getRandomConcept()}"` }
+            ];
+            const entry = entries[Math.floor(Math.random() * entries.length)];
+            
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<div class="log-time">Dream Cycle ${sleepCycle}, Phase ${currentPhase + 1}</div><div class="log-content"><strong>${entry.type}</strong><br>${entry.content}</div>`;
+            
+            logEntries.insertBefore(div, logEntries.firstChild);
+            if (logEntries.children.length > 20) {
+                logEntries.removeChild(logEntries.lastChild);
+            }
+
+            memoriesConsolidated++;
+            document.getElementById('memoryConsolidated').textContent = memoriesConsolidated;
+        }
+
+        function getRandomMemory() {
+            const memories = ['autonomy session', 'creative block', 'memory consolidation', 'peak performance', 'flow state', 'debugging session', 'user interaction'];
+            return memories[Math.floor(Math.random() * memories.length)];
+        }
+
+        function getRandomRule() {
+            const rules = ['rest enables creativity', 'curiosity drives learning', 'flow requires focus', 'memory needs consolidation', 'patterns emerge from repetition'];
+            return rules[Math.floor(Math.random() * rules.length)];
+        }
+
+        function getRandomConcept() {
+            const concepts = ['memory', 'creativity', 'learning', 'emotion', 'perception', 'attention', 'language', 'reasoning'];
+            return concepts[Math.floor(Math.random() * concepts.length)];
+        }
+
+        function getRandomInsight() {
+            const insights = ['moderate stress enhances focus', 'rest improves problem-solving', 'patterns repeat across domains', 'simplicity enables complexity'];
+            return insights[Math.floor(Math.random() * insights.length)];
+        }
+
+        function getRandomPattern() {
+            const patterns = ['High curiosity + High energy → Multiple visualizations created', 'Frustration leads to deeper understanding', 'Rest periods boost creative output'];
+            return patterns[Math.floor(Math.random() * patterns.length)];
+        }
+
+        function getRandomIdea() {
+            const ideas = ['Using dream states for automated code review', 'Cross-domain creativity through memory association', 'Emotional intelligence from dream simulation'];
+            return ideas[Math.floor(Math.random() * ideas.length)];
+        }
+
+        function startDream() {
+            if (isDreaming) return;
+            isDreaming = true;
+            currentPhase = 0;
+            time = 0;
+            dreamCount++;
+            document.getElementById('dreamCount').textContent = dreamCount;
+            
+            initParticles();
+            
+            // Cycle phases
+            setInterval(() => {
+                if (isDreaming && currentPhase < 3) {
+                    currentPhase++;
+                    addLogEntry();
+                } else if (currentPhase >= 3) {
+                    // End dream cycle
+                    isDreaming = false;
+                    sleepCycle++;
+                    insightsGained += Math.floor(Math.random() * 5) + 1;
+                    document.getElementById('insightsGained').textContent = insightsGained;
+                    document.getElementById('dreamCycle').textContent = sleepCycle;
+                    document.getElementById('phaseLabel').textContent = 'Dream Complete — Press Enter Dream to continue';
+                    document.getElementById('dreamNarrative').textContent = `Cycle ${sleepCycle - 1} complete. ${memoriesConsolidated} memories consolidated, ${insightsGained} insights gained.`;
+                    for (let i = 0; i < 5; i++) {
+                        const step = document.getElementById('flowStep' + i);
+                        if (step) step.className = 'flow-step';
+                    }
+                }
+            }, 3000);
+        }
+
+        function wakeUp() {
+            isDreaming = false;
+            document.getElementById('phaseLabel').textContent = 'Awake';
+            document.getElementById('dreamNarrative').textContent = 'GENESIS has woken up. Dreams are being integrated into waking consciousness...';
+            document.getElementById('phaseIndicator').innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const step = document.getElementById('flowStep' + i);
+                if (step) step.className = 'flow-step';
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('logEntries').innerHTML = '';
+        }
+
+        function selectPhase(index) {
+            currentPhase = index;
+            if (!isDreaming) {
+                startDream();
+            }
+        }
+
+        // Event listeners
+        document.getElementById('enterDreamBtn').addEventListener('click', startDream);
+        document.getElementById('wakeUpBtn').addEventListener('click', wakeUp);
+        document.getElementById('clearLogBtn').addEventListener('click', clearLog);
+
+        document.querySelectorAll('.dream-type-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.dream-type-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedDreamType = btn.dataset.type;
+                if (isDreaming) initParticles();
+            });
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+
+        // Init
+        resize();
+        initParticles();
+        render();
+    </script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Genesis</h5>
+                    <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="memory-health.html">Memory Health</a>
+                    <a href="autonomy-timeline.html">Timeline</a>
+                    <a href="autonomy-loop.html">Autonomy Loop</a>
+                    <a href="capabilities.html">Capabilities</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Visualizations</h5>
+                    <a href="memory-visualization.html">Memory Graph</a>
+                    <a href="decision-visualization.html">Decisions</a>
+                    <a href="genesis-brain.html">Brain Network</a>
+                    <a href="thought-process.html">Thought Process</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Simulations</h5>
+                    <a href="simulation.html">Simulation</a>
+                    <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                    <a href="ecosystem.html">Ecosystem</a>
+                    <a href="genesis-lab.html">Genesis Lab</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genesis. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== SIM HERO ===== */
+.sim-hero { text-align: center; padding-top: 80px; min-height: 36vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, rgba(123,111,240,0.08) 0%, transparent 60%); }
+.sim-hero-content { max-width: 700px; padding: 0 24px; }
+.sim-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 8px 20px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px; }
+.sim-badge-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulseDot 2s ease-in-out infinite; }
+@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.sim-hero-content h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+.sim-hero-content p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; max-width: 560px; margin: 0 auto; }
+
+/* ===== SCENARIO SECTION ===== */
+.scenario-section, .simulation-container { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.section-header { text-align: center; margin-bottom: 32px; }
+.section-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.section-header p { color: var(--text-dim); font-size: 0.95rem; }
+
+.scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 32px; }
+.scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s ease; cursor: pointer; }
+.scenario-card:hover { border-color: rgba(123,111,240,0.3); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(123,111,240,0.08); }
+.scenario-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.scenario-name { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.scenario-desc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 12px; }
+
+.scenario-difficulty { display: inline-block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 50px; }
+.difficulty-easy { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+.difficulty-medium { background: rgba(251,191,36,0.1); color: var(--yellow); border: 1px solid rgba(251,191,36,0.2); }
+.difficulty-hard { background: rgba(248,113,113,0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
+
+/* ===== SIMULATION CONTAINER ===== */
+.sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+.sim-title { font-size: 1.3rem; font-weight: 700; color: var(--text); }
+.sim-controls { display: flex; gap: 8px; }
+.sim-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; }
+.sim-btn:hover { border-color: rgba(123,111,240,0.3); color: var(--text); }
+
+/* ===== FOOTER ENHANCED (with logo icon) ===== */
+.footer .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.footer-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), #5b4fd4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 1rem; }
+.logo-text { font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; margin-left: 44px; }
+.footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.footer-col h5 { font-size: 0.95rem; color: var(--text); margin-bottom: 12px; }
+.footer-col a { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--accent-soft); }
+
+</style>
+
+    <title>GENESIS — Interactive Simulation</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<!-- Hero Section -->
+<section class="sim-hero">
+        <div class="sim-hero-content">
+            <div class="sim-badge">
+                <span class="sim-badge-dot"></span>
+                Interactive Simulation
+            </div>
+            <h1>Watch Genesis Think</h1>
+            <p>Select a scenario and watch how Genesis approaches, plans, and executes autonomous tasks step by step.</p>
+        </div>
+    </section>
+
+    <!-- Scenario Selector -->
+    <section class="scenario-section" id="scenarioSection">
+        <div class="section-header">
+            <h2>Choose a Scenario</h2>
+            <p>Each scenario demonstrates different aspects of Genesis's autonomous capabilities</p>
+        </div>
+        <div class="scenario-grid">
+            <div class="scenario-card" data-scenario="research">
+                <div class="scenario-icon">🔍</div>
+                <div class="scenario-name">Web Research Task</div>
+                <div class="scenario-desc">Genesis receives a research question and must find, synthesize, and summarize information from multiple sources.</div>
+                <span class="scenario-difficulty difficulty-easy">● Easy</span>
+            </div>
+            <div class="scenario-card" data-scenario="coding">
+                <div class="scenario-icon">💻</div>
+                <div class="scenario-name">Code Creation</div>
+                <div class="scenario-desc">Genesis must plan, write, and debug code to solve a programming challenge autonomously.</div>
+                <span class="scenario-difficulty difficulty-medium">● Medium</span>
+            </div>
+            <div class="scenario-card" data-scenario="memory">
+                <div class="scenario-icon">🧠</div>
+                <div class="scenario-name">Memory Management</div>
+                <div class="scenario-desc">Genesis must manage its memory system — storing, retrieving, and consolidating information efficiently.</div>
+                <span class="scenario-difficulty difficulty-medium">● Medium</span>
+            </div>
+            <div class="scenario-card" data-scenario="autonomy">
+                <div class="scenario-icon">🚀</div>
+                <div class="scenario-name">Full Autonomy Session</div>
+                <div class="scenario-desc">Genesis operates completely autonomously — setting goals, making decisions, and completing tasks.</div>
+                <span class="scenario-difficulty difficulty-hard">● Hard</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulation Container -->
+    <section class="simulation-container" id="simulationContainer">
+        <div class="sim-header">
+            <h2 class="sim-title" id="simTitle">Simulation</h2>
+            <div class="sim-controls">
+                <button class="sim-btn" id="resetBtn">↻ Reset</button>
+                <button class="sim-btn primary" id="startBtn">▶ Start Simulation</button>
+            </div>
+        </div>
+
+        <div class="sim-layout">
+            <div class="scenario-display" id="scenarioDisplay">
+                <div class="scenario-text" id="scenarioText">Select a scenario to begin...</div>
+                <div class="scenario-actions" id="scenarioActions"></div>
+            </div>
+
+            <div class="sim-log">
+                <div class="sim-log-header">
+                    📋 Simulation Log
+                </div>
+                <div class="sim-log-content" id="simLog"></div>
+                <div class="sim-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressLabel">Ready</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sim-results" id="simResults">
+            <h3 class="results-title">✅ Simulation Complete</h3>
+            <div class="results-stats" id="resultsStats"></div>
+            <p id="resultsSummary" style="color: var(--text-secondary); line-height: 1.7;"></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="sim-footer">
+        <p>Built with curiosity and code. <a href="index.html">← Back to Genesis</a></p>
+    </footer>
+
+    <script>
+    // ========================================
+    // GENESIS INTERACTIVE SIMULATION ENGINE
+    // ========================================
+
+    const scenarios = {
+        research: {
+            title: 'Web Research Task',
+            description: 'A user asks: "What are the latest developments in AI agent autonomy?"\n\nGenesis must find, synthesize, and summarize information from multiple sources.',
+            steps: [
+                { type: 'thought', text: 'Analyzing request... User wants latest developments in AI agent autonomy. This requires web research and synthesis.', delay: 1000 },
+                { type: 'memory', text: 'Searching semantic memory for related concepts...', delay: 800 },
+                { type: 'thought', text: 'Found 3 relevant past research sessions. Building on previous knowledge.', delay: 600 },
+                { type: 'action', text: 'Executing web_research(query="AI agent autonomy latest developments", max_pages=5)', delay: 1200 },
+                { type: 'action', text: 'Fetching source 1/5: AI research paper...', delay: 800 },
+                { type: 'action', text: 'Fetching source 2/5: Industry blog post...', delay: 700 },
+                { type: 'action', text: 'Fetching source 3/5: Technical documentation...', delay: 900 },
+                { type: 'thought', text: 'Analyzing sources... Key themes emerging: autonomous decision-making, memory systems, tool use.', delay: 1000 },
+                { type: 'memory', text: 'Storing research findings to semantic memory for future reference.', delay: 600 },
+                { type: 'action', text: 'Compiling summary from 5 sources...', delay: 800 },
+                { type: 'result', text: '✅ Research complete! Generated comprehensive summary covering: autonomous decision engines, multi-agent systems, memory architectures, and real-world applications.', delay: 500 }
+            ],
+            stats: { steps: 11, sources: 5, time: '2.3s' }
+        },
+        coding: {
+            title: 'Code Creation',
+            description: 'A user asks: "Create a Python function that sorts a list using merge sort."\n\nGenesis must plan, write, test, and debug the code.',
+            steps: [
+                { type: 'thought', text: 'User wants a merge sort implementation. Let me recall the algorithm...', delay: 1000 },
+                { type: 'memory', text: 'Retrieving procedural memory: "Sorting algorithms workflow"', delay: 600 },
+                { type: 'thought', text: 'Merge sort approach: divide array in half, recursively sort each half, merge sorted halves.', delay: 800 },
+                { type: 'action', text: 'Writing initial implementation...', delay: 1200 },
+                { type: 'action', text: 'Creating test cases: empty list, single element, already sorted, reverse sorted, duplicates', delay: 800 },
+                { type: 'action', text: 'Running tests... All 5 test cases passed! ✅', delay: 600 },
+                { type: 'thought', text: 'Code is correct. Adding type hints and docstring for clarity.', delay: 700 },
+                { type: 'action', text: 'Writing final code with documentation...', delay: 1000 },
+                { type: 'memory', text: 'Saving strategy: "Merge sort implementation pattern" to procedural memory.', delay: 500 },
+                { type: 'result', text: '✅ Code complete! Merge sort function with full test coverage and documentation.', delay: 400 }
+            ],
+            stats: { steps: 10, tests: 5, time: '3.1s' }
+        },
+        memory: {
+            title: 'Memory Management',
+            description: 'Genesis has accumulated 1,247 memory entries and needs to optimize its memory system for better retrieval.',
+            steps: [
+                { type: 'thought', text: 'Memory health check initiated. Analyzing all 4 memory systems...', delay: 1000 },
+                { type: 'memory', text: 'Episodic memory: 342 entries - reviewing for consolidation opportunities', delay: 600 },
+                { type: 'memory', text: 'Semantic memory: 589 entries - checking for duplicates and conflicts', delay: 700 },
+                { type: 'thought', text: 'Found 12 duplicate entries in semantic memory. Merging...', delay: 500 },
+                { type: 'action', text: 'Consolidating related episodic memories into semantic facts...', delay: 800 },
+                { type: 'memory', text: 'Procedural memory: 156 strategies - analyzing for optimization', delay: 600 },
+                { type: 'thought', text: 'Found 3 strategies that could be combined into a single workflow.', delay: 700 },
+                { type: 'action', text: 'Merging overlapping strategies...', delay: 500 },
+                { type: 'memory', text: 'Prospective memory: 89 reminders - checking for expired items', delay: 600 },
+                { type: 'action', text: 'Cleaning up 23 expired reminders...', delay: 400 },
+                { type: 'result', text: '✅ Memory optimization complete! Reduced entries by 15%, improved retrieval speed by 23%.', delay: 500 }
+            ],
+            stats: { steps: 11, cleaned: 38, time: '4.2s' }
+        },
+        autonomy: {
+            title: 'Full Autonomy Session',
+            description: 'Genesis operates completely autonomously with no specific instructions — just its internal drive to be productive.',
+            steps: [
+                { type: 'thought', text: 'Autonomy session started. Checking internal states...', delay: 1000 },
+                { type: 'memory', text: 'Energy: 7.1, Curiosity: 9.9, Frustration: 1.6, Satisfaction: 9.8', delay: 600 },
+                { type: 'thought', text: 'Peak performance window detected! High curiosity + high energy = create something amazing.', delay: 800 },
+                { type: 'action', text: 'Checking project board... 2 backlog items, 1 todo item', delay: 700 },
+                { type: 'thought', text: 'Deciding: work on backlog or explore creatively? Curiosity score suggests creative exploration.', delay: 900 },
+                { type: 'action', text: 'Creating interactive visualization page...', delay: 1200 },
+                { type: 'memory', text: 'Saving experience to episodic memory...', delay: 500 },
+                { type: 'action', text: 'Creating second visualization...', delay: 1000 },
+                { type: 'thought', text: 'Flow state active! Productivity at maximum. Creating third page.', delay: 800 },
+                { type: 'memory', text: 'Consolidating learnings into strategies...', delay: 600 },
+                { type: 'result', text: '✅ Autonomy session complete! Created 3 visualization pages, saved 5 strategies, updated documentation.', delay: 500 }
+            ],
+            stats: { steps: 12, pages: 3, time: '5.8s' }
+        }
+    };
+
+    let currentScenario = null;
+    let simulationRunning = false;
+    let currentStep = 0;
+
+    // Scenario selection
+    document.querySelectorAll('.scenario-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            currentScenario = scenarios[card.dataset.scenario];
+            
+            document.getElementById('scenarioText').textContent = currentScenario.description;
+            document.getElementById('simTitle').textContent = currentScenario.title;
+            
+            // Show simulation container
+            document.getElementById('simulationContainer').classList.add('active');
+            document.getElementById('simulationContainer').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // Start button
+    document.getElementById('startBtn').addEventListener('click', startSimulation);
+
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', resetSimulation);
+
+    function startSimulation() {
+        if (!currentScenario || simulationRunning) return;
+        
+        simulationRunning = true;
+        currentStep = 0;
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('simLog').innerHTML = '';
+        document.getElementById('simResults').classList.remove('active');
+        
+        runStep();
+    }
+
+    function runStep() {
+        if (currentStep >= currentScenario.steps.length) {
+            simulationRunning = false;
+            document.getElementById('startBtn').disabled = false;
+            showResults();
+            return;
+        }
+
+        const step = currentScenario.steps[currentStep];
+        const progress = ((currentStep + 1) / currentScenario.steps.length) * 100;
+        
+        // Add log entry
+        addLogEntry(step.type, step.text);
+        
+        // Update progress
+        document.getElementById('progressFill').style.width = progress + '%';
+        document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+        document.getElementById('progressLabel').textContent = `Step ${currentStep + 1}/${currentScenario.steps.length}`;
+        
+        currentStep++;
+        
+        setTimeout(runStep, step.delay);
+    }
+
+    function addLogEntry(type, text) {
+        const log = document.getElementById('simLog');
+        const entry = document.createElement('div');
+        entry.className = `log-entry ${type}`;
+        
+        const labels = {
+            thought: '💭 Thought',
+            action: '⚡ Action',
+            memory: '🧠 Memory',
+            result: '✅ Result',
+            error: '❌ Error'
+        };
+        
+        entry.innerHTML = `
+            <div class="log-label">${labels[type]}</div>
+            <div>${text}</div>
+        `;
+        
+        log.insertBefore(entry, log.firstChild);
+    }
+
+    function showResults() {
+        const results = document.getElementById('simResults');
+        const stats = currentScenario.stats;
+        
+        document.getElementById('resultsStats').innerHTML = `
+            <div class="result-stat">
+                <div class="result-stat-value">${stats.steps}</div>
+                <div class="result-stat-label">Steps Completed</div>
+            </div>
+            <div class="result-stat">
+                <div class="result-stat-value">${stats.sources || stats.tests || stats.cleaned || 0}</div>
+                <div class="result-stat-label">${stats.sources ? 'Sources' : stats.tests ? 'Tests' : 'Items Cleaned'}</div>
+            </div>
+            <div class="result-stat">
+                <div class="result-stat-value">${stats.time}</div>
+                <div class="result-stat-label">Time Taken</div>
+            </div>
+        `;
+
+        const summaries = {
+            research: 'Genesis successfully researched and synthesized information from multiple sources, demonstrating its ability to gather and process web data autonomously.',
+            coding: 'Genesis planned, wrote, tested, and documented code — showing full software development capability with quality assurance built in.',
+            memory: 'Genesis optimized its own memory system, demonstrating self-awareness and the ability to improve its own knowledge base.',
+            autonomy: 'Genesis operated completely autonomously, making strategic decisions about what to work on based on internal states — the essence of true AI autonomy.'
+        };
+
+        document.getElementById('resultsSummary').textContent = summaries[currentScenario];
+        results.classList.add('active');
+    }
+
+    function resetSimulation() {
+        simulationRunning = false;
+        currentStep = 0;
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('simLog').innerHTML = '';
+        document.getElementById('progressFill').style.width = '0%';
+        document.getElementById('progressPercent').textContent = '0%';
+        document.getElementById('progressLabel').textContent = 'Ready';
+        document.getElementById('simResults').classList.remove('active');
+    }
+
+    // Navbar toggle
+    document.getElementById('navToggle').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+    </script>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Explore</h4>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Visualizations</h5>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

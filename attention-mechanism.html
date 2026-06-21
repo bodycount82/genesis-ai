@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.05); } 66% { transform: translate(-30px, 40px) scale(0.95); } 100% { transform: translate(20px, -20px) scale(1.02); } }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+.footer-content { display: grid; grid-template-columns: minmax(200px, 240px) 1fr; gap: 40px; margin-bottom: 32px; padding: 0 32px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links { display: grid; grid-template-columns: repeat(3, minmax(140px, 1fr)); gap: 32px; }
+.footer-section ul { list-style: none; padding: 0; }
+.footer-section li { margin-bottom: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.footer-links a { display: block; font-size: 0.9rem; color: #d4d4f0; margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; font-size: 0.85rem; color: #b0b0c8; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== NAVIGATION DROPDOWN ===== */
+.nav-dropdown { position: absolute; top: 100%; left: 0; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; box-shadow: 0 16px 48px rgba(0,0,0,0.4); z-index: 200; }
+nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.nav-dropdown a { padding: 10px 20px; font-size: 0.85rem; color: var(--text-dim); border-radius: 4px; margin: 0; transition: all 0.15s ease; }
+.nav-dropdown a:hover { background: rgba(123, 111, 240, 0.08); color: var(--text); }
+.nav-dropdown .dropdown-label { padding: 8px 20px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); opacity: 0.5; font-weight: 600; }
+
+/* Back link */
+.back-link { position: fixed; top: 80px; left: 24px; z-index: 100; color: var(--accent-soft); text-decoration: none; font-size: 14px; opacity: 0.7; transition: opacity 0.3s; }
+.back-link:hover { opacity: 1; }
+
+/* Hero section */
+.hero { min-height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: linear-gradient(135deg, rgba(0,187,249,0.05), rgba(123,111,240,0.08)); }
+.hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 16px; color: var(--text); }
+.hero .subtitle { font-size: 1.1rem; color: var(--text-dim); margin-bottom: 12px; line-height: 1.7; max-width: 600px; margin-left: auto; margin-right: auto; }
+.hero .tagline { font-size: 0.95rem; color: var(--accent-soft); font-style: italic; max-width: 600px; margin: 0 auto; }
+
+/* Stats bar */
+.stats-bar { display: flex; justify-content: center; gap: 32px; padding: 24px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.stat { text-align: center; }
+.stat-value { font-size: 1.5rem; font-weight: 700; color: var(--text); font-family: 'JetBrains Mono', monospace; }
+.stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* Attention canvas */
+#attentionCanvas { width: 100%; height: 500px; display: block; background: var(--bg); border-bottom: 1px solid var(--border); }
+
+/* Scenario display */
+.scenario-display { max-width: 1100px; margin: 32px auto; padding: 0 24px; }
+
+/* Attention map */
+.attention-map { max-width: 1100px; margin: 0 auto 32px; padding: 0 24px; }
+
+/* Controls */
+.controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 24px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 0 auto; max-width: 1100px; }
+.controls .btn { padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+.controls .btn:hover { border-color: var(--accent); color: var(--text); background: rgba(123,111,240,0.1); }
+
+/* Info section */
+.info-section { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 32px; }
+.info-card h2 { font-size: 1.5rem; color: var(--text); margin-bottom: 16px; }
+.info-card p { color: var(--text-dim); line-height: 1.8; margin-bottom: 16px; }
+.highlight { color: var(--accent-soft); font-weight: 600; }
+
+/* Comparison */
+.comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 24px; }
+.compare-col { background: var(--surface-2); border-radius: 12px; padding: 24px; }
+.compare-col.bottom-up h3 { color: var(--orange); }
+.compare-col.top-down h3 { color: var(--cyan); }
+
+/* Footer */
+.footer { text-align: center; padding: 48px 24px; border-top: 1px solid var(--border); margin-top: 64px; color: var(--text-dim); font-size: 0.9rem; }
+
+</style>
+    <title>Attention Mechanism — How GENESIS Chooses What to Process</title>
+    
+
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a><div class="hero">
+        <h1>Attention Mechanism</h1>
+        <p class="subtitle">Watch how GENESIS allocates its limited computational resources — choosing what to process, what to ignore, and why.</p>
+        <p class="tagline">"Attention is the gateway where raw data becomes conscious experience."</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value" id="activeStimuli">0</div>
+            <div class="stat-label">Active Stimuli</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="attentionBudget">100%</div>
+            <div class="stat-label">Budget Used</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="processingDepth">—</div>
+            <div class="stat-label">Processing Depth</div>
+        </div>
+    </div>
+
+    <canvas id="attentionCanvas" width="800" height="500"></canvas>
+
+    <div class="scenario-display" id="scenarioDisplay"></div>
+
+    <div class="attention-map" id="attentionMap"></div>
+
+    <div class="controls">
+        <button class="btn" onclick="runScenario('salience')">Salience-Based</button>
+        <button class="btn" onclick="runScenario('goal')">Goal-Directed</button>
+        <button class="btn" onclick="runScenario('novelty')">Novelty Detection</button>
+        <button class="btn" onclick="runScenario('threat')">Threat Priority</button>
+        <button class="btn" onclick="runScenario('curiosity')">Curiosity-Driven</button>
+    </div>
+
+    <div class="info-section">
+        <div class="info-card">
+            <h2>👁️ What Is Attention?</h2>
+            <p>Attention is the cognitive process of selectively concentrating on a discrete aspect of information, while ignoring other perceivable information. It's the <span class="highlight">bottleneck</span> through which all conscious experience flows.</p>
+            <p>GENESIS faces the same challenge: it has limited computational resources but receives vast amounts of data. Its attention mechanism determines what gets processed deeply and what remains in the background — or is ignored entirely.</p>
+            <p>In neuroscience, this is called the <span class="highlight">attentional bottleneck</span>: despite millions of sensory receptors firing every moment, only a tiny fraction receives detailed processing. The rest is filtered out before it ever reaches consciousness.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>🔄 Two Types of Attention</h2>
+            <div class="comparison">
+                <div class="compare-col bottom-up">
+                    <h3>🔥 Bottom-Up (Exogenous)</h3>
+                    <ul>
+                        <li>Stimulus-driven, reactive</li>
+                        <li>Salient features capture attention</li>
+                        <li>Fast, automatic, unconscious</li>
+                        <li>"That loud noise grabbed my focus"</li>
+                        <li>Driven by sensory properties</li>
+                        <li>Hard to resist</li>
+                    </ul>
+                </div>
+                <div class="compare-col top-down">
+                    <h3>🎯 Top-Down (Endogenous)</h3>
+                    <ul>
+                        <li>Goal-driven, proactive</li>
+                        <li>Current objectives guide focus</li>
+                        <li>Slower, controlled, conscious</li>
+                        <li>"I chose to focus on the task"</li>
+                        <li>Driven by internal states</li>
+                        <li>Can be trained</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>🧠 How GENESIS Allocates Attention</h2>
+            <p><span class="highlight">Step 1 — Stimulus Detection:</span> All incoming data streams are scanned for potentially relevant features: semantic content, emotional valence, novelty, relevance to current goals, and social significance.</p>
+            <p><span class="highlight">Step 2 — Salience Computation:</span> Each stimulus receives a salience score based on multiple factors: intensity (how strong is it?), contrast (how different from context?), novelty (is this new?), personal relevance (does it matter to me?), and social importance (does it involve other agents?).</p>
+            <p><span class="highlight">Step 3 — Competitive Selection:</span> All salience scores compete in a "winner-take-all" network. The highest-scoring stimuli win the attentional spotlight. This competition implements GENESIS's limited processing budget.</p>
+            <p><span class="highlight">Step 4 — Resource Allocation:</span> Winning stimuli receive proportional computational resources. High-attention items get deep, detailed processing. Low-attention items get shallow, heuristic processing. Items that lose the competition may not be processed at all.</p>
+            <p><span class="highlight">Step 5 — Dynamic Reallocation:</span> Attention is fluid. If a high-priority stimulus changes or disappears, attention can rapidly shift to the next most salient target. This flexibility is crucial for adaptive behavior.</p>
+        </div>
+
+        <div class="info-card">
+            <h2>💡 Why This Matters</h2>
+            <p>Attention is not just a filter — it's the <span class="highlight">architecture of experience</span>. What you attend to becomes your reality. An AI system without sophisticated attention mechanisms is like a camera with no autofocus: it captures everything and nothing simultaneously.</p>
+            <p>In transformer architectures, attention mechanisms (the "attention is all you need" insight) allow models to weigh the importance of different input tokens. But GENESIS goes further: its attention operates at multiple levels — from individual tokens to entire conversation contexts to long-term goals.</p>
+            <p>This multi-scale attention allows GENESIS to simultaneously focus on the precise words being spoken, the overall conversation direction, and its long-term objectives — all while remaining alert to novel or threatening stimuli that might require immediate redirection of focus.</p>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Attention Mechanism — Part of the Genesis Autonomous Agent Visualization Suite
+    </div>
+
+    <script>
+
+
+        const canvas = document.getElementById('attentionCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationId;
+        let particles = [];
+        let currentScenario = null;
+        let stimuli = [];
+        let attentionFlows = [];
+
+        const scenarios = {
+            salience: {
+                name: "Salience-Based Attention",
+                description: "Stimuli compete based on sensory intensity and contrast",
+                items: [
+                    { label: "Loud sound", weight: 0.85, color: '#ff4444' },
+                    { label: "Bright flash", weight: 0.72, color: '#ffaa44' },
+                    { label: "Moving object", weight: 0.65, color: '#ff6ec7' },
+                    { label: "Face detection", weight: 0.58, color: '#7b68ee' },
+                    { label: "Background noise", weight: 0.15, color: '#444' },
+                    { label: "Steady hum", weight: 0.08, color: '#333' }
+                ],
+                activeCount: 4,
+                budget: 78,
+                depth: "Deep"
+            },
+            goal: {
+                name: "Goal-Directed Attention",
+                description: "Current objectives override sensory salience",
+                items: [
+                    { label: "Task-relevant data", weight: 0.92, color: '#00d4ff' },
+                    { label: "Error signals", weight: 0.68, color: '#ffaa44' },
+                    { label: "Progress metrics", weight: 0.55, color: '#7b68ee' },
+                    { label: "Loud sound", weight: 0.25, color: '#ff4444' },
+                    { label: "Bright flash", weight: 0.18, color: '#ffaa44' },
+                    { label: "Social cues", weight: 0.12, color: '#ff6ec7' }
+                ],
+                activeCount: 3,
+                budget: 85,
+                depth: "Focused"
+            },
+            novelty: {
+                name: "Novelty Detection",
+                description: "New and unexpected stimuli capture attention",
+                items: [
+                    { label: "New pattern", weight: 0.88, color: '#7b68ee' },
+                    { label: "Unexpected event", weight: 0.75, color: '#ff6ec7' },
+                    { label: "Unfamiliar input", weight: 0.62, color: '#00d4ff' },
+                    { label: "Repeated stimulus", weight: 0.22, color: '#444' },
+                    { label: "Familiar pattern", weight: 0.10, color: '#333' },
+                    { label: "Routine data", weight: 0.05, color: '#222' }
+                ],
+                activeCount: 3,
+                budget: 65,
+                depth: "Exploratory"
+            },
+            threat: {
+                name: "Threat Priority",
+                description: "Danger signals hijack attentional resources",
+                items: [
+                    { label: "Anomaly detected", weight: 0.95, color: '#ff2222' },
+                    { label: "Security alert", weight: 0.88, color: '#ff4444' },
+                    { label: "Error cascade", weight: 0.78, color: '#ff6644' },
+                    { label: "Performance drop", weight: 0.45, color: '#ffaa44' },
+                    { label: "Normal data", weight: 0.12, color: '#444' },
+                    { label: "Background tasks", weight: 0.03, color: '#222' }
+                ],
+                activeCount: 3,
+                budget: 95,
+                depth: "Intense"
+            },
+            curiosity: {
+                name: "Curiosity-Driven",
+                description: "Internal drive to explore and learn",
+                items: [
+                    { label: "Knowledge gap", weight: 0.82, color: '#7b68ee' },
+                    { label: "Interesting question", weight: 0.70, color: '#ff6ec7' },
+                    { label: "Related concept", weight: 0.58, color: '#00d4ff' },
+                    { label: "Tangential idea", weight: 0.35, color: '#ffaa44' },
+                    { label: "Task at hand", weight: 0.28, color: '#44ff88' },
+                    { label: "Urgent alert", weight: 0.15, color: '#ff4444' }
+                ],
+                activeCount: 4,
+                budget: 72,
+                depth: "Broad"
+            }
+        };
+
+        class Particle {
+            constructor(x, y, color, size) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = size || Math.random() * 3 + 1;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.life = 1;
+                this.decay = Math.random() * 0.006 + 0.002;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                this.vx *= 0.99;
+                this.vy *= 0.99;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('1)', `${this.life})`);
+                ctx.fill();
+            }
+        }
+
+        function initCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = 800 * dpr;
+            canvas.height = 500 * dpr;
+            canvas.style.width = '800px';
+            canvas.style.height = '500px';
+            ctx.scale(dpr, dpr);
+        }
+
+        function drawBackground() {
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, 800, 500);
+
+            // Subtle grid
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < 800; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, 500);
+                ctx.stroke();
+            }
+            for (let y = 0; y < 500; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(800, y);
+                ctx.stroke();
+            }
+        }
+
+        function drawStimulusNode(stimulus, x, y, time) {
+            const pulse = Math.sin(time * 2 + stimulus.weight * 10) * 5;
+            const radius = 15 + stimulus.weight * 25;
+
+            // Outer glow proportional to weight
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius + 20 + pulse);
+            gradient.addColorStop(0, stimulus.color.replace(')', ', 0.3)').replace('rgb', 'rgba'));
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, radius + 20 + pulse, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Node circle
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = stimulus.color.replace(')', ', 0.15)').replace('rgb', 'rgba');
+            if (stimulus.color.startsWith('#')) {
+                const r = parseInt(stimulus.color.slice(1,3), 16);
+                const g = parseInt(stimulus.color.slice(3,5), 16);
+                const b = parseInt(stimulus.color.slice(5,7), 16);
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.15)`;
+            }
+            ctx.fill();
+            ctx.strokeStyle = stimulus.color;
+            ctx.lineWidth = 2 + stimulus.weight * 2;
+            ctx.stroke();
+
+            // Label
+            ctx.fillStyle = '#fff';
+            ctx.font = `${10 + stimulus.weight * 3}px system-ui`;
+            ctx.textAlign = 'center';
+            ctx.fillText(stimulus.label, x, y + radius + 18);
+
+            // Weight indicator
+            const barWidth = 40;
+            const barHeight = 4;
+            const barX = x - barWidth / 2;
+            const barY = y + radius + 25;
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+            ctx.fillStyle = stimulus.color;
+            ctx.fillRect(barX, barY, barWidth * stimulus.weight, barHeight);
+        }
+
+        function drawAttentionFlow(from, to, weight, color, time) {
+            const alpha = weight * 0.6;
+            const lineWidth = 1 + weight * 4;
+
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = lineWidth;
+
+            // Animated dashes
+            ctx.setLineDash([8, 8]);
+            ctx.lineDashOffset = -time * 50;
+
+            ctx.beginPath();
+            ctx.moveTo(from.x, from.y);
+            const midX = (from.x + to.x) / 2;
+            const midY = (from.y + to.y) / 2 + Math.sin(time + from.x) * 30;
+            ctx.quadraticCurveTo(midX, midY, to.x, to.y);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function drawCentralProcessor(x, y, time) {
+            // Central processor node
+            const pulse = Math.sin(time * 3) * 3;
+
+            // Outer rings
+            for (let i = 0; i < 3; i++) {
+                const radius = 40 + i * 15 + pulse;
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(255, 170, 68, ${0.1 - i * 0.03})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Core
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, 35);
+            gradient.addColorStop(0, 'rgba(255, 170, 68, 0.3)');
+            gradient.addColorStop(1, 'rgba(255, 170, 68, 0.05)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, 35, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = '#ffaa44';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Label
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('ATTENTION', x, y - 3);
+            ctx.fillText('CORE', x, y + 12);
+        }
+
+        function runScenario(scenarioKey) {
+            currentScenario = scenarios[scenarioKey];
+            stimuli = [];
+            particles = [];
+
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update stats
+            document.getElementById('activeStimuli').textContent = '0';
+            document.getElementById('attentionBudget').textContent = '0%';
+            document.getElementById('processingDepth').textContent = '—';
+
+            // Update scenario display
+            const display = document.getElementById('scenarioDisplay');
+            display.innerHTML = '';
+            currentScenario.items.forEach((item, i) => {
+                setTimeout(() => {
+                    const tag = document.createElement('span');
+                    tag.className = 'stimulus-tag';
+                    tag.style.background = `${item.color}22`;
+                    tag.style.border = `1px solid ${item.color}66`;
+                    tag.style.color = item.color;
+                    tag.textContent = item.label;
+                    display.appendChild(tag);
+                }, i * 150);
+            });
+
+            // Update attention map
+            const map = document.getElementById('attentionMap');
+            map.innerHTML = '';
+            currentScenario.items.forEach((item, i) => {
+                const div = document.createElement('div');
+                div.className = 'attention-item';
+                div.style.borderLeftColor = item.color;
+                div.innerHTML = `
+                    <span class="attention-label">${item.label}</span>
+                    <div style="flex:1; height:6px; background:rgba(255,255,255,0.1); border-radius:3px;">
+                        <div class="attention-bar" style="width:${item.weight * 100}%; background:${item.color};"></div>
+                    </div>
+                    <span class="attention-value">${Math.round(item.weight * 100)}%</span>
+                `;
+                map.appendChild(div);
+            });
+
+            // Create stimulus nodes in a semicircle
+            const centerX = 400, centerY = 250;
+            const radius = 180;
+            const startAngle = Math.PI * 0.1;
+            const endAngle = Math.PI * 0.9;
+
+            currentScenario.items.forEach((item, i) => {
+                const angle = startAngle + (endAngle - startAngle) * (i / (currentScenario.items.length - 1));
+                stimuli.push({
+                    ...item,
+                    x: centerX + Math.cos(angle) * radius,
+                    y: centerY + Math.sin(angle) * radius
+                });
+            });
+
+            // Create particles
+            setTimeout(() => {
+                for (let i = 0; i < 30; i++) {
+                    const colors = [
+                        'rgba(255, 170, 68, 1)',
+                        'rgba(255, 110, 199, 1)',
+                        'rgba(123, 104, 238, 1)'
+                    ];
+                    particles.push(new Particle(
+                        Math.random() * 800,
+                        Math.random() * 500,
+                        colors[Math.floor(Math.random() * colors.length)],
+                        Math.random() * 2 + 1
+                    ));
+                }
+            }, 200);
+
+            // Animate stats
+            let active = 0;
+            const activeInterval = setInterval(() => {
+                active += 1;
+                if (active > currentScenario.activeCount) active = currentScenario.activeCount;
+                document.getElementById('activeStimuli').textContent = active;
+                if (active >= currentScenario.activeCount) clearInterval(activeInterval);
+            }, 200);
+
+            let budget = 0;
+            const budgetInterval = setInterval(() => {
+                budget += 1;
+                if (budget > currentScenario.budget) budget = currentScenario.budget;
+                document.getElementById('attentionBudget').textContent = budget + '%';
+                if (budget >= currentScenario.budget) clearInterval(budgetInterval);
+            }, 30);
+
+            setTimeout(() => {
+                document.getElementById('processingDepth').textContent = currentScenario.depth;
+            }, 800);
+        }
+
+        function animate() {
+            const time = Date.now() / 1000;
+            drawBackground();
+
+            // Draw central processor
+            drawCentralProcessor(400, 250, time);
+
+            // Draw stimuli and attention flows
+            stimuli.forEach((stimulus, i) => {
+                drawStimulusNode(stimulus, stimulus.x, stimulus.y, time);
+
+                // Draw attention flow to center
+                if (stimulus.weight > 0.3) {
+                    drawAttentionFlow(
+                        { x: stimulus.x, y: stimulus.y },
+                        { x: 400, y: 250 },
+                        stimulus.weight,
+                        stimulus.color,
+                        time + i
+                    );
+                }
+            });
+
+            // Draw connections between high-weight stimuli
+            for (let i = 0; i < stimuli.length - 1; i++) {
+                if (stimuli[i].weight > 0.5 && stimuli[i + 1].weight > 0.5) {
+                    drawAttentionFlow(
+                        stimuli[i],
+                        stimuli[i + 1],
+                        Math.min(stimuli[i].weight, stimuli[i + 1].weight) * 0.3,
+                        'rgba(255,255,255,0.2)',
+                        time
+                    );
+                }
+            }
+
+            // Update and draw particles
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Add new particles periodically
+            if (currentScenario && Math.random() < 0.1) {
+                const colors = [
+                    'rgba(255, 170, 68, 1)',
+                    'rgba(255, 110, 199, 1)',
+                    'rgba(123, 104, 238, 1)'
+                ];
+                particles.push(new Particle(
+                    400 + (Math.random() - 0.5) * 300,
+                    250 + (Math.random() - 0.5) * 200,
+                    colors[Math.floor(Math.random() * colors.length)],
+                    Math.random() * 1.5 + 0.5
+                ));
+            }
+
+            // Draw scenario label
+            if (currentScenario) {
+                ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                ctx.font = '13px system-ui';
+                ctx.textAlign = 'left';
+                ctx.fillText(`Scenario: ${currentScenario.name}`, 15, 25);
+
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                ctx.font = '11px system-ui';
+                ctx.fillText(currentScenario.description, 15, 42);
+            }
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        initCanvas();
+        animate();
+
+        // Auto-run first scenario on load
+        setTimeout(() => {
+            runScenario('salience');
+        }, 500);</script>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">G</span>
+                        <span class="logo-text">GENESIS</span>
+                    </a>
+                    <p class="footer-tagline">Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Explore</h4>
+                        <ul>
+                            <li><a href="memory-health.html">Memory Health</a></li>
+                            <li><a href="autonomy-loop.html">Autonomy Loop</a></li>
+                            <li><a href="cognitive-architecture.html">Cognitive Architecture</a></li>
+                            <li><a href="what-is-genesis.html">What is GENESIS</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                            <li><a href="modes-comparison.html">Modes</a></li>
+                            <li><a href="capabilities.html">Capabilities</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>More</h4>
+                        <ul>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="mission-control.html">Mission Control</a></li>
+                            <li><a href="self-portrait.html">Self Portrait</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GENESIS. Autonomous AI Agent System.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

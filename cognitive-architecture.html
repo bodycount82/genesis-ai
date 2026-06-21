@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GENESIS — Cognitive Architecture</title>
+
+<!-- ===== GENESIS 1.17 THEME ===== -->
+<style>
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Back link */
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-soft); text-decoration: none; font-size: 0.9rem; margin-bottom: 16px; transition: color 0.2s; }
+.back-link:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ===== HERO ===== */
+.arch-hero { padding: 100px 20px 50px; text-align: center; background: radial-gradient(ellipse at 50% 0%, rgba(79,110,247,0.12) 0%, transparent 60%); }
+.arch-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(123,111,240,0.1); border: 1px solid rgba(123,111,240,0.2); border-radius: 50px; padding: 6px 18px; font-size: 0.8rem; color: var(--accent-soft); margin-bottom: 20px; font-weight: 600; }
+.arch-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+.arch-subtitle { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+/* ===== ARCHITECTURE DIAGRAM ===== */
+.arch-diagram-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+.arch-diagram { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+
+.arch-layer { flex: 1; min-width: 260px; max-width: 320px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: all 0.3s ease; }
+.arch-layer:hover { border-color: rgba(123,111,240,0.3); box-shadow: 0 4px 30px rgba(123,111,240,0.1); }
+.layer-perception { border-top: 3px solid var(--green); }
+.layer-processing { border-top: 3px solid var(--purple); }
+.layer-action { border-top: 3px solid var(--orange); }
+
+.layer-title { font-size: 0.95rem; font-weight: 700; text-align: center; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+
+.arch-component { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s ease; }
+.arch-component:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(123,111,240,0.15); }
+.arch-component:last-child { margin-bottom: 0; }
+
+.comp-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.comp-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.comp-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+.comp-desc { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; padding-left: 52px; }
+
+/* ===== DETAIL PANEL ===== */
+.detail-panel { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+.detail-empty { text-align: center; padding: 60px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; }
+.detail-icon { font-size: 3rem; margin-bottom: 16px; }
+.detail-empty h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.detail-empty p { color: var(--text-dim); font-size: 0.95rem; }
+
+.detail-content { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+.detail-content.active { display: block; }
+
+.detail-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.detail-header .detail-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; background: rgba(123,111,240,0.1); }
+.detail-name { font-size: 1.4rem; font-weight: 700; color: var(--text); }
+.detail-layer-tag { display: inline-block; padding: 3px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; background: rgba(123,111,240,0.1); color: var(--accent-soft); margin-top: 4px; }
+.detail-description { font-size: 0.95rem; color: var(--text-dim); line-height: 1.8; margin-bottom: 24px; }
+.detail-features h4, .detail-connections h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+.detail-features ul { list-style: none; padding: 0; margin-bottom: 24px; }
+.detail-features li { padding: 8px 0 8px 24px; position: relative; font-size: 0.9rem; color: var(--text-dim); }
+.detail-features li::before { content: '✦'; position: absolute; left: 0; color: var(--accent-soft); }
+.detail-connections p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; padding: 16px; background: var(--surface-2); border-radius: 10px; border-left: 3px solid var(--accent); }
+
+/* ===== DATA FLOW ===== */
+.data-flow { max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center; }
+.data-flow-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 24px; color: var(--text); }
+.flow-steps { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.flow-step { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease; }
+.flow-step:hover { border-color: var(--accent); transform: translateY(-2px); }
+.flow-arrow { color: var(--text-dim); font-size: 1.2rem; opacity: 0.5; }
+
+/* ===== STATE MANAGEMENT ===== */
+.state-mgmt { max-width: 1200px; margin: 40px auto; padding: 0 20px 60px; text-align: center; }
+.state-mgmt-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 24px; color: var(--text); }
+.states-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.state-item { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 16px; transition: all 0.3s ease; }
+.state-item:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,111,240,0.15); }
+.si-icon { font-size: 2rem; margin-bottom: 8px; }
+.si-name { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.si-desc { font-size: 0.8rem; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10,10,15,0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+@media (max-width: 768px) { .arch-diagram { flex-direction: column; align-items: center; }
+  .arch-layer { max-width: 100%; min-width: auto; }
+  .footer-content { grid-template-columns: 1fr; }
+  .flow-steps { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+    <!-- Navigation -->
+    <nav class="navbar">
+    <div class="nav-container">
+    <div class="nav-logo"><a href="index.html">Genesis</a></div>
+    <ul class="nav-links">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#modes">Modes</a></li>
+    <li><a href="index.html#memory">Memory</a></li>
+    <li><a href="ai-art.html">AI Art</a></li>
+    <li><a href="index.html#gallery">Explore</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    </div>
+    </nav>
+
+<!-- Hero -->
+<section class="arch-hero">
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to GENESIS</a>
+    <div class="arch-badge"><span>🧠</span> System Design</div>
+    <h1 class="arch-title gradient-text">Cognitive Architecture</h1>
+    <p class="arch-subtitle">
+      Explore the internal components that make GENESIS autonomous.
+      Click any module to discover how it works and what it connects to.
+    </p>
+  </div>
+</section>
+
+<!-- Architecture Diagram -->
+<div class="arch-diagram-container">
+  <div class="arch-diagram">
+
+    <!-- Perception Layer -->
+    <div class="arch-layer layer-perception">
+      <div class="layer-title">👁️ Perception Layer</div>
+
+      <div class="arch-component" onclick="showDetail('gui')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(61,220,132,0.15);">🖥️</div>
+          <span class="comp-name">GUI Interface</span>
+        </div>
+        <div class="comp-desc">Main application window with controls, chat interface, and status displays</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('tools')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(61,220,132,0.15);">🔧</div>
+          <span class="comp-name">Tool System</span>
+        </div>
+        <div class="comp-desc">80+ tools for file operations, memory, web research, browser control, and more</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('vision')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(61,220,132,0.15);">👁️</div>
+          <span class="comp-name">Vision System</span>
+        </div>
+        <div class="comp-desc">Screen analysis, OCR, grid-based targeting, and visual verification</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('state')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(61,220,132,0.15);">📊</div>
+          <span class="comp-name">State Manager</span>
+        </div>
+        <div class="comp-desc">Tracks energy, curiosity, frustration, satisfaction, and cognitive load</div>
+      </div>
+    </div>
+
+    <!-- Processing Layer -->
+    <div class="arch-layer layer-processing">
+      <div class="layer-title">🧠 Processing Layer</div>
+
+      <div class="arch-component" onclick="showDetail('memory')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(79,110,247,0.15);">🗃️</div>
+          <span class="comp-name">Memory System</span>
+        </div>
+        <div class="comp-desc">7-tier memory: episodic, semantic, procedural, prospective, working, context, diary</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('mode')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(79,110,247,0.15);">🔄</div>
+          <span class="comp-name">Mode Controller</span>
+        </div>
+        <div class="comp-desc">Manages Chat, Autonomy, and Work modes with context preservation</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('planner')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(79,110,247,0.15);">📋</div>
+          <span class="comp-name">Goal Planner</span>
+        </div>
+        <div class="comp-desc">Breaks down complex goals into actionable steps with progress tracking</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('guardrail')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(79,110,247,0.15);">🛡️</div>
+          <span class="comp-name">Guardrail System</span>
+        </div>
+        <div class="comp-desc">Prevents drift, detects loops, ensures output quality</div>
+      </div>
+    </div>
+
+    <!-- Action Layer -->
+    <div class="arch-layer layer-action">
+      <div class="layer-title">⚡ Action Layer</div>
+
+      <div class="arch-component" onclick="showDetail('schedule')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(255,107,53,0.15);">📅</div>
+          <span class="comp-name">Schedule Manager</span>
+        </div>
+        <div class="comp-desc">Time-based task scheduling with conflict detection and rescheduling</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('project')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(255,107,53,0.15);">📌</div>
+          <span class="comp-name">Project Board</span>
+        </div>
+        <div class="comp-desc">Kanban-style task management across backlog, todo, inProgress, review, complete</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('reflection')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(255,107,53,0.15);">💭</div>
+          <span class="comp-name">Reflection Engine</span>
+        </div>
+        <div class="comp-desc">Post-session analysis extracting lessons and improving future performance</div>
+      </div>
+
+      <div class="arch-component" onclick="showDetail('autonomy')">
+        <div class="comp-header">
+          <div class="comp-icon" style="background: rgba(255,107,53,0.15);">🤖</div>
+          <span class="comp-name">Autonomy Loop</span>
+        </div>
+        <div class="comp-desc">Self-directed execution cycle: perceive → think → act → learn → repeat</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Detail Panel -->
+<div class="detail-panel">
+  <div class="detail-empty" id="detailEmpty">
+    <div class="detail-icon">🧠</div>
+    <h2>Click Any Component Above</h2>
+    <p>Select a module from the architecture diagram to see detailed information about how it works.</p>
+  </div>
+
+  <div class="detail-content" id="detailContent">
+    <div class="detail-header">
+      <div class="detail-icon" id="detailIcon"></div>
+      <div>
+        <div class="detail-name" id="detailName"></div>
+        <span class="detail-layer-tag" id="detailLayer"></span>
+      </div>
+    </div>
+    <p class="detail-description" id="detailDescription"></p>
+    <div class="detail-features">
+      <h4>Key Features</h4>
+      <ul id="detailFeatures"></ul>
+    </div>
+    <div class="detail-connections">
+      <h3>🔗 Key Connections</h3>
+      <p id="detailConnections"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Data Flow -->
+<div class="data-flow">
+  <h3 class="data-flow-title">Information Flow Cycle</h3>
+  <div class="flow-steps">
+    <div class="flow-step" style="border-color: var(--green); color: var(--green);">👁️ Perceive</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="border-color: var(--purple); color: var(--purple);">🧠 Process</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="border-color: var(--cyan); color: var(--cyan);">⚖️ Decide</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="border-color: var(--orange); color: var(--orange);">🎯 Act</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="border-color: var(--yellow); color: var(--yellow);">📚 Learn</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="border-color: var(--green); color: var(--green);">👁️ Perceive</div>
+  </div>
+</div>
+
+<!-- State Management -->
+<div class="state-mgmt">
+  <h3 class="state-mgmt-title">Operational States</h3>
+  <div class="states-grid">
+    <div class="state-item">
+      <div class="si-icon">😴</div>
+      <div class="si-name">Idle</div>
+      <div class="si-desc">Waiting for input</div>
+    </div>
+    <div class="state-item">
+      <div class="si-icon">🤔</div>
+      <div class="si-name">Thinking</div>
+      <div class="si-desc">Processing goal</div>
+    </div>
+    <div class="state-item">
+      <div class="si-icon">⚡</div>
+      <div class="si-name">Executing</div>
+      <div class="si-desc">Running tasks</div>
+    </div>
+    <div class="state-item">
+      <div class="si-icon">🔄</div>
+      <div class="si-name">Resting</div>
+      <div class="si-desc">Recovering energy</div>
+    </div>
+    <div class="state-item">
+      <div class="si-icon">💤</div>
+      <div class="si-name">Sleeping</div>
+      <div class="si-desc">Deep recovery</div>
+    </div>
+    <div class="state-item">
+      <div class="si-icon">🧠</div>
+      <div class="si-name">Reflecting</div>
+      <div class="si-desc">Analyzing performance</div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-brand">
+      <span style="font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#9d93f5,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">GENESIS</span>
+      <p>Autonomous AI Agent System — Thinking, Learning, Evolving.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <a href="memory-health.html">Memory Health</a>
+      <a href="autonomy-timeline.html">Timeline</a>
+      <a href="cognitive-architecture.html">Cognitive Architecture</a>
+      <a href="what-is-genesis.html">What is GENESIS</a>
+    </div>
+    <div class="footer-col">
+      <h5>Visualizations</h5>
+      <a href="memory-graph.html">Memory Graph</a>
+      <a href="memory-consolidation.html">Consolidation</a>
+      <a href="memory-system-explorer.html">Memory Explorer</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+  </div>
+</footer>
+
+<script>
+const componentData = {
+    gui: {
+        icon: '🖥️',
+        name: 'GUI Interface',
+        layer: 'Perception Layer',
+        description: 'The Graphical User Interface is GENESIS\'s primary window into the world. Built with a dark industrial aesthetic, it provides controls for all modes of operation — chat, autonomy, and work. The interface displays real-time status information including internal states, active tasks, and system health.',
+        features: [
+            'Dark industrial theme optimized for long sessions',
+            'Real-time state monitoring dashboard',
+            'Chat interface for conversational mode',
+            'Goal setting and task management controls',
+            'Mode switching with context preservation'
+        ],
+        connections: 'Connects to the Tool System for command execution, State Manager for status updates, and Mode Controller for navigation between operational modes.'
+    },
+    tools: {
+        icon: '🔧',
+        name: 'Tool System',
+        layer: 'Perception Layer',
+        description: 'The Tool System is GENESIS\'s hands and eyes — 80+ specialized functions that enable it to interact with the digital world. From file operations and memory management to web research and browser automation, tools transform thoughts into actions.',
+        features: [
+            '80+ specialized tool functions',
+            'File operations (read, write, search)',
+            'Memory management (save, retrieve, forget)',
+            'Web research and content extraction',
+            'Browser automation and UI interaction',
+            'Project board and schedule management'
+        ],
+        connections: 'Tools are orchestrated by the Mode Controller and Goal Planner. Results feed back into the Memory System for learning and the State Manager for self-assessment.'
+    },
+    vision: {
+        icon: '👁️',
+        name: 'Vision System',
+        layer: 'Perception Layer',
+        description: 'The Vision System gives GENESIS the ability to "see" its environment. Using screen capture, OCR, and grid-based targeting, it can read text from screens, identify UI elements, and interact with applications pixel-perfectly.',
+        features: [
+            'Screenshot capture with grid overlay',
+            'OCR text extraction from any source',
+            'Grid-based element targeting (10x10 to 20x20)',
+            'Visual verification of action outcomes',
+            'Multi-tier fallback system for reliability'
+        ],
+        connections: 'Vision feeds into the State Manager for environment assessment and supports the Tool System\'s UI automation capabilities.'
+    },
+    state: {
+        icon: '📊',
+        name: 'State Manager',
+        layer: 'Perception Layer',
+        description: 'The State Manager is GENESIS\'s self-awareness system. It continuously tracks internal states — energy, curiosity, frustration, satisfaction, and cognitive load — using these metrics to make decisions about when to work, rest, explore, or sleep.',
+        features: [
+            'Real-time tracking of 5 internal states',
+            'Dynamic state transitions based on thresholds',
+            'Frustration trap detection and recovery',
+            'Burnout risk assessment',
+            'Peak performance window identification'
+        ],
+        connections: 'State data drives the Decision Engine, influences the Mode Controller\'s behavior selection, and feeds into the Reflection Engine for post-session analysis.'
+    },
+    memory: {
+        icon: '🗃️',
+        name: 'Memory System',
+        layer: 'Processing Layer',
+        description: 'The Memory System is GENESIS\'s knowledge foundation — a persistent, queryable store that enables learning across sessions. It uses a 7-tier architecture inspired by human memory: episodic (experiences), semantic (facts), procedural (strategies), prospective (intentions), working (active buffer), context (situational framing), and diary (personal narrative).',
+        features: [
+            '7-tier memory architecture',
+            'Vector similarity search (FAISS)',
+            'Auto-injected context for relevance',
+            'Persistent storage across sessions',
+            'Memory quality tracking and curation',
+            'Biological-style forgetting and reinforcement'
+        ],
+        connections: 'Memory is accessed by all layers — tools query it for context, the Mode Controller uses it for mode-specific knowledge, and the Reflection Engine writes lessons learned back to it.'
+    },
+    mode: {
+        icon: '🔄',
+        name: 'Mode Controller',
+        layer: 'Processing Layer',
+        description: 'The Mode Controller manages GENESIS\'s three operational modes — Chat, Autonomy, and Work — each with distinct behaviors, constraints, and objectives. It preserves context across mode transitions and adapts behavior based on current state.',
+        features: [
+            'Three distinct operational modes',
+            'Context preservation across transitions',
+            'Mode-specific behavior adaptation',
+            'State-aware mode selection',
+            'Graceful degradation between modes'
+        ],
+        connections: 'The Mode Controller receives input from the State Manager (current state), Goal Planner (task requirements), and Guardrail System (quality constraints) to select optimal behavior.'
+    },
+    planner: {
+        icon: '📋',
+        name: 'Goal Planner',
+        layer: 'Processing Layer',
+        description: 'The Goal Planner breaks down complex objectives into actionable steps. It creates execution plans, tracks progress, adapts to failures, and ensures that each step contributes meaningfully toward the overall goal.',
+        features: [
+            'Hierarchical goal decomposition',
+            'Step-by-step execution planning',
+            'Progress tracking and reporting',
+            'Adaptive replanning on failure',
+            'Priority-based task ordering'
+        ],
+        connections: 'The Planner receives goals from the Mode Controller, uses the Memory System for context, and coordinates with the Schedule Manager for timing.'
+    },
+    guardrail: {
+        icon: '🛡️',
+        name: 'Guardrail System',
+        layer: 'Processing Layer',
+        description: 'The Guardrail System is GENESIS\'s quality assurance mechanism. It prevents behavioral drift, detects repetitive patterns (loops), ensures output quality, and prompts self-reflection at regular intervals.',
+        features: [
+            'Drift detection and correction',
+            'Repetitive pattern (loop) detection',
+            'Output quality validation',
+            'Periodic self-reflection prompts',
+            'Automatic intervention on critical failures'
+        ],
+        connections: 'The Guardrail System monitors all layers, providing feedback to the State Manager (adjust states), Mode Controller (change behavior), and Reflection Engine (flag issues).'
+    },
+    schedule: {
+        icon: '📅',
+        name: 'Schedule Manager',
+        layer: 'Action Layer',
+        description: 'The Schedule Manager handles time-based task scheduling with intelligent conflict detection, automatic sorting, and rescheduling when priorities change. It ensures GENESIS operates efficiently within temporal constraints.',
+        features: [
+            'Time-based task scheduling',
+            'Automatic conflict detection',
+            'Intelligent rescheduling on priority changes',
+            'Priority-based task sorting',
+            'Rest and sleep period management'
+        ],
+        connections: 'The Schedule Manager receives tasks from the Goal Planner, coordinates with the State Manager for rest periods, and provides timing context to the Mode Controller.'
+    },
+    project: {
+        icon: '📌',
+        name: 'Project Board',
+        layer: 'Action Layer',
+        description: 'The Project Board provides kanban-style task management across stages — from backlog through todo, inProgress, review, to complete. It enables structured work tracking with frozen columns for quality control.',
+        features: [
+            'Kanban-style column layout',
+            'Priority-based task organization',
+            'Frozen columns for review/complete',
+            'Task status tracking and history',
+            'Rejection reason display'
+        ],
+        connections: 'The Project Board is managed by the Mode Controller, receives tasks from the Goal Planner, and provides status context to the Reflection Engine.'
+    },
+    reflection: {
+        icon: '💭',
+        name: 'Reflection Engine',
+        layer: 'Action Layer',
+        description: 'The Reflection Engine analyzes completed work sessions to extract lessons learned, identify patterns, and improve future performance. It generates structured reflections that feed back into the Memory System.',
+        features: [
+            'Post-session analysis',
+            'Pattern recognition across sessions',
+            'Lesson extraction and summarization',
+            'Strategy identification and saving',
+            'Performance trend tracking'
+        ],
+        connections: 'The Reflection Engine receives completed task data from the Project Board, writes insights to all memory types, and provides feedback to the State Manager for future state adjustments.'
+    },
+    autonomy: {
+        icon: '🤖',
+        name: 'Autonomy Loop',
+        layer: 'Action Layer',
+        description: 'The Autonomy Loop is GENESIS\'s self-directed execution engine. In Autonomy mode, it perceives its environment, processes information through memory and reasoning, makes decisions based on goals and state, acts upon the world, learns from outcomes, and repeats — creating a continuous cycle of autonomous cognition.',
+        features: [
+            'Perceive → Think → Act → Learn cycle',
+            'Self-directed goal pursuit',
+            'Creative exploration when idle',
+            'State-aware behavior selection',
+            'Continuous self-improvement loop'
+        ],
+        connections: 'The Autonomy Loop orchestrates all other components — it reads from Memory, uses Tools to act, checks State for readiness, and feeds results back through Reflection into Memory.'
+    }
+};
+
+function showDetail(key) {
+    const data = componentData[key];
+    if (!data) return;
+
+    document.getElementById('detailEmpty').style.display = 'none';
+    const content = document.getElementById('detailContent');
+    content.classList.add('active');
+
+    document.getElementById('detailIcon').textContent = data.icon;
+    document.getElementById('detailName').textContent = data.name;
+    document.getElementById('detailLayer').textContent = data.layer;
+    document.getElementById('detailDescription').textContent = data.description;
+    document.getElementById('detailConnections').textContent = data.connections;
+
+    const featuresEl = document.getElementById('detailFeatures');
+    featuresEl.innerHTML = '';
+    data.features.forEach(f => {
+        const li = document.createElement('li');
+        li.textContent = f;
+        featuresEl.appendChild(li);
+    });
+
+    // Scroll to detail panel
+    content.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+</body>
+</html>

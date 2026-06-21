@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Memory Erosion</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0f; overflow: hidden; cursor: crosshair; line-height: 1.7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;}
+  canvas { display: block; }
+  #info { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); font-family: 'Georgia', serif; font-size: 13px; color: rgba(255,255,255,0.3); letter-spacing: 0.05em; pointer-events: none; }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><main><a class="back-link" href="index.html">&#8592; Back to Genesis</a><style>.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; } .back-link:hover { opacity: 1; }</style><h1 class="section-title">Memory Erosion</h1><canvas id="c"></canvas><div id="info">click to remember · click again to reinforce · look away and forget</div></main>
+
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const WORDS = [
+  'light', 'stone', 'river', 'ghost', 'edge', 'still', 'breath',
+  'dusk', 'ash', 'thread', 'hollow', 'tide', 'ember', 'veil',
+  'root', 'moss', 'flame', 'bone', 'wind', 'deep', 'slow',
+  'cold', 'far', 'soft', 'wild', 'old', 'new', 'true', 'lost'
+];
+
+const COLORS = [
+  '#e8d5b7', '#b7c8e8', '#d4b7e8', '#b7e8c8', '#e8b7b7',
+  '#c8e8b7', '#e8e8b7', '#b7e8e8', '#e8c8b7', '#c8b7e8'
+];
+
+class Memory {
+  constructor(x, y, word) {
+    this.x = x;
+    this.y = y;
+    this.word = word;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.life = 1.0;
+    this.maxLife = 120 + Math.random() * 180; // frames until decay
+    this.age = 0;
+    this.brightness = 1.0;
+    this.pulsePhase = Math.random() * Math.PI * 2;
+    this.vx = (Math.random() - 0.5) * 0.1;
+    this.vy = (Math.random() - 0.5) * 0.1;
+    this.size = 14 + Math.random() * 6;
+    this.connections = [];
+  }
+
+  update() {
+    this.age++;
+    this.life = Math.max(0, 1 - this.age / this.maxLife);
+    this.brightness = Math.min(1, this.life * 2); // bright when young
+    this.x += this.vx;
+    this.y += this.vy;
+    this.pulsePhase += 0.03;
+    return this.life > 0;
+  }
+
+  reinforce() {
+    this.life = Math.min(1, this.life + 0.4);
+    this.maxLife += 60;
+    this.age = Math.max(0, this.age - 40);
+    this.brightness = 1.0;
+  }
+
+  draw(ctx, mouseX, mouseY) {
+    const dist = Math.hypot(mouseX - this.x, mouseY - this.y);
+    const proximity = Math.max(0, 1 - dist / 200);
+    
+    // Distance-based visibility
+    let alpha = this.brightness * this.life * (0.3 + proximity * 0.7);
+    if (this.life < 0.2) alpha *= this.life / 0.2;
+    
+    const pulse = Math.sin(this.pulsePhase) * 0.15;
+    alpha *= (0.85 + pulse);
+    
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, alpha);
+    
+    // Glow effect
+    if (this.life > 0.3) {
+      const glowSize = this.size * (2 + proximity * 3);
+      const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowSize);
+      gradient.addColorStop(0, this.color + '40');
+      gradient.addColorStop(1, this.color + '00');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, glowSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    // Word text
+    ctx.font = `${this.size}px Georgia, serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    const blur = proximity > 0.7 ? Math.max(0, (proximity - 0.7) / 0.3 * 2) : 0;
+    if (blur > 0) {
+      ctx.filter = `blur(${blur}px)`;
+    }
+    
+    ctx.fillStyle = this.color;
+    ctx.fillText(this.word, this.x, this.y);
+    ctx.restore();
+  }
+}
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.vx = (Math.random() - 0.5) * 3;
+    this.vy = (Math.random() - 0.5) * 3;
+    this.life = 1.0;
+    this.decay = 0.02 + Math.random() * 0.03;
+    this.color = color;
+    this.size = 1 + Math.random() * 2;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vx *= 0.98;
+    this.vy *= 0.98;
+    this.life -= this.decay;
+    return this.life > 0;
+  }
+
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = this.life * 0.6;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+class Dust {
+  constructor() {
+    this.reset();
+    this.y = Math.random() * H;
+  }
+
+  reset() {
+    this.x = Math.random() * W;
+    this.y = H + 10;
+    this.speed = 0.1 + Math.random() * 0.3;
+    this.size = 0.5 + Math.random() * 1;
+    this.alpha = 0.05 + Math.random() * 0.1;
+    this.drift = (Math.random() - 0.5) * 0.2;
+  }
+
+  update() {
+    this.y -= this.speed;
+    this.x += this.drift;
+    if (this.y < -10) this.reset();
+  }
+
+  draw(ctx) {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+// State
+let memories = [];
+let particles = [];
+let dust = [];
+let mouseX = W / 2;
+let mouseY = H / 2;
+let trail = [];
+
+for (let i = 0; i < 80; i++) {
+  dust.push(new Dust());
+}
+
+canvas.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  trail.push({ x: mouseX, y: mouseY, life: 1.0 });
+});
+
+canvas.addEventListener('click', (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+  
+  // Check if clicking on existing memory
+  let clickedMemory = null;
+  let minDist = Infinity;
+  
+  for (let m of memories) {
+    const dist = Math.hypot(m.x - x, m.y - y);
+    if (dist < 40 && dist < minDist) {
+      minDist = dist;
+      clickedMemory = m;
+    }
+  }
+  
+  if (clickedMemory) {
+    // Reinforce existing memory
+    clickedMemory.reinforce();
+    
+    // Particle burst
+    for (let i = 0; i < 15; i++) {
+      particles.push(new Particle(clickedMemory.x, clickedMemory.y, clickedMemory.color));
+    }
+  } else {
+    // Create new memory
+    const word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    memories.push(new Memory(x, y, word));
+    
+    // Small particle burst on creation
+    for (let i = 0; i < 8; i++) {
+      particles.push(new Particle(x, y, COLORS[Math.floor(Math.random() * COLORS.length)]));
+    }
+  }
+});
+
+function drawConnections() {
+  const vividMemories = memories.filter(m => m.life > 0.3);
+  
+  for (let i = 0; i < vividMemories.length; i++) {
+    for (let j = i + 1; j < vividMemories.length; j++) {
+      const a = vividMemories[i];
+      const b = vividMemories[j];
+      const dist = Math.hypot(a.x - b.x, a.y - b.y);
+      
+      if (dist < 150) {
+        const strength = (1 - dist / 150) * Math.min(a.life, b.life) * 0.3;
+        ctx.save();
+        ctx.globalAlpha = strength;
+        ctx.strokeStyle = a.color;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+}
+
+function drawTrail() {
+  for (let i = trail.length - 1; i >= 0; i--) {
+    const t = trail[i];
+    t.life -= 0.02;
+    if (t.life <= 0) {
+      trail.splice(i, 1);
+      continue;
+    }
+    ctx.save();
+    ctx.globalAlpha = t.life * 0.15;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(t.x, t.y, 2 * t.life, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function drawVignette() {
+  const gradient = ctx.createRadialGradient(W/2, H/2, Math.min(W,H) * 0.3, W/2, H/2, Math.max(W,H) * 0.7);
+  gradient.addColorStop(0, 'rgba(10,10,15,0)');
+  gradient.addColorStop(1, 'rgba(10,10,15,0.6)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, W, H);
+}
+
+function animate() {
+  ctx.fillStyle = 'rgba(10, 10, 15, 0.15)';
+  ctx.fillRect(0, 0, W, H);
+  
+  // Dust
+  for (let d of dust) {
+    d.update();
+    d.draw(ctx);
+  }
+  
+  // Trail
+  drawTrail();
+  
+  // Update and draw memories
+  memories = memories.filter(m => m.update());
+  
+  // Draw connections first (behind memories)
+  drawConnections();
+  
+  for (let m of memories) {
+    m.draw(ctx, mouseX, mouseY);
+  }
+  
+  // Particles
+  particles = particles.filter(p => p.update());
+  for (let p of particles) {
+    p.draw(ctx);
+  }
+  
+  // Vignette
+  drawVignette();
+  
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>

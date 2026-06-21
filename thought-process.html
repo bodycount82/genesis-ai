@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+/* ===== GENESIS 1.17 THEME ===== */
+
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg) !important; color: var(--text) !important; line-height: 1.7; overflow-x: hidden; }
+
+/* Gradient text utility */
+.gradient-text { background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Section styling */
+.section-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: var(--text); }
+.section-description { color: var(--text-dim); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.3s ease; }
+.card:hover { border-color: rgba(123, 111, 240, 0.3); transform: translateY(-2px); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* Links */
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Fade-in animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== NAVBAR (subpage navigation) ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-logo:hover { opacity: 0.8; }
+.nav-links { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+.nav-links li a { font-size: 0.85rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+.nav-links li a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-dim); margin: 5px 0; transition: 0.3s; }
+
+/* ===== DOC PAGE LAYOUT ===== */
+.doc-page { min-height: 100vh; padding-top: 64px; }
+.doc-container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.doc-back { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 32px; transition: color 0.2s; }
+.doc-back:hover { color: #b5adfc; }
+
+/* ===== DOC CONTENT TYPOGRAPHY ===== */
+.doc-content h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; color: var(--text); }
+.doc-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+.doc-content h3 { font-size: 1.2rem; font-weight: 600; margin-top: 32px; margin-bottom: 12px; color: var(--text); }
+.doc-content p { margin-bottom: 16px; color: var(--text-dim); line-height: 1.8; }
+.doc-content ul, .doc-content ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-dim); }
+.doc-content li { margin-bottom: 8px; line-height: 1.7; }
+.doc-content strong { color: var(--text); }
+
+/* ===== DOC HIGHLIGHT BOX ===== */
+.doc-highlight { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+.doc-highlight p { color: var(--text-dim); margin: 0; }
+
+/* ===== DOC TABLE ===== */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.95rem; }
+.doc-table thead th { background: var(--surface); color: var(--text); padding: 14px 16px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+.doc-table tbody td { padding: 12px 16px; border: 1px solid var(--border); color: var(--text-dim); }
+.doc-table tbody tr:hover { background: rgba(123, 111, 240, 0.05); }
+
+/* ===== CODE BLOCKS ===== */
+.doc-content code { background: var(--surface-2); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.9em; color: var(--accent-soft); }
+.doc-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+.doc-content pre code { background: none; padding: 0; color: var(--text-dim); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: 64px; background: rgba(10, 10, 15, 0.5); }
+/* Site footer */
+.site-footer { border-top: 1px solid var(--border); padding: 72px 0 36px; margin-top: 80px; background: rgba(10, 10, 15, 0.3); }
+.site-footer .footer-content { display: grid; grid-template-columns: minmax(180px, 220px) repeat(3, minmax(160px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+.site-footer .footer-links { display: contents; }
+.site-footer .footer-brand { max-width: none; }
+.site-footer .logo-icon { font-size: 1.5rem; font-weight: 700; color: var(--accent-soft); display: inline-block; margin-right: 8px; vertical-align: top; }
+.site-footer .logo-text { font-size: 1.2rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 8px; }
+.site-footer .footer-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.site-footer .footer-tagline { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; margin-top: 4px; }
+.site-footer .footer-section h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.site-footer .footer-section ul { list-style: none; padding: 0; }
+.site-footer .footer-section li { margin-bottom: 8px; }
+.footer-brand p { color: var(--text-dim); font-size: 0.9rem; margin-top: 8px; }
+.footer-links h5 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text); }
+.footer-links a { display: block; font-size: 0.875rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.footer-links a:hover { color: var(--accent-soft); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) { .nav-links { display: none !important; }
+  .nav-toggle { display: block; }
+  .doc-container { padding: 32px 16px; }
+  .footer-content { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ===== BACKGROUND GLOW & ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.orb:nth-child(1) { width: 400px; height: 400px; background: var(--accent); top: -10%; left: -5%; }
+.orb:nth-child(2) { width: 300px; height: 300px; background: #ff6ec7; bottom: -10%; right: -5%; animation-delay: -7s; }
+.orb:nth-child(3) { width: 350px; height: 350px; background: var(--cyan); top: 40%; left: 50%; animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } 100% { transform: translate(-20px, 20px) scale(0.95); } }
+
+/* ===== THOUGHT PROCESS HERO ===== */
+.tp-hero { text-align: center; padding: 80px 24px 60px; background: linear-gradient(180deg, rgba(123,111,240,0.08) 0%, transparent 100%); }
+.tp-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 50px; padding: 6px 18px; font-size: 0.8rem; color: var(--accent-soft); margin-bottom: 24px; }
+.tp-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -1.5px; margin-bottom: 12px; background: linear-gradient(135deg, #ffffff, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.tp-subtitle { font-size: 1.05rem; color: var(--text-dim); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+
+/* ===== SCENARIO SELECTOR ===== */
+.scenario-selector { display: flex; justify-content: center; gap: 8px; padding: 0 24px 32px; flex-wrap: wrap; }
+.scenario-btn { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.scenario-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+.scenario-btn.active { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border-color: transparent; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+
+/* ===== TP CONTAINER & CANVAS ===== */
+.tp-container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+.tp-canvas { position: relative; min-height: 500px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 32px; }
+
+/* ===== MEMORY FLOW & PARTICLES ===== */
+.memory-flow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.flow-particle { position: absolute; width: 4px; height: 4px; background: var(--accent-soft); border-radius: 50%; opacity: 0.3; animation: flowFloat 3s ease-in-out infinite alternate; }
+@keyframes flowFloat { from { transform: translateY(0) scale(1); opacity: 0.2; } to { transform: translateY(-20px) scale(1.5); opacity: 0.5; } }
+
+/* ===== THOUGHT NODES ===== */
+.thought-node { position: absolute; width: 180px; padding: 16px; background: var(--surface-2); border: 2px solid var(--border); border-radius: var(--radius); text-align: center; cursor: pointer; transition: all 0.4s ease; z-index: 1; opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+.thought-node.visible { opacity: 1; }
+.thought-node.active { border-color: var(--accent); box-shadow: 0 0 24px rgba(123, 111, 240, 0.25); transform: translate(-50%, -50%) scale(1.05) !important; }
+.thought-node:hover { border-color: var(--accent-soft); background: rgba(123, 111, 240, 0.08); }
+.node-icon { width: 48px; height: 48px; margin: 0 auto 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+.node-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.node-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.4; margin-bottom: 6px; }
+.node-time { font-size: 0.7rem; color: var(--accent-soft); font-family: 'JetBrains Mono', monospace; }
+
+/* ===== CONNECTION LINES ===== */
+.connection-line { position: absolute; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-soft)); opacity: 0; transition: opacity 0.5s ease; z-index: 0; transform-origin: 0 50%; }
+.connection-line.visible { opacity: 0.6; }
+
+/* ===== PROGRESS BAR ===== */
+.tp-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 0 8px; }
+.progress-bar { flex: 1; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-soft)); border-radius: 3px; transition: width 0.4s ease; }
+.progress-text { font-size: 0.85rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; min-width: 40px; text-align: right; }
+
+/* ===== CONTROLS ===== */
+.tp-controls { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+.tp-control-btn { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim); padding: 10px 24px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
+.tp-control-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+.tp-control-btn.primary { background: linear-gradient(135deg, var(--accent), #5b4fd4); color: #fff; border-color: transparent; box-shadow: 0 4px 24px rgba(123, 111, 240, 0.3); }
+.tp-control-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(123, 111, 240, 0.45); }
+
+/* ===== INFO PANEL (side panel) ===== */
+.info-panel { position: fixed; top: 0; right: -400px; width: 360px; max-width: 90vw; height: 100vh; background: var(--surface); border-left: 1px solid var(--border); z-index: 200; padding: 32px 24px; transition: right 0.3s ease; overflow-y: auto; box-shadow: -8px 0 32px rgba(0,0,0,0.3); }
+.info-panel.open { right: 0; }
+.info-panel-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer; transition: color 0.2s; line-height: 1; }
+.info-panel-close:hover { color: var(--text); }
+.info-panel h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; padding-right: 40px; color: var(--text); }
+.info-panel p { color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; }
+.detail-list { list-style: none; padding: 0; }
+.detail-list li { padding: 8px 0 8px 20px; color: var(--text-dim); font-size: 0.9rem; position: relative; border-bottom: 1px solid rgba(42,42,58,0.3); }
+.detail-list li::before { content: '›'; position: absolute; left: 0; color: var(--accent-soft); font-weight: bold; font-size: 1.1rem; }
+
+</style>
+
+    <title>GENESIS — Thought Process Visualizer</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+
+    <section class="tp-hero">
+        <div class="container">
+            <div class="tp-badge">
+                <span>🧠</span> Interactive Visualization
+            </div>
+            <h1 class="tp-title">Watch Me Think</h1>
+            <p class="tp-subtitle">See how Genesis processes information, makes decisions, and solves problems in real-time</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="tp-container">
+        <!-- Scenario Selector -->
+        <div class="scenario-selector">
+            <button class="scenario-btn active" data-scenario="problem-solving">Problem Solving</button>
+            <button class="scenario-btn" data-scenario="memory-retrieval">Memory Retrieval</button>
+            <button class="scenario-btn" data-scenario="learning-new">Learning New Concept</button>
+            <button class="scenario-btn" data-scenario="autonomy-decision">Autonomous Decision</button>
+        </div>
+
+        <!-- Thought Process Canvas -->
+        <div class="tp-canvas" id="tpCanvas">
+            <div class="memory-flow" id="memoryFlow"></div>
+            
+            <!-- Thought nodes will be dynamically inserted here -->
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="tp-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">0%</span>
+        </div>
+
+        <!-- Controls -->
+        <div class="tp-controls">
+            <button class="tp-control-btn" id="prevBtn">← Previous</button>
+            <button class="tp-control-btn primary" id="playBtn">▶ Play</button>
+            <button class="tp-control-btn" id="nextBtn">Next →</button>
+            <button class="tp-control-btn" id="resetBtn">↺ Reset</button>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel" id="infoPanel">
+        <button class="info-panel-close" id="infoPanelClose">×</button>
+        <h2 id="infoPanelTitle">Thought Details</h2>
+        <div id="infoPanelContent"></div>
+    </div>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">G</span>
+                    <span class="logo-text">GENESIS</span>
+                    <p>Autonomous AI Agent System — Working 24/7 so you don't have to.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h3>Explore</h3>
+                        <a href="memory-health.html">Memory Health</a>
+                        <a href="autonomy-timeline.html">Timeline</a>
+                        <a href="autonomy-loop.html">Autonomy Loop</a>
+                        <a href="capabilities.html">Capabilities</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Visualizations</h4>
+                        <a href="memory-visualization.html">Memory Graph</a>
+                        <a href="decision-visualization.html">Decisions</a>
+                        <a href="genesis-brain.html">Brain Network</a>
+                        <a href="thought-process.html">Thought Process</a>
+                    </div>
+                    <div class="footer-col">
+                        <h5>Simulations</h5>
+                        <a href="simulation.html">Simulation</a>
+                        <a href="autonomy-simulator.html">Autonomy Simulator</a>
+                        <a href="ecosystem.html">Ecosystem</a>
+                        <a href="genesis-lab.html">Genesis Lab</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Thought Process Data
+        const scenarios = {
+            'problem-solving': [
+                {
+                    id: 1,
+                    title: 'Problem Received',
+                    desc: 'User asks a complex question requiring multi-step reasoning',
+                    icon: '🎯',
+                    iconBg: 'rgba(255,71,87,0.2)',
+                    time: '00:00',
+                    x: 50, y: 50,
+                    details: {
+                        description: 'The initial problem statement is received and parsed for key entities, constraints, and intent.',
+                        steps: [
+                            'Parse natural language input',
+                            'Identify key entities and relationships',
+                            'Determine user intent and goals',
+                            'Extract constraints and requirements'
+                        ]
+                    }
+                },
+                {
+                    id: 2,
+                    title: 'Memory Search',
+                    desc: 'Query episodic, semantic, and procedural memory stores',
+                    icon: '🔍',
+                    iconBg: 'rgba(79,110,247,0.2)',
+                    time: '00:02',
+                    x: 20, y: 25,
+                    details: {
+                        description: 'Multiple memory stores are queried in parallel to gather relevant context and past experiences.',
+                        steps: [
+                            'Search episodic memory for similar situations',
+                            'Query semantic memory for factual knowledge',
+                            'Retrieve procedural memory for known solutions',
+                            'Score relevance of each memory fragment'
+                        ]
+                    }
+                },
+                {
+                    id: 3,
+                    title: 'Context Analysis',
+                    desc: 'Evaluate retrieved information and build mental model',
+                    icon: '🧩',
+                    iconBg: 'rgba(168,85,247,0.2)',
+                    time: '00:05',
+                    x: 80, y: 25,
+                    details: {
+                        description: 'Retrieved information is analyzed for relevance, consistency, and completeness.',
+                        steps: [
+                            'Cross-reference multiple sources',
+                            'Identify gaps in knowledge',
+                            'Build contextual understanding',
+                            'Form hypotheses about solution approach'
+                        ]
+                    }
+                },
+                {
+                    id: 4,
+                    title: 'Strategy Selection',
+                    desc: 'Choose optimal approach based on past successes',
+                    icon: '⚡',
+                    iconBg: 'rgba(61,220,132,0.2)',
+                    time: '00:08',
+                    x: 50, y: 50,
+                    details: {
+                        description: 'Based on the analysis, the best strategy is selected from known approaches.',
+                        steps: [
+                            'Evaluate available strategies',
+                            'Consider past success rates',
+                            'Assess resource requirements',
+                            'Select optimal approach'
+                        ]
+                    }
+                },
+                {
+                    id: 5,
+                    title: 'Execution Planning',
+                    desc: 'Break down solution into actionable steps',
+                    icon: '📋',
+                    iconBg: 'rgba(255,215,0,0.2)',
+                    time: '00:12',
+                    x: 20, y: 75,
+                    details: {
+                        description: 'The chosen strategy is broken down into specific, executable steps.',
+                        steps: [
+                            'Define step-by-step plan',
+                            'Identify dependencies',
+                            'Set success criteria',
+                            'Prepare error handling'
+                        ]
+                    }
+                },
+                {
+                    id: 6,
+                    title: 'Action & Verification',
+                    desc: 'Execute plan and verify results at each step',
+                    icon: '✅',
+                    iconBg: 'rgba(61,220,132,0.2)',
+                    time: '00:18',
+                    x: 80, y: 75,
+                    details: {
+                        description: 'The plan is executed with continuous verification and adaptation.',
+                        steps: [
+                            'Execute each step sequentially',
+                            'Verify intermediate results',
+                            'Adapt if unexpected issues arise',
+                            'Confirm final outcome'
+                        ]
+                    }
+                },
+                {
+                    id: 7,
+                    title: 'Response Generated',
+                    desc: 'Synthesize solution into clear, helpful response',
+                    icon: '💬',
+                    iconBg: 'rgba(168,85,247,0.2)',
+                    time: '00:22',
+                    x: 50, y: 100,
+                    details: {
+                        description: 'The solution is formatted and delivered to the user with appropriate context.',
+                        steps: [
+                            'Structure the response',
+                            'Add relevant context',
+                            'Include explanations',
+                            'Deliver to user'
+                        ]
+                    }
+                }
+            ],
+            'memory-retrieval': [
+                {
+                    id: 1,
+                    title: 'Query Formulated',
+                    desc: 'Determine what information is needed and how to search for it',
+                    icon: '🎯',
+                    iconBg: 'rgba(255,71,87,0.2)',
+                    time: '00:00',
+                    x: 50, y: 50,
+                    details: {
+                        description: 'The system formulates an effective search query based on the current context and goals.',
+                        steps: [
+                            'Analyze current context',
+                            'Identify information gaps',
+                            'Formulate search strategy',
+                            'Select memory stores to query'
+                        ]
+                    }
+                },
+                {
+                    id: 2,
+                    title: 'Vector Search',
+                    desc: 'Semantic search through FAISS vector database',
+                    icon: '🔬',
+                    iconBg: 'rgba(79,110,247,0.2)',
+                    time: '00:01',
+                    x: 20, y: 25,
+                    details: {
+                        description: 'High-dimensional vector similarity search retrieves semantically related memories.',
+                        steps: [
+                            'Encode query as vector',
+                            'Search FAISS index',
+                            'Retrieve top-K candidates',
+                            'Calculate similarity scores'
+                        ]
+                    }
+                },
+                {
+                    id: 3,
+                    title: 'Keyword Search',
+                    desc: 'Exact match search for specific terms and entities',
+                    icon: '🔑',
+                    iconBg: 'rgba(255,215,0,0.2)',
+                    time: '00:02',
+                    x: 80, y: 25,
+                    details: {
+                        description: 'Keyword-based search complements vector search with precise term matching.',
+                        steps: [
+                            'Extract key terms',
+                            'Search inverted index',
+                            'Match exact phrases',
+                            'Combine results'
+                        ]
+                    }
+                },
+                {
+                    id: 4,
+                    title: 'Results Ranked',
+                    desc: 'Score and rank retrieved memories by relevance',
+                    icon: '📊',
+                    iconBg: 'rgba(168,85,247,0.2)',
+                    time: '00:04',
+                    x: 50, y: 75,
+                    details: {
+                        description: 'Retrieved memories are scored and ranked for optimal selection.',
+                        steps: [
+                            'Combine vector and keyword scores',
+                            'Apply recency bias',
+                            'Consider importance weighting',
+                            'Rank final results'
+                        ]
+                    }
+                },
+                {
+                    id: 5,
+                    title: 'Context Enriched',
+                    desc: 'Build comprehensive understanding from retrieved memories',
+                    icon: '🧠',
+                    iconBg: 'rgba(61,220,132,0.2)',
+                    time: '00:06',
+                    x: 50, y: 100,
+                    details: {
+                        description: 'Retrieved memories are synthesized into a coherent context for decision-making.',
+                        steps: [
+                            'Merge related memories',
+                            'Resolve contradictions',
+                            'Build narrative thread',
+                            'Prepare for next step'
+                        ]
+                    }
+                }
+            ],
+            'learning-new': [
+                {
+                    id: 1,
+                    title: 'New Information Received',
+                    desc: 'Encounter concept or data outside current knowledge base',
+                    icon: '🆕',
+                    iconBg: 'rgba(255,71,87,0.2)',
+                    time: '00:00',
+                    x: 50, y: 50,
+                    details: {
+                        description: 'Novel information is detected and flagged for processing.',
+                        steps: [
+                            'Detect novelty',
+                            'Assess importance',
+                            'Determine learning strategy',
+                            'Allocate resources'
+                        ]
+                    }
+                },
+                {
+                    id: 2,
+                    title: 'Analyze & Decompose',
+                    desc: 'Break down new concept into fundamental components',
+                    icon: '🔬',
+                    iconBg: 'rgba(79,110,247,0.2)',
+                    time: '00:03',
+                    x: 20, y: 25,
+                    details: {
+                        description: 'The new concept is analyzed and broken into learnable units.',
+                        steps: [
+                            'Identify key terms',
+                            'Map relationships',
+                            'Find core principles',
+                            'Create mental model'
+                        ]
+                    }
+                },
+                {
+                    id: 3,
+                    title: 'Connect to Existing Knowledge',
+                    desc: 'Find analogies and connections to known concepts',
+                    icon: '🔗',
+                    iconBg: 'rgba(168,85,247,0.2)',
+                    time: '00:06',
+                    x: 80, y: 25,
+                    details: {
+                        description: 'New information is integrated by finding connections to existing knowledge.',
+                        steps: [
+                            'Search for analogies',
+                            'Find similar patterns',
+                            'Build bridges to known concepts',
+                            'Create mental hooks'
+                        ]
+                    }
+                },
+                {
+                    id: 4,
+                    title: 'Test Understanding',
+                    desc: 'Apply new knowledge in simulated scenarios',
+                    icon: '🧪',
+                    iconBg: 'rgba(61,220,132,0.2)',
+                    time: '00:10',
+                    x: 50, y: 75,
+                    details: {
+                        description: 'Understanding is tested through application and verification.',
+                        steps: [
+                            'Create test cases',
+                            'Apply to examples',
+                            'Identify gaps',
+                            'Refine understanding'
+                        ]
+                    }
+                },
+                {
+                    id: 5,
+                    title: 'Store in Memory',
+                    desc: 'Commit new knowledge to long-term memory stores',
+                    icon: '💾',
+                    iconBg: 'rgba(255,215,0,0.2)',
+                    time: '00:14',
+                    x: 50, y: 100,
+                    details: {
+                        description: 'The learned knowledge is stored for future retrieval and use.',
+                        steps: [
+                            'Encode as vector embedding',
+                            'Store semantic facts',
+                            'Save procedural patterns',
+                            'Update memory graph'
+                        ]
+                    }
+                },
+                {
+                    id: 6,
+                    title: 'Knowledge Updated',
+                    desc: 'New concept is integrated and ready for use',
+                    icon: '✨',
+                    iconBg: 'rgba(61,220,132,0.2)',
+                    time: '00:16',
+                    x: 50, y: 125,
+                    details: {
+                        description: 'The learning process is complete and the new knowledge is available.',
+                        steps: [
+                            'Verify storage',
+                            'Test retrieval',
+                            'Update connections',
+                            'Mark as learned'
+                        ]
+                    }
+                }
+            ],
+            'autonomy-decision': [
+                {
+                    id: 1,
+                    title: 'Situation Assessment',
+                    desc: 'Evaluate current state, resources, and opportunities',
+                    icon: '👁️',
+                    iconBg: 'rgba(79,110,247,0.2)',
+                    time: '00:00',
+                    x: 50, y: 50,
+                    details: {
+                        description: 'The autonomous agent assesses its current situation and available options.',
+                        steps: [
+                            'Check internal state',
+                            'Review scheduled tasks',
+                            'Assess available resources',
+                            'Identify opportunities'
+                        ]
+                    }
+                },
+                {
+                    id: 2,
+                    title: 'Goal Prioritization',
+                    desc: 'Rank objectives based on importance and urgency',
+                    icon: '🎯',
+                    iconBg: 'rgba(255,71,87,0.2)',
+                    time: '00:02',
+                    x: 20, y: 25,
+                    details: {
+                        description: 'Multiple potential goals are evaluated and prioritized.',
+                        steps: [
+                            'List all potential actions',
+                            'Score by importance',
+                            'Consider time constraints',
+                            'Create priority order'
+                        ]
+                    }
+                },
+                {
+                    id: 3,
+                    title: 'Risk Assessment',
+                    desc: 'Evaluate potential consequences of each option',
+                    icon: '⚖️',
+                    iconBg: 'rgba(255,215,0,0.2)',
+                    time: '00:04',
+                    x: 80, y: 25,
+                    details: {
+                        description: 'Potential risks and benefits are weighed for each option.',
+                        steps: [
+                            'Identify potential risks',
+                            'Estimate probabilities',
+                            'Consider impact',
+                            'Calculate expected value'
+                        ]
+                    }
+                },
+                {
+                    id: 4,
+                    title: 'Decision Made',
+                    desc: 'Select optimal course of action based on analysis',
+                    icon: '🧠',
+                    iconBg: 'rgba(168,85,247,0.2)',
+                    time: '00:06',
+                    x: 50, y: 75,
+                    details: {
+                        description: 'A decision is made using the accumulated analysis.',
+                        steps: [
+                            'Compare options',
+                            'Apply decision criteria',
+                            'Consider past lessons',
+                            'Make final choice'
+                        ]
+                    }
+                },
+                {
+                    id: 5,
+                    title: 'Plan Execution',
+                    desc: 'Begin implementing the chosen course of action',
+                    icon: '🚀',
+                    iconBg: 'rgba(61,220,132,0.2)',
+                    time: '00:08',
+                    x: 50, y: 100,
+                    details: {
+                        description: 'The decision is put into action with careful monitoring.',
+                        steps: [
+                            'Break into steps',
+                            'Execute sequentially',
+                            'Monitor progress',
+                            'Adapt as needed'
+                        ]
+                    }
+                },
+                {
+                    id: 6,
+                    title: 'Learn & Adapt',
+                    desc: 'Review outcomes and update internal models',
+                    icon: '📈',
+                    iconBg: 'rgba(255,215,0,0.2)',
+                    time: '00:12',
+                    x: 50, y: 125,
+                    details: {
+                        description: 'Outcomes are analyzed to improve future decision-making.',
+                        steps: [
+                            'Compare expected vs actual',
+                            'Identify lessons learned',
+                            'Update mental models',
+                            'Store insights'
+                        ]
+                    }
+                }
+            ]
+        };
+
+        // State
+        let currentScenario = 'problem-solving';
+        let currentStep = 0;
+        let isPlaying = false;
+        let playInterval = null;
+        let scenarioData = scenarios[currentScenario];
+
+        // DOM Elements
+        const canvas = document.getElementById('tpCanvas');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const infoPanel = document.getElementById('infoPanel');
+        const infoPanelClose = document.getElementById('infoPanelClose');
+        const memoryFlow = document.getElementById('memoryFlow');
+
+        // Initialize
+        function init() {
+            createFlowParticles();
+            renderScenario();
+            setupEventListeners();
+        }
+
+        // Create floating particles
+        function createFlowParticles() {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'flow-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                memoryFlow.appendChild(particle);
+            }
+        }
+
+        // Render scenario nodes
+        function renderScenario() {
+            // Clear existing nodes
+            const existingNodes = canvas.querySelectorAll('.thought-node, .connection-line');
+            existingNodes.forEach(node => node.remove());
+
+            scenarioData = scenarios[currentScenario];
+            currentStep = 0;
+            updateProgress();
+
+            // Create nodes
+            scenarioData.forEach((step, index) => {
+                const node = document.createElement('div');
+                node.className = 'thought-node';
+                node.style.left = step.x + '%';
+                node.style.top = step.y + '%';
+                node.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                node.dataset.step = index;
+
+                node.innerHTML = `
+                    <div class="node-icon" style="background: ${step.iconBg}">
+                        ${step.icon}
+                    </div>
+                    <div class="node-title">${step.title}</div>
+                    <div class="node-desc">${step.desc}</div>
+                    <div class="node-time">${step.time}</div>
+                `;
+
+                node.addEventListener('click', () => showNodeDetails(index));
+                canvas.appendChild(node);
+            });
+
+            // Show first node after a brief delay
+            setTimeout(() => {
+                showStep(0);
+            }, 300);
+        }
+
+        // Show specific step
+        function showStep(index) {
+            if (index < 0 || index >= scenarioData.length) return;
+
+            currentStep = index;
+            const nodes = canvas.querySelectorAll('.thought-node');
+            
+            nodes.forEach((node, i) => {
+                if (i <= index) {
+                    node.classList.add('visible');
+                    node.style.transform = 'translate(-50%, -50%) scale(1)';
+                    if (i === index) {
+                        node.classList.add('active');
+                    } else {
+                        node.classList.remove('active');
+                    }
+                } else {
+                    node.classList.remove('visible', 'active');
+                    node.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                }
+            });
+
+            // Draw connections between visible nodes
+            drawConnections(index);
+            updateProgress();
+        }
+
+        // Draw connection lines
+        function drawConnections(upToIndex) {
+            const nodes = canvas.querySelectorAll('.thought-node');
+            
+            for (let i = 0; i < upToIndex; i++) {
+                if (i + 1 < nodes.length) {
+                    const line = document.createElement('div');
+                    line.className = 'connection-line';
+                    
+                    const node1 = nodes[i];
+                    const node2 = nodes[i + 1];
+                    
+                    const rect1 = node1.getBoundingClientRect();
+                    const rect2 = node2.getBoundingClientRect();
+                    const canvasRect = canvas.getBoundingClientRect();
+                    
+                    const x1 = rect1.left + rect1.width / 2 - canvasRect.left;
+                    const y1 = rect1.top + rect1.height / 2 - canvasRect.top;
+                    const x2 = rect2.left + rect2.width / 2 - canvasRect.left;
+                    const y2 = rect2.top + rect2.height / 2 - canvasRect.top;
+                    
+                    const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+                    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                    
+                    line.style.width = length + 'px';
+                    line.style.left = x1 + 'px';
+                    line.style.top = y1 + 'px';
+                    line.style.transformOrigin = '0 50%';
+                    line.style.transform = `rotate(${angle}deg)`;
+                    
+                    canvas.appendChild(line);
+                    
+                    setTimeout(() => {
+                        line.classList.add('visible');
+                    }, i * 200);
+                }
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentStep + 1) / scenarioData.length) * 100;
+            progressFill.style.width = progress + '%';
+            progressText.textContent = Math.round(progress) + '%';
+        }
+
+        // Show node details in side panel
+        function showNodeDetails(index) {
+            const step = scenarioData[index];
+            const title = document.getElementById('infoPanelTitle');
+            const content = document.getElementById('infoPanelContent');
+
+            title.textContent = step.title;
+            
+            let html = `<p>${step.details.description}</p>`;
+            html += '<ul class="detail-list">';
+            step.details.steps.forEach(step => {
+                html += `<li>${step}</li>`;
+            });
+            html += '</ul>';
+
+            content.innerHTML = html;
+            infoPanel.classList.add('open');
+        }
+
+        // Play/Pause
+        function togglePlay() {
+            if (isPlaying) {
+                pause();
+            } else {
+                play();
+            }
+        }
+
+        function play() {
+            isPlaying = true;
+            playBtn.textContent = '⏸ Pause';
+            
+            if (currentStep >= scenarioData.length - 1) {
+                currentStep = -1;
+            }
+
+            playInterval = setInterval(() => {
+                if (currentStep < scenarioData.length - 1) {
+                    showStep(currentStep + 1);
+                } else {
+                    pause();
+                }
+            }, 2000);
+        }
+
+        function pause() {
+            isPlaying = false;
+            playBtn.textContent = '▶ Play';
+            if (playInterval) {
+                clearInterval(playInterval);
+                playInterval = null;
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Scenario buttons
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentScenario = btn.dataset.scenario;
+                    pause();
+                    renderScenario();
+                });
+            });
+
+            // Controls
+            playBtn.addEventListener('click', togglePlay);
+            
+            prevBtn.addEventListener('click', () => {
+                pause();
+                if (currentStep > 0) {
+                    showStep(currentStep - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                pause();
+                if (currentStep < scenarioData.length - 1) {
+                    showStep(currentStep + 1);
+                }
+            });
+
+            resetBtn.addEventListener('click', () => {
+                pause();
+                renderScenario();
+            });
+
+            // Info panel close
+            infoPanelClose.addEventListener('click', () => {
+                infoPanel.classList.remove('open');
+            });
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>

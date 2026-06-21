@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg)!important;color:var(--text)!important;line-height:1.7;overflow-x:hidden}
+.gradient-text{background:linear-gradient(135deg,#fff,var(--accent-soft),#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-tag{display:inline-block;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent-soft);margin-bottom:12px}
+.section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-1px;margin-bottom:16px;color:var(--text)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;transition:all .3s ease}
+.card:hover{border-color:rgba(123,111,240,.3);transform:translateY(-2px)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:50px;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s ease;border:none;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#5b4fd4);color:#fff;box-shadow:0 4px 24px rgba(123,111,240,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(123,111,240,.45)}
+.btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent)}
+a{color:var(--accent-soft);text-decoration:none;transition:color .2s}
+a:hover{color:#b5adfc}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.bg-glow .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.12;animation:orbFloat 20s ease-in-out infinite alternate}
+.bg-glow .orb:nth-child(1){width:600px;height:600px;background:var(--accent);top:-200px;left:-100px;animation-delay:0s}
+.bg-glow .orb:nth-child(2){width:500px;height:500px;background:#4a3fbf;bottom:-150px;right:-100px;animation-delay:-7s}
+.bg-glow .orb:nth-child(3){width:400px;height:400px;background:#2d1b69;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-14s}
+@keyframes orbFloat{0%{transform:translate(0,0)scale(1)}33%{transform:translate(30px,-30px)scale(1.05)}66%{transform:translate(-20px,20px)scale(0.95)}100%{transform:translate(10px,-10px)scale(1.02)}}
+
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-container{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:1.2rem;font-weight:700;letter-spacing:-.5px;background:linear-gradient(135deg,var(--accent-soft),#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{list-style:none;display:flex;gap:24px;margin:0;padding:0}
+.nav-links li a{font-size:.85rem;color:var(--text-dim);transition:color .2s;font-weight:500}
+.nav-links li a:hover{color:var(--text)}
+.doc-page{min-height:100vh;padding-top:64px}
+.doc-container{max-width:900px;margin:0 auto;padding:48px 24px}
+.doc-back{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;color:var(--accent-soft);margin-bottom:32px}
+.doc-content h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-1px;margin-bottom:24px;color:var(--text)}
+.doc-content h2{font-size:1.5rem;font-weight:600;margin-top:48px;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--text)}
+.doc-content h3{font-size:1.2rem;font-weight:600;margin-top:32px;margin-bottom:12px;color:var(--text)}
+.doc-content p{margin-bottom:16px;color:var(--text-dim);line-height:1.8}
+.doc-content ul,.doc-content ol{margin-bottom:16px;padding-left:24px;color:var(--text-dim)}
+.doc-content li{margin-bottom:8px;line-height:1.7}
+.doc-content strong{color:var(--text)}
+.doc-highlight{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:20px 24px;margin-bottom:32px}
+.doc-highlight p{color:var(--text-dim);margin:0}
+.footer{border-top:1px solid var(--border);padding:48px 0 24px;margin-top:64px}
+.footer-content{display:grid;grid-template-columns:minmax(200px, 240px) 1fr;gap:32px;margin-bottom:32px; padding: 0 32px; }
+.footer-brand p{color:var(--text-dim);font-size:.9rem;margin-top:8px}
+.footer-links h5{font-size:.95rem;margin-bottom:12px;color:var(--text)}
+.footer-links a{display:block;font-size:.85rem;color:var(--text-dim);margin-bottom:6px}
+.footer-links a:hover{color:var(--accent-soft)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;text-align:center;font-size:.8rem;color:var(--text-dim)}
+@media(max-width:768px){.nav-links{display:none!important}.doc-container{padding:32px 16px}.footer-content{grid-template-columns:1fr;gap:24px}}
+
+</style>
+    <title>Memory Visualization — GENESIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div>
+<a class="back-link" href="index.html">&#8592; Back to Genesis</a>
+    <nav class="navbar"><div class="nav-container"><a href="index.html" class="nav-logo">GENESIS</a><ul class="nav-links"><li><a href="index.html#features">Features</a></li><li><a href="index.html#modes">Modes</a></li><li><a href="index.html#gallery">Explore</a></li><li><a href="index.html#how-it-works">Get Started</a></li></ul></div></nav>
+    <section class="doc-page"><div class="doc-container"><a href="index.html" class="doc-back">← Back to Website</a>
+    <div class="doc-content">
+        <h1>📊 Memory Visualization</h1>
+        <div class="doc-highlight"><p><strong>Memory Visualization</strong> shows how Genesis represents, stores, and retrieves memories through visual models — making the invisible processes of memory work visible and understandable.</p></div>
+        <h2>Visual Representations</h2>
+        <p>Genesis uses several visualization techniques to represent its memory system:</p>
+        <ul>
+            <li><strong>Graph Networks</strong> — Memories as nodes connected by edges representing semantic relationships. Stronger connections are drawn with thicker lines.</li>
+            <li><strong>Temporal Maps</strong> — Episodic memories arranged along a timeline, showing how experiences relate to each other chronologically.</li>
+            <li><strong>Concept Clusters</strong> — Groups of related semantic memories visualized as clusters in multi-dimensional space.</li>
+            <li><strong>State Heatmaps</strong> — Visual representations of internal state levels (energy, curiosity, satisfaction) over time.</li>
+        </ul>
+        <h2>Interactive Exploration</h2>
+        <p>The memory visualization tools allow you to:</p>
+        <ol>
+            <li><strong>Navigate the memory graph</strong> — Click on nodes to see connections and related memories</li>
+            <li><strong>Observe memory dynamics</strong> — Watch how memories strengthen, weaken, or fade over time</li>
+            <li><strong>Trace retrieval paths</strong> — See which memories were accessed when Genesis responds to a query</li>
+            <li><strong>Compare memory states</strong> — View how the memory system looks at different points in time</li>
+        </ol>
+        <h2>Why Visualization Matters</h2>
+        <p>Understanding how memory works is fundamental to understanding Genesis as an intelligent system. The visualizations aren't just pretty pictures — they reveal:</p>
+        <ul>
+            <li>Which memories are most central to the system's knowledge</li>
+            <li>How new information integrates with existing knowledge</li>
+            <li>The balance between different memory types</li>
+            <li>Patterns in how Genesis remembers and forgets</li>
+        </ul>
+        <h2>Related Pages</h2>
+        <ul>
+            <li><a href="memory-graph.html">Memory Graph</a> — Visualize the web of connections between all stored memories</li>
+            <li><a href="memory-system-explorer.html">Memory System Explorer</a> — Explore all 5 memory tiers interactively</li>
+            <li><a href="memory-erosion.html">Memory Erosion</a> — Watch memories fade over time</li>
+            <li><a href="context-window.html">Context Window</a> — Visualize what Genesis is currently "thinking about"</li>
+        </ul>
+    </div></div></section>
+    <footer class="footer"><div class="container"><div class="footer-content"><div class="footer-brand"><span class="logo-icon">G</span><span class="logo-text">GENESIS</span><p>Autonomous AI Agent System<br>Built for intelligent, self-directed work.</p></div><div class="footer-links"><h3>Quick Links</h3><a href="index.html#features">Features</a><a href="index.html#modes">Modes</a><a href="index.html#gallery">Explore</a><a href="index.html#how-it-works">Get Started</a></div><div class="footer-links"><h4>Documentation</h4><a href="what-is-genesis.html">Overview</a><a href="autonomy-mode.html">Autonomy Mode</a><a href="chat-mode.html">Chat Mode</a><a href="work-mode.html">Work Mode</a></div></div><div class="footer-bottom"><p>&copy; 2026 GENESIS. Autonomous Intelligence System.</p></div></div></footer>
+</body>
+</html>

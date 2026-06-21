@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Management — Genesis</title>
+<meta name="description" content="Genesis manages projects with a built-in board — backlog, todo, in-progress, in-review, and completed columns. Every project has tasks, notes, living documentation, and progress tracking.">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #b5adfc; }
+
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--green); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.05); }
+  66% { transform: translate(-30px, 40px) scale(0.95); }
+  100% { transform: translate(20px, -20px) scale(1.02); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 100px 0; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+nav .inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent-soft), #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { list-style: none; display: flex; gap: 32px; }
+nav ul li a { font-size: 0.9rem; color: var(--text-dim); transition: color 0.2s; font-weight: 500; }
+nav ul li a:hover { color: var(--text); }
+
+.subpage-hero { padding-top: 160px; padding-bottom: 80px; text-align: center; }
+.subpage-hero .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 24px; }
+.subpage-hero .back-link:hover { color: var(--accent-soft); }
+.subpage-hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, var(--accent-soft) 50%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subpage-hero .subtitle { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--text-dim); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+.section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 12px; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { color: var(--text-dim); font-size: 1.05rem; max-width: 640px; line-height: 1.7; }
+
+/* Kanban Board Mockup */
+.kanban-mock { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-top: 48px; overflow-x: auto; }
+.kanban-board { display: flex; gap: 16px; min-width: 700px; }
+.kanban-col { flex: 1; min-width: 140px; }
+.kanban-col-header { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; border-radius: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.kanban-col-header .count { background: var(--surface-2); padding: 2px 8px; border-radius: 50px; font-size: 0.7rem; }
+.kanban-col.backlog .kanban-col-header { color: var(--text-dim); background: rgba(136, 136, 160, 0.1); }
+.kanban-col.todo .kanban-col-header { color: var(--accent-soft); background: var(--accent-glow); }
+.kanban-col.in-progress .kanban-col-header { color: #fbbf24; background: rgba(251, 191, 36, 0.1); }
+.kanban-col.review .kanban-col-header { color: var(--orange); background: rgba(251, 146, 60, 0.1); }
+.kanban-col.done .kanban-col-header { color: var(--green); background: rgba(74, 222, 128, 0.1); }
+
+.kanban-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-dim); }
+.kanban-card .card-priority { display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-bottom: 6px; text-transform: uppercase; }
+.card-priority.high { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+.card-priority.medium { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.card-priority.low { background: rgba(136, 136, 160, 0.15); color: var(--text-dim); }
+
+/* Feature Cards */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+.feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s ease; }
+.feature-card:hover { border-color: rgba(123, 111, 240, 0.3); }
+.feature-card .feat-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.feature-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.feature-card p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 16px; }
+.feature-card ul { list-style: none; padding: 0; }
+.feature-card ul li { color: var(--text-dim); font-size: 0.9rem; padding: 4px 0; padding-left: 20px; position: relative; }
+.feature-card ul li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 0.85rem; font-weight: 700; }
+
+/* Highlight Box */
+.highlight-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: var(--radius); padding: 24px 28px; margin: 32px 0; }
+.highlight-box p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.highlight-box strong { color: var(--text); }
+
+.content-block { margin-top: 64px; }
+.content-block h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; }
+.content-block h3 { font-size: 1.15rem; font-weight: 600; margin-top: 32px; margin-bottom: 8px; }
+.content-block p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
+.content-block ul, .content-block ol { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; padding-left: 24px; margin-bottom: 16px; }
+.content-block li { margin-bottom: 8px; }
+
+footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 80px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 32px; padding: 0 32px; }
+.footer-col h5 { font-size: 1rem; margin-bottom: 12px; color: var(--text); }
+footer .footer-col p, footer .footer-col a { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; font-size: 0.8rem; }
+
+@media (max-width: 768px) { nav ul { display: none; }
+  section { padding: 72px 0; }
+  .subpage-hero { padding-top: 140px; padding-bottom: 60px; }
+  .kanban-board { flex-direction: column; min-width: auto; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; }
+
+</style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">Genesis</a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#modes">Modes</a></li>
+      <li><a href="index.html#memory">Memory</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+      <li><a href="index.html#specs">Setup</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="subpage-hero fade-in">
+  <div class="container">
+    <a href="index.html" class="back-link">&#8592; Back to Genesis</a>
+    <h1>Project Management</h1>
+    <p class="subtitle">Built-in project board with backlog, todo, in-progress, in-review, and completed columns. Genesis creates tasks, tracks progress, and maintains living documentation for every project.</p>
+  </div>
+</section>
+
+<!-- Kanban Board Visualization -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Visual Overview</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">A board that organizes itself</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Genesis doesn't just track tasks — it creates them, prioritizes them, moves them through columns, and maintains detailed notes for each one.</p>
+    </div>
+
+    <div class="kanban-mock fade-in">
+      <div class="kanban-board">
+        <div class="kanban-col backlog">
+          <div class="kanban-col-header">Backlog <span class="count">3</span></div>
+          <div class="kanban-card"><span class="card-priority low">Low</span><br>Research competitor features</div>
+          <div class="kanban-card"><span class="card-priority medium">Med</span><br>Draft outreach templates</div>
+          <div class="kanban-card"><span class="card-priority low">Low</span><br>Update documentation</div>
+        </div>
+        <div class="kanban-col todo">
+          <div class="kanban-col-header">Todo <span class="count">2</span></div>
+          <div class="kanban-card"><span class="card-priority high">High</span><br>Build pricing calculator</div>
+          <div class="kanban-card"><span class="card-priority medium">Med</span><br>Design one-pager PDF</div>
+        </div>
+        <div class="kanban-col in-progress">
+          <div class="kanban-col-header">In Progress <span class="count">2</span></div>
+          <div class="kanban-card"><span class="card-priority high">High</span><br>Build outreach CRM tracker</div>
+          <div class="kanban-card"><span class="card-priority high">High</span><br>Write demo video script</div>
+        </div>
+        <div class="kanban-col review">
+          <div class="kanban-col-header">In Review <span class="count">1</span></div>
+          <div class="kanban-card"><span class="card-priority medium">Med</span><br>Financial model &amp; ROI analysis</div>
+        </div>
+        <div class="kanban-col done">
+          <div class="kanban-col-header">Done <span class="count">4</span></div>
+          <div class="kanban-card" style="opacity: 0.6;"><span class="card-priority high">High</span><br>Market research complete ✓</div>
+          <div class="kanban-card" style="opacity: 0.6;"><span class="card-priority medium">Med</span><br>Target company analysis ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section>
+  <div class="container">
+    <div style="text-align: center;">
+      <span class="section-label fade-in">Core Capabilities</span>
+      <h2 class="section-title fade-in" style="margin-left: auto; margin-right: auto;">Everything you need to manage work</h2>
+      <p class="section-desc fade-in" style="margin-left: auto; margin-right: auto;">Genesis handles the entire project lifecycle — from initial idea through completion — with structured tracking and living documentation.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128203;</span>
+        <h3>Task Creation &amp; Tracking</h3>
+        <p>Genesis breaks down goals into actionable tasks, assigns priorities, and tracks each one through its lifecycle.</p>
+        <ul>
+          <li>Create tasks with titles, descriptions, and priority levels</li>
+          <li>Move tasks between Todo → In Progress → Done</li>
+          <li>Track progress notes on every task</li>
+          <li>Set deadlines and schedule time blocks</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128202;</span>
+        <h3>Project Board</h3>
+        <p>A visual Kanban-style board with columns that reflect the actual state of work — always up to date.</p>
+        <ul>
+          <li>Backlog, Todo, In Progress, In Review, Completed</li>
+          <li>Sub-projects for complex work (parent-child relationships)</li>
+          <li>Priority-based sorting across all columns</li>
+          <li>ROI scoring to rank project importance</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128204;</span>
+        <h3>Living Documentation</h3>
+        <p>Every project has a PROJECT.md file that serves as its living record — updated continuously with progress notes, decisions, and work logs.</p>
+        <ul>
+          <li>PROJECT.md tracks the full history of each project</li>
+          <li>Each task is a .md note with detailed progress</li>
+          <li>Work logs record what was done and where work left off</li>
+          <li>All deliverable files live in the project folder</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#9203;</span>
+        <h3>Review Workflow</h3>
+        <p>Projects go through a formal review process. When Genesis finishes a project, it submits it for your approval.</p>
+        <ul>
+          <li>Submit projects for human review with one action</li>
+          <li>Tasks complete automatically — only the project needs review</li>
+          <li>Status cascade keeps everything in sync</li>
+          <li>Clear separation between task completion and project approval</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128197;</span>
+        <h3>Scheduling &amp; Timetable</h3>
+        <p>Beyond the project board, Genesis maintains a separate timetable for time-based task scheduling and deadlines.</p>
+        <ul>
+          <li>Schedule tasks by specific date/time or duration</li>
+          <li>Recurring tasks (daily, weekly, hourly)</li>
+          <li>Shift tasks when recovering lost time</li>
+          <li>Automatic deadline alerts</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <span class="feat-icon">&#128269;</span>
+        <h3>Progress Visibility</h3>
+        <p>At any moment, you can see exactly what Genesis is working on, what's been completed, and what's next.</p>
+        <ul>
+          <li>List all projects with status summaries at a glance</li>
+          <li>View full project details including every task's state</li>
+          <li>Activity logs show recent changes and decisions</li>
+          <li>Progress notes persist between sessions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section>
+  <div class="container">
+    <div class="content-block fade-in">
+      <span class="section-label">The Workflow</span>
+      <h2 class="section-title">From goal to delivered result</h2>
+      <p>Genesis doesn't just manage projects — it actively works them. Here's how a typical project flows through the system:</p>
+
+      <div class="highlight-box">
+        <p><strong>Step 1 — Propose:</strong> You give Genesis a goal, or it proposes one based on your needs. A project is created with a title, description, and priority.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Step 2 — Break Down:</strong> Genesis analyzes the goal and creates individual tasks. Each task gets a title, description, and priority level. Tasks are organized into the project board's columns.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Step 3 — Execute:</strong> Genesis works through tasks systematically. For each one, it reads the task note, performs the work (research, code, create files, analyze data), updates progress notes, and marks it complete.</p>
+      </div>
+      <div class="highlight-box">
+        <p><strong>Step 4 — Deliver:</strong> When all tasks are done, Genesis submits the entire project for your review. You see everything that was produced, can request changes, or approve it as complete.</p>
+      </div>
+    </div>
+
+    <h3 class="fade-in" style="margin-top: 48px;">Where files live</h3>
+    <p class="fade-in">Every project has its own folder at <code style="background: var(--surface-2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 6px; font-size: 0.85rem; color: var(--accent-soft); font-family: 'Courier New', monospace;">projects/&lt;column&gt;/&lt;project-name&gt;/</code>. All deliverable files — spreadsheets, documents, code, reports — are stored flat in that folder. Task notes (.md files) live in the same folder for easy access. No nested subfolders per task — everything is organized and findable.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Genesis</h4>
+        <p>An autonomous AI companion<br>that remembers, thinks, and acts.<br>Running locally on your machine.</p>
+      </div>
+      <div class="footer-col">
+        <h5>For Businesses</h5>
+        <p>The complete Genesis program and all source code is available for sale.<br><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 Genesis. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

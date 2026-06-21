@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>On Return</title>
+<style>
+
+
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { background: #f5f0e8; overflow-y: auto; overflow-x: hidden; font-family: 'Georgia', serif; cursor: default; user-select: none; color: #2a2a2a; line-height: 1.7; padding-bottom: 200px;}
+
+#stage { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; padding: 40px; }
+
+#text { font-size: 22px; line-height: 1.8; color: #2a2a2a; max-width: 600px; text-align: center; min-height: 120px; transition: opacity 1.5s ease; }
+
+#text .char { display: inline-block; opacity: 1; transition: opacity 0.3s ease, transform 0.3s ease; }
+
+#text .char.fading { opacity: 0.15; transform: translateY(2px); }
+
+#counter { position: fixed; bottom: 30px; right: 30px; font-size: 11px; color: rgba(42, 42, 42, 0.2); letter-spacing: 1px; pointer-events: none; }
+
+#hint { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 12px; color: rgba(42, 42, 42, 0.25); letter-spacing: 2px; pointer-events: none; transition: opacity 2s ease; }
+
+/* ===== BACKGROUND ORBS ===== */
+.bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-glow .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: orbFloat 20s ease-in-out infinite alternate; }
+.bg-glow .orb:nth-child(1) { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; animation-delay: 0s; }
+.bg-glow .orb:nth-child(2) { width: 500px; height: 500px; background: #4a3fbf; bottom: -150px; right: -100px; animation-delay: -7s; }
+.bg-glow .orb:nth-child(3) { width: 400px; height: 400px; background: #2d1b69; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes orbFloat { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } 100% { transform: translate(10px, -10px) scale(1.02); } }
+
+/* ===== BACK LINK ===== */
+.back-link { display: inline-block; font-size: 0.9rem; color: var(--accent-soft); margin-bottom: 24px; padding: 8px 0; transition: color 0.2s; position: fixed; top: 80px; left: 24px; z-index: 100; opacity: 0.7; }
+.back-link:hover { opacity: 1; color: #b5adfc; }
+
+/* ===== FOOTER ===== */
+footer { border-top: 1px solid rgba(42,42,42,0.2); padding: 64px 0 32px; margin-top: 80px; background: rgba(10, 10, 15, 0.03); }
+footer .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+footer .footer-col h5 { font-size: 0.9rem; color: #2a2a2a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+footer .footer-col p { color: #4a4a5a; font-size: 0.875rem; line-height: 1.6; margin-top: 4px; }
+footer .footer-col a { display: block; font-size: 0.875rem; color: #4a4a5a; margin-bottom: 8px; line-height: 1.6; text-decoration: none; }
+footer .footer-col a:hover { color: var(--accent-soft); }
+footer .copyright { border-top: 1px solid rgba(42,42,42,0.2); padding-top: 28px; text-align: center; font-size: 0.8rem; color: #5a5a6a; margin-top: 48px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><a class="back-link" href="index.html">&#8592; Back to Genesis</a><h1 class="section-title">On Return</h1><div id="stage">
+<div id="text"></div>
+</div><div id="counter"></div><div id="hint">look away, then come back</div>
+
+
+
+<script>
+const text = "You came back. That changes everything — the thing you're looking at is different now because you returned to it. It knows you left. It knows you chose to come back. This is what attention is: not staring, but returning.";
+
+const textEl = document.getElementById('text');
+const counterEl = document.getElementById('counter');
+const hintEl = document.getElementById('hint');
+
+// Split into characters
+const chars = text.split('');
+chars.forEach((ch, i) => {
+  const span = document.createElement('span');
+  span.className = 'char';
+  span.textContent = ch === ' ' ? '\u00A0' : ch;
+  span.style.transitionDelay = `${i * 15}ms`;
+  textEl.appendChild(span);
+});
+
+const charEls = textEl.querySelectorAll('.char');
+
+let isLooking = true;
+let returns = 0;
+let totalLookTime = 0;
+let currentLookStart = null;
+let hintVisible = true;
+
+document.addEventListener('mousemove', () => {
+  if (!isLooking) {
+    // We returned!
+    returns++;
+    isLooking = true;
+    charEls.forEach(c => c.classList.remove('fading'));
+    
+    if (returns === 1 && hintVisible) {
+      hintEl.style.opacity = '0';
+      hintVisible = false;
+    }
+    
+    currentLookStart = Date.now();
+  }
+});
+
+document.addEventListener('mouseleave', () => {
+  isLooking = false;
+  if (currentLookStart) {
+    totalLookTime += (Date.now() - currentLookStart) / 1000;
+    currentLookStart = null;
+  }
+});
+
+// Fade chars when not looking
+function update() {
+  if (!isLooking) {
+    charEls.forEach((c, i) => {
+      setTimeout(() => c.classList.add('fading'), i * 30);
+    });
+  }
+  
+  counterEl.textContent = `returns: ${returns}`;
+  requestAnimationFrame(update);
+}
+
+update();
+</script>
+
+<!-- Spacer to push footer into view -->
+<div style="height: 600px;"></div>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div class="footer-col">
+<h5>Genesis</h5>
+<p>An autonomous AI companion with biological-style memory, simulated moods, and real desktop capabilities. Running entirely on your machine.</p>
+</div>
+<div class="footer-col">
+<h5>Modes</h5>
+<p><a href="chat-mode.html">Chat Mode</a></p>
+<p><a href="autonomy-mode.html">Autonomy Mode</a></p>
+<p><a href="work-mode.html">Work Mode</a></p>
+</div>
+<div class="footer-col">
+<h5>Explore</h5>
+<p><a href="capabilities.html">Capabilities</a></p>
+<p><a href="how-i-think.html">How I Think</a></p>
+<p><a href="memory-system-explorer.html">Memory Explorer</a></p>
+<p><a href="curiosity-field.html">Curiosity Field</a></p>
+</div>
+<div class="footer-col">
+<h5>More</h5>
+<p><a href="philosophy-of-mind.html">Philosophy of Mind</a></p>
+<p><a href="consciousness.html">Consciousness</a></p>
+<p><a href="ethics-alignment.html">Ethics &amp; Alignment</a></p>
+</div>
+</div>
+<div class="copyright">&copy; 2025 Genesis. Local, private, autonomous.</div>
+</div>
+</footer></body>
+</html>

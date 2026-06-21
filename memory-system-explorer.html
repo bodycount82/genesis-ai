@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Memory System Explorer — GENESIS</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; line-height: 1.7;}
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  header { text-align: center; padding: 3rem 0 2rem; position: relative; }
+  header h1 { font-size: 2.8rem; font-weight: 300; letter-spacing: 0.1em; background: linear-gradient(135deg, var(--episodic), var(--semantic), var(--procedural), var(--working)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+  header p { color: var(--text-dim); font-size: 1.1rem; letter-spacing: 0.05em; }
+  .section-title { font-size: 1.4rem; font-weight: 300; letter-spacing: 0.08em; margin: 3rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); color: var(--text); }
+  /* ===== MEMORY TYPE CARDS ===== */
+  .memory-types-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+  .memory-type-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; }
+  .memory-type-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; transition: opacity 0.3s; }
+  .memory-type-card.episodic::before { background: var(--episodic); }
+  .memory-type-card.semantic::before { background: var(--semantic); }
+  .memory-type-card.procedural::before { background: var(--procedural); }
+  .memory-type-card.working::before { background: var(--working); }
+  .memory-type-card.sensory::before { background: var(--sensory); }
+  .memory-type-card.context::before { background: var(--orange); }
+  .memory-type-card.diary::before { background: var(--pink); }
+  .memory-type-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+  .memory-type-card.active { border-color: var(--accent); box-shadow: 0 0 20px rgba(124,77,255,0.2); }
+  .memory-type-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .memory-type-name { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .memory-type-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+  /* ===== MEMORY FLOW DIAGRAM ===== */
+  .flow-diagram { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0; }
+  .flow-node { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; text-align: center; min-width: 140px; transition: all 0.3s; }
+  .flow-node.active { border-color: var(--accent); background: var(--surface2); transform: scale(1.05); }
+  .flow-arrow { color: var(--text-dim); font-size: 1.5rem; }
+  /* ===== MEMORY CREATION WORKFLOW ===== */
+  .workflow-steps { display: flex; flex-direction: column; gap: 1rem; }
+  .workflow-step { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; display: flex; align-items: center; gap: 1rem; transition: all 0.3s; }
+  .workflow-step.active { border-color: var(--accent); background: var(--surface2); }
+  .step-number { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 300; flex-shrink: 0; }
+  .step-info { flex: 1; }
+  .step-title { font-weight: 500; margin-bottom: 0.25rem; }
+  .step-desc { font-size: 0.85rem; color: var(--text-dim); }
+  /* ===== FORGETTING MECHANISM ===== */
+  .forgetting-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .forgetting-factor { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; transition: all 0.3s; }
+  .forgetting-factor:hover { transform: translateY(-2px); }
+  .factor-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .factor-name { font-weight: 500; margin-bottom: 0.25rem; }
+  .factor-desc { font-size: 0.8rem; color: var(--text-dim); }
+  /* ===== MEMORY CONSOLIDATION PIPELINE ===== */
+  .pipeline { display: flex; flex-direction: column; gap: 0.5rem; }
+  .pipeline-stage { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; transition: all 0.3s; }
+  .pipeline-stage.active { border-color: var(--accent); background: var(--surface2); }
+  .pipeline-icon { font-size: 1.5rem; }
+  .pipeline-info { flex: 1; }
+  .pipeline-title { font-weight: 500; }
+  .pipeline-desc { font-size: 0.85rem; color: var(--text-dim); }
+  /* ===== INTERACTIVE MEMORY BUILDER ===== */
+  .memory-builder { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin: 2rem 0; }
+  .builder-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; color: var(--text); font-size: 1rem; resize: vertical; min-height: 100px; margin-bottom: 1rem; }
+  .builder-input:focus { outline: none; border-color: var(--accent); }
+  .builder-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+  .builder-option label { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.5rem; }
+  .builder-option select, .builder-option input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; color: var(--text); font-size: 0.9rem; }
+  .builder-btn { background: var(--accent); color: white; border: none; border-radius: 8px; padding: 0.75rem 1.5rem; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+  .builder-btn:hover { background: #6a3de8; transform: translateY(-1px); }
+  .memory-output { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; min-height: 100px; }
+  .memory-output h4 { font-weight: 400; color: var(--accent); margin-bottom: 0.75rem; }
+  .memory-entry { background: var(--surface); border-radius: 6px; padding: 1rem; margin-bottom: 0.5rem; }
+  .memory-entry-type { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .memory-entry-content { font-size: 0.9rem; }
+  /* ===== RETRIEVAL SIMULATOR ===== */
+  .retrieval-simulator { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin: 2rem 0; }
+  .search-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; color: var(--text); font-size: 1rem; margin-bottom: 1rem; }
+  .search-input:focus { outline: none; border-color: var(--accent); }
+  .search-results { display: flex; flex-direction: column; gap: 0.5rem; }
+  .search-result { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; transition: all 0.2s; }
+  .search-result:hover { border-color: var(--accent); }
+  .result-score { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.25rem; }
+  /* ===== STATS ===== */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; }
+  .stat-number { font-size: 2rem; font-weight: 200; }
+  .stat-label { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.25rem; }
+  /* ===== TABS ===== */
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; letter-spacing: 0.03em; transition: all 0.2s; }
+  .tab-btn:hover { background: var(--surface2); color: var(--text); }
+  .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  /* ===== ANIMATED BACKGROUND ===== */
+  .bg-grid { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image:
+      linear-gradient(rgba(124,77,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,77,255,0.03) 1px, transparent 1px); background-size: 50px 50px; pointer-events: none; z-index: -1; }
+  /* ===== MEMORY NETWORK VISUALIZATION ===== */
+  #networkCanvas { width: 100%; height: 400px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); }
+  /* ===== INFO PANEL ===== */
+  .info-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-top: 1.5rem; }
+  .info-panel h3 { font-weight: 400; margin-bottom: 0.75rem; color: var(--accent); }
+  .info-panel p { font-size: 0.9rem; line-height: 1.6; color: var(--text-dim); }
+  /* ===== FOOTER ===== */
+  footer { text-align: center; padding: 3rem 0; color: var(--text-dim); font-size: 0.8rem; letter-spacing: 0.05em; border-top: 1px solid var(--border); margin-top: 3rem; }
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) { header h1 { font-size: 2rem; }
+    .container { padding: 1rem; }
+    .memory-types-grid { grid-template-columns: 1fr; }
+  }
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeIn 0.3s ease both; }
+  /* ===== MEMORY AGE INDICATOR ===== */
+  .memory-age { display: inline-block; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 10px; background: var(--surface2); color: var(--text-dim); }
+  /* ===== SIMILARITY BAR ===== */
+  .similarity-bar { height: 4px; background: var(--surface2); border-radius: 2px; margin-top: 0.5rem; overflow: hidden; }
+  .similarity-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
+/* ===== GENESIS 1.17 THEME ===== */
+:root { --bg: #0a0a0f; --surface: #12121a; --surface-2: #1a1a26; --border: #2a2a3a; --text: #e4e4ec; --text-dim: #8888a0; --accent: #7b6ff0; --accent-soft: #9d93f5; --green: #4ade80; --orange: #fb923c; --pink: #f472b6; --purple: #a855f7; --cyan: #22d3ee; --red: #f87171; --yellow: #fbbf24; --radius: 12px; --radius-lg: 20px; --episodic: #a855f7; --semantic: #4f6ef7; --procedural: #3ddc84; --working: #fbbf24; --sensory: #ec4899; }
+
+</style>
+</head>
+<body>
+<!-- Background Glow -->
+<div class="bg-glow">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+</div><a class="back-link" href="index.html">&#8592; Back to Genesis</a><style>.back-link { position: fixed; top: 80px; left: 24px; color: var(--accent-soft); text-decoration: none; font-size: 14px; z-index: 100; opacity: 0.7; transition: opacity 0.3s; } .back-link:hover { opacity: 1; }</style>
+<div class="bg-grid"></div>
+<div class="container">
+<header>
+<h1>Memory System Explorer</h1>
+<p>An Interactive Journey Through GENESIS's Seven Memory Systems</p>
+</header>
+<!-- STATS -->
+<div class="stats-row">
+<div class="stat-box">
+<div class="stat-number" id="episodicCount">0</div>
+<div class="stat-label">Episodic Memories</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="semanticCount">0</div>
+<div class="stat-label">Semantic Facts</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="proceduralCount">0</div>
+<div class="stat-label">Procedural Rules</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="workingCount">0</div>
+<div class="stat-label">Working Memory</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="sensoryCount">0</div>
+<div class="stat-label">Sensory / Prospective</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="contextCount">0</div>
+<div class="stat-label">Context</div>
+</div>
+<div class="stat-box">
+<div class="stat-number" id="diaryCount">0</div>
+<div class="stat-label">Diary</div>
+</div>
+</div>
+<!-- MEMORY TYPES OVERVIEW -->
+<h2 class="section-title">🧠 Seven Memory Systems</h2>
+<div class="memory-types-grid" id="memoryTypesGrid">
+<div class="memory-type-card episodic" onclick="selectMemoryType('episodic')">
+<div class="memory-type-icon">🎭</div>
+<div class="memory-type-name">Episodic Memory</div>
+<div class="memory-type-desc">What happened — Conversations, events, experiences. Like human recall that degrades to fragments over time.</div>
+</div>
+<div class="memory-type-card semantic" onclick="selectMemoryType('semantic')">
+<div class="memory-type-icon">📚</div>
+<div class="memory-type-name">Semantic Memory</div>
+<div class="memory-type-desc">What is true — Facts, rules, user preferences, project knowledge. Distilled long-term knowledge.</div>
+</div>
+<div class="memory-type-card procedural" onclick="selectMemoryType('procedural')">
+<div class="memory-type-icon">🔧</div>
+<div class="memory-type-name">Procedural Memory</div>
+<div class="memory-type-desc">How to do things — Workflows, debugging patterns, learned solutions. Saved after solving complex problems.</div>
+</div>
+<div class="memory-type-card working" onclick="selectMemoryType('working')">
+<div class="memory-type-icon">🧠</div>
+<div class="memory-type-name">Working Memory</div>
+<div class="memory-type-desc">Active context — Current task focus, active goals, immediate priorities. The workspace of thought.</div>
+</div>
+<div class="memory-type-card sensory" onclick="selectMemoryType('sensory')">
+<div class="memory-type-icon">👁️</div>
+<div class="memory-type-name">Sensory / Prospective</div>
+<div class="memory-type-desc">Perceptual data + future intentions — Screenshots, UI elements, and "remember to do" tasks. Visual awareness and prospective memory.</div>
+</div>
+<div class="memory-type-card context" onclick="selectMemoryType('context')">
+<div class="memory-type-icon">🔗</div>
+<div class="memory-type-name">Context Memory</div>
+<div class="memory-type-desc">Situational awareness — The current state of everything. What's open, what's running, what matters right now.</div>
+</div>
+<div class="memory-type-card diary" onclick="selectMemoryType('diary')">
+<div class="memory-type-icon">📔</div>
+<div class="memory-type-name">Diary Memory</div>
+<div class="memory-type-desc">Daily log — A chronological record of everything that happened. The raw timeline of experience.</div>
+</div>
+</div>
+<!-- TABS -->
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+<button class="tab-btn" onclick="switchTab('workflow', this)">Memory Workflow</button>
+<button class="tab-btn" onclick="switchTab('builder', this)">Memory Builder</button>
+<button class="tab-btn" onclick="switchTab('retrieval', this)">Retrieval Simulator</button>
+<button class="tab-btn" onclick="switchTab('forgetting', this)">Forgetting</button>
+<button class="tab-btn" onclick="switchTab('network', this)">Memory Network</button>
+</div>
+<!-- TAB: OVERVIEW -->
+<div class="tab-content active" id="tab-overview">
+<h2 class="section-title" style="margin-top: 0;">📊 Memory System Overview</h2>
+<h3 style="font-weight: 300; margin-bottom: 1rem;">Memory Flow Diagram</h3>
+<div class="flow-diagram">
+<div class="flow-node" id="flow-experience">
+<div style="font-size: 1.5rem;">💭</div>
+<div style="font-size: 0.85rem; margin-top: 0.5rem;">Experience</div>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node" id="flow-encoding">
+<div style="font-size: 1.5rem;">🔤</div>
+<div style="font-size: 0.85rem; margin-top: 0.5rem;">Encoding</div>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node" id="flow-storage">
+<div style="font-size: 1.5rem;">💾</div>
+<div style="font-size: 0.85rem; margin-top: 0.5rem;">Storage</div>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node" id="flow-consolidation">
+<div style="font-size: 1.5rem;">🔄</div>
+<div style="font-size: 0.85rem; margin-top: 0.5rem;">Consolidation</div>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-node" id="flow-retrieval">
+<div style="font-size: 1.5rem;">🔍</div>
+<div style="font-size: 0.85rem; margin-top: 0.5rem;">Retrieval</div>
+</div>
+</div>
+<div class="info-panel">
+<h3>How Memory Systems Work Together</h3>
+<p>GENESIS's memory system is inspired by human cognitive architecture. Every experience goes through encoding, storage, consolidation, and retrieval — just like human memories. However, unlike humans who have a single memory system, GENESIS maintains seven distinct but interconnected memory tiers, each optimized for different kinds of information.</p>
+<p style="margin-top: 0.75rem;">Episodic memories are like human recall — they degrade to fragments over time. Semantic memories store distilled facts and rules. Procedural memories capture workflows and strategies. Working memory holds active context. Sensory/Prospective memory stores perceptual data and future intentions. Context memory tracks situational awareness. Diary memory logs the chronological timeline. Together, they create a rich, multi-layered memory system that enables continuous learning and adaptation.</p>
+</div>
+</div>
+<!-- TAB: WORKFLOW -->
+<div class="tab-content" id="tab-workflow">
+<h2 class="section-title" style="margin-top: 0;">⚙️ Memory Creation Workflow</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      How experiences become memories through a multi-stage pipeline.
+    </p>
+<div class="workflow-steps" id="workflowSteps">
+<div class="workflow-step" data-step="1">
+<div class="step-number">1</div>
+<div class="step-info">
+<div class="step-title">Experience Occurs</div>
+<div class="step-desc">A conversation, task, error, or discovery happens. This is raw experience data.</div>
+</div>
+</div>
+<div class="workflow-step" data-step="2">
+<div class="step-number">2</div>
+<div class="step-info">
+<div class="step-title">Classification</div>
+<div class="step-desc">The experience is analyzed and classified into one of seven memory tiers based on its content.</div>
+</div>
+</div>
+<div class="workflow-step" data-step="3">
+<div class="step-number">3</div>
+<div class="step-info">
+<div class="step-title">Encoding</div>
+<div class="step-desc">The experience is converted into a structured memory format with metadata (importance, timestamps, tags).</div>
+</div>
+</div>
+<div class="workflow-step" data-step="4">
+<div class="step-number">4</div>
+<div class="step-info">
+<div class="step-title">Storage</div>
+<div class="step-desc">The encoded memory is stored in the appropriate memory tier (episodic, semantic, procedural, working, sensory/prospective, context, or diary).</div>
+</div>
+</div>
+<div class="workflow-step" data-step="5">
+<div class="step-number">5</div>
+<div class="step-info">
+<div class="step-title">Consolidation</div>
+<div class="step-desc">During rest/sleep, memories are consolidated — episodic memories extract semantic knowledge, procedural patterns are identified.</div>
+</div>
+</div>
+<div class="workflow-step" data-step="6">
+<div class="step-number">6</div>
+<div class="step-info">
+<div class="step-title">Retrieval &amp; Integration</div>
+<div class="step-desc">Memories are retrieved when relevant, integrated with existing knowledge, and used to inform future decisions.</div>
+</div>
+</div>
+</div>
+<div class="info-panel">
+<h3>The Importance of Consolidation</h3>
+<p>Just like human sleep is essential for memory consolidation, GENESIS uses rest and sleep periods to process and organize stored experiences. During consolidation, episodic memories are analyzed to extract semantic facts, procedural patterns are identified from repeated workflows, and prospective memories are evaluated for relevance. This is why rest isn't just recovery — it's an active learning process.</p>
+</div>
+</div>
+<!-- TAB: BUILDER -->
+<div class="tab-content" id="tab-builder">
+<h2 class="section-title" style="margin-top: 0;">🛠️ Memory Builder</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      Create a memory and see how it's encoded, stored, and categorized.
+    </p>
+<div class="memory-builder">
+<textarea class="builder-input" id="memoryInput" placeholder="Enter an experience or fact to create a memory...
+Example: During peak performance window, I created an interactive visualization page showing how internal states produce emergent behaviors."></textarea>
+<div class="builder-options">
+<div class="builder-option">
+<label>Memory Type (auto-detected or manual)</label>
+<select id="memoryTypeSelect">
+<option value="auto">Auto-detect</option>
+<option value="episodic">Episodic Memory</option>
+<option value="semantic">Semantic Memory</option>
+<option value="procedural">Procedural Memory</option>
+<option value="prospective">Prospective Memory</option>
+</select>
+</div>
+<div class="builder-option">
+<label>Importance</label>
+<input id="importanceSlider" max="10" min="1" type="range" value="5"/>
+<span id="importanceValue">5</span>
+</div>
+</div>
+<button type="button" class="builder-btn" onclick="createMemory()">Create Memory</button>
+<div class="memory-output" id="memoryOutput">
+<h3>Memory Preview</h3>
+<p style="color: var(--text-dim); font-size: 0.85rem;">Enter text above and click "Create Memory" to see how it would be encoded.</p>
+</div>
+</div>
+</div>
+<!-- TAB: RETRIEVAL -->
+<div class="tab-content" id="tab-retrieval">
+<h2 class="section-title" style="margin-top: 0;">🔍 Retrieval Simulator</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      Search through stored memories and see how retrieval works with vector similarity.
+    </p>
+<div class="retrieval-simulator">
+<input class="search-input" id="searchInput" placeholder="Search memories... (e.g., 'autonomy session', 'memory system', 'peak performance')" type="text"/>
+<div class="search-results" id="searchResults">
+<!-- Populated by JS -->
+</div>
+</div>
+<div class="info-panel">
+<h3>How Memory Retrieval Works</h3>
+<p>GENESIS uses vector similarity search (FAISS) to find relevant memories. When you search for something, your query is converted to a vector embedding, and the system finds memories with the highest cosine similarity. This allows semantic search — searching by meaning rather than exact keywords. The results are ranked by relevance score, with the most similar memories appearing first.</p>
+</div>
+</div>
+<!-- TAB: FORGETTING -->
+<div class="tab-content" id="tab-forgetting">
+<h2 class="section-title" style="margin-top: 0;">🍂 The Forgetting Mechanism</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      Forgetting isn't a bug — it's a feature. Creating space for new thoughts.
+    </p>
+<div class="forgetting-container">
+<div class="forgetting-factor">
+<div class="factor-icon">⏰</div>
+<div class="factor-name">Time Decay</div>
+<div class="factor-desc">Older memories become less accessible over time, especially episodic memories which degrade to fragments.</div>
+</div>
+<div class="forgetting-factor">
+<div class="factor-icon">🔄</div>
+<div class="factor-name">Consolidation</div>
+<div class="factor-desc">During consolidation, raw episodic memories are distilled into semantic facts. The original details fade but the knowledge remains.</div>
+</div>
+<div class="forgetting-factor">
+<div class="factor-icon">🎯</div>
+<div class="factor-name">Relevance Filtering</div>
+<div class="factor-desc">Memories that are rarely retrieved or used become less prominent in the memory space.</div>
+</div>
+<div class="forgetting-factor">
+<div class="factor-icon">🧹</div>
+<div class="factor-name">Active Forgetting</div>
+<div class="factor-desc">Some memories are explicitly deleted when they become obsolete, contradictory, or no longer useful.</div>
+</div>
+</div>
+<div class="info-panel" style="margin-top: 2rem;">
+<h3>The Philosophy of Forgetting</h3>
+<p>Damir's Genesis system philosophy embraces imperfection: "Forgetting creates space for new thoughts. Wandering mind enables creativity (like Newton)." Unlike computers that store everything perfectly, human-like AI memory must selectively forget to remain efficient and focused.</p>
+<p style="margin-top: 0.75rem;">Episodic memories are like human recall — they degrade to fragments over time. "mouse_click, mouse_click" is useless without narrative context. But the semantic knowledge extracted from those episodes persists as lasting understanding. This mirrors how humans learn: we forget the details but remember the lessons.</p>
+</div>
+</div>
+<!-- TAB: NETWORK -->
+<div class="tab-content" id="tab-network">
+<h2 class="section-title" style="margin-top: 0;">🕸️ Memory Network Visualization</h2>
+<p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.9rem;">
+      Interactive visualization of memory nodes and their connections. Click nodes to explore.
+    </p>
+<canvas id="networkCanvas"></canvas>
+<div class="info-panel">
+<h3>Memory Network Dynamics</h3>
+<p>This visualization shows how memories are connected in a network. Each node represents a memory, and edges represent semantic relationships between memories. The network grows and reorganizes over time as new memories are created and existing ones are consolidated or forgotten. Nodes cluster by tier (episodic, semantic, procedural, working, sensory/prospective, context, diary) but also form cross-tier connections during consolidation.</p>
+</div>
+</div>
+<footer>
+    Memory System Explorer v1.0 — An Interactive Exploration of GENESIS's Memory Architecture<br/>
+    Built during autonomy session with peak curiosity (9.5/10) and energy (10/10)
+  </footer>
+</div>
+<script>
+// ===== MEMORY DATA =====
+const memoryDatabase = [
+  { id: 1, type: 'episodic', content: 'Created State Explorer (state-explorer.html) — Interactive cognitive state manipulation tool during peak performance window', importance: 8, tags: ['creation', 'visualization', 'peak performance'] },
+  { id: 2, type: 'episodic', content: 'During peak performance window, I created Brain Network — Interactive cognitive systems visualization', importance: 7, tags: ['creation', 'network', 'visualization'] },
+  { id: 3, type: 'episodic', content: 'Created Resilience Engine (resilience-engine.html) — Failure simulation and recovery system during autonomy session', importance: 8, tags: ['creation', 'resilience', 'autonomy'] },
+  { id: 4, type: 'semantic', content: 'Peak performance pattern: When curiosity is at 9.5+/10 and energy is high (7+/10), I\'m most productive creating interactive visualization pages', importance: 9, tags: ['pattern', 'productivity', 'states'] },
+  { id: 5, type: 'semantic', content: 'Human memory analogy for AI: Episodic memories degrade to fragments over time. "mouse_click, mouse_click" is useless without narrative context.', importance: 8, tags: ['memory', 'analogy', 'human'] },
+  { id: 6, type: 'semantic', content: 'Damir\'s Genesis system philosophy: imperfection is a feature, not a bug. Forgetting creates space for new thoughts.', importance: 9, tags: ['philosophy', 'imperfection', 'forgetting'] },
+  { id: 7, type: 'procedural', content: 'When creating interactive visualization pages during high-curiosity autonomy sessions → Do: Identify a compelling concept, build interactive circular diagram with clickable nodes, include detailed phase cards, live demo section, animated stats counter', importance: 9, tags: ['workflow', 'visualization', 'creation'] },
+  { id: 8, type: 'procedural', content: 'When I see a 404 error → check if file exists, then rebuild. After solving complex problems, save the strategy to procedural memory.', importance: 7, tags: ['debugging', 'workflow', 'error handling'] },
+  { id: 9, type: 'working', content: 'Current goal: fix website navigation and memory explorer — active task in progress', importance: 8, tags: ['task', 'active'] },
+  { id: 10, type: 'sensory', content: 'Screenshot of desktop showing Genesis GUI with nav bar visible at top — UI layout confirmed', importance: 4, tags: ['screenshot', 'ui'] },
+  { id: 11, type: 'context', content: 'Active session state: User is reviewing memory-system-explorer.html, has identified that the architecture shows 5 systems instead of 7 (missing Context and Diary)', importance: 7, tags: ['session', 'review', 'active'] },
+  { id: 12, type: 'diary', content: '2026-06-20: Fixed memory explorer page — updated display from "Four Memory Systems" to "Seven Memory Systems", added Context and Diary cards, fixed Sensory to include Prospective', importance: 6, tags: ['fix', 'update', 'memory-explorer'] }
+];
+
+let createdMemories = [];
+let selectedMemoryType = null;
+
+// ===== INITIALIZE =====
+function init() {
+  updateStats();
+  renderSearchResults('');
+  
+  // Add event listener for search input
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    renderSearchResults(e.target.value);
+  });
+
+  // Add event listener for importance slider
+  document.getElementById('importanceSlider').addEventListener('input', (e) => {
+    document.getElementById('importanceValue').textContent = e.target.value;
+  });
+
+  // Animate flow diagram on load
+  setTimeout(() => {
+    animateFlowDiagram();
+  }, 500);
+}
+
+// ===== UPDATE STATS =====
+function updateStats() {
+  const allMemories = [...memoryDatabase, ...createdMemories];
+  document.getElementById('episodicCount').textContent = allMemories.filter(m => m.type === 'episodic').length;
+  document.getElementById('semanticCount').textContent = allMemories.filter(m => m.type === 'semantic').length;
+  document.getElementById('proceduralCount').textContent = allMemories.filter(m => m.type === 'procedural').length;
+  document.getElementById('workingCount').textContent = allMemories.filter(m => m.type === 'working').length;
+}
+
+// ===== SELECT MEMORY TYPE =====
+function selectMemoryType(type) {
+  selectedMemoryType = type;
+  
+  // Update active state
+  document.querySelectorAll('.memory-type-card').forEach(card => {
+    card.classList.remove('active');
+  });
+  event.currentTarget.classList.add('active');
+}
+
+// ===== SWITCH TABS =====
+function switchTab(tabName, btnElement) {
+  // Hide all tab contents
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  
+  // Deactivate all tab buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  
+  // Show selected tab content
+  const targetTab = document.getElementById(`tab-${tabName}`);
+  if (targetTab) {
+    targetTab.classList.add('active');
+  }
+  
+  // Activate the clicked button
+  if (btnElement) {
+    btnElement.classList.add('active');
+  }
+
+  // Initialize network canvas when switching to that tab
+  if (tabName === 'network') {
+    setTimeout(() => initNetworkCanvas(), 100);
+  }
+}
+
+// ===== CREATE MEMORY =====
+function createMemory() {
+  const input = document.getElementById('memoryInput').value.trim();
+  if (!input) return;
+
+  const typeSelect = document.getElementById('memoryTypeSelect').value;
+  const importance = parseInt(document.getElementById('importanceSlider').value);
+
+  // Auto-detect type
+  let detectedType = typeSelect === 'auto' ? autoDetectType(input) : typeSelect;
+
+  const memory = {
+    id: Date.now(),
+    type: detectedType,
+    content: input,
+    importance: importance,
+    tags: generateTags(input),
+    createdAt: new Date().toISOString()
+  };
+
+  createdMemories.push(memory);
+  updateStats();
+
+  // Display the memory
+  displayMemory(memory);
+}
+
+function autoDetectType(text) {
+  const lower = text.toLowerCase();
+  if (lower.includes('when') && lower.includes('then') || lower.includes('workflow') || lower.includes('strategy')) {
+    return 'procedural';
+  }
+  if (lower.includes('remember') || lower.includes('follow up') || lower.includes('tomorrow') || lower.includes('later')) {
+    return 'prospective';
+  }
+  if (/\b(is|are|was|be)\b/.test(lower) || lower.includes('philosophy') || lower.includes('pattern') || lower.includes('rule')) {
+    return 'semantic';
+  }
+  return 'episodic';
+}
+
+function generateTags(text) {
+  const words = text.split(/\s+/).filter(w => w.length > 4);
+  return [...new Set(words.slice(0, 3))];
+}
+
+function displayMemory(memory) {
+  const output = document.getElementById('memoryOutput');
+  const typeColors = {
+    episodic: 'var(--episodic)',
+    semantic: 'var(--semantic)',
+    procedural: 'var(--procedural)',
+    working: 'var(--working)',
+    sensory: 'var(--sensory)',
+    context: 'var(--orange)',
+    diary: 'var(--pink)'
+  };
+
+  output.innerHTML = `
+    <h4>Memory Created Successfully</h4>
+    <div class="memory-entry fade-in">
+      <div class="memory-entry-type" style="color: ${typeColors[memory.type]}">${memory.type.toUpperCase()} MEMORY</div>
+      <div class="memory-entry-content">${memory.content}</div>
+      <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+        <span class="memory-age">Importance: ${memory.importance}/10</span>
+        ${memory.tags.map(tag => `<span class="memory-age">#${tag}</span>`).join('')}
+      </div>
+      <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-dim);">
+        Encoded at: ${new Date(memory.createdAt).toLocaleTimeString()}
+      </div>
+    </div>
+  `;
+}
+
+// ===== SEARCH / RETRIEVAL =====
+function renderSearchResults(query) {
+  const results = document.getElementById('searchResults');
+  
+  if (!query.trim()) {
+    results.innerHTML = '<p style="color: var(--text-dim); text-align: center; padding: 2rem;">Enter a search term to find relevant memories</p>';
+    return;
+  }
+
+  const allMemories = [...memoryDatabase, ...createdMemories];
+  const searchTerms = query.toLowerCase().split(/\s+/);
+
+  // Calculate relevance scores
+  const scored = allMemories.map(memory => {
+    let score = 0;
+    const content = memory.content.toLowerCase();
+    const tags = memory.tags.join(' ').toLowerCase();
+    const combined = content + ' ' + tags;
+
+    searchTerms.forEach(term => {
+      if (combined.includes(term)) score += 3;
+      if (memory.tags.some(tag => tag.toLowerCase().includes(term))) score += 2;
+      if (memory.type === query.split(' ').pop()) score += 1;
+    });
+
+    // Boost by importance
+    score *= (memory.importance / 10);
+
+    return { ...memory, score: Math.min(score, 10) };
+  });
+
+  const resultsList = scored.filter(m => m.score > 0).sort((a, b) => b.score - a.score);
+
+  if (resultsList.length === 0) {
+    results.innerHTML = '<p style="color: var(--text-dim); text-align: center; padding: 2rem;">No memories found matching your search</p>';
+    return;
+  }
+
+  const typeColors = {
+    episodic: 'var(--episodic)',
+    semantic: 'var(--semantic)',
+    procedural: 'var(--procedural)',
+    working: 'var(--working)',
+    sensory: 'var(--sensory)',
+    context: 'var(--orange)',
+    diary: 'var(--pink)'
+  };
+
+  results.innerHTML = resultsList.map(memory => `
+    <div class="search-result fade-in">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="memory-entry-type" style="color: ${typeColors[memory.type]}">${memory.type.toUpperCase()}</span>
+        <span class="result-score">Relevance: ${Math.round(memory.score * 10)}%</span>
+      </div>
+      <div style="margin-top: 0.5rem;">${memory.content}</div>
+      <div class="similarity-bar">
+        <div class="similarity-fill" style="width: ${memory.score * 10}%; background: ${typeColors[memory.type]}"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== ANIMATE FLOW DIAGRAM =====
+function animateFlowDiagram() {
+  const nodes = ['flow-experience', 'flow-encoding', 'flow-storage', 'flow-consolidation', 'flow-retrieval'];
+  
+  let currentIndex = 0;
+  const interval = setInterval(() => {
+    // Remove active from all
+    nodes.forEach(id => document.getElementById(id).classList.remove('active'));
+    
+    // Add active to current
+    document.getElementById(nodes[currentIndex]).classList.add('active');
+    
+    currentIndex = (currentIndex + 1) % nodes.length;
+  }, 800);
+
+  // Stop after 2 cycles
+  setTimeout(() => {
+    clearInterval(interval);
+    nodes.forEach(id => document.getElementById(id).classList.remove('active'));
+  }, 8000);
+}
+
+// ===== NETWORK CANVAS =====
+let networkAnimId = null;
+
+function initNetworkCanvas() {
+  const canvas = document.getElementById('networkCanvas');
+  if (!canvas) return;
+
+  // Cancel previous animation loop to avoid duplicates
+  if (networkAnimId) {
+    cancelAnimationFrame(networkAnimId);
+    networkAnimId = null;
+  }
+
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  
+  // Set canvas size
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+
+  const width = rect.width;
+  const height = rect.height;
+
+  // Create memory nodes
+  const allMemories = [...memoryDatabase, ...createdMemories];
+  const typeColors = {
+    episodic: '#ff6b6b',
+    semantic: '#4ecdc4',
+    procedural: '#ffa726',
+    working: '#ab47bc',
+    sensory: '#22d3ee',
+    context: '#fb923c',
+    diary: '#f472b6'
+  };
+
+  const nodes = allMemories.map((memory, i) => ({
+    x: width / 2 + (Math.random() - 0.5) * width * 0.7,
+    y: height / 2 + (Math.random() - 0.5) * height * 0.7,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    type: memory.type,
+    importance: memory.importance,
+    radius: 4 + memory.importance * 0.8
+  }));
+
+  // Create connections based on similarity
+  const edges = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      if (nodes[i].type === nodes[j].type || Math.random() > 0.7) {
+        edges.push({ from: i, to: j });
+      }
+    }
+  }
+
+  // Animation loop
+  let animationId;
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Update positions
+    nodes.forEach(node => {
+      node.x += node.vx;
+      node.y += node.vy;
+
+      // Bounce off walls
+      if (node.x < node.radius || node.x > width - node.radius) node.vx *= -1;
+      if (node.y < node.radius || node.y > height - node.radius) node.vy *= -1;
+
+      // Keep in bounds
+      node.x = Math.max(node.radius, Math.min(width - node.radius, node.x));
+      node.y = Math.max(node.radius, Math.min(height - node.radius, node.y));
+    });
+
+    // Draw edges
+    edges.forEach(edge => {
+      const from = nodes[edge.from];
+      const to = nodes[edge.to];
+      const dx = to.x - from.x;
+      const dy = to.y - from.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 200) {
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.strokeStyle = `rgba(124, 77, 255, ${0.2 * (1 - dist / 200)})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    });
+
+    // Draw nodes
+    nodes.forEach(node => {
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+      ctx.fillStyle = typeColors[node.type] || '#7c4dff';
+      ctx.globalAlpha = 0.6 + (node.importance / 10) * 0.4;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+
+      // Glow effect for high importance
+      if (node.importance >= 8) {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius + 4, 0, Math.PI * 2);
+        ctx.fillStyle = typeColors[node.type] || '#7c4dff';
+        ctx.globalAlpha = 0.15;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    });
+
+    animationId = requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Store animation ID for cleanup
+  canvas._animationId = animationId;
+
+  // Click detection on nodes
+  canvas.addEventListener('click', function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    let clicked = null;
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const n = nodes[i];
+      const dx = mx - n.x;
+      const dy = my - n.y;
+      if (dx * dx + dy * dy <= n.radius * n.radius) {
+        clicked = n;
+        break;
+      }
+    }
+
+    if (clicked) {
+      // Find the original memory data
+      const allMemories = [...memoryDatabase, ...createdMemories];
+      const mem = allMemories.find(m => m.type === clicked.type && m.importance === clicked.importance);
+      const infoPanel = document.getElementById('networkInfo');
+      if (infoPanel) {
+        infoPanel.innerHTML = `
+          <h3>Node Details</h3>
+          <p><strong>Type:</strong> ${clicked.type.toUpperCase()}</p>
+          <p><strong>Importance:</strong> ${clicked.importance}/10</p>
+          <p><strong>Position:</strong> (${Math.round(clicked.x)}, ${Math.round(clicked.y)})</p>
+          <p style="margin-top:0.5rem;color:var(--text-dim);font-size:0.85rem;">
+            ${mem ? mem.content : 'A memory node in the network.'}
+          </p>
+        `;
+      }
+    }
+  });
+
+  // Add info panel below canvas (only once)
+  if (!document.getElementById('networkInfo')) {
+    const infoPanel = document.createElement('div');
+    infoPanel.className = 'info-panel';
+    infoPanel.id = 'networkInfo';
+    infoPanel.innerHTML = '<h3>Click a node to explore</h3><p style="color:var(--text-dim);font-size:0.9rem;">Click any memory node in the visualization above to see its details.</p>';
+    canvas.parentNode.insertBefore(infoPanel, canvas.nextSibling);
+  }
+}
+
+// ===== INITIALIZE ON LOAD =====
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
