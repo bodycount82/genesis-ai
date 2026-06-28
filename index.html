@@ -485,7 +485,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <!-- Hero -->
 <section class="hero" id="top">
 <div class="content fade-in">
-<div class="hero-pill"><span class="dot"></span> Version 0.5.0 — Ready for download</div>
+<div class="hero-pill"><span class="dot"></span> Version 0.6.0 — Ready for download</div>
 <h1>An AI that remembers, thinks, and acts on its own</h1>
 <p class="subtitle">Genesis is a local autonomous AI companion with biological-style memory, simulated moods, three operational modes, and real desktop capabilities — running entirely on your machine.</p>
 <div class="btn-group">
@@ -732,7 +732,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <h2>Ready to try Genesis?</h2>
 <p>Download the latest version and start exploring. It's free, local, and runs on your machine.</p>
 <div class="btn-group">
-<a class="btn btn-primary" href="#" id="download-btn" onclick="return false;">⬇ Download Genesis 0.5.0</a>
+<a class="btn btn-primary" href="#" id="download-btn" onclick="return false;">⬇ Download Genesis 0.6.0</a>
 </div>
 <p class="cta-fineprint">Windows installer · Single file · No account required</p>
 </div>
@@ -925,12 +925,12 @@ modalDownload.addEventListener('click', () => {
   // Trigger a real same-tab file download (NOT window.open). A popup download in Chrome
   // can be saved under a random/garbage name; a plain anchor click whose URL path AND
   // download attribute both end in the real filename makes Chrome/Edge/Brave/Firefox all
-  // save it as Genesis-Setup-0.5.0.exe. (For belt-and-suspenders, the R2 object should
-  // also send: Content-Disposition: attachment; filename="Genesis-Setup-0.5.0.exe".)
-  const url = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.5.0.exe';
+  // save it as Genesis-Setup-0.6.0.exe. (For belt-and-suspenders, the R2 object should
+  // also send: Content-Disposition: attachment; filename="Genesis-Setup-0.6.0.exe".)
+  const url = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.6.0.exe';
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Genesis-Setup-0.5.0.exe';
+  a.download = 'Genesis-Setup-0.6.0.exe';
   a.rel = 'noopener';
   document.body.appendChild(a);
   a.click();
