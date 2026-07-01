@@ -922,39 +922,24 @@ agreeCheck.addEventListener('change', () => {
 modalDownload.addEventListener('click', () => {
   if (modalDownload.classList.contains('btn-disabled')) return;
   closeModal();
-  // Chrome blocks the <a download> attribute for cross-origin URLs (R2).
-  // Fetch as blob first, then create a same-origin object URL so the
-  // filename is always respected in Chrome, Edge, Brave, Firefox.
+
   const url = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.9.0.exe';
   const filename = 'Genesis-Setup-0.9.0.exe';
 
-  // Show loading state
-  modalDownload.textContent = 'Downloading…';
-  modalDownload.classList.add('btn-disabled');
-
-  fetch(url)
-    .then(r => {
-      if (!r.ok) throw new Error('Download failed (' + r.status + ')');
-      return r.blob();
-    })
-    .then(blob => {
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = filename;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
-    })
-    .catch(err => {
-      alert('Download failed: ' + err.message + '\n\nTry right-clicking the download button and choosing "Save link as…"');
-    })
-    .finally(() => {
-      modalDownload.textContent = 'Download Genesis 0.9.0';
-      modalDownload.classList.remove('btn-disabled');
-    });
+  // Trigger a native browser download via a same-tab anchor click.
+  // The file is >1GB, and the R2 bucket has no CORS headers configured,
+  // so fetch()+blob() (used previously) either gets blocked by CORS or
+  // has to buffer the entire file in memory — both unreliable and the
+  // source of the "garbage" downloads in Chrome. A plain anchor click
+  // is a normal HTTP navigation, not a cross-origin script read, so it
+  // needs no CORS and streams straight to disk in every browser.
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 });
 
 // Copy BTC address on click
