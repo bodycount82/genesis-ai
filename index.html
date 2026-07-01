@@ -925,12 +925,12 @@ modalDownload.addEventListener('click', () => {
   // Trigger a real same-tab file download (NOT window.open). A popup download in Chrome
   // can be saved under a random/garbage name; a plain anchor click whose URL path AND
   // download attribute both end in the real filename makes Chrome/Edge/Brave/Firefox all
-  // save it as Genesis-Setup-0.6.0.exe. (For belt-and-suspenders, the R2 object should
-  // also send: Content-Disposition: attachment; filename="Genesis-Setup-0.6.0.exe".)
-  const url = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.6.0.exe';
+  // save it as Genesis-Setup-0.9.0.exe. (For belt-and-suspenders, the R2 object should
+  // also send: Content-Disposition: attachment; filename="Genesis-Setup-0.9.0.exe".)
+  const url = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.9.0.exe';
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Genesis-Setup-0.6.0.exe';
+  a.download = 'Genesis-Setup-0.9.0.exe';
   a.rel = 'noopener';
   document.body.appendChild(a);
   a.click();
