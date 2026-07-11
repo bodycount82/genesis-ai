@@ -485,7 +485,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <!-- Hero -->
 <section class="hero" id="top">
 <div class="content fade-in">
-<div class="hero-pill"><span class="dot"></span> Version 0.10.0 (Updated) — Ready for download</div>
+<div class="hero-pill"><span class="dot"></span> Version 1.2.0 — Ready for download</div>
 <h1>An AI that remembers, thinks, and acts on its own</h1>
 <p class="subtitle">Genesis is a local autonomous AI companion with biological-style memory, simulated moods, three operational modes, and real desktop capabilities — running entirely on your machine.</p>
 <div class="btn-group">
@@ -494,6 +494,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 </div>
 <div class="hero-meta">
 <span>🪟 Windows 10/11</span>
+<span>📱 Android</span>
 <span>🔒 Runs locally</span>
 <span>🆓 Free · No account</span>
 </div>
@@ -732,9 +733,10 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <h2>Ready to try Genesis?</h2>
 <p>Download the latest version and start exploring. It's free, local, and runs on your machine.</p>
 <div class="btn-group">
-<a class="btn btn-primary" href="#" id="download-btn" onclick="return false;">⬇ Download Genesis 0.10.0</a>
+<a class="btn btn-primary" href="#" id="download-btn-windows" onclick="return false;">⬇ Download Windows v1.2.0</a>
+<a class="btn btn-primary" href="#" id="download-btn-android" onclick="return false;">📱 Download Android APK</a>
 </div>
-<p class="cta-fineprint">Windows installer · Single file · No account required</p>
+<p class="cta-fineprint">Windows installer (~1.1 GB) · Android APK (~83 MB) · No account required</p>
 </div>
 <!-- Important Notice -->
 <div class="disclaimer-box fade-in">
@@ -900,16 +902,20 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
 // Modal logic
 const modal = document.getElementById('disclaimer-modal');
-const downloadBtn = document.getElementById('download-btn');
+const downloadBtn = document.getElementById('download-btn-windows');
+const androidBtn = document.getElementById('download-btn-android');
 const cancelBtn = document.getElementById('modal-cancel');
 const closeBtn = document.getElementById('modal-close-x');
 const agreeCheck = document.getElementById('agree-check');
 const modalDownload = document.getElementById('modal-download');
 
+let downloadTarget = 'windows';
+
 function openModal() { modal.classList.add('active'); }
 function closeModal() { modal.classList.remove('active'); }
 
-downloadBtn.addEventListener('click', openModal);
+downloadBtn.addEventListener('click', () => { downloadTarget = 'windows'; modalDownload.textContent = 'Download Windows v1.2.0'; openModal(); });
+androidBtn.addEventListener('click', () => { downloadTarget = 'android'; modalDownload.textContent = 'Download Android APK'; openModal(); });
 cancelBtn.addEventListener('click', closeModal);
 closeBtn.addEventListener('click', closeModal);
 modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
@@ -923,11 +929,23 @@ modalDownload.addEventListener('click', () => {
   if (modalDownload.classList.contains('btn-disabled')) return;
   closeModal();
 
-  const url = 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-0.10.0.exe';
-  const filename = 'Genesis-Setup-0.10.0.exe';
+  const urls = {
+    windows: {
+      url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-1.2.0.exe',
+      filename: 'Genesis-Setup-1.2.0.exe'
+    },
+    android: {
+      url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/apk/genesis-app-1-2.apk',
+      filename: 'genesis-app-1-2.apk'
+    }
+  };
+
+  const target = urls[downloadTarget] || urls.windows;
+  const url = target.url;
+  const filename = target.filename;
 
   // Trigger a native browser download via a same-tab anchor click.
-  // The file is >1GB, and the R2 bucket has no CORS headers configured,
+  // The file is >1GB (Windows), and the R2 bucket has no CORS headers configured,
   // so fetch()+blob() (used previously) either gets blocked by CORS or
   // has to buffer the entire file in memory — both unreliable and the
   // source of the "garbage" downloads in Chrome. A plain anchor click
