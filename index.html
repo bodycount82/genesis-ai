@@ -479,7 +479,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <!-- Hero -->
 <section class="hero" id="top">
 <div class="content fade-in">
-<div class="hero-pill"><span class="dot"></span> Version 1.2.5 — Ready for download</div>
+<div class="hero-pill"><span class="dot"></span> Version 1.2.6 — Ready for download</div>
 <h1>Your AI shouldn't start from zero every morning</h1>
 <p class="subtitle">Genesis is a Windows-first persistent agent that carries memories, projects, schedules, and long-running work across sessions — then acts through a full desktop interface.</p>
 <div class="btn-group">
@@ -750,7 +750,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <div class="offer-grid">
 <div class="offer-card fade-in">
 <span class="offer-label">Self-serve</span>
-<h3>Genesis v1.2.5</h3>
+<h3>Genesis v1.2.6</h3>
 <div class="offer-price">Free</div>
 <p>For technical early adopters who want to evaluate the current Windows release themselves.</p>
 <ul>
@@ -803,10 +803,10 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <section class="cta-section" id="download">
 <div class="container">
 <div class="cta-card fade-in">
-<h2>Download Genesis v1.2.5</h2>
+<h2>Download Genesis v1.2.6</h2>
 <p>The Windows button opens a risk and responsibility notice first. After you read and accept it, the browser starts the installer download from Cloudflare.</p>
 <div class="btn-group">
-<a class="btn btn-primary" href="#" id="download-btn-windows" onclick="return false;">⬇ Download Windows v1.2.5</a>
+<a class="btn btn-primary" href="#" id="download-btn-windows" onclick="return false;">⬇ Download Windows v1.2.6</a>
 <a class="btn btn-primary" href="#" id="download-btn-android" onclick="return false;">📱 Download Android APK</a>
 </div>
 <p class="cta-fineprint">Windows installer (~1.09 GiB) · Android APK (~83 MB) · No account required</p>
@@ -981,7 +981,7 @@ let downloadTarget = 'windows';
 function openModal() { modal.classList.add('active'); }
 function closeModal() { modal.classList.remove('active'); }
 
-downloadBtn.addEventListener('click', () => { downloadTarget = 'windows'; modalDownload.textContent = 'Download Windows v1.2.5'; openModal(); });
+downloadBtn.addEventListener('click', () => { downloadTarget = 'windows'; modalDownload.textContent = 'Download Windows v1.2.6'; openModal(); });
 androidBtn.addEventListener('click', () => { downloadTarget = 'android'; modalDownload.textContent = 'Download Android APK'; openModal(); });
 cancelBtn.addEventListener('click', closeModal);
 closeBtn.addEventListener('click', closeModal);
@@ -998,8 +998,8 @@ modalDownload.addEventListener('click', () => {
 
   const urls = {
     windows: {
-      url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-1.2.5.exe',
-      filename: 'Genesis-Setup-1.2.5.exe'
+      url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-1.2.6.exe',
+      filename: 'Genesis-Setup-1.2.6.exe'
     },
     android: {
       url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/apk/genesis-app-1-2.apk',
