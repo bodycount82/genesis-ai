@@ -217,6 +217,14 @@ nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: tran
 .offer-card li { margin-bottom: 8px; }
 .offer-card .btn { margin-top: auto; justify-content: center; }
 .commercial-note { max-width: 760px; margin: 28px auto 0; text-align: center; color: var(--text-dim); font-size: .88rem; }
+.acquisition-banner {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center;
+  margin-top: 28px; padding: 30px 32px; border: 1px solid rgba(123, 111, 240, .55);
+  border-radius: var(--radius-lg); background: linear-gradient(135deg, rgba(123,111,240,.15), rgba(27,25,54,.7));
+}
+.acquisition-banner h3 { margin: 8px 0 10px; font-size: clamp(1.35rem, 2.4vw, 1.8rem); }
+.acquisition-banner p { max-width: 790px; color: var(--text-dim); font-size: .92rem; }
+.acquisition-banner .btn { white-space: nowrap; }
 .hero-note strong { color: var(--orange); }
 
 /* ===== SECTION HEADER (shared, centered) ===== */
@@ -420,6 +428,8 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
   .specs-grid, .gallery-preview { grid-template-columns: repeat(2, 1fr); }
   .proof-layout { grid-template-columns: 1fr; }
   .offer-grid { grid-template-columns: 1fr; }
+  .acquisition-banner { grid-template-columns: 1fr; }
+  .acquisition-banner .btn { justify-self: start; }
   .memory-flow { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
 }
@@ -777,7 +787,15 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <a class="btn btn-secondary" href="mailto:damirderganc@gmail.com?subject=Genesis%20Persistent%20Agent%20Pilot&amp;body=Organization%3A%20%0AWorkflow%20or%20model%20to%20evaluate%3A%20%0AWhat%20must%20persist%20across%20sessions%3A%20">Discuss a pilot</a>
 </div>
 </div>
-<p class="commercial-note fade-in">Need source licensing, a white-label build, or an acquisition conversation? <a href="mailto:damirderganc@gmail.com?subject=Genesis%20Licensing%20or%20Acquisition">Contact the builder directly</a>. Consciousness is not sold as a product claim; Genesis provides an experimental architecture for persistent AI identity and autonomy.</p>
+<div class="acquisition-banner fade-in">
+<div>
+<span class="offer-label">Strategic acquisition</span>
+<h3>The complete Genesis project is genuinely available for acquisition.</h3>
+<p>The builder is open to a negotiated full sale and transition—not only a pilot or source-code license. An agreed transaction can include the Windows application, Python backend, full Android companion, memory and autonomy architecture, tests, documentation, build and release systems, website and brand assets, and transition support. Exact IP and asset scope is subject to due diligence and the final agreement.</p>
+</div>
+<a class="btn btn-primary" href="mailto:damirderganc@gmail.com?subject=Genesis%20Full%20Project%20Acquisition&amp;body=Organization%3A%20%0AWhat%20interests%20you%20about%20Genesis%3A%20%0APreferred%20next%20step%3A%20">Discuss full acquisition</a>
+</div>
+<p class="commercial-note fade-in">Source licensing and white-label arrangements remain available too. Consciousness is not sold as a product claim; Genesis provides an experimental architecture for persistent AI identity and autonomy.</p>
 </div>
 </section>
 
@@ -885,7 +903,7 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 </div>
 <div class="footer-col">
 <h5>Commercial</h5>
-<p><a href="#for-teams">Assisted setup and team pilots</a><br/><a href="mailto:damirderganc@gmail.com?subject=Genesis%20Licensing">Licensing, white-label, and acquisition</a></p>
+<p><a href="#for-teams">Assisted setup and team pilots</a><br/><a href="mailto:damirderganc@gmail.com?subject=Genesis%20Full%20Project%20Acquisition">Full project acquisition</a><br/><a href="mailto:damirderganc@gmail.com?subject=Genesis%20Licensing">Licensing and white-label</a></p>
 </div>
 <div class="footer-col">
 <h5>Research &amp; evidence</h5>
