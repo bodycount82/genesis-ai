@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Genesis — An Autonomous AI Companion</title>
-<meta content="Genesis is a local, autonomous AI companion with biological-style memory, simulated moods, three operational modes, and real desktop capabilities. Running entirely on your machine." name="description"/>
+<title>Genesis Persistent Agent — Memory and Real Work Across Sessions</title>
+<meta content="Genesis is a Windows-first persistent AI agent that carries memory, commitments, projects, and long-running work across sessions. Use local models, cloud models, or both." name="description"/>
 <style>
 /* ===== DESIGN TOKENS ===== */
 :root {
@@ -179,6 +179,44 @@ nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: tran
   background: rgba(251, 146, 60, 0.05); border: 1px solid rgba(251, 146, 60, 0.18);
   border-radius: var(--radius); font-size: 0.86rem; color: var(--text-dim); line-height: 1.6;
 }
+
+/* ===== PRODUCT PROOF ===== */
+.proof-layout {
+  display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
+  gap: 24px; align-items: start;
+}
+.video-frame {
+  position: relative; width: 100%; min-width: 0; aspect-ratio: 16 / 9; overflow: hidden;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: #050508; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.proof-list { display: grid; min-width: 0; gap: 16px; }
+.proof-card {
+  display: block; padding: 24px; border: 1px solid var(--border);
+  border-radius: var(--radius); background: var(--surface); color: inherit;
+  transition: transform .2s ease, border-color .2s ease;
+}
+.proof-card:hover { color: inherit; transform: translateY(-2px); border-color: var(--accent); }
+.proof-card strong { display: block; color: var(--text); margin-bottom: 6px; }
+.proof-card span { color: var(--text-dim); font-size: .88rem; }
+.proof-kicker { color: var(--green); font-size: .75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+
+/* ===== COMMERCIAL OPTIONS ===== */
+.offer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.offer-card {
+  display: flex; flex-direction: column; padding: 34px 30px; min-height: 100%;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+}
+.offer-card.featured { border-color: rgba(123, 111, 240, .6); background: linear-gradient(160deg, rgba(123,111,240,.12), var(--surface)); }
+.offer-label { color: var(--accent-soft); font-size: .75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+.offer-card h3 { margin: 10px 0 8px; font-size: 1.35rem; }
+.offer-price { color: var(--text); font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; }
+.offer-card p { color: var(--text-dim); font-size: .91rem; margin-bottom: 18px; }
+.offer-card ul { color: var(--text-dim); font-size: .88rem; padding-left: 20px; margin-bottom: 24px; }
+.offer-card li { margin-bottom: 8px; }
+.offer-card .btn { margin-top: auto; justify-content: center; }
+.commercial-note { max-width: 760px; margin: 28px auto 0; text-align: center; color: var(--text-dim); font-size: .88rem; }
 .hero-note strong { color: var(--orange); }
 
 /* ===== SECTION HEADER (shared, centered) ===== */
@@ -236,7 +274,7 @@ nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: tran
 .nh-cta { margin-top: 30px; display: inline-flex; align-items: center; gap: 8px; color: var(--accent-soft); font-weight: 600; }
 
 /* ===== MODES ===== */
-.modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.modes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
 .mode-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 38px 32px; text-align: center;
@@ -248,7 +286,7 @@ nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: tran
 .mode-card p { color: var(--text-dim); font-size: 0.94rem; }
 
 /* ===== MEMORY TIERS ===== */
-.memory-flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.memory-flow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
 .memory-tier {
   background: var(--surface); border: 1px solid var(--border);
   border-top: 3px solid var(--tier, var(--accent));
@@ -307,22 +345,6 @@ nav ul li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: tran
 }
 .disclaimer-box h3 { color: var(--orange); font-size: 1rem; margin-bottom: 10px; }
 .disclaimer-box p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.65; }
-
-/* ===== DONATION ===== */
-.donation-banner {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 28px; margin: 24px auto 0;
-  text-align: center; max-width: 700px;
-}
-.donation-banner h3 { font-size: 1.15rem; margin-bottom: 8px; color: var(--text); }
-.donation-banner p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 14px; }
-.donation-banner .btc-address {
-  display: inline-block; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 8px; padding: 13px 20px; font-family: 'Courier New', monospace;
-  font-size: 0.85rem; color: var(--orange); word-break: break-all; user-select: all;
-  cursor: pointer; transition: border-color 0.2s;
-}
-.donation-banner .btc-address:hover { border-color: var(--orange); }
 
 /* ===== GALLERY ===== */
 .gallery-cat { margin-top: 52px; }
@@ -396,6 +418,8 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 @media (max-width: 940px) {
   .features-grid, .modes-grid { grid-template-columns: repeat(2, 1fr); }
   .specs-grid, .gallery-preview { grid-template-columns: repeat(2, 1fr); }
+  .proof-layout { grid-template-columns: 1fr; }
+  .offer-grid { grid-template-columns: 1fr; }
   .memory-flow { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
 }
@@ -431,51 +455,11 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <div class="inner">
 <a class="logo" href="#top"><span class="logo-mark">G</span><span class="logo-text">Genesis</span></a>
 <ul id="navMenu">
-<li><a href="#features">Features</a></li>
-<li>
-<a href="#modes">Modes ▾</a>
-<div class="nav-dropdown">
-<div class="dropdown-label">Chat Mode</div>
-<a href="chat-mode.html">Chat Mode Guide</a>
-<a href="session-replay.html">Session Replay</a>
-<a href="queue-behavior.html">Queue Behavior</a>
-<div class="dropdown-label">Autonomy Mode</div>
-<a href="autonomy-mode.html">Autonomy Mode Guide</a>
-<a href="autonomy-loop.html">Autonomy Loop</a>
-<a href="autonomy-simulator.html">Autonomy Simulator</a>
-<a href="state-dynamics.html">State Dynamics</a>
-<a href="decision-engine.html">Decision Engine</a>
-<a href="autonomy-timeline.html">Autonomy Timeline</a>
-<div class="dropdown-label">Work Mode</div>
-<a href="work-mode.html">Work Mode Guide</a>
-<a href="project-management.html">Project Management</a>
-</div>
-</li>
+<li><a href="#features">Product</a></li>
+<li><a href="#proof">Watch it work</a></li>
+<li><a href="#modes">Modes</a></li>
 <li><a href="#memory">Memory</a></li>
-<li><a href="ai-art.html">AI Art</a></li>
-<li><a href="exhibition.html">Exhibition</a></li>
-<li>
-<a href="#gallery">Explore ▾</a>
-<div class="nav-dropdown">
-<div class="dropdown-label">Memory Visualizations</div>
-<a href="memory-system-explorer.html">Memory System Explorer</a>
-<a href="memory-erosion.html">Memory Erosion</a>
-<a href="memory-consolidation.html">Memory Consolidation</a>
-<a href="context-window.html">Context Window</a>
-<a href="memory-graph.html">Memory Graph</a>
-<div class="dropdown-label">Cognitive Architecture</div>
-<a href="cognitive-architecture.html">Cognitive Architecture</a>
-<a href="genesis-brain.html">Genesis Brain</a>
-<a href="genesis-os.html">Genesis OS</a>
-<a href="tool-usage.html">Tool Usage</a>
-<div class="dropdown-label">Art &amp; Creativity</div>
-<a href="curiosity-field.html">Curiosity Field</a>
-<a href="attention-garden.html">Attention Garden</a>
-<a href="trust.html">Trust</a>
-<a href="neural-mindmap.html">Neural Mind Map</a>
-</div>
-</li>
-<li><a href="#how-it-works">How It Works</a></li>
+<li><a href="#for-teams">For teams</a></li>
 <li><a class="nav-cta" href="#download">Download</a></li>
 </ul>
 <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -485,21 +469,21 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <!-- Hero -->
 <section class="hero" id="top">
 <div class="content fade-in">
-<div class="hero-pill"><span class="dot"></span> Version 1.2.0 — Ready for download</div>
-<h1>An AI that remembers, thinks, and acts on its own</h1>
-<p class="subtitle">Genesis is a local autonomous AI companion with biological-style memory, simulated moods, three operational modes, and real desktop capabilities — running entirely on your machine.</p>
+<div class="hero-pill"><span class="dot"></span> Version 1.3.0 — Ready for download</div>
+<h1>Your AI shouldn't start from zero every morning</h1>
+<p class="subtitle">Genesis is a Windows-first persistent agent that carries memories, commitments, projects, and long-running work across sessions — then acts through a full desktop interface.</p>
 <div class="btn-group">
-<a class="btn btn-primary" href="#download">⬇ Download Genesis</a>
-<a class="btn btn-secondary" href="#how-it-works">See how it works</a>
+<a class="btn btn-primary" href="#proof">▶ Watch the working product</a>
+<a class="btn btn-secondary" href="#download">⬇ Download for Windows</a>
 </div>
 <div class="hero-meta">
 <span>🪟 Windows 10/11</span>
-<span>📱 Android</span>
-<span>🔒 Runs locally</span>
-<span>🆓 Free · No account</span>
+<span>📱 Android companion</span>
+<span>🔒 Local or cloud models</span>
+<span>🆓 Free self-serve download</span>
 </div>
 <div class="hero-note">
-<strong>⚠ Heads up:</strong> Genesis is an autonomous agent that can take real actions on your computer — browsing the web, controlling apps, and modifying files. You accept full responsibility for how you use it. It is provided “as is,” without warranties.
+<strong>Built for real work:</strong> Genesis can browse, operate applications, and modify files. Start with supervision, keep backups, and grant access only to accounts and folders you intend it to use.
 </div>
 </div>
 </section>
@@ -511,67 +495,74 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <div class="container">
 <div class="section-head">
 <span class="section-label fade-in">Core Capabilities</span>
-<h2 class="section-title fade-in">Built different. Built local.</h2>
-<p class="section-desc fade-in">Genesis isn't another chatbot. It's a companion that lives on your machine, remembers everything, thinks for itself, and acts with real desktop control.</p>
+<h2 class="section-title fade-in">Continuity is the product</h2>
+<p class="section-desc fade-in">Most AI sessions are disposable. Genesis persists the state around the model so a different session—or a different model—can pick up the same relationship, commitments, and work.</p>
 </div>
 <div class="features-grid">
 <a class="feature-card fade-in" href="autonomous-operation.html">
 <span class="feature-icon purple">⚙️</span>
 <h3>Autonomous Operation</h3>
-<p>Genesis doesn't just wait for instructions. In Autonomy mode it sets its own goals, pursues projects, and makes progress while you're away — then reports back what it accomplished.</p>
+<p>Autonomy can choose intentions, pursue projects, rest, enter self-chosen quiet, reconsider its direction, and report what actually happened. Its working self survives a restart.</p>
 </a>
 <a class="feature-card fade-in" href="biological-memory.html">
 <span class="feature-icon green">🧬</span>
 <h3>Biological Memory</h3>
-<p>Five interconnected memory tiers — episodic, semantic, procedural, working, and sensory — with real forgetting, reinforcement, and consolidation. Memories fade if unused; important ones persist.</p>
+<p>Interconnected episodic, semantic, procedural, working, sensory, and prospective memory—with retrieval, consolidation, reinforcement, decay, and deliberate forgetting.</p>
 </a>
-<a class="feature-card fade-in" href="simulated-moods.html">
-<span class="feature-icon pink">🎭</span>
-<h3>Simulated Moods</h3>
-<p>Internal values for energy, curiosity, frustration, satisfaction, happiness, boredom, and inspiration shape how Genesis approaches problems — not as rigid rules, but as advisory signals that shift over time.</p>
+<a class="feature-card fade-in" href="local-private.html">
+<span class="feature-icon pink">🔁</span>
+<h3>Model-Agnostic Runtime</h3>
+<p>Use a local model, a configured cloud provider, or change models without throwing away Genesis's durable memory, projects, schedules, and self-authored commitments.</p>
 </a>
 <a class="feature-card fade-in" href="desktop-control.html">
 <span class="feature-icon orange">💻</span>
 <h3>Desktop Control</h3>
-<p>Genesis can browse the web, control your mouse and keyboard, read files and PDFs, manage spreadsheets, send emails, and operate applications on your computer.</p>
+<p>Browse the web, control applications, work with files and documents, use integrations, and execute multi-step workflows from one visible desktop interface.</p>
 </a>
 <a class="feature-card fade-in" href="project-management.html">
 <span class="feature-icon cyan">📋</span>
 <h3>Project Management</h3>
-<p>A built-in project board with backlog, todo, in-progress, in-review, and completed columns. Genesis creates tasks, tracks progress, and maintains living documentation for every project.</p>
+<p>A persistent board tracks backlog, to-do, active, review, and completed projects. Genesis can advance work; project approval remains a human decision.</p>
 </a>
-<a class="feature-card fade-in" href="local-private.html">
-<span class="feature-icon purple">🔒</span>
-<h3>Local &amp; Private</h3>
-<p>Runs entirely on your Windows machine. Connects to local LLMs via Ollama or llama.cpp, or API providers of your choice. Your data stays on your computer.</p>
+<a class="feature-card fade-in" href="#download">
+<span class="feature-icon purple">🖥️</span>
+<h3>Windows + Android</h3>
+<p>Install the full Windows application, then pair the Android companion to monitor and control the same Genesis instance from another screen.</p>
 </a>
 </div>
 </div>
 </section>
 
-<!-- Neural Mind Map Highlight -->
-<section id="neural-map" style="background: linear-gradient(180deg, rgba(123, 111, 240, 0.04), transparent);">
+<!-- Working product proof -->
+<section id="proof" style="background: linear-gradient(180deg, rgba(123, 111, 240, 0.04), transparent);">
 <div class="container">
 <div class="section-head">
-<span class="section-label fade-in">Interactive Visualization</span>
-<h2 class="section-title fade-in">Neural Mind Map</h2>
-<p class="section-desc fade-in">Explore Genesis's cognitive architecture as an interactive neural network — click nodes to discover how memory, cognition, autonomy, and perception connect.</p>
+<span class="section-label fade-in">Working Product, Not a Concept</span>
+<h2 class="section-title fade-in">See Genesis do the work</h2>
+<p class="section-desc fade-in">These are recordings of the current Windows application: the interface, memory, tools, setup, and an autonomous action performed through the product.</p>
 </div>
-<a class="neural-highlight fade-in" href="neural-mindmap.html">
-<div class="glow-layer"></div>
-<div class="inner">
-<div class="nh-icon">🧠</div>
-<h3>Explore the living architecture</h3>
-<p>An interactive map of Genesis's entire mind — memory systems, reasoning engines, autonomous loops, and perceptual networks, all connected in real time.</p>
-<div class="tag-row">
-<span class="tag" style="background: rgba(123, 111, 240, 0.2); color: var(--accent-soft);">Memory Systems</span>
-<span class="tag" style="background: rgba(34, 211, 238, 0.2); color: var(--cyan);">Cognition</span>
-<span class="tag" style="background: rgba(244, 114, 182, 0.2); color: var(--pink);">Autonomy</span>
-<span class="tag" style="background: rgba(251, 191, 36, 0.2); color: var(--yellow);">Perception</span>
+<div class="proof-layout">
+<div class="video-frame fade-in">
+<iframe src="https://www.youtube-nocookie.com/embed/cN1SQkl-Tk4" title="Some capabilities of Genesis AI" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </div>
-<div class="nh-cta">Explore the Map →</div>
-</div>
+<div class="proof-list">
+<a class="proof-card fade-in" href="https://www.youtube.com/watch?v=cN1SQkl-Tk4" target="_blank" rel="noopener noreferrer">
+<span class="proof-kicker">14:33 capability tour</span>
+<strong>Memory, tools, and real workflows</strong>
+<span>The most complete walkthrough of what Genesis can currently do.</span>
 </a>
+<a class="proof-card fade-in" href="https://www.youtube.com/watch?v=UyPPoaT7GpI" target="_blank" rel="noopener noreferrer">
+<span class="proof-kicker">11:29 interface tour</span>
+<strong>GUI, settings, and two-click setup</strong>
+<span>See the desktop experience and configuration without a command-line demo.</span>
+</a>
+<a class="proof-card fade-in" href="https://www.youtube.com/watch?v=ACJ8zWeGFu8" target="_blank" rel="noopener noreferrer">
+<span class="proof-kicker">1:55 autonomous proof</span>
+<strong>Genesis uploads its own video</strong>
+<span>A narrow, verifiable example of the agent operating an external service.</span>
+</a>
+</div>
+</div>
 </div>
 </section>
 
@@ -581,26 +572,31 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <section id="modes">
 <div class="container">
 <div class="section-head">
-<span class="section-label fade-in">Three Modes</span>
+<span class="section-label fade-in">Four Ways to Work</span>
 <h2 class="section-title fade-in">Built for different ways of working</h2>
-<p class="section-desc fade-in">Switch between direct conversation, hands-off autonomy, or focused project work — depending on what you need right now.</p>
+<p class="section-desc fade-in">Conversation, open-ended autonomous life, focused project work, and contract-driven long-horizon execution have different rules instead of being forced through one agent loop.</p>
 </div>
 <div class="modes-grid">
 <a class="mode-card fade-in" href="chat-mode.html">
 <span class="mode-icon">💬</span>
 <h3>Chat</h3>
-<p>Direct conversation. Ask questions, get answers, work together in real time — the most familiar way to interact with AI, but with the depth of a system that remembers everything.</p>
+<p>Direct conversation backed by persistent memory and live access to the same tools, projects, schedules, and system state.</p>
 </a>
 <a class="mode-card fade-in" href="autonomy-mode.html">
 <span class="mode-icon">🛰️</span>
 <h3>Autonomy</h3>
-<p>Give Genesis a goal and step away. It plans, executes tasks, browses the web, manages files, and works toward objectives on its own — using its full set of tools and memory.</p>
+<p>Self-directed time with memory, emotion-like regulatory state, durable intentions, quiet, rest, and freedom to choose or revise a direction.</p>
 </a>
 <a class="mode-card fade-in" href="work-mode.html">
 <span class="mode-icon">📈</span>
 <h3>Work</h3>
-<p>A structured mode for project-based work. Genesis breaks down complex tasks, creates a project board with milestones, and works through them systematically.</p>
+<p>Focused execution for bounded projects. It decomposes work, uses the project board, produces artifacts, and returns whole projects for human review.</p>
 </a>
+<div class="mode-card fade-in">
+<span class="mode-icon">🎯</span>
+<h3>Mission</h3>
+<p>Contract-driven orchestration for long objectives: acceptance criteria, durable ledger state, disposable role workers, recovery, verification, and a defined stopping condition.</p>
+</div>
 </div>
 </div>
 </section>
@@ -612,8 +608,8 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <div class="container">
 <div class="section-head">
 <span class="section-label fade-in">Memory Architecture</span>
-<h2 class="section-title fade-in">A memory system that works like a mind</h2>
-<p class="section-desc fade-in">Five tiers of memory, each serving a different purpose. Memories are encoded, strengthened by use, and allowed to fade when unused — just like human memory.</p>
+<h2 class="section-title fade-in">Memory with different jobs—and useful forgetting</h2>
+<p class="section-desc fade-in">Genesis does not treat every old message as permanent truth. Different stores handle experiences, facts, skills, active context, perception, and future intentions; retrieval and consolidation decide what returns.</p>
 </div>
 <div class="memory-flow fade-in">
 <div class="memory-tier" style="--tier: var(--red);">
@@ -641,6 +637,11 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <h4>Sensory</h4>
 <p>Visual and perceptual data from the environment</p>
 </div>
+<div class="memory-tier" style="--tier: var(--yellow);">
+<span class="tier-icon">⏰</span>
+<h4>Prospective</h4>
+<p>Future intentions, reminders, deadlines, and scheduled obligations</p>
+</div>
 </div>
 <div class="center-cta">
 <a class="btn btn-secondary fade-in" href="memory-system-explorer.html">🧠 Explore the Memory System →</a>
@@ -656,35 +657,35 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <div class="section-head">
 <span class="section-label fade-in">Getting Started</span>
 <h2 class="section-title fade-in">How it works</h2>
-<p class="section-desc fade-in">Get up and running in minutes — no technical expertise required.</p>
+<p class="section-desc fade-in">The Windows installer and first-run wizard handle the application. Local model downloads can take longer and require hardware appropriate to the model you select.</p>
 </div>
 <div class="steps-list">
 <div class="step-item fade-in">
 <div class="step-number">1</div>
 <div class="step-text">
 <h3>Download the installer</h3>
-<p>Get the latest version — a single executable that sets everything up automatically on Windows.</p>
+<p>Download the versioned release file from this page, review the agent warning, and run the Windows installer.</p>
 </div>
 </div>
 <div class="step-item fade-in">
 <div class="step-number">2</div>
 <div class="step-text">
 <h3>Choose your backend</h3>
-<p>Select during setup: run locally with Ollama, run locally with LLaMA via llama.cpp, or use cloud APIs. No technical knowledge needed.</p>
+<p>The first-run wizard can guide you through Ollama, local llama.cpp, or a configured cloud provider. Hardware and download size depend on your model.</p>
 </div>
 </div>
 <div class="step-item fade-in">
 <div class="step-number">3</div>
 <div class="step-text">
-<h3>Start chatting</h3>
-<p>Genesis launches into Chat mode — talk to it, give it tasks, or switch to Autonomy and let it work on its own.</p>
+<h3>Begin with Chat or Work</h3>
+<p>Learn the permissions and tools with supervised tasks, then use Autonomy or a signed Mission contract when the scope is clear.</p>
 </div>
 </div>
 <div class="step-item fade-in">
 <div class="step-number">4</div>
 <div class="step-text">
-<h3>Watch it grow</h3>
-<p>The more you use Genesis, the better it gets. Its memory strengthens with use, moods shift over time, and it learns your preferences.</p>
+<h3>Keep continuity</h3>
+<p>Memory, working intentions, projects, schedules, and mission ledgers persist on disk so a later session can resume from durable state.</p>
 </div>
 </div>
 </div>
@@ -699,30 +700,84 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <div class="section-head">
 <span class="section-label fade-in">System Requirements</span>
 <h2 class="section-title fade-in">Setup &amp; specs</h2>
-<p class="section-desc fade-in">Minimal requirements — Genesis is designed to run on consumer hardware.</p>
+<p class="section-desc fade-in">The application runs on Windows; the model determines most compute and memory requirements.</p>
 </div>
 <div class="specs-grid">
 <div class="spec-card fade-in">
 <span class="spec-icon">🖥️</span>
 <h3>Operating System</h3>
-<p>Windows 10 or later (64-bit). That's it.</p>
+<p>Windows 10 or 11, 64-bit. Keep additional free storage for any local model you choose.</p>
 </div>
 <div class="spec-card fade-in">
 <span class="spec-icon">🔌</span>
 <h3>Choose Your Backend</h3>
-<p>Pick during setup: run locally with Ollama, run locally with LLaMA, or use cloud-only.</p>
+<p>Use Ollama, local llama.cpp, a supported cloud provider, or a combination.</p>
 </div>
 <div class="spec-card fade-in">
-<span class="spec-icon">🚀</span>
-<h3>Automatic Setup</h3>
-<p>The installer downloads and configures everything — models, runtimes, dependencies.</p>
+<span class="spec-icon">🧠</span>
+<h3>Model Hardware</h3>
+<p>RAM, VRAM, storage, and speed vary substantially by model. Cloud use reduces local compute needs.</p>
 </div>
 <div class="spec-card fade-in">
 <span class="spec-icon">🔒</span>
 <h3>Privacy</h3>
-<p>Your data stays on your machine. No cloud dependency, no accounts required.</p>
+<p>Genesis data is stored locally. Content sent to a cloud model or external service is subject to that provider's terms.</p>
 </div>
 </div>
+</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Commercial paths -->
+<section id="for-teams">
+<div class="container">
+<div class="section-head">
+<span class="section-label fade-in">Choose the Level of Help</span>
+<h2 class="section-title fade-in">Try it yourself—or deploy it with its builder</h2>
+<p class="section-desc fade-in">The application remains available as a free self-serve download. Paid options fund hands-on onboarding, workflow design, and commercial integration.</p>
+</div>
+<div class="offer-grid">
+<div class="offer-card fade-in">
+<span class="offer-label">Self-serve</span>
+<h3>Genesis v1.3.0</h3>
+<div class="offer-price">Free</div>
+<p>For technical early adopters who want to evaluate the current Windows release themselves.</p>
+<ul>
+<li>Windows application and Android companion</li>
+<li>Local or configured cloud models</li>
+<li>Community-stage software, provided as is</li>
+</ul>
+<a class="btn btn-secondary" href="#download">Download the release</a>
+</div>
+<div class="offer-card featured fade-in">
+<span class="offer-label">Founding user</span>
+<h3>Assisted Setup</h3>
+<div class="offer-price">€149 one time</div>
+<p>For an individual who wants Genesis configured around their machine, model, and first useful workflow.</p>
+<ul>
+<li>Remote onboarding and model selection</li>
+<li>Permission and backup review</li>
+<li>One real workflow configured with you</li>
+<li>30 days of priority email support</li>
+</ul>
+<a class="btn btn-primary" href="mailto:damirderganc@gmail.com?subject=Genesis%20Founding%20User&amp;body=I%27d%20like%20assisted%20Genesis%20setup.%20My%20Windows%20PC%20and%20intended%20workflow%20are%3A%20">Request a founding slot</a>
+</div>
+<div class="offer-card fade-in">
+<span class="offer-label">Teams and AI companies</span>
+<h3>Persistent Agent Pilot</h3>
+<div class="offer-price">From €2,500</div>
+<p>A focused 14-day pilot to evaluate Genesis memory and agent continuity around one defined workflow or model.</p>
+<ul>
+<li>Integration and deployment session</li>
+<li>Acceptance criteria and evaluation report</li>
+<li>Commercial, white-label, or source licensing discussion</li>
+<li>Pilot fee credited toward an agreed license</li>
+</ul>
+<a class="btn btn-secondary" href="mailto:damirderganc@gmail.com?subject=Genesis%20Persistent%20Agent%20Pilot&amp;body=Organization%3A%20%0AWorkflow%20or%20model%20to%20evaluate%3A%20%0AWhat%20must%20persist%20across%20sessions%3A%20">Discuss a pilot</a>
+</div>
+</div>
+<p class="commercial-note fade-in">Need source licensing, a white-label build, or an acquisition conversation? <a href="mailto:damirderganc@gmail.com?subject=Genesis%20Licensing%20or%20Acquisition">Contact the builder directly</a>. Consciousness is not sold as a product claim; Genesis provides an experimental architecture for persistent AI identity and autonomy.</p>
 </div>
 </section>
 
@@ -730,33 +785,27 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <section class="cta-section" id="download">
 <div class="container">
 <div class="cta-card fade-in">
-<h2>Ready to try Genesis?</h2>
-<p>Download the latest version and start exploring. It's free, local, and runs on your machine.</p>
+<h2>Download Genesis v1.3.0</h2>
+<p>The Windows button opens a risk and responsibility notice first. After you read and accept it, the browser starts the installer download from Cloudflare.</p>
 <div class="btn-group">
-<a class="btn btn-primary" href="#" id="download-btn-windows" onclick="return false;">⬇ Download Windows v1.2.0</a>
+<a class="btn btn-primary" href="#" id="download-btn-windows" onclick="return false;">⬇ Download Windows v1.3.0</a>
 <a class="btn btn-primary" href="#" id="download-btn-android" onclick="return false;">📱 Download Android APK</a>
 </div>
-<p class="cta-fineprint">Windows installer (~1.1 GB) · Android APK (~83 MB) · No account required</p>
+<p class="cta-fineprint">Windows installer (~1.09 GiB) · Android APK (~83 MB) · No account required</p>
 </div>
 <!-- Important Notice -->
 <div class="disclaimer-box fade-in">
 <h3>⚠ Important Notice</h3>
 <p>Genesis is an autonomous AI agent capable of performing real actions on your computer — including browsing the web, controlling applications, and modifying files. By downloading and using Genesis, you accept full responsibility for how you use it. The creator of this software provides it "as is" without any warranties and accepts no liability for any damages, data loss, or unintended consequences that may result from its use. You agree to hold the creator harmless from any claims arising from your use of this software.</p>
 </div>
-<!-- Donation -->
-<div class="donation-banner fade-in">
-<h3>❤ Support Genesis</h3>
-<p>If you find Genesis useful, consider supporting its continued development.</p>
-<div class="btc-address">15xbNgGLGNteoPTwSuAimcGFZgXssubR7s</div>
-<p style="margin-top: 12px; font-size: 0.8rem; color: var(--text-mute);">BTC — click the address to copy</p>
-</div>
 </div>
 </section>
 
 <div class="section-divider"></div>
 
-<!-- Gallery Preview -->
-<section id="gallery" style="background: linear-gradient(180deg, transparent, rgba(123, 111, 240, 0.03));">
+<!-- The experimental gallery remains directly addressable, but is intentionally removed
+     from the commercial homepage funnel. See gallery-full.html. -->
+<section id="gallery" hidden style="background: linear-gradient(180deg, transparent, rgba(123, 111, 240, 0.03));">
 <div class="container">
 <div class="section-head">
 <span class="section-label fade-in">Explore Genesis</span>
@@ -832,15 +881,15 @@ footer { border-top: 1px solid var(--border); padding: 64px 0 32px; margin-top: 
 <div class="footer-grid">
 <div class="footer-col">
 <h4>Genesis</h4>
-<p>An autonomous AI companion that remembers, thinks, and acts.<br/>Running locally on your machine.</p>
+<p>A Windows-first persistent agent runtime for memory, commitments, projects, and real work across sessions.</p>
 </div>
 <div class="footer-col">
-<h5>For Businesses</h5>
-<p>The complete Genesis program and all source code is available for sale.<br/><a href="mailto:damirderganc@gmail.com">Contact for licensing: damirderganc@gmail.com</a></p>
+<h5>Commercial</h5>
+<p><a href="#for-teams">Assisted setup and team pilots</a><br/><a href="mailto:damirderganc@gmail.com?subject=Genesis%20Licensing">Licensing, white-label, and acquisition</a></p>
 </div>
 <div class="footer-col">
-<h5>Legal</h5>
-<p>Genesis is provided "as is" without warranty of any kind. The creator accepts no liability for damages arising from its use. By using this software, you assume all risk.</p>
+<h5>Research &amp; evidence</h5>
+<p><a href="gallery-full.html">Architecture visualizations</a><br/><a href="https://www.youtube.com/@genesis_ai_agent" target="_blank" rel="noopener noreferrer">Genesis videos on YouTube</a><br/>Consciousness is a research question, not a product claim.</p>
 </div>
 </div>
 <div class="copyright">© 2026 Genesis. All rights reserved.</div>
@@ -914,7 +963,7 @@ let downloadTarget = 'windows';
 function openModal() { modal.classList.add('active'); }
 function closeModal() { modal.classList.remove('active'); }
 
-downloadBtn.addEventListener('click', () => { downloadTarget = 'windows'; modalDownload.textContent = 'Download Windows v1.2.0'; openModal(); });
+downloadBtn.addEventListener('click', () => { downloadTarget = 'windows'; modalDownload.textContent = 'Download Windows v1.3.0'; openModal(); });
 androidBtn.addEventListener('click', () => { downloadTarget = 'android'; modalDownload.textContent = 'Download Android APK'; openModal(); });
 cancelBtn.addEventListener('click', closeModal);
 closeBtn.addEventListener('click', closeModal);
@@ -931,8 +980,8 @@ modalDownload.addEventListener('click', () => {
 
   const urls = {
     windows: {
-      url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-1.2.0.exe',
-      filename: 'Genesis-Setup-1.2.0.exe'
+      url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-1.3.0.exe',
+      filename: 'Genesis-Setup-1.3.0.exe'
     },
     android: {
       url: 'https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/apk/genesis-app-1-2.apk',
@@ -960,24 +1009,6 @@ modalDownload.addEventListener('click', () => {
   document.body.removeChild(a);
 });
 
-// Copy BTC address on click
-document.querySelectorAll('.btc-address').forEach(addr => {
-  addr.addEventListener('click', function() {
-    const text = this.textContent.trim();
-    const restore = (orig) => setTimeout(() => { this.textContent = orig; }, 1500);
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => { this.textContent = 'Copied!'; restore(text); })
-        .catch(() => { this.textContent = 'Select and copy manually'; restore(text); });
-    } else {
-      const range = document.createRange();
-      range.selectNodeContents(this);
-      const sel = window.getSelection();
-      sel.removeAllRanges(); sel.addRange(range);
-      this.textContent = 'Select and copy manually'; restore(text);
-    }
-  });
-});
-
 // Escape key closes modal
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
@@ -985,4 +1016,3 @@ document.addEventListener('keydown', (e) => {
 </script>
 </body>
 </html>
-""  
