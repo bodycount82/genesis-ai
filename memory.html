@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory — Genesis</title>
+<meta name="description" content="Descend through Genesis memory: selective encoding, living recall, sleep consolidation, and designed forgetting — shown as an interactive 3D journey.">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  :root {
+    --mem-cyan: #79d9dc;
+    --mem-cyan-soft: rgba(121,217,220,.16);
+    --mem-gold: #d8a94e;
+    --mem-ivory: #f3efe6;
+    --mem-green: #7ec49a;
+  }
+
+  html { scrollbar-color: rgba(216,169,78,.34) #030304; }
+  body { background:#030304; }
+  body::before {
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(70% 55% at 74% 48%, rgba(121,217,220,.035), transparent 70%),
+      linear-gradient(90deg, rgba(3,3,4,.82) 0%, rgba(3,3,4,.2) 48%, rgba(3,3,4,.02) 100%);
+  }
+  #scene { z-index:0; }
+  .nav { background:linear-gradient(180deg,rgba(3,3,4,.95),rgba(3,3,4,.62) 65%,transparent); }
+  .nav-links { scrollbar-width:none; }
+  .nav-links::-webkit-scrollbar { display:none; width:0; height:0; }
+  main { z-index:2; }
+
+  .memory-rail {
+    position:fixed; right:24px; top:50%; transform:translateY(-50%); z-index:40;
+    display:flex; flex-direction:column; align-items:flex-end; gap:14px;
+  }
+  .memory-rail a {
+    position:relative; display:flex; align-items:center; width:6px; height:6px; color:var(--ink-faint);
+    font:10px/1 var(--mono); text-transform:uppercase; letter-spacing:.16em;
+    transition:color .25s;
+  }
+  .memory-rail a span { position:absolute; right:15px; top:50%; white-space:nowrap; pointer-events:none; opacity:0; transform:translate(5px,-50%); transition:opacity .25s,transform .25s; }
+  .memory-rail a::after {
+    content:""; width:5px; height:5px; border-radius:50%; border:1px solid currentColor;
+    transition:background .25s,box-shadow .25s,transform .25s;
+  }
+  .memory-rail a:hover span,.memory-rail a.active span { opacity:1; transform:translate(0,-50%); }
+  .memory-rail a.active { color:var(--gold-hi); }
+  .memory-rail a.active::after { background:var(--gold-hi); box-shadow:0 0 14px var(--gold); transform:scale(1.35); }
+
+  .mem-chapter {
+    min-height:118svh; padding:140px max(28px,5vw) 90px; position:relative;
+    display:flex; align-items:center;
+  }
+  .mem-chapter:first-of-type { min-height:100svh; }
+  .chapter-inner { width:min(1180px,100%); margin:0 auto; position:relative; }
+  .chapter-copy { width:min(570px,48vw); }
+  .align-right .chapter-copy { margin-left:auto; }
+  .chapter-no {
+    display:flex; align-items:center; gap:10px; margin-bottom:20px;
+    font:10px/1 var(--mono); color:var(--ink-faint); text-transform:uppercase; letter-spacing:.25em;
+  }
+  .chapter-no::before { content:""; width:32px; height:1px; background:currentColor; }
+  .chapter-title {
+    font:400 clamp(44px,6.4vw,88px)/.98 var(--serif); letter-spacing:-.035em; color:var(--ink);
+  }
+  .chapter-title em { font-style:italic; font-weight:400; color:var(--gold-hi); }
+  .chapter-lede { max-width:570px; margin-top:24px; font-size:clamp(16px,1.55vw,20px); line-height:1.65; color:var(--ink-dim); }
+  .chapter-lede strong { color:var(--ink); font-weight:500; }
+  .whisper { margin-top:34px; font:11px/1.6 var(--mono); letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint); }
+  .whisper::before { content:"↓"; margin-right:10px; color:var(--gold); }
+
+  .mem-hero .chapter-copy { width:min(660px,53vw); }
+  .mem-hero .chapter-title { font-size:clamp(54px,8.2vw,112px); }
+  .mem-hero .chapter-lede { max-width:520px; }
+  .hero-index {
+    display:flex; flex-wrap:wrap; gap:9px; margin-top:34px; max-width:520px;
+  }
+  .hero-index a {
+    color:var(--ink-dim); border:1px solid rgba(216,169,78,.16); border-radius:999px;
+    padding:8px 13px; font:10px/1 var(--mono); letter-spacing:.12em; text-transform:uppercase;
+    background:rgba(3,3,4,.28); backdrop-filter:blur(8px); transition:.25s;
+  }
+  .hero-index a:hover { color:var(--ink); border-color:rgba(216,169,78,.5); background:rgba(216,169,78,.08); }
+
+  .glass-panel {
+    margin-top:38px; border:1px solid rgba(216,169,78,.16); border-radius:18px;
+    background:linear-gradient(145deg,rgba(7,8,9,.78),rgba(4,5,6,.48));
+    box-shadow:0 30px 90px rgba(0,0,0,.45),inset 0 1px rgba(255,255,255,.025);
+    backdrop-filter:blur(18px); overflow:hidden;
+  }
+  .panel-top {
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:13px 18px; border-bottom:1px solid rgba(216,169,78,.12);
+    color:var(--ink-faint); font:10px/1.4 var(--mono); letter-spacing:.16em; text-transform:uppercase;
+  }
+  .live-mark { display:flex; align-items:center; gap:8px; color:var(--mem-cyan); }
+  .live-mark::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 12px currentColor; }
+
+  .continuity-grid { display:grid; grid-template-columns:repeat(5,1fr); }
+  .continuity-button {
+    min-height:92px; border:0; border-right:1px solid rgba(216,169,78,.1); border-bottom:1px solid rgba(216,169,78,.1);
+    background:transparent; color:var(--ink-dim); padding:16px 14px; text-align:left; cursor:pointer;
+    transition:background .25s,color .25s;
+  }
+  .continuity-button:nth-child(5n) { border-right:0; }
+  .continuity-button:nth-child(n+6) { border-bottom:0; }
+  .continuity-button:hover,.continuity-button.active { background:rgba(121,217,220,.055); color:var(--ink); }
+  .continuity-button.active { box-shadow:inset 0 -1px var(--mem-cyan); }
+  .continuity-button small { display:block; color:var(--gold); font:9px/1 var(--mono); letter-spacing:.13em; margin-bottom:9px; }
+  .continuity-button span { font:500 12px/1.35 var(--sans); }
+  .continuity-detail { min-height:156px; padding:22px 24px 24px; }
+  .continuity-detail h3 { font:400 22px/1.2 var(--serif); }
+  .continuity-detail p { margin-top:8px; max-width:740px; color:var(--ink-dim); font-size:13.5px; line-height:1.65; }
+  .neural-map { display:flex; align-items:center; gap:9px; margin-top:11px; color:var(--mem-cyan); font:9px/1.45 var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+  .neural-map::before { content:""; flex:0 0 auto; width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 12px currentColor; }
+  .continuity-spec { display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; }
+  .continuity-spec span { border:1px solid rgba(216,169,78,.12); border-radius:999px; padding:6px 10px; color:var(--ink-faint); font:9.5px/1.25 var(--mono); }
+
+  .sim-panel { padding:21px; }
+  .sim-presets { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:17px; }
+  .sim-presets button,.small-control {
+    border:1px solid rgba(216,169,78,.18); border-radius:999px; padding:8px 12px; background:rgba(216,169,78,.035);
+    color:var(--ink-dim); font:10px/1 var(--mono); cursor:pointer; transition:.2s;
+  }
+  .sim-presets button:hover,.small-control:hover { color:var(--ink); border-color:var(--gold); }
+  .gate-grid { display:grid; grid-template-columns:1fr 160px; gap:20px; }
+  .signal-list { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .signal-list label {
+    display:flex; align-items:center; gap:9px; border:1px solid rgba(216,169,78,.1); border-radius:9px;
+    padding:9px 10px; color:var(--ink-dim); font-size:11.5px; cursor:pointer;
+  }
+  .signal-list input { accent-color:var(--gold); }
+  .signal-list b { margin-left:auto; color:var(--mem-cyan); font:9.5px/1 var(--mono); font-weight:400; }
+  .signal-wide { grid-column:1/-1; }
+  .signal-list select { width:100%; background:#08090a; color:var(--ink-dim); border:1px solid rgba(216,169,78,.12); border-radius:9px; padding:10px; font:11px var(--sans); }
+  .score-well { border-left:1px solid rgba(216,169,78,.12); padding-left:20px; }
+  .score-number { font:400 48px/1 var(--serif); color:var(--ink); }
+  .score-label { margin-top:7px; color:var(--ink-faint); font:9px/1.4 var(--mono); letter-spacing:.15em; text-transform:uppercase; }
+  .score-track { height:3px; background:rgba(255,255,255,.08); margin-top:18px; position:relative; }
+  .score-track::after { content:""; position:absolute; left:35%; top:-4px; width:1px; height:11px; background:var(--gold); }
+  .score-fill { height:100%; width:10%; background:var(--mem-cyan); box-shadow:0 0 12px currentColor; transition:width .35s,background .35s; }
+  .score-verdict { margin-top:18px; color:var(--ink-dim); font-size:11.5px; line-height:1.55; }
+  .score-verdict strong { color:var(--ink); }
+
+  .insight-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:24px; }
+  .insight {
+    padding:17px; border:1px solid rgba(216,169,78,.12); border-radius:13px;
+    background:rgba(5,6,7,.46); backdrop-filter:blur(12px);
+  }
+  .insight b { display:block; color:var(--gold); font:9px/1.3 var(--mono); letter-spacing:.13em; text-transform:uppercase; }
+  .insight span { display:block; margin-top:8px; color:var(--ink-dim); font-size:11.5px; line-height:1.55; }
+
+  .recall-action { display:flex; align-items:center; gap:16px; padding:20px 21px; }
+  .recall-action button { flex:0 0 auto; }
+  .recall-result { color:var(--ink-dim); font:11px/1.6 var(--mono); }
+  .recall-result strong { color:var(--mem-cyan); font-weight:500; }
+
+  .sleep-controls { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; padding:20px; }
+  .sleep-button {
+    min-height:86px; border:1px solid rgba(216,169,78,.15); border-radius:12px; background:rgba(216,169,78,.025);
+    color:var(--ink); padding:14px; text-align:left; cursor:pointer; transition:.25s;
+  }
+  .sleep-button:hover,.sleep-button.active { transform:translateY(-2px); border-color:var(--gold); background:rgba(216,169,78,.075); }
+  .sleep-button small { display:block; color:var(--gold); font:9px/1 var(--mono); letter-spacing:.15em; text-transform:uppercase; }
+  .sleep-button strong { display:block; margin-top:8px; font:400 17px/1.15 var(--serif); }
+  .sleep-status { padding:14px 20px 18px; border-top:1px solid rgba(216,169,78,.1); color:var(--ink-dim); font:10.5px/1.65 var(--mono); min-height:72px; }
+
+  .decay-controls { padding:20px; }
+  .decay-control { display:grid; grid-template-columns:112px 1fr 44px; gap:12px; align-items:center; padding:10px 0; }
+  .decay-control label { color:var(--ink-dim); font-size:11.5px; }
+  .decay-control input { width:100%; accent-color:var(--gold); }
+  .decay-control output { color:var(--mem-cyan); text-align:right; font:10px var(--mono); }
+  .survival-line { height:1px; background:rgba(255,255,255,.08); margin:14px 0 16px; position:relative; }
+  .survival-line span { display:block; height:100%; width:46%; background:linear-gradient(90deg,var(--gold),var(--mem-cyan)); box-shadow:0 0 14px rgba(121,217,220,.45); transition:width .4s; }
+  .decay-verdict { color:var(--ink-dim); font-size:12px; line-height:1.6; }
+  .decay-verdict strong { color:var(--ink); }
+
+  details.deep-notes { margin-top:14px; border-top:1px solid rgba(216,169,78,.1); }
+  details.deep-notes summary {
+    list-style:none; padding:15px 20px; cursor:pointer; color:var(--ink-faint);
+    font:9.5px/1.4 var(--mono); letter-spacing:.14em; text-transform:uppercase;
+  }
+  details.deep-notes summary::-webkit-details-marker { display:none; }
+  details.deep-notes summary::after { content:" +"; color:var(--gold); }
+  details.deep-notes[open] summary::after { content:" −"; }
+  .note-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:rgba(216,169,78,.08); border-top:1px solid rgba(216,169,78,.08); }
+  .note-grid div { background:rgba(4,5,6,.94); padding:16px 20px; }
+  .note-grid b { display:block; color:var(--gold); font:9px/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; }
+  .note-grid p { margin-top:8px; color:var(--ink-dim); font-size:11.5px; line-height:1.55; }
+
+  .chapter-transition { position:absolute; left:50%; bottom:18px; width:1px; height:72px; background:linear-gradient(transparent,rgba(216,169,78,.4),transparent); }
+  .final-link { margin-top:30px; }
+  .webgl-fallback {
+    display:none; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 28% 42% at 67% 45%,transparent 33%,rgba(121,217,220,.17) 34%,transparent 35%),
+      radial-gradient(ellipse 30% 44% at 78% 45%,transparent 33%,rgba(216,169,78,.14) 34%,transparent 35%);
+  }
+
+  footer { background:rgba(3,3,4,.7); backdrop-filter:blur(12px); }
+
+  @media (max-width:980px) {
+    .memory-rail { display:none; }
+    .mem-chapter { min-height:auto; padding:128px 24px 110px; }
+    .mem-chapter:first-of-type { min-height:100svh; }
+    .chapter-copy,.mem-hero .chapter-copy { width:min(620px,78vw); }
+    .align-right .chapter-copy { margin-left:0; }
+    body::before { background:linear-gradient(90deg,rgba(3,3,4,.82),rgba(3,3,4,.18)); }
+  }
+  @media (max-width:700px) {
+    #scene { opacity:.72; }
+    .nav { height:58px; padding:0 16px; }
+    .nav-links a { padding:7px 8px; font-size:10px; }
+    .nav-links a:first-child { display:none; }
+    .chapter-copy,.mem-hero .chapter-copy { width:100%; }
+    .chapter-title { font-size:clamp(42px,14vw,68px); }
+    .mem-hero .chapter-title { font-size:clamp(50px,16vw,78px); }
+    .chapter-lede { max-width:92%; }
+    .glass-panel { margin-top:30px; }
+    .continuity-grid { grid-template-columns:repeat(2,1fr); }
+    .continuity-button,.continuity-button:nth-child(5n),.continuity-button:nth-child(n+6) { border-right:1px solid rgba(216,169,78,.1); border-bottom:1px solid rgba(216,169,78,.1); }
+    .continuity-button:nth-child(2n) { border-right:0; }
+    .continuity-button:nth-child(n+9) { border-bottom:0; }
+    .gate-grid { grid-template-columns:1fr; }
+    .score-well { border-left:0; border-top:1px solid rgba(216,169,78,.12); padding:18px 0 0; }
+    .signal-list { grid-template-columns:1fr; }
+    .signal-wide { grid-column:auto; }
+    .insight-row { grid-template-columns:1fr; }
+    .sleep-controls { grid-template-columns:1fr; }
+    .sleep-button { min-height:70px; }
+    .note-grid { grid-template-columns:1fr; }
+    .recall-action { align-items:flex-start; flex-direction:column; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .chapter-transition { display:none; }
+    .sleep-button:hover { transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="webgl-fallback" id="webglFallback" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Primary navigation">
+  <a class="brand" href="index.html"><span class="orb"></span>GENESIS</a>
+  <div class="nav-links">
+    <a href="index.html">Descent</a>
+    <a href="memory.html" class="active">Memory</a>
+    <a href="modes.html">Modes</a>
+    <a href="genesis.html">Genesis</a>
+    <a href="honesty.html">Honesty</a>
+  </div>
+</nav>
+
+<aside class="memory-rail" aria-label="Memory journey chapters">
+  <a href="#threshold" class="active" data-rail="threshold"><span>Threshold</span></a>
+  <a href="#continuities" data-rail="continuities"><span>Continuities</span></a>
+  <a href="#gate" data-rail="gate"><span>The gate</span></a>
+  <a href="#recall" data-rail="recall"><span>Recall</span></a>
+  <a href="#sleep" data-rail="sleep"><span>Sleep</span></a>
+  <a href="#forgetting" data-rail="forgetting"><span>Forgetting</span></a>
+</aside>
+
+<main>
+  <section class="mem-chapter mem-hero" id="threshold" data-chapter="0">
+    <div class="chapter-inner">
+      <div class="chapter-copy reveal">
+        <div class="chapter-no">Enter the memory</div>
+        <h1 class="chapter-title">A mind is shaped<br>by what it <em>lets go.</em></h1>
+        <p class="chapter-lede">Genesis does not hoard a transcript and call it memory. It <strong>selects, revisits, changes, dreams—and forgets.</strong> Scroll toward the structure.</p>
+        <div class="hero-index" aria-label="Jump to a chapter">
+          <a href="#continuities">10 continuities</a>
+          <a href="#gate">selection</a>
+          <a href="#recall">reconstruction</a>
+          <a href="#sleep">consolidation</a>
+          <a href="#forgetting">decay</a>
+        </div>
+        <p class="whisper">The model is behind the glass. The memory is out here.</p>
+      </div>
+    </div>
+    <span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="mem-chapter align-right" id="continuities" data-chapter="1">
+    <div class="chapter-inner">
+      <div class="chapter-copy reveal">
+        <div class="chapter-no">01 · Architecture</div>
+        <h2 class="chapter-title">Not one memory.<br><em>Ten continuities.</em></h2>
+        <p class="chapter-lede">Each remembers a different kind of time. Nothing pours into a single endless database. Touch a continuity to expose its role.</p>
+        <div class="glass-panel" aria-label="Genesis memory continuities">
+          <div class="panel-top"><span>Continuity atlas</span><span class="live-mark">select a trace</span></div>
+          <div class="continuity-grid" id="continuityGrid"></div>
+          <div class="continuity-detail" id="continuityDetail" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+    <span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="mem-chapter" id="gate" data-chapter="2">
+    <div class="chapter-inner">
+      <div class="chapter-copy reveal">
+        <div class="chapter-no">02 · Selection</div>
+        <h2 class="chapter-title">Most moments<br>never get <em>through.</em></h2>
+        <p class="chapter-lede">Every completed turn faces a sensory gate. Below <strong>0.35</strong>, it remains a transcript and a fifteen-minute scratch note. Then working memory lets it disappear.</p>
+        <div class="glass-panel">
+          <div class="panel-top"><span>Sensory gate · live model</span><span class="live-mark" id="gateState">rejected</span></div>
+          <div class="sim-panel">
+            <div class="sim-presets">
+              <button type="button" data-preset="thanks">“Thanks.”</button>
+              <button type="button" data-preset="preference">“Remember: no calls”</button>
+              <button type="button" data-preset="failure">Novel failure</button>
+            </div>
+            <div class="gate-grid">
+              <div class="signal-list">
+                <label><input type="checkbox" id="g-error">Failure <b>+0.25</b></label>
+                <label><input type="checkbox" id="g-decision">Decision <b>+0.20</b></label>
+                <label><input type="checkbox" id="g-pref">Preference <b>+0.30</b></label>
+                <label><input type="checkbox" id="g-remember">“Remember” <b>+0.25</b></label>
+                <label><input type="checkbox" id="g-tools">Tool work <b>+0.10</b></label>
+                <label><input type="checkbox" id="g-chat" checked>Chat mode <b>+0.10</b></label>
+                <select class="signal-wide" id="g-novel" aria-label="Novelty">
+                  <option value="0.25">Novel · +0.25</option>
+                  <option value="0" selected>Ordinary novelty · ±0</option>
+                  <option value="-0.30">Already familiar · −0.30</option>
+                </select>
+                <label class="signal-wide">Emotion <input type="range" id="g-emo" min="0" max="100" value="0" aria-label="Emotion intensity"><b id="g-emo-value">0.00</b></label>
+              </div>
+              <div class="score-well">
+                <div class="score-number" id="gateScore">0.10</div>
+                <div class="score-label">salience / 1.00</div>
+                <div class="score-track"><div class="score-fill" id="gateFill"></div></div>
+                <div class="score-verdict" id="gateVerdict"><strong>Not encoded.</strong><br>Transcript + scratch only.</div>
+              </div>
+            </div>
+          </div>
+          <details class="deep-notes">
+            <summary>Reveal the exact mechanics</summary>
+            <div class="note-grid">
+              <div><b>Importance</b><p>If accepted: 2 + 6 × salience, clamped to 2–8.</p></div>
+              <div><b>Preference reflex</b><p>Accepted preference or “remember” language also writes a semantic safety-net fact.</p></div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+    <span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="mem-chapter align-right" id="recall" data-chapter="3">
+    <div class="chapter-inner">
+      <div class="chapter-copy reveal">
+        <div class="chapter-no">03 · Retrieval</div>
+        <h2 class="chapter-title">Recall is not a file.<br>It is an <em>event.</em></h2>
+        <p class="chapter-lede">Genesis searches by meaning and words, lets emotion break ties, and strengthens what deliberate recall returns. The act of remembering changes what survives.</p>
+        <div class="glass-panel">
+          <div class="panel-top"><span>Reconstruction field</span><span class="live-mark">ready</span></div>
+          <div class="recall-action">
+            <button class="btn primary" type="button" id="recallPulse">Send recall pulse</button>
+            <p class="recall-result" id="recallResult">Waiting outside the field.</p>
+          </div>
+          <div class="insight-row" style="padding:0 20px 20px">
+            <div class="insight"><b>Find</b><span>Vector search over 2×k candidates, then keyword sweep over up to 500 records.</span></div>
+            <div class="insight"><b>Rank</b><span>similarity + 0.3 × |emotion|. Recency does not decide relevance.</span></div>
+            <div class="insight"><b>Change</b><span>Deliberate recall reinforces and can make the trace editable for ten minutes.</span></div>
+          </div>
+          <details class="deep-notes">
+            <summary>What reconstructive means here</summary>
+            <div class="note-grid">
+              <div><b>Reinforcement</b><p>Importance moves 10% of the remaining distance toward 8.5. Ambient per-step and Mission reads do not reinforce.</p></div>
+              <div><b>Reconsolidation</b><p>A top recall can become labile for ~10 minutes. Similar facts may overwrite at lower thresholds; episode mood retints 15% toward the present.</p></div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+    <span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="mem-chapter" id="sleep" data-chapter="4">
+    <div class="chapter-inner">
+      <div class="chapter-copy reveal">
+        <div class="chapter-no">04 · Consolidation</div>
+        <h2 class="chapter-title">At rest, experience<br>becomes <em>knowledge.</em></h2>
+        <p class="chapter-lede">Related episodes draw together. The strongest witness stays. Repetition becomes a rule. The rest can fold away. Choose how deeply Genesis sleeps.</p>
+        <div class="glass-panel">
+          <div class="panel-top"><span>Micro-dream · interactive</span><span class="live-mark" id="sleepLive">20 episodes</span></div>
+          <div class="sleep-controls">
+            <button class="sleep-button" type="button" data-sleep="0.20"><small>Chat idle · 20%</small><strong>Light maintenance</strong></button>
+            <button class="sleep-button" type="button" data-sleep="0.34"><small>Rest · 34%</small><strong>Partial replay</strong></button>
+            <button class="sleep-button" type="button" data-sleep="0.66"><small>Sleep · 66%</small><strong>Deep consolidation</strong></button>
+          </div>
+          <div class="sleep-status" id="sleepStatus">The day is still uncompressed. The field holds twenty separate traces.</div>
+          <details class="deep-notes">
+            <summary>Reveal consolidation rules</summary>
+            <div class="note-grid">
+              <div><b>Replay rank</b><p>importance + 2× reinforcement + 2× |emotion|. Top eight sampled traces strengthen.</p></div>
+              <div><b>Clustering</b><p>Cosine ≥ 0.55 or two shared tokens. Two or more related episodes may distill into a semantic rule.</p></div>
+              <div><b>Folding</b><p>The strongest witness survives; weaker siblings fold unless flashbulb-protected.</p></div>
+              <div><b>Serendipity</b><p>Occasionally two distant episodes cross-link into a low-importance dream seed.</p></div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+    <span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="mem-chapter align-right" id="forgetting" data-chapter="5">
+    <div class="chapter-inner">
+      <div class="chapter-copy reveal">
+        <div class="chapter-no">05 · Designed decay</div>
+        <h2 class="chapter-title">To remember,<br>it must <em>forget.</em></h2>
+        <p class="chapter-lede">Weak traces fade. Recalled traces resist. Emotion protects without granting immortality. Adjust one memory and watch its hold on the field.</p>
+        <div class="glass-panel">
+          <div class="panel-top"><span>Retention pressure</span><span class="live-mark" id="decayState">fragile</span></div>
+          <div class="decay-controls">
+            <div class="decay-control"><label for="d-imp">Importance</label><input id="d-imp" type="range" min="20" max="90" value="40"><output id="d-imp-o">4.0</output></div>
+            <div class="decay-control"><label for="d-rein">Reinforcement</label><input id="d-rein" type="range" min="0" max="12" value="0"><output id="d-rein-o">0</output></div>
+            <div class="decay-control"><label for="d-emo">Emotion</label><input id="d-emo" type="range" min="0" max="100" value="20"><output id="d-emo-o">0.20</output></div>
+            <div class="survival-line" aria-hidden="true"><span id="survivalFill"></span></div>
+            <p class="decay-verdict" id="decayVerdict"><strong>Fragile trace.</strong> After roughly three effective active days, this memory can fade.</p>
+          </div>
+          <details class="deep-notes">
+            <summary>Reveal the clocks and limits</summary>
+            <div class="note-grid">
+              <div><b>Episodic</b><p>weight = 0.33 ^ effective days. Powered-off time costs nothing; strong, emotional traces can age ~3.5× slower.</p></div>
+              <div><b>Semantic / procedural</b><p>Wall-clock horizons: ~60d × (1+r) for weak knowledge; ~180d × (1+r/2) for weak procedures.</p></div>
+              <div><b>Flashbulb</b><p>Reinforcement ≥ 5 gives graded protection during decay and consolidation—not permanence.</p></div>
+              <div><b>Capacity</b><p>The defaults are 4,000 episodic / 1,500 semantic / 400 procedural records, with lowest-retention pruning first. Capacity and decay horizons are adjustable in Settings. Indexed retrieval has been exercised at 500,000 episodic and 500,000 semantic entries without noticeable search slowdown; there is no fixed architectural ceiling beyond configured storage and hardware.</p></div>
+            </div>
+          </details>
+        </div>
+        <div class="final-link"><a class="btn" href="honesty.html">Where memory can still be wrong →</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>GENESIS · MEMORY IS A LIVING SYSTEM</span>
+  <span><a href="modes.html">next descent: Modes →</a></span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="assets/common.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var CONTINUITIES = [
+    {n:"01",name:"Transcript",kind:"what was said",body:"Bounded, verbatim conversation. It can contain a turn the sensory gate rejected; deleting a chat does not delete what was learned from it.",map:"Engineered analogue · left temporal language network",spec:["chats.db · SQLite WAL","up to 600 visible rows","~40 clean-history candidates"]},
+    {n:"02",name:"Working",kind:"what is present",body:"A tiny binding surface for the current goal, at most two long-term recalls, and fresh scratch notes. Overflow compresses into one lossy summary.",map:"Frontal–parietal working-memory network",spec:["4 chunks · floor 2","scratch TTL · 15 min","overflow · ~400 characters"]},
+    {n:"03",name:"Episodic",kind:"what happened",body:"Selected experiences stored as short gists, emotion-stamped at birth, and open to reconstruction while labile.",map:"Bilateral medial temporal / hippocampal fields",spec:["importance · 2–8","weak trace · ~3 active days","default cap · 4,000","tested · 500k+"]},
+    {n:"04",name:"Semantic",kind:"what is known",body:"Facts, concepts, and rules. Near-duplicates update in place; differently worded contradictions can coexist until relevance resolves them.",map:"Anterior and lateral temporal semantic network",spec:["rule · concept · fact","overlap ≥ 0.80 updates","default cap · 1,500","tested · 500k+"]},
+    {n:"05",name:"Procedural",kind:"how to act",body:"Strategies, skills, and learned failure patterns. The second recurrence becomes a lesson; the third can be avoided.",map:"Deep skills circuit · basal-ganglia / cerebellar proxy",spec:["failure learning","mission distillation","default cap · 400"]},
+    {n:"06",name:"Prospective",kind:"what must happen",body:"Intentions that fire later—by time or by a future mention. They are marked fired before answer completion, then retired.",map:"Rostral prefrontal cortex · intention monitoring",spec:["time or event trigger","prospective.db","old fired reminders pruned"]},
+    {n:"07",name:"Self-model",kind:"who I may be",body:"Falsifiable beliefs with confidence and evidence, plus reflections and a bounded journal. Diary entries also become recallable episodes.",map:"Analogy · medial prefrontal / posterior midline self network",spec:["beliefs + predictions","journal cap · 200","diary cadence · ~20 active h"]},
+    {n:"08",name:"Work trace",kind:"what is underway",body:"A long task keeps one living episodic record, updated at each checkpoint. Completion distills a summary and key facts.",map:"Analogy · frontal–parietal task-maintenance bridge",spec:["TASK → DONE → NEXT","one maturing record","re-embedded each checkpoint"]},
+    {n:"09",name:"Mission ledger",kind:"what must be exact",body:"The deliberate exception: append-only, transactional operational state. Missions read reconstructive memory without reinforcing it.",map:"Engineered external ledger · no biological equivalent",spec:["missions.db","non-reinforcing reads","verified handoff state"]},
+    {n:"10",name:"Impression",kind:"what lingers",body:"Up to five fading fragments written on sleep or clean shutdown, injected once on waking, then cleared. Continuity—not session restore.",map:"Analogy · insula / amygdala-weighted salience network",spec:["up to 5 fragments","~180 → 40 chars","one-shot on waking"]}
+  ];
+
+  var continuityGrid = document.getElementById("continuityGrid");
+  var continuityDetail = document.getElementById("continuityDetail");
+  function selectContinuity(index) {
+    var item = CONTINUITIES[index];
+    document.querySelectorAll(".continuity-button").forEach(function (button, i) {
+      button.classList.toggle("active", i === index);
+      button.setAttribute("aria-pressed", i === index ? "true" : "false");
+    });
+    continuityDetail.innerHTML = "<h3>" + item.name + " · <span class='dim'>" + item.kind + "</span></h3><p>" + item.body + "</p><div class='neural-map'>" + item.map + "</div><div class='continuity-spec'>" + item.spec.map(function (s) { return "<span>" + s + "</span>"; }).join("") + "</div>";
+    if (window.memoryJourney) window.memoryJourney.selectTrace(index);
+  }
+  CONTINUITIES.forEach(function (item, index) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "continuity-button";
+    button.innerHTML = "<small>" + item.n + " · " + item.kind + "</small><span>" + item.name + "</span>";
+    button.addEventListener("click", function () { selectContinuity(index); });
+    continuityGrid.appendChild(button);
+  });
+  selectContinuity(2);
+
+  var chapterEls = Array.prototype.slice.call(document.querySelectorAll("[data-chapter]"));
+  var railLinks = Array.prototype.slice.call(document.querySelectorAll("[data-rail]"));
+  var chapterObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      railLinks.forEach(function (link) { link.classList.toggle("active", link.dataset.rail === entry.target.id); });
+    });
+  }, {rootMargin:"-42% 0px -42% 0px",threshold:0});
+  chapterEls.forEach(function (section) { chapterObserver.observe(section); });
+
+  var gateInputs = {
+    error:document.getElementById("g-error"),decision:document.getElementById("g-decision"),pref:document.getElementById("g-pref"),
+    remember:document.getElementById("g-remember"),tools:document.getElementById("g-tools"),chat:document.getElementById("g-chat"),
+    novel:document.getElementById("g-novel"),emo:document.getElementById("g-emo")
+  };
+  function renderGate() {
+    var score = 0;
+    if (gateInputs.error.checked) score += .25;
+    if (gateInputs.decision.checked) score += .20;
+    if (gateInputs.pref.checked) score += .30;
+    if (gateInputs.remember.checked) score += .25;
+    if (gateInputs.tools.checked) score += .10;
+    if (gateInputs.chat.checked) score += .10;
+    score += parseFloat(gateInputs.novel.value);
+    var emotion = parseInt(gateInputs.emo.value,10) / 100;
+    if (emotion > .05) score += .15 + .30 * emotion;
+    score = Math.max(0,Math.min(1,score));
+    var pass = score >= .35;
+    document.getElementById("gateScore").textContent = score.toFixed(2);
+    document.getElementById("g-emo-value").textContent = emotion.toFixed(2);
+    document.getElementById("gateFill").style.width = (score * 100) + "%";
+    document.getElementById("gateFill").style.background = pass ? "var(--mem-green)" : "var(--mem-cyan)";
+    document.getElementById("gateState").textContent = pass ? "encoded" : "rejected";
+    document.getElementById("gateVerdict").innerHTML = pass
+      ? "<strong>Encoded as episode.</strong><br>Importance " + Math.max(2,Math.min(8,2 + 6 * score)).toFixed(1) + " · gist + transcript."
+      : "<strong>Not encoded.</strong><br>Transcript + 15-minute scratch only.";
+    if (window.memoryJourney) window.memoryJourney.setGate(score,pass);
+  }
+  Object.keys(gateInputs).forEach(function (key) { gateInputs[key].addEventListener("input",renderGate); });
+  var presets = {
+    thanks:{error:0,decision:0,pref:0,remember:0,tools:0,chat:1,novel:"0",emo:0},
+    preference:{error:0,decision:0,pref:1,remember:1,tools:0,chat:1,novel:"0",emo:15},
+    failure:{error:1,decision:0,pref:0,remember:0,tools:1,chat:0,novel:"0.25",emo:30}
+  };
+  document.querySelectorAll("[data-preset]").forEach(function (button) {
+    button.addEventListener("click",function () {
+      var p = presets[button.dataset.preset];
+      ["error","decision","pref","remember","tools","chat"].forEach(function (key) { gateInputs[key].checked = !!p[key]; });
+      gateInputs.novel.value = p.novel; gateInputs.emo.value = p.emo; renderGate();
+    });
+  });
+  renderGate();
+
+  var recallCount = 0;
+  document.getElementById("recallPulse").addEventListener("click",function () {
+    recallCount++;
+    var strength = 5.8 + Math.min(1.9,recallCount * .27);
+    document.getElementById("recallResult").innerHTML = "<strong>Trace found.</strong> similarity .82 · deliberate recall +1 · importance now " + strength.toFixed(1) + ". The memory is labile for ~10 minutes.";
+    if (window.memoryJourney) window.memoryJourney.recall();
+  });
+
+  document.querySelectorAll("[data-sleep]").forEach(function (button) {
+    button.addEventListener("click",function () {
+      var depth = parseFloat(button.dataset.sleep);
+      document.querySelectorAll("[data-sleep]").forEach(function (b) { b.classList.toggle("active",b === button); });
+      var sampled = Math.max(1,Math.round(20 * depth));
+      var rules = depth >= .6 ? 3 : depth >= .3 ? 2 : 1;
+      document.getElementById("sleepLive").textContent = sampled + " sampled";
+      document.getElementById("sleepStatus").innerHTML = "↻ replayed " + sampled + "/20 traces · top " + Math.min(8,sampled) + " strengthened · <span style='color:var(--mem-cyan)'>" + rules + " cluster" + (rules > 1 ? "s" : "") + " forming</span> · strongest witnesses remain.";
+      if (window.memoryJourney) window.memoryJourney.consolidate(depth);
+    });
+  });
+
+  var decayInputs = [document.getElementById("d-imp"),document.getElementById("d-rein"),document.getElementById("d-emo")];
+  function renderDecay() {
+    var imp = parseInt(decayInputs[0].value,10)/10;
+    var rein = parseInt(decayInputs[1].value,10);
+    var emo = parseInt(decayInputs[2].value,10)/100;
+    var protection = Math.min(3.5,1 + rein*.35 + emo*.9);
+    var survival = Math.min(1,(imp/9)*.42 + Math.min(rein/8,1)*.42 + emo*.16);
+    var flash = rein >= 5;
+    document.getElementById("d-imp-o").textContent = imp.toFixed(1);
+    document.getElementById("d-rein-o").textContent = rein;
+    document.getElementById("d-emo-o").textContent = emo.toFixed(2);
+    document.getElementById("survivalFill").style.width = Math.round(survival*100) + "%";
+    var state = flash ? "flashbulb" : survival > .62 ? "durable" : survival > .38 ? "exposed" : "fragile";
+    document.getElementById("decayState").textContent = state;
+    document.getElementById("decayVerdict").innerHTML = flash
+      ? "<strong>Flashbulb-protected.</strong> This trace ages about " + protection.toFixed(1) + "× slower—but protection is graded, never immortal."
+      : survival > .62 ? "<strong>Durable for now.</strong> Importance and retrieval keep this trace inside retention territory."
+      : "<strong>" + (survival > .38 ? "Exposed trace." : "Fragile trace.") + "</strong> Weak episodes can fade after roughly three effective active days.";
+    if (window.memoryJourney) window.memoryJourney.setDecay(1-survival);
+  }
+  decayInputs.forEach(function (input) { input.addEventListener("input",renderDecay); });
+  renderDecay();
+
+  if (!window.THREE) {
+    document.getElementById("scene").style.display = "none";
+    document.getElementById("webglFallback").style.display = "block";
+    return;
+  }
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var canvas = document.getElementById("scene");
+  var renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
+  } catch (error) {
+    canvas.style.display = "none"; document.getElementById("webglFallback").style.display = "block"; return;
+  }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1,1.8));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.setClearColor(0x020304,1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.08;
+
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x020304,.052);
+  var camera = new THREE.PerspectiveCamera(47,window.innerWidth/window.innerHeight,.05,80);
+  scene.add(new THREE.AmbientLight(0x5c6868,.52));
+  var keyLight = new THREE.PointLight(0xe9bf6c,11,14,2); keyLight.position.set(3,3,5); scene.add(keyLight);
+  var coldLight = new THREE.PointLight(0x63dbe0,7,12,2); coldLight.position.set(-3,-1,3); scene.add(coldLight);
+
+  function seeded(seed) { var x = Math.sin(seed*999.17)*43758.5453; return x-Math.floor(x); }
+  function softPointMaterial(color,size,opacity) {
+    return new THREE.ShaderMaterial({
+      transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+      uniforms:{uColor:{value:new THREE.Color(color)},uSize:{value:size},uOpacity:{value:opacity},uTime:{value:0},uScatter:{value:0},uPulse:{value:0}},
+      vertexShader:[
+        "attribute float aPhase;","attribute vec3 aDrift;","uniform float uTime;","uniform float uSize;","uniform float uScatter;","uniform float uPulse;","varying float vGlow;",
+        "void main(){","vec3 p=position + aDrift*uScatter;","float breath=sin(uTime*0.55+aPhase)*0.5+0.5;","p += normalize(aDrift+.001)*sin(uTime*.35+aPhase)*.018;","vec4 mv=modelViewMatrix*vec4(p,1.0);","float wave=exp(-abs(length(position)-mod(uPulse,2.4)));","gl_PointSize=uSize*(.72+breath*.5+wave*1.7)*(120.0/-mv.z);","gl_Position=projectionMatrix*mv;","vGlow=.45+breath*.42+wave*.5;","}"
+      ].join("\n"),
+      fragmentShader:[
+        "uniform vec3 uColor;","uniform float uOpacity;","varying float vGlow;","void main(){","float d=distance(gl_PointCoord,vec2(.5));","float a=smoothstep(.5,.06,d)*uOpacity*vGlow;","gl_FragColor=vec4(uColor,a);","}"
+      ].join("\n")
+    });
+  }
+
+  var world = new THREE.Group(); scene.add(world);
+  var brain = new THREE.Group(); world.add(brain);
+  var brainPositions = [], brainPhase = [], brainDrift = [], brainColors = [], nodeRegions = [], nodeVectors = [];
+  var nodeCount = window.innerWidth < 700 ? 440 : 860;
+  var gold = new THREE.Color(0xd8a94e), cyan = new THREE.Color(0x79d9dc), ivory = new THREE.Color(0xf3efe6);
+  var REGION_MAP = [
+    {name:"Transcript",color:0x69cbd2,centers:[[-.78,-.08,.36],[-.62,-.34,.28]]},
+    {name:"Working",color:0xf0c873,centers:[[-.64,.58,.38],[.64,.58,.38],[-.86,.16,.18],[.86,.16,.18]]},
+    {name:"Episodic",color:0xe78358,centers:[[-.3,-.3,.02],[.3,-.3,.02]]},
+    {name:"Semantic",color:0x79d9b5,centers:[[-.78,-.38,.25],[.78,-.38,.25]]},
+    {name:"Procedural",color:0xc7964d,centers:[[-.36,-.72,-.16],[.36,-.72,-.16]]},
+    {name:"Prospective",color:0xf3efe6,centers:[[-.44,.86,.35],[.44,.86,.35]]},
+    {name:"Self-model",color:0xa6e5e1,centers:[[-.16,.46,.48],[.16,.46,.48],[-.12,.02,-.38],[.12,.02,-.38]]},
+    {name:"Work trace",color:0xe2b552,centers:[[.72,.48,.34],[.86,.08,.2]]},
+    {name:"Mission ledger",color:0xe7d8b2,centers:[],engineered:true},
+    {name:"Impression",color:0xd78e82,centers:[[-.25,-.12,.18],[.25,-.12,.18],[-.7,.04,.1],[.7,.04,.1]]}
+  ];
+  function nearestRegion(x,y,z) {
+    var best=0,bestDistance=999;
+    REGION_MAP.forEach(function(region,index){
+      if(region.engineered)return;
+      region.centers.forEach(function(center){
+        var dx=x-center[0],dy=y-center[1],dz=(z-center[2])*.78,distance=dx*dx+dy*dy+dz*dz;
+        if(distance<bestDistance){bestDistance=distance;best=index;}
+      });
+    });
+    return best;
+  }
+  function brainWidth(y) {
+    var yn=(y-.06)/1.08;
+    var cap=1.04*Math.sqrt(Math.max(.018,1-yn*yn));
+    var temporal=.13*Math.exp(-((y+.34)*(y+.34))/.1);
+    var lowerTaper=y<-.58?Math.max(.7,1-(-y-.58)*.4):1;
+    return (cap+temporal)*lowerTaper;
+  }
+  function fissureGap(y) { return .05+.052*Math.max(0,Math.min(1,(y+.12)/1.12)); }
+  for (var i=0;i<nodeCount;i++) {
+    var side = i%2===0 ? -1 : 1;
+    var y=-.91+seeded(i*11)*1.98;
+    var outer=brainWidth(y),gap=fissureGap(y);
+    var across=Math.sqrt(seeded(i*7));
+    var x=side*(gap+(outer-gap)*across);
+    var depthLimit=.75*Math.sqrt(Math.max(.015,1-across*across))*(.82+.18*(1-Math.abs(y-.04)));
+    var z=(seeded(i*17)-.5)*2*depthLimit;
+    x += side*Math.sin(y*9+z*5)*.025; y += Math.sin(x*8+z*3)*.026; z += Math.cos(y*7+x*4)*.032;
+    brainPositions.push(x,y,z); nodeVectors.push(new THREE.Vector3(x,y,z));
+    brainPhase.push(seeded(i*29)*6.283);
+    var d=new THREE.Vector3(x,y,z).normalize().multiplyScalar(.3+seeded(i*31)*1.7);
+    brainDrift.push(d.x,d.y,d.z);
+    var c=i%19===0?ivory:(i%5===0?cyan:gold); brainColors.push(c.r,c.g,c.b);
+    nodeRegions.push(nearestRegion(x,y,z));
+  }
+  var brainGeometry = new THREE.BufferGeometry();
+  brainGeometry.setAttribute("position",new THREE.Float32BufferAttribute(brainPositions,3));
+  brainGeometry.setAttribute("aPhase",new THREE.Float32BufferAttribute(brainPhase,1));
+  brainGeometry.setAttribute("aDrift",new THREE.Float32BufferAttribute(brainDrift,3));
+  brainGeometry.setAttribute("color",new THREE.Float32BufferAttribute(brainColors,3));
+  brainGeometry.setAttribute("aRegion",new THREE.Float32BufferAttribute(nodeRegions,1));
+  var brainMaterial = new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+    uniforms:{uSize:{value:.095},uOpacity:{value:.92},uTime:{value:0},uScatter:{value:0},uPulse:{value:0},uRegion:{value:-10},uRegionColor:{value:new THREE.Color(0xffffff)},uRegionPulse:{value:-1},uRegionVisibility:{value:0},uForgetting:{value:0},uRetention:{value:0},uRetentionPulse:{value:-1}},
+    vertexShader:[
+      "attribute vec3 color;","attribute vec3 aDrift;","attribute float aPhase;","attribute float aRegion;",
+      "uniform float uTime;","uniform float uSize;","uniform float uScatter;","uniform float uPulse;","uniform float uRegion;","uniform vec3 uRegionColor;","uniform float uRegionPulse;","uniform float uRegionVisibility;","uniform float uForgetting;","uniform float uRetention;","uniform float uRetentionPulse;",
+      "varying vec3 vColor;","varying float vGlow;",
+      "void main(){","vec3 p=position+aDrift*uScatter;","float breath=sin(uTime*.55+aPhase)*.5+.5;","p+=normalize(aDrift+.001)*sin(uTime*.35+aPhase)*.018;",
+      "float fieldWave=exp(-abs(length(position)-mod(uPulse,2.4)));","float selected=(1.0-step(.25,abs(aRegion-uRegion)))*uRegionVisibility;","float impulse=selected*exp(-abs(length(position.xy)-uRegionPulse*1.35)*9.0)*step(0.0,uRegionPulse);","float retentionImpulse=exp(-abs(length(position.xy)-uRetentionPulse*1.5)*10.0)*step(0.0,uRetentionPulse)*uForgetting;","float retentionGain=mix(1.0,mix(.48,1.42,uRetention),uForgetting);",
+      "vec4 mv=modelViewMatrix*vec4(p,1.0);","gl_PointSize=(uSize+selected*.022+impulse*.11+retentionImpulse*.12)*(.72+breath*.5+fieldWave*1.35)*mix(1.0,.82+uRetention*.35,uForgetting)*(120.0/-mv.z);","gl_Position=projectionMatrix*mv;",
+      "vColor=mix(color,uRegionColor,min(1.0,selected*.68+impulse*.32));","vColor=mix(vColor,vec3(1.0,.78,.32),retentionImpulse*.78)*retentionGain;","vGlow=(.44+breath*.4+fieldWave*.42+selected*.28+impulse*.82+retentionImpulse*1.1)*mix(1.0,.68+uRetention*.58,uForgetting);","}"
+    ].join("\n"),
+    fragmentShader:["uniform float uOpacity;","varying vec3 vColor;","varying float vGlow;","void main(){","float d=distance(gl_PointCoord,vec2(.5));","float a=smoothstep(.5,.06,d)*uOpacity*vGlow;","gl_FragColor=vec4(vColor,a);","}"].join("\n")
+  });
+  var brainPoints = new THREE.Points(brainGeometry,brainMaterial); brain.add(brainPoints);
+
+  var edgePositions=[];
+  for (var e=0;e<nodeCount;e++) {
+    var a=nodeVectors[e], best=-1,bestDist=999;
+    for (var jump=1;jump<11;jump++) {
+      var candidate=(e+jump*17)%nodeCount,dist=a.distanceToSquared(nodeVectors[candidate]);
+      if (dist<bestDist && dist<.22) { bestDist=dist; best=candidate; }
+    }
+    if (best>=0) edgePositions.push(a.x,a.y,a.z,nodeVectors[best].x,nodeVectors[best].y,nodeVectors[best].z);
+  }
+  var edgeGeometry=new THREE.BufferGeometry(); edgeGeometry.setAttribute("position",new THREE.Float32BufferAttribute(edgePositions,3));
+  var edgeBaseColor=new THREE.Color(0xb89046),edgeRetentionColor=new THREE.Color(0xf3c96f);
+  var edgeMaterial=new THREE.LineBasicMaterial({color:edgeBaseColor,transparent:true,opacity:.13,blending:THREE.AdditiveBlending,depthWrite:false});
+  var brainEdges=new THREE.LineSegments(edgeGeometry,edgeMaterial); brain.add(brainEdges);
+
+  var cortexLines=new THREE.Group(); brain.add(cortexLines);
+  var outlineLines=new THREE.Group(); brain.add(outlineLines);
+  function lineMaterial(color,opacity) { var material=new THREE.LineBasicMaterial({color:color,transparent:true,opacity:opacity,blending:THREE.AdditiveBlending,depthWrite:false});material.userData.baseOpacity=opacity;return material; }
+  [-1,1].forEach(function(side){
+    [.68,.2,-.3].forEach(function(zLayer,layer){
+      var outline2d=[[.08,.67],[.1,.94],[.34,1.08],[.65,1.02],[.9,.82],[1.06,.51],[1.1,.14],[1.02,-.25],[.87,-.53],[.65,-.76],[.4,-.91],[.19,-.82],[.09,-.53]];
+      var outlinePoints=outline2d.map(function(p){return new THREE.Vector3(side*p[0]*(1-layer*.055),p[1]*(1-layer*.025),zLayer);});
+      var outlineCurve=new THREE.CatmullRomCurve3(outlinePoints,true,"centripetal");
+      outlineLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(outlineCurve.getPoints(150)),lineMaterial(layer===0?0xd8a94e:0x79d9dc,layer===0?.3:.095)));
+    });
+  });
+  var fissurePoints=[];for(var fp=0;fp<90;fp++){var fu=fp/89,fy=1.035-fu*1.58;fissurePoints.push(new THREE.Vector3(Math.sin(fu*18)*(.008+.018*fu),fy,.71-Math.sin(fu*Math.PI)*.09));}
+  outlineLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(fissurePoints),lineMaterial(0x79d9dc,.31)));
+  [-1,1].forEach(function(side){
+    for(var band=0;band<11;band++){
+      var yy=-.72+band*.158,outer=brainWidth(yy),inner=fissureGap(yy)+.045,curvePoints=[];
+      for(var cp=0;cp<52;cp++){
+        var u=cp/51,xAbs=inner+u*(outer-inner-.045);
+        var fold=Math.sin(u*(13+band%3*2)+band*1.9)*.045+Math.sin(u*29+band*.7)*.014;
+        var normalized=(xAbs-inner)/Math.max(.1,outer-inner);
+        var zz=.66*Math.sqrt(Math.max(.035,1-normalized*normalized))*(.78+.22*Math.cos(yy*1.2));
+        curvePoints.push(new THREE.Vector3(side*xAbs,yy+fold,zz+Math.sin(u*19+band)*.018));
+      }
+      var cortexGeo=new THREE.BufferGeometry().setFromPoints(curvePoints);
+      var cortexLine=new THREE.Line(cortexGeo,lineMaterial(band%4===0?0x79d9dc:0xd8a94e,.15));
+      cortexLines.add(cortexLine);
+    }
+  });
+
+  var regionHalos=[];
+  REGION_MAP.forEach(function(region,regionIndex){
+    if(region.engineered)return;
+    region.centers.forEach(function(center,centerIndex){
+      var haloMaterial=new THREE.MeshBasicMaterial({color:region.color,transparent:true,opacity:0,wireframe:true,blending:THREE.AdditiveBlending,depthWrite:false});
+      var halo=new THREE.Mesh(new THREE.SphereGeometry(.22,12,8),haloMaterial);
+      halo.position.set(center[0],center[1],center[2]);
+      var wide=regionIndex===1||regionIndex===7;halo.scale.set(wide?1.3:1,wide?.82:1,wide?.78:1);
+      halo.userData.region=regionIndex;halo.userData.seed=centerIndex+regionIndex*.37;halo.userData.baseScale=halo.scale.clone();brain.add(halo);regionHalos.push(halo);
+    });
+  });
+  var engineeredOverlay=new THREE.Group();brain.add(engineeredOverlay);var engineeredMaterials=[];
+  for(var frame=0;frame<3;frame++){
+    var fw=1.19+frame*.1,fh=.96+frame*.075,fz=.73-frame*.28;
+    var framePoints=[new THREE.Vector3(-fw,fh,fz),new THREE.Vector3(fw,fh,fz),new THREE.Vector3(fw,-fh,fz),new THREE.Vector3(-fw,-fh,fz)];
+    var frameMaterial=lineMaterial(frame===1?0x79d9dc:0xe7d8b2,0);frameMaterial.userData.maxOpacity=.22-frame*.035;engineeredMaterials.push(frameMaterial);
+    engineeredOverlay.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(framePoints),frameMaterial));
+  }
+  [[-1.19,.96],[1.19,.96],[1.19,-.96],[-1.19,-.96]].forEach(function(point){
+    var nodeMaterial=new THREE.MeshBasicMaterial({color:0xe7d8b2,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});nodeMaterial.userData.maxOpacity=.72;engineeredMaterials.push(nodeMaterial);
+    var node=new THREE.Mesh(new THREE.BoxGeometry(.045,.045,.045),nodeMaterial);node.position.set(point[0],point[1],.75);engineeredOverlay.add(node);
+  });
+
+  var gateGroup=new THREE.Group(); world.add(gateGroup);
+  var gateRing=new THREE.Mesh(new THREE.TorusGeometry(.72,.022,16,96),new THREE.MeshStandardMaterial({color:0xd8a94e,emissive:0x8a5d16,emissiveIntensity:3,metalness:.75,roughness:.24}));
+  gateRing.rotation.y=Math.PI/2; gateGroup.add(gateRing);
+  var gateHalo=new THREE.Mesh(new THREE.TorusGeometry(.88,.006,8,96),new THREE.MeshBasicMaterial({color:0x79d9dc,transparent:true,opacity:.33,blending:THREE.AdditiveBlending}));
+  gateHalo.rotation.y=Math.PI/2; gateGroup.add(gateHalo);
+  var streamCount=100,streamPos=[],streamPhase=[],streamDrift=[];
+  for (var s=0;s<streamCount;s++) { streamPos.push(0,0,0); streamPhase.push(seeded(s*41)*6.28); streamDrift.push(0,0,0); }
+  var streamGeo=new THREE.BufferGeometry(); streamGeo.setAttribute("position",new THREE.Float32BufferAttribute(streamPos,3)); streamGeo.setAttribute("aPhase",new THREE.Float32BufferAttribute(streamPhase,1)); streamGeo.setAttribute("aDrift",new THREE.Float32BufferAttribute(streamDrift,3));
+  var streamMat=softPointMaterial(0x79d9dc,.075,.9); var stream=new THREE.Points(streamGeo,streamMat); gateGroup.add(stream);
+
+  var recallGroup=new THREE.Group(); world.add(recallGroup);
+  var recallRings=[];
+  for (var rr=0;rr<3;rr++) {
+    var recallRing=new THREE.Mesh(new THREE.TorusGeometry(1,.008,8,120),new THREE.MeshBasicMaterial({color:rr===1?0x79d9dc:0xd8a94e,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false}));
+    recallRing.rotation.set(rr*.8,rr*.6,.4+rr*.3); recallGroup.add(recallRing); recallRings.push(recallRing);
+  }
+
+  var clusterGroup=new THREE.Group(); world.add(clusterGroup);
+  var clusterCount=84,clusterBase=[],clusterTargets=[],clusterPos=[],clusterColors=[];
+  var clusterPalette=[new THREE.Color(0x79d9dc),new THREE.Color(0xd8a94e),new THREE.Color(0x7ec49a)];
+  for (var cidx=0;cidx<clusterCount;cidx++) {
+    var bx=(seeded(cidx*47)-.5)*3.2,by=(seeded(cidx*53)-.5)*2.0,bz=(seeded(cidx*59)-.5)*1.1;
+    var clusterIndex=cidx%3,centers=[[-.95,.42,0],[.92,.42,0],[0,-.72,.05]],center=centers[clusterIndex];
+    var tx=center[0]+(seeded(cidx*61)-.5)*.42,ty=center[1]+(seeded(cidx*67)-.5)*.34,tz=center[2]+(seeded(cidx*71)-.5)*.3;
+    clusterBase.push(new THREE.Vector3(bx,by,bz)); clusterTargets.push(new THREE.Vector3(tx,ty,tz)); clusterPos.push(bx,by,bz);
+    var pc=clusterPalette[clusterIndex]; clusterColors.push(pc.r,pc.g,pc.b);
+  }
+  var clusterGeo=new THREE.BufferGeometry(); clusterGeo.setAttribute("position",new THREE.Float32BufferAttribute(clusterPos,3)); clusterGeo.setAttribute("color",new THREE.Float32BufferAttribute(clusterColors,3));
+  var clusterMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uTime:{value:0},uOpacity:{value:.9}},vertexShader:["attribute vec3 color;","uniform float uTime;","varying vec3 vColor;","varying float vLight;","void main(){","vec4 mv=modelViewMatrix*vec4(position,1.0);","float pulse=.92+.14*sin(uTime*1.7+position.x*7.0+position.y*5.0);","gl_PointSize=.086*pulse*(120.0/-mv.z);","gl_Position=projectionMatrix*mv;","vColor=color;vLight=pulse;","}"].join("\n"),fragmentShader:["uniform float uOpacity;","varying vec3 vColor;","varying float vLight;","void main(){","vec2 p=gl_PointCoord-vec2(.5);","float d=length(p);","float edge=1.0-smoothstep(.38,.5,d);","float highlight=exp(-length(p-vec2(-.15,.16))*8.0);","float shade=.62+highlight*.78+(1.0-d)*.24;","gl_FragColor=vec4(vColor*shade*vLight,edge*uOpacity);","}"].join("\n")});
+  var clusterPoints=new THREE.Points(clusterGeo,clusterMat); clusterGroup.add(clusterPoints);
+  for (var rc=0;rc<3;rc++) {
+    var knowledgeGeometry=new THREE.IcosahedronGeometry(.135,1);
+    var rule=new THREE.Mesh(knowledgeGeometry,new THREE.MeshPhysicalMaterial({color:0x1b1914,emissive:clusterPalette[rc],emissiveIntensity:2.5,metalness:.72,roughness:.18,clearcoat:1,clearcoatRoughness:.12,transparent:true,opacity:0}));
+    var ruleEdgeMaterial=new THREE.LineBasicMaterial({color:clusterPalette[rc],transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+    var ruleEdges=new THREE.LineSegments(new THREE.EdgesGeometry(knowledgeGeometry,18),ruleEdgeMaterial);rule.add(ruleEdges);
+    var ruleHaloMaterial=new THREE.MeshBasicMaterial({color:clusterPalette[rc],transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+    var ruleHalo=new THREE.Mesh(new THREE.TorusGeometry(.19,.006,8,64),ruleHaloMaterial);ruleHalo.rotation.x=Math.PI/2;rule.add(ruleHalo);
+    rule.position.set([-.95,.92,0][rc],rc===2?-.2:.94,.03);rule.userData.rule=true;rule.userData.edgeMaterial=ruleEdgeMaterial;rule.userData.haloMaterial=ruleHaloMaterial;clusterGroup.add(rule);
+  }
+
+  var dustGeo=new THREE.BufferGeometry(),dustPos=[];
+  for (var d2=0;d2<900;d2++) dustPos.push((seeded(d2*73)-.5)*22,(seeded(d2*79)-.5)*14,(seeded(d2*83)-.5)*28-5);
+  dustGeo.setAttribute("position",new THREE.Float32BufferAttribute(dustPos,3));
+  var dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xd9c89d,size:.014,transparent:true,opacity:.35,depthWrite:false})); scene.add(dust);
+
+  var regionFocus=-1,regionPulse=-1,retentionBurst=-1,gateScoreValue=.1,gatePassed=false,recallBurst=0,clusterAmount=0,clusterTarget=0,decayAmount=.55,decayTarget=.55;
+  window.memoryJourney={
+    selectTrace:function(index){regionFocus=index;regionPulse=.001;brainMaterial.uniforms.uRegion.value=index;brainMaterial.uniforms.uRegionColor.value.setHex(REGION_MAP[index].color);},
+    setGate:function(score,pass){gateScoreValue=score;gatePassed=pass;},
+    recall:function(){recallBurst=0.001;},
+    consolidate:function(depth){clusterTarget=depth;},
+    setDecay:function(amount){decayTarget=amount;retentionBurst=.001;}
+  };
+  renderGate(); renderDecay();
+
+  var waypointData=[
+    {cam:[0,.04,6.2],look:[.45,0,0],brain:[1.18,0,0],scale:1.22,b:1,g:0,r:0,c:0},
+    {cam:[0,.05,4.85],look:[-.15,0,0],brain:[-1.32,0,0],scale:1.28,b:1,g:0,r:0,c:0},
+    {cam:[0,.08,4.6],look:[.8,0,0],brain:[-1.9,.1,-1],scale:1.5,b:.13,g:1,r:0,c:0},
+    {cam:[0,.02,4.0],look:[-.45,0,0],brain:[-1.1,0,.25],scale:1.8,b:.72,g:0,r:1,c:0},
+    {cam:[0,.04,4.7],look:[.7,0,0],brain:[-2.3,0,-1],scale:1.2,b:.08,g:0,r:0,c:1},
+    {cam:[0,.1,5.05],look:[-.36,0,0],brain:[-1.36,0,.05],scale:1.34,b:.9,g:0,r:0,c:0}
+  ];
+  function smoothstep(t){return t*t*(3-2*t);}
+  function mix(a,b,t){return a+(b-a)*t;}
+  function currentStage() {
+    var y=window.scrollY+window.innerHeight*.5;
+    var centers=chapterEls.map(function(el){return el.offsetTop+el.offsetHeight*.5;});
+    if(y<=centers[0]) return {i:0,t:0};
+    for(var q=0;q<centers.length-1;q++) if(y<centers[q+1]) return {i:q,t:smoothstep((y-centers[q])/(centers[q+1]-centers[q]))};
+    return {i:centers.length-2,t:1};
+  }
+  var pointer={x:0,y:0},pointerSmooth={x:0,y:0};
+  window.addEventListener("pointermove",function(event){pointer.x=event.clientX/window.innerWidth*2-1;pointer.y=event.clientY/window.innerHeight*2-1;},{passive:true});
+
+  var clock=new THREE.Clock(),previousFrameTime=0,streamTravel=0;
+  function animate() {
+    requestAnimationFrame(animate);
+    var time=reduceMotion?0:clock.getElapsedTime(),stage=currentStage(),A=waypointData[stage.i],B=waypointData[stage.i+1],t=stage.t;
+    var frameDelta=previousFrameTime?Math.min(.05,Math.max(0,time-previousFrameTime)):0;previousFrameTime=time;
+    pointerSmooth.x+=(pointer.x-pointerSmooth.x)*.035; pointerSmooth.y+=(pointer.y-pointerSmooth.y)*.035;
+    var nowScroll=window.scrollY;
+    camera.position.set(mix(A.cam[0],B.cam[0],t)+pointerSmooth.x*.09,mix(A.cam[1],B.cam[1],t)-pointerSmooth.y*.07,mix(A.cam[2],B.cam[2],t));
+    camera.lookAt(mix(A.look[0],B.look[0],t)+pointerSmooth.x*.05,mix(A.look[1],B.look[1],t)-pointerSmooth.y*.04,mix(A.look[2],B.look[2],t));
+    brain.position.set(mix(A.brain[0],B.brain[0],t),mix(A.brain[1],B.brain[1],t),mix(A.brain[2],B.brain[2],t));
+    brain.scale.setScalar(mix(A.scale,B.scale,t));
+    var brainVisibility=mix(A.b,B.b,t);
+    brainMaterial.uniforms.uTime.value=time;
+    brainMaterial.uniforms.uPulse.value=time*.42+(recallBurst>0?recallBurst*3.4:0);
+    if(regionPulse>=0){regionPulse+=frameDelta*.78;if(regionPulse>1.08)regionPulse=-1;}
+    brainMaterial.uniforms.uRegionPulse.value=regionPulse;
+    decayAmount+=(decayTarget-decayAmount)*.035;
+    var regionVisibility=stage.i===0?t:stage.i===1?1-t:0;
+    var forgettingVisibility=stage.i===4?t:0,retention=Math.max(0,Math.min(1,1-decayAmount));
+    if(retentionBurst>=0){retentionBurst+=frameDelta*.72;if(retentionBurst>1.05)retentionBurst=-1;}
+    brainMaterial.uniforms.uRegionVisibility.value=regionVisibility;
+    brainMaterial.uniforms.uForgetting.value=forgettingVisibility;
+    brainMaterial.uniforms.uRetention.value=retention;
+    brainMaterial.uniforms.uRetentionPulse.value=retentionBurst;
+    brainMaterial.uniforms.uOpacity.value=.92*brainVisibility*mix(1,.56+retention*.58,forgettingVisibility);
+    brainMaterial.uniforms.uScatter.value=forgettingVisibility*decayAmount*.78;
+    edgeMaterial.opacity=.13*brainVisibility*mix(1,.34+retention*.92,forgettingVisibility);edgeMaterial.color.lerpColors(edgeBaseColor,edgeRetentionColor,forgettingVisibility*retention);
+    cortexLines.children.forEach(function(line){line.material.opacity=line.material.userData.baseOpacity*brainVisibility*mix(1,.42+retention*.72,forgettingVisibility);});
+    outlineLines.children.forEach(function(line){line.material.opacity=line.material.userData.baseOpacity*brainVisibility*mix(1,.52+retention*.58,forgettingVisibility);});
+    regionHalos.forEach(function(halo){var active=halo.userData.region===regionFocus,targetOpacity=active?.085*brainVisibility*regionVisibility:0;halo.material.opacity+=(targetOpacity-halo.material.opacity)*.09;var pulseScale=active&&regionPulse>=0?1+Math.sin(Math.min(1,regionPulse)*Math.PI)*.2:1;halo.scale.copy(halo.userData.baseScale).multiplyScalar(pulseScale);halo.rotation.y+=active&&!reduceMotion?.002:0;});
+    var engineeredActive=regionFocus===8;engineeredMaterials.forEach(function(material){var target=engineeredActive?material.userData.maxOpacity*brainVisibility*regionVisibility:0;material.opacity+=(target-material.opacity)*.09;});engineeredOverlay.rotation.z=engineeredActive&&!reduceMotion?Math.sin(time*.7)*.006:0;
+    brain.rotation.y=Math.sin(time*.16)*.095+pointerSmooth.x*.045; brain.rotation.x=Math.sin(time*.22)*.025-pointerSmooth.y*.035;
+
+    gateGroup.position.set(1.0,0,0); var gateVisibility=mix(A.g,B.g,t); gateGroup.visible=gateVisibility>.01;
+    gateGroup.scale.setScalar(.9+gateScoreValue*.25); gateGroup.rotation.x=pointerSmooth.y*.05;
+    gateRing.material.emissiveIntensity=1.8+gateScoreValue*4+Math.sin(time*2)*.4;
+    gateHalo.material.opacity=gateVisibility*(.18+gateScoreValue*.35); gateHalo.rotation.z=time*.12;
+    streamTravel+=frameDelta*.16;
+    var spos=streamGeo.attributes.position.array;
+    for(var si=0;si<streamCount;si++) {
+      var phase=(streamTravel+si/streamCount)%1;
+      var sx=-2.5+phase*5,sy=Math.sin(si*9.1)*.62+Math.sin(time+si)*.08,sz=Math.cos(si*5.3)*.38;
+      var particlePass=(si%100)/100<gateScoreValue;
+      if(sx>.05 && !particlePass) sy-=Math.pow((sx-.05)/2.45,2)*1.55;
+      spos[si*3]=sx;spos[si*3+1]=sy;spos[si*3+2]=sz;
+    }
+    streamGeo.attributes.position.needsUpdate=true; streamMat.uniforms.uTime.value=time; streamMat.uniforms.uOpacity.value=.92*gateVisibility;
+    streamMat.uniforms.uColor.value.setHex(gatePassed?0x7ec49a:0x79d9dc);
+
+    var recallVisibility=mix(A.r,B.r,t); recallGroup.visible=recallVisibility>.01; recallGroup.position.copy(brain.position); recallGroup.scale.copy(brain.scale);
+    if(recallBurst>0){recallBurst+=.014;if(recallBurst>1.45)recallBurst=0;}
+    recallRings.forEach(function(ring,index){var pulse=recallBurst>0?recallBurst:(time*.11+index*.32)%1.4;ring.scale.setScalar(.2+pulse*1.4);ring.material.opacity=recallVisibility*Math.max(0,(1-pulse/1.4))*.48;});
+
+    clusterAmount+=(clusterTarget-clusterAmount)*.035; var clusterVisibility=mix(A.c,B.c,t); clusterGroup.visible=clusterVisibility>.01; clusterGroup.position.set(.86,0,0); clusterGroup.rotation.y=Math.sin(time*.17)*.09;
+    var cpos=clusterGeo.attributes.position.array;
+    for(var ci2=0;ci2<clusterCount;ci2++) {
+      var base=clusterBase[ci2],target=clusterTargets[ci2],move=Math.min(1,clusterAmount*1.4);
+      cpos[ci2*3]=mix(base.x,target.x,move);cpos[ci2*3+1]=mix(base.y,target.y,move);cpos[ci2*3+2]=mix(base.z,target.z,move);
+    }
+    clusterGeo.attributes.position.needsUpdate=true;clusterMat.uniforms.uTime.value=time;clusterMat.uniforms.uOpacity.value=.9*clusterVisibility;
+    clusterGroup.children.forEach(function(obj){if(obj.userData.rule){var knowledgeOpacity=clusterVisibility*Math.max(0,(clusterAmount-.25)*1.8);obj.material.opacity=knowledgeOpacity;obj.userData.edgeMaterial.opacity=knowledgeOpacity*.82;obj.userData.haloMaterial.opacity=knowledgeOpacity*.28*(.75+Math.sin(time*1.8+obj.position.x)*.25);obj.rotation.x+=reduceMotion?0:.004;obj.rotation.y+=reduceMotion?0:.006;}});
+    dust.rotation.y=time*.002; dust.position.z=(nowScroll*.0007)%3;
+    keyLight.position.x=3+Math.sin(time*.27); coldLight.position.y=-1+Math.cos(time*.31)*.4;
+    renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener("resize",function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.8));renderer.setSize(window.innerWidth,window.innerHeight);},{passive:true});
+})();
+</script>
+</body>
+</html>
