@@ -3,7 +3,9 @@
   "use strict";
 
   // --- nav active state ---
-  var path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  var path = (location.pathname.split("/").pop() || "index.html")
+    .toLowerCase()
+    .replace(".view.html", ".html");
   document.querySelectorAll(".nav-links a").forEach(function (a) {
     var href = (a.getAttribute("href") || "").toLowerCase();
     if (href === path) a.classList.add("active");

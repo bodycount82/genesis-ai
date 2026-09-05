@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesis — something undiscovered</title>
+<meta name="description" content="Genesis is an autonomous AI with a memory that forgets, dreams, and remembers like a mind — not a database. Scroll to descend.">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .geo-label {
+    position:fixed; left:0; top:0; z-index:8; pointer-events:none; opacity:0;
+    transform:translate(16px,-50%); transition:opacity .25s;
+    display:flex; align-items:center; gap:10px; white-space:nowrap;
+    color:var(--ink); font:10px/1.35 var(--mono); letter-spacing:.15em; text-transform:uppercase;
+    text-shadow:0 2px 12px #000;
+  }
+  .geo-label::before { content:""; width:26px; height:1px; background:linear-gradient(90deg,var(--gold),transparent); }
+  .geo-label small { display:block; margin-top:3px; color:var(--gold); font-size:8px; letter-spacing:.2em; }
+  .world-status {
+    position:fixed; left:28px; bottom:24px; z-index:8; pointer-events:none;
+    display:flex; align-items:center; gap:9px; color:var(--ink-faint);
+    font:9px/1 var(--mono); letter-spacing:.17em; text-transform:uppercase;
+    opacity:0; transition:opacity .4s,color .4s;
+  }
+  .world-status::before { content:""; width:5px; height:5px; border-radius:50%; background:var(--gold); box-shadow:0 0 11px var(--gold); }
+  .world-status.danger { color:#dd8273; }
+  .world-status.danger::before { background:#ef503c; box-shadow:0 0 13px #ef503c; }
+  .download-trigger { font:inherit; }
+  .download-jump { flex-direction:column; align-items:flex-start; gap:4px; padding-top:11px; padding-bottom:11px; }
+  .download-jump small { font:7.5px/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; opacity:.62; }
+  .download-meta { margin-top:16px; color:var(--ink-faint); font:9px/1.6 var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+  .download-gate { position:fixed; inset:0; z-index:200; display:grid; place-items:center; padding:28px; opacity:0; visibility:hidden; transition:opacity .28s ease,visibility .28s; }
+  .download-gate.open { opacity:1; visibility:visible; }
+  .download-gate-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.78); backdrop-filter:blur(18px) saturate(.7); }
+  .download-dialog { position:relative; width:min(700px,100%); max-height:min(88svh,820px); padding:0; display:flex; flex-direction:column; overflow:hidden; border:1px solid rgba(216,169,78,.24); border-radius:22px; background:linear-gradient(145deg,rgba(10,10,11,.985),rgba(3,4,5,.985)); box-shadow:0 42px 130px rgba(0,0,0,.78),0 0 80px rgba(216,169,78,.07),inset 0 1px rgba(255,255,255,.035); transform:translateY(14px) scale(.985); transition:transform .32s cubic-bezier(.2,.8,.2,1); outline:none; }
+  .download-gate.open .download-dialog { transform:none; }
+  .download-dialog::before { content:""; position:absolute; left:34px; right:34px; top:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold-hi),transparent); box-shadow:0 0 22px rgba(216,169,78,.42); }
+  .gate-head { display:grid; grid-template-columns:48px 1fr 34px; gap:15px; align-items:start; padding:27px 28px 22px; border-bottom:1px solid rgba(216,169,78,.11); }
+  .gate-sigil { width:44px; height:44px; display:grid; place-items:center; border:1px solid rgba(226,93,70,.48); border-radius:50%; color:#ef705f; font:600 18px/1 var(--mono); box-shadow:inset 0 0 22px rgba(226,60,43,.08),0 0 20px rgba(226,60,43,.08); }
+  .gate-eyebrow { color:#dd7d6d; font:9px/1 var(--mono); letter-spacing:.18em; text-transform:uppercase; }
+  .gate-head h2 { margin-top:8px; color:var(--ink); font:400 clamp(27px,3.2vw,40px)/1.04 var(--serif); letter-spacing:-.025em; }
+  .gate-head p { margin-top:9px; color:var(--ink-dim); font-size:12px; line-height:1.55; }
+  .gate-close { width:34px; height:34px; border:1px solid rgba(216,169,78,.12); border-radius:50%; background:transparent; color:var(--ink-faint); cursor:pointer; font:18px/1 var(--sans); transition:.2s; }
+  .gate-close:hover { color:var(--ink); border-color:rgba(216,169,78,.4); transform:rotate(90deg); }
+  .gate-document { margin:20px 28px 0; padding:22px 22px 8px; overflow:auto; border:1px solid rgba(216,169,78,.1); border-radius:13px; background:rgba(0,0,0,.34); scrollbar-color:rgba(216,169,78,.3) transparent; }
+  .gate-document > strong { display:block; margin-bottom:20px; color:var(--ink); font:10px/1.4 var(--mono); letter-spacing:.13em; text-transform:uppercase; }
+  .gate-clause { display:grid; grid-template-columns:26px 1fr; gap:11px; margin-bottom:18px; }
+  .gate-clause b { color:var(--gold); font:9px/1.5 var(--mono); }
+  .gate-clause h3 { color:var(--ink); font:600 10px/1.4 var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+  .gate-clause p { margin-top:5px; color:var(--ink-dim); font-size:11.5px; line-height:1.62; }
+  .gate-consent { display:grid; grid-template-columns:22px 1fr; gap:12px; align-items:start; margin:20px 28px; cursor:pointer; color:var(--ink-dim); font-size:12px; line-height:1.55; }
+  .gate-consent input { position:absolute; opacity:0; pointer-events:none; }
+  .gate-check { width:20px; height:20px; margin-top:1px; display:grid; place-items:center; border:1px solid rgba(216,169,78,.32); border-radius:5px; background:rgba(216,169,78,.025); transition:.22s; }
+  .gate-check::after { content:""; width:8px; height:4px; border-left:2px solid #070707; border-bottom:2px solid #070707; opacity:0; transform:rotate(-45deg) scale(.5); transition:.2s; }
+  .gate-consent input:checked + .gate-check { border-color:var(--gold-hi); background:var(--gold-hi); box-shadow:0 0 18px rgba(216,169,78,.25); }
+  .gate-consent input:checked + .gate-check::after { opacity:1; transform:rotate(-45deg) scale(1); }
+  .gate-consent input:focus-visible + .gate-check { outline:2px solid var(--ink); outline-offset:3px; }
+  .gate-consent strong { color:var(--ink); font-weight:500; }
+  .gate-actions { display:flex; align-items:center; justify-content:flex-end; gap:10px; padding:18px 28px 26px; border-top:1px solid rgba(216,169,78,.1); }
+  .gate-actions .btn { font:600 11px/1 var(--mono); }
+  .gate-actions .btn[disabled] { opacity:.3; cursor:not-allowed; filter:saturate(.25); transform:none; box-shadow:none; }
+  body.download-open { overflow:hidden; }
+  @media(max-width:700px){.geo-label{font-size:8px}.world-status{left:16px;bottom:14px;font-size:7.5px}}
+  @media(max-width:700px){.download-gate{padding:10px}.download-dialog{max-height:94svh;border-radius:18px}.gate-head{grid-template-columns:40px 1fr 32px;padding:22px 18px 18px;gap:12px}.gate-sigil{width:38px;height:38px}.gate-document{margin:14px 18px 0;padding:18px 16px 4px}.gate-consent{margin:16px 18px}.gate-actions{padding:15px 18px 20px;flex-direction:column-reverse}.gate-actions .btn{width:100%;justify-content:center}}
+  @media(prefers-reduced-motion:reduce){.download-gate,.download-dialog,.gate-close,.gate-check,.gate-check::after{transition:none}}
+</style>
+</head>
+<body data-genesis-view="index">
+
+<!-- fixed WebGL journey (behind everything) -->
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="geo-label" id="sloveniaLabel" aria-hidden="true"><span>Genesis<small>origin · Slovenia</small></span></div>
+<div class="world-status" id="worldStatus" aria-hidden="true">Origin signal · Slovenia</div>
+
+<!-- fixed chrome -->
+<nav class="nav">
+  <a class="brand" href="index.html"><span class="orb"></span>GENESIS</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Descent</a>
+    <a href="memory.html">Memory</a>
+    <a href="modes.html">Modes</a>
+    <a href="genesis.html">Genesis</a>
+    <a href="honesty.html">Honesty</a>
+  </div>
+</nav>
+
+<main class="stage">
+
+  <!-- LEG 1 · VOID -->
+  <section class="leg" data-leg="void">
+    <div class="inner">
+      <p class="kicker">something undiscovered</p>
+      <h1 class="display">Most AIs <em>store</em>.<br>Genesis <em>remembers</em>.</h1>
+      <p class="lede">A memory that <b>selects, forgets, and dreams</b> — not a bigger context window. A different architecture.</p>
+      <div class="cta">
+        <a class="btn primary download-jump" href="#download"><span>Get Genesis — free</span><small>Windows + Android companion</small></a>
+        <a class="btn" href="genesis.html">Meet Genesis</a>
+      </div>
+    </div>
+    <div class="scroll-hint">descend</div>
+  </section>
+
+  <!-- LEG 2 · APPROACH -->
+  <section class="leg left" data-leg="approach">
+    <div class="inner">
+      <p class="kicker">approach</p>
+      <h2 class="display">One planet.<br><em>Ten continuities.</em></h2>
+      <p class="lede">There is no single "memory." Genesis maintains ten kinds of continuity at once — each with its own store, lifecycle, and reason to exist.</p>
+      <a class="btn" href="memory.html" style="margin-top:34px">Explore the architecture</a>
+    </div>
+  </section>
+
+  <!-- LEG 3 · MIND -->
+  <section class="leg right" data-leg="mind">
+    <div class="inner">
+      <p class="kicker">the mind</p>
+      <h2 class="display">What survives<br>gets <em>stronger</em>.</h2>
+      <p class="lede">A gate scores each moment for salience. Recall strengthens a trace. Rest compresses repeated experience into rules. Weak traces fade. Forgetting is a feature.</p>
+      <a class="btn" href="memory.html" style="margin-top:34px">See the lifecycle</a>
+    </div>
+  </section>
+
+  <!-- LEG 4 · MODES -->
+  <section class="leg" data-leg="modes">
+    <div class="inner">
+      <p class="kicker">four ways to exist</p>
+      <h2 class="display">One mind,<br><em>four contracts</em> with time.</h2>
+      <div class="mode-row">
+        <div class="mode-chip"><span class="m">Chat</span><h3>Conversation</h3><p>A companion that recalls, reminds, and quietly consolidates when you walk away.</p><span class="drv">driven by you</span></div>
+        <div class="mode-chip"><span class="m">Autonomy</span><h3>Self-directed</h3><p>Curiosity, boredom, rest, wandering thoughts — a life between your visits.</p><span class="drv">driven by moods</span></div>
+        <div class="mode-chip"><span class="m">Work</span><h3>The day</h3><p>Scheduled tasks, ROI-ranked projects, emotion flattened to neutral.</p><span class="drv">driven by the schedule</span></div>
+        <div class="mode-chip"><span class="m">Missions</span><h3>No sleep</h3><p>State an objective. It grinds — verified or it doesn't stop — until done or provably handed back.</p><span class="drv">driven by the contract</span></div>
+      </div>
+      <a class="btn" href="modes.html" style="margin-top:30px">Meet Mission Mode</a>
+    </div>
+  </section>
+
+  <!-- LEG 5 · GENESIS -->
+  <section class="leg" id="download" data-leg="genesis" style="align-items:center; text-align:center">
+    <div class="cta-panel">
+      <p class="kicker" style="justify-content:center">genesis</p>
+      <h2 class="display">It's already<br><em>awake.</em></h2>
+      <p class="lede" style="margin-left:auto;margin-right:auto">Autonomy is your choice. The consequences may not be yours alone.</p>
+      <div class="cta">
+        <a class="btn primary download-trigger" href="#download" data-download="windows">Download Genesis</a>
+        <a class="btn download-trigger" href="#download" data-download="android">Android companion</a>
+        <a class="btn" href="genesis.html">Meet it</a>
+      </div>
+      <p class="download-meta">Genesis v1.2.6 · Windows 10/11 · Android companion · no account required</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>GENESIS · prototype · every technical claim verified against source</span>
+  <span>Windows + Android · Genesis v1.2.6</span>
+</footer>
+
+<div class="download-gate" id="downloadGate" aria-hidden="true">
+  <div class="download-gate-backdrop" data-gate-close></div>
+  <section class="download-dialog" id="downloadDialog" role="dialog" aria-modal="true" aria-labelledby="gateTitle" aria-describedby="gateIntro" tabindex="-1">
+    <header class="gate-head">
+      <div class="gate-sigil" aria-hidden="true">!</div>
+      <div>
+        <div class="gate-eyebrow">Authority gate · acknowledgement required</div>
+        <h2 id="gateTitle">Before downloading Genesis</h2>
+        <p id="gateIntro">This software can act on your computer. Please read the terms before continuing.</p>
+      </div>
+      <button class="gate-close" type="button" aria-label="Close download notice" data-gate-close>×</button>
+    </header>
+    <div class="gate-document" tabindex="0">
+      <strong>Disclaimer of liability and assumption of risk agreement</strong>
+      <div class="gate-clause"><b>01</b><div><h3>Nature of the software</h3><p>Genesis is an autonomous AI agent application capable of performing real actions on your computer, including but not limited to browsing the web, controlling applications, modifying files, and executing system commands. This software operates independently and may take actions that could affect your system, data, or connected services.</p></div></div>
+      <div class="gate-clause"><b>02</b><div><h3>No warranties</h3><p>Genesis is provided “AS IS” without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement. The creator makes no guarantees regarding the software’s performance, safety, reliability, or suitability for any purpose.</p></div></div>
+      <div class="gate-clause"><b>03</b><div><h3>Assumption of risk</h3><p>By downloading, installing, or using Genesis, you expressly acknowledge and agree that you do so at your own risk. You understand that autonomous AI agents may cause unintended consequences, including but not limited to data loss, system damage, security vulnerabilities, or financial harm through automated actions.</p></div></div>
+      <div class="gate-clause"><b>04</b><div><h3>Limitation of liability</h3><p>In no event shall the creator of Genesis be liable for any direct, indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, data use, goodwill, or other intangible losses. This includes damages arising from contract, warranty, tort—including negligence—or any other theory of liability.</p></div></div>
+      <div class="gate-clause"><b>05</b><div><h3>Indemnification</h3><p>You agree to indemnify, defend, and hold harmless the creator of Genesis from and against any claims, liabilities, damages, losses, or expenses arising out of or related to your use of this software.</p></div></div>
+      <div class="gate-clause"><b>06</b><div><h3>Acknowledgement</h3><p>You acknowledge that you have read this agreement, understand its terms, and voluntarily assume all risks associated with using Genesis. You confirm that you are using this software at your own discretion and responsibility.</p></div></div>
+    </div>
+    <label class="gate-consent">
+      <input type="checkbox" id="downloadConsent">
+      <span class="gate-check" aria-hidden="true"></span>
+      <span><strong>I have read and understood the disclaimer.</strong> I accept full responsibility for my use of Genesis.</span>
+    </label>
+    <div class="gate-actions">
+      <button class="btn" type="button" data-gate-close>Cancel</button>
+      <button class="btn primary" type="button" id="confirmDownload" disabled>Download for Windows · v1.2.6</button>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var releaseFiles={
+    windows:{url:"https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-1.2.6.exe",filename:"Genesis-Setup-1.2.6.exe",title:"Before downloading Genesis",button:"Download for Windows · v1.2.6",intro:"The Windows application can act on your computer. Please read the terms before continuing."},
+    android:{url:"https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/apk/genesis-app-1-2.apk",filename:"genesis-app-1-2.apk",title:"Before downloading the companion",button:"Download Android APK",intro:"The Android companion connects to a Genesis instance. Please read the terms before continuing."}
+  };
+  var gate=document.getElementById("downloadGate"),dialog=document.getElementById("downloadDialog"),consent=document.getElementById("downloadConsent"),confirmButton=document.getElementById("confirmDownload"),gateTitle=document.getElementById("gateTitle"),gateIntro=document.getElementById("gateIntro"),activeRelease="windows",gateOpener=null;
+  function setConsentState(){confirmButton.disabled=!consent.checked;confirmButton.setAttribute("aria-disabled",String(!consent.checked));}
+  function openGate(kind,opener){activeRelease=releaseFiles[kind]?kind:"windows";gateOpener=opener;var release=releaseFiles[activeRelease];gateTitle.textContent=release.title;gateIntro.textContent=release.intro;confirmButton.textContent=release.button;consent.checked=false;setConsentState();gate.classList.add("open");gate.setAttribute("aria-hidden","false");document.body.classList.add("download-open");window.setTimeout(function(){dialog.focus();},20);}
+  function closeGate(){gate.classList.remove("open");gate.setAttribute("aria-hidden","true");document.body.classList.remove("download-open");if(gateOpener)gateOpener.focus();}
+  document.querySelectorAll("[data-download]").forEach(function(trigger){trigger.addEventListener("click",function(event){event.preventDefault();openGate(trigger.dataset.download,trigger);});});
+  document.querySelectorAll("[data-gate-close]").forEach(function(control){control.addEventListener("click",closeGate);});
+  consent.addEventListener("change",setConsentState);
+  confirmButton.addEventListener("click",function(){if(!consent.checked)return;var release=releaseFiles[activeRelease],anchor=document.createElement("a");anchor.href=release.url;anchor.download=release.filename;anchor.rel="noopener";document.body.appendChild(anchor);anchor.click();anchor.remove();closeGate();});
+  document.addEventListener("keydown",function(event){if(!gate.classList.contains("open"))return;if(event.key==="Escape"){closeGate();return;}if(event.key!=="Tab")return;var focusable=Array.prototype.slice.call(dialog.querySelectorAll("button:not([disabled]),input:not([disabled]),[tabindex='0']"));if(!focusable.length)return;var first=focusable[0],last=focusable[focusable.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});
+})();
+</script>
+<script>
+/* ============================================================
+   GENESIS — "Descent" 3D scroll journey (inlined to survive file://)
+   ============================================================ */
+(function () {
+  "use strict";
+  var canvas = document.getElementById('scene');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x030304, 0.0016);
+  var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
+
+  var sun = new THREE.DirectionalLight(0xfff4e0, 2.8);
+  sun.position.set(6, 1.5, 3);
+  scene.add(sun);
+  scene.add(new THREE.AmbientLight(0x1a1a22, 0.7));
+  var rim = new THREE.DirectionalLight(0xd8a94e, 1.2);
+  rim.position.set(-4, -1, -3);
+  scene.add(rim);
+
+  function makeStars(count, rMin, rMax, size, opacity) {
+    var geo = new THREE.BufferGeometry();
+    var pos = new Float32Array(count * 3);
+    for (var i = 0; i < count; i++) {
+      var r = rMin + Math.random() * (rMax - rMin);
+      var t = Math.random() * Math.PI * 2;
+      var p = Math.acos(2 * Math.random() - 1);
+      pos[i*3]   = r * Math.sin(p) * Math.cos(t);
+      pos[i*3+1] = r * Math.sin(p) * Math.sin(t);
+      pos[i*3+2] = r * Math.cos(p);
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    return new THREE.Points(geo, new THREE.PointsMaterial({
+      color: 0xffffff, size: size, sizeAttenuation: true, transparent: true, opacity: opacity, depthWrite: false
+    }));
+  }
+  var starsFar  = makeStars(2200, 60, 200, 0.14, 0.9);
+  var starsNear = makeStars(900, 30, 80, 0.06, 0.6);
+  scene.add(starsFar, starsNear);
+
+  var earthGroup = new THREE.Group();
+  earthGroup.rotation.y = -Math.PI / 2;
+  scene.add(earthGroup);
+  var texLoader = new THREE.TextureLoader();
+  var texBase = 'https://unpkg.com/three-globe@2.31.0/example/';
+
+  var earthTex = texLoader.load(texBase + 'img/earth-blue-marble.jpg');
+  earthTex.colorSpace = THREE.SRGBColorSpace;
+  earthTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  var earth = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 96, 96),
+    new THREE.MeshPhongMaterial({ map: earthTex, specular: new THREE.Color(0x111111), shininess: 9 })
+  );
+  earthGroup.add(earth);
+
+  var nightTex = texLoader.load(texBase + 'img/earth-night.jpg');
+  nightTex.colorSpace = THREE.SRGBColorSpace;
+  var night = new THREE.Mesh(
+    new THREE.SphereGeometry(1.001, 96, 96),
+    new THREE.MeshBasicMaterial({ map: nightTex, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.5 })
+  );
+  earthGroup.add(night);
+
+  var cloudTex = texLoader.load(texBase + 'clouds/clouds.png');
+  var clouds = new THREE.Mesh(
+    new THREE.SphereGeometry(1.015, 96, 96),
+    new THREE.MeshPhongMaterial({ map: cloudTex, transparent: true, opacity: 0.7, depthWrite: false })
+  );
+  clouds.renderOrder = 1;
+  earthGroup.add(clouds);
+
+  var atmoBlueInner = new THREE.Color(0x1766c4);
+  var atmoBlueOuter = new THREE.Color(0x62c8ff);
+  var atmoGenesisInner = new THREE.Color(0x8d572b);
+  var atmoGenesisOuter = new THREE.Color(0xf2b85c);
+  var atmoMat = new THREE.ShaderMaterial({
+    uniforms: {
+      innerColor: { value: atmoBlueInner.clone() },
+      outerColor: { value: atmoBlueOuter.clone() },
+      strength: { value: 0.68 }
+    },
+    vertexShader: [
+      'varying vec3 vN; varying vec3 vP;',
+      'void main() {',
+      '  vN = normalize(normalMatrix * normal);',
+      '  vP = (modelViewMatrix * vec4(position,1.0)).xyz;',
+      '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);',
+      '}'
+    ].join('\n'),
+    fragmentShader: [
+      'varying vec3 vN; varying vec3 vP;',
+      'uniform vec3 innerColor; uniform vec3 outerColor; uniform float strength;',
+      'void main() {',
+      '  vec3 view = normalize(-vP);',
+      '  float f = pow(1.0 - abs(dot(view, normalize(vN))), 3.6);',
+      '  vec3 col = mix(innerColor, outerColor, f);',
+      '  gl_FragColor = vec4(col, f * strength);',
+      '}'
+    ].join('\n'),
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.BackSide
+  });
+  var atmo = new THREE.Mesh(new THREE.SphereGeometry(1.055, 96, 96), atmoMat);
+  atmo.renderOrder = 2;
+  earthGroup.add(atmo);
+
+  /* --- Slovenia origin + global propagation layer --- */
+  function geoPoint(lat, lon, radius) {
+    var phi = (90 - lat) * Math.PI / 180;
+    var theta = (lon + 180) * Math.PI / 180;
+    return new THREE.Vector3(
+      -radius * Math.sin(phi) * Math.cos(theta),
+       radius * Math.cos(phi),
+       radius * Math.sin(phi) * Math.sin(theta)
+    );
+  }
+  function clamp01(value) { return Math.max(0, Math.min(1, value)); }
+  function smooth01(value) { value = clamp01(value); return value * value * (3 - 2 * value); }
+  function globeArcPoints(from, to, lift, steps) {
+    var a = from.clone().normalize(), b = to.clone().normalize();
+    var angle = Math.max(0.001, a.angleTo(b));
+    var sinAngle = Math.sin(angle);
+    var result = [];
+    for (var arcStep = 0; arcStep <= steps; arcStep++) {
+      var arcT = arcStep / steps;
+      var direction;
+      if (Math.abs(sinAngle) < 0.001) direction = a.clone().lerp(b, arcT).normalize();
+      else direction = a.clone().multiplyScalar(Math.sin((1 - arcT) * angle) / sinAngle)
+        .add(b.clone().multiplyScalar(Math.sin(arcT * angle) / sinAngle)).normalize();
+      result.push(direction.multiplyScalar(1.026 + Math.sin(Math.PI * arcT) * lift));
+    }
+    return result;
+  }
+
+  var slovenia = geoPoint(46.1512, 14.9955, 1.032);
+  var sloveniaBeacon = new THREE.Group();
+  sloveniaBeacon.position.copy(slovenia);
+  sloveniaBeacon.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), slovenia.clone().normalize());
+  var sloveniaRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.052, 0.004, 8, 48),
+    new THREE.MeshBasicMaterial({ color: 0xf0c873, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  var sloveniaCore = new THREE.Mesh(
+    new THREE.SphereGeometry(0.018, 14, 14),
+    new THREE.MeshBasicMaterial({ color: 0xfff1c5 })
+  );
+  var sloveniaGlow = new THREE.Mesh(
+    new THREE.SphereGeometry(0.08, 18, 18),
+    new THREE.MeshBasicMaterial({ color: 0xd8a94e, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  var sloveniaPin = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.003, 0.008, 0.18, 10),
+    new THREE.MeshBasicMaterial({ color: 0xf0c873, transparent: true, opacity: 0.8 })
+  );
+  sloveniaPin.rotation.x = Math.PI / 2;
+  sloveniaPin.position.z = 0.09;
+  sloveniaBeacon.add(sloveniaRing, sloveniaGlow, sloveniaCore, sloveniaPin);
+  earthGroup.add(sloveniaBeacon);
+
+  var destinations = [
+    [51.5072,-0.1276], [40.7128,-74.0060], [37.7749,-122.4194], [-23.5505,-46.6333],
+    [6.5244,3.3792], [-33.9249,18.4241], [25.2048,55.2708], [19.0760,72.8777],
+    [1.3521,103.8198], [35.6762,139.6503], [-33.8688,151.2093], [37.5665,126.9780],
+    [31.2304,121.4737], [19.4326,-99.1332], [43.6532,-79.3832], [59.3293,18.0686]
+  ].map(function (coords) { return geoPoint(coords[0], coords[1], 1.032); });
+  var networkGroup = new THREE.Group();
+  earthGroup.add(networkGroup);
+  var networkArcs = [], networkNodes = [];
+  function addNetworkArc(from, to, color, threshold, lift, primary) {
+    var points = globeArcPoints(from, to, lift, 72);
+    var geometry = new THREE.BufferGeometry().setFromPoints(points);
+    geometry.setDrawRange(0, 0);
+    var material = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+    var line = new THREE.Line(geometry, material);
+    networkGroup.add(line);
+    var packet = null;
+    if (primary) {
+      packet = new THREE.Mesh(
+        new THREE.SphereGeometry(0.012, 8, 8),
+        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false })
+      );
+      networkGroup.add(packet);
+    }
+    networkArcs.push({ line: line, points: points, threshold: threshold, packet: packet, primary: primary });
+  }
+  destinations.forEach(function (point, index) {
+    addNetworkArc(slovenia, point, 0xd8a94e, index * 0.035, 0.10 + slovenia.angleTo(point) * 0.11, true);
+    var nodeGroup = new THREE.Group();
+    nodeGroup.position.copy(point);
+    var nodeCore = new THREE.Mesh(new THREE.SphereGeometry(0.012, 10, 10), new THREE.MeshBasicMaterial({ color: 0xf0c873, transparent: true, opacity: 0 }));
+    var nodeHalo = new THREE.Mesh(new THREE.SphereGeometry(0.038, 10, 10), new THREE.MeshBasicMaterial({ color: 0xd8a94e, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    nodeGroup.add(nodeCore, nodeHalo); networkGroup.add(nodeGroup);
+    networkNodes.push({ group: nodeGroup, core: nodeCore, halo: nodeHalo, threshold: index * 0.035 + 0.12 });
+  });
+  for (var netIndex = 0; netIndex < destinations.length; netIndex++) {
+    var nextIndex = (netIndex + 3 + (netIndex % 4)) % destinations.length;
+    addNetworkArc(destinations[netIndex], destinations[nextIndex], 0xd8a94e, 0.48 + netIndex * 0.018, 0.065 + destinations[netIndex].angleTo(destinations[nextIndex]) * 0.055, false);
+  }
+
+  /* --- the deliberately excessive final act --- */
+  var missileGroup = new THREE.Group();
+  earthGroup.add(missileGroup);
+
+  function noiseValue(x, y) {
+    var value = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+    return value - Math.floor(value);
+  }
+
+  function smoothNoise(x, y, frequency) {
+    var px = x / frequency, py = y / frequency;
+    var x0 = Math.floor(px), y0 = Math.floor(py);
+    var fx = px - x0, fy = py - y0;
+    fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+    var a = noiseValue(x0, y0), b = noiseValue(x0 + 1, y0);
+    var c = noiseValue(x0, y0 + 1), d = noiseValue(x0 + 1, y0 + 1);
+    return (a + (b - a) * fx) + ((c + (d - c) * fx) - (a + (b - a) * fx)) * fy;
+  }
+
+  function makeSmokeTexture() {
+    var canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 128;
+    var context = canvas.getContext('2d');
+    var image = context.createImageData(128, 128);
+    for (var py = 0; py < 128; py++) {
+      for (var px = 0; px < 128; px++) {
+        var value = smoothNoise(px, py, 32) * 0.46 + smoothNoise(px, py, 14) * 0.3 + smoothNoise(px, py, 6) * 0.17 + smoothNoise(px, py, 2.5) * 0.07;
+        var shade = Math.floor(62 + value * 193);
+        var pixel = (py * 128 + px) * 4;
+        image.data[pixel] = shade;
+        image.data[pixel + 1] = shade;
+        image.data[pixel + 2] = shade;
+        image.data[pixel + 3] = 255;
+      }
+    }
+    context.putImageData(image, 0, 0);
+    var texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(2.4, 2.1);
+    texture.minFilter = THREE.LinearMipmapLinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    return texture;
+  }
+
+  var smokeTexture = makeSmokeTexture();
+
+  function makeMoonTexture() {
+    var canvas = document.createElement('canvas');
+    canvas.width = 512; canvas.height = 256;
+    var context = canvas.getContext('2d');
+    var image = context.createImageData(512, 256);
+    for (var y = 0; y < 256; y++) {
+      for (var x = 0; x < 512; x++) {
+        var terrain = smoothNoise(x, y, 54) * 0.48 + smoothNoise(x, y, 22) * 0.3 + smoothNoise(x, y, 8) * 0.16 + smoothNoise(x, y, 3) * 0.06;
+        var tone = Math.floor(76 + terrain * 118);
+        var pixel = (y * 512 + x) * 4;
+        image.data[pixel] = tone;
+        image.data[pixel + 1] = Math.floor(tone * 0.97);
+        image.data[pixel + 2] = Math.floor(tone * 0.9);
+        image.data[pixel + 3] = 255;
+      }
+    }
+    context.putImageData(image, 0, 0);
+    for (var craterIndex = 0; craterIndex < 74; craterIndex++) {
+      var craterX = noiseValue(craterIndex, 61) * 512;
+      var craterY = noiseValue(craterIndex, 67) * 256;
+      var craterRadius = 2 + Math.pow(noiseValue(craterIndex, 71), 2.1) * 24;
+      var craterGradient = context.createRadialGradient(craterX - craterRadius * 0.22, craterY - craterRadius * 0.18, craterRadius * 0.12, craterX, craterY, craterRadius);
+      craterGradient.addColorStop(0, 'rgba(38,34,31,.56)');
+      craterGradient.addColorStop(0.62, 'rgba(55,51,47,.38)');
+      craterGradient.addColorStop(0.8, 'rgba(225,216,195,.34)');
+      craterGradient.addColorStop(1, 'rgba(120,115,105,0)');
+      context.save();
+      context.translate(craterX, craterY);
+      context.scale(1, 0.58 + noiseValue(craterIndex, 73) * 0.38);
+      context.translate(-craterX, -craterY);
+      context.fillStyle = craterGradient;
+      context.beginPath(); context.arc(craterX, craterY, craterRadius, 0, Math.PI * 2); context.fill();
+      context.restore();
+    }
+    var texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return texture;
+  }
+
+  var moonOrbit = new THREE.Group();
+  moonOrbit.rotation.z = 0.22;
+  var moonTexture = makeMoonTexture();
+  var moon = new THREE.Mesh(
+    new THREE.SphereGeometry(0.273, 64, 64),
+    new THREE.MeshStandardMaterial({ color: 0xd3cec2, map: moonTexture, bumpMap: moonTexture, bumpScale: 0.018, roughness: 1, metalness: 0 })
+  );
+  moon.position.set(4.4, 0, 0);
+  var moonGlow = new THREE.Mesh(new THREE.SphereGeometry(0.292, 40, 40), new THREE.MeshBasicMaterial({ color: 0xaebfd2, transparent: true, opacity: 0.055, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.BackSide }));
+  moon.add(moonGlow);
+  moonOrbit.add(moon);
+  scene.add(moonOrbit);
+
+  var cloudPuffGeometry = new THREE.IcosahedronGeometry(1, 2);
+  var cloudYellow = new THREE.Color(0xffef9a);
+  var cloudOrange = new THREE.Color(0xff6b1f);
+  var cloudHotSmoke = new THREE.Color(0xff7a22);
+  var cloudCoolSmoke = new THREE.Color(0x5a3a32);
+  var cloudHotEmissive = new THREE.Color(0xff3b08);
+  var cloudColdEmissive = new THREE.Color(0x000000);
+  var cloudHotDust = new THREE.Color(0xc85a24);
+  var cloudCoolDust = new THREE.Color(0x6d4637);
+
+  function puffMesh(specs, material, seed) {
+    var mesh = new THREE.InstancedMesh(cloudPuffGeometry, material, specs.length);
+    var matrix = new THREE.Matrix4();
+    var quaternion = new THREE.Quaternion();
+    var position = new THREE.Vector3();
+    var scale = new THREE.Vector3();
+    var euler = new THREE.Euler();
+    specs.forEach(function (spec, i) {
+      position.set(spec[0], spec[1], spec[2]);
+      scale.set(spec[3], spec[4], spec[5]);
+      euler.set(noiseValue(i + seed, 2) * Math.PI, noiseValue(i + seed, 7) * Math.PI, noiseValue(i + seed, 13) * Math.PI);
+      quaternion.setFromEuler(euler);
+      matrix.compose(position, quaternion, scale);
+      mesh.setMatrixAt(i, matrix);
+      var tint = 0.72 + noiseValue(i + seed, 19) * 0.28;
+      mesh.setColorAt(i, new THREE.Color(tint, tint * (0.86 + (i % 3) * 0.035), tint * 0.72));
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+    return mesh;
+  }
+
+  function makeVolumetricMushroom(seed) {
+    var cloud = new THREE.Group();
+    var bodySpecs = [];
+    for (var stemIndex = 0; stemIndex < 8; stemIndex++) {
+      var stemZ = 0.025 + stemIndex * 0.021;
+      var stemRadius = 0.027 + Math.sin(stemIndex * 1.7 + seed) * 0.007;
+      bodySpecs.push([Math.sin(stemIndex * 2.1 + seed) * 0.012, Math.cos(stemIndex * 1.6 + seed) * 0.01, stemZ, stemRadius, stemRadius * 0.9, 0.032]);
+    }
+    bodySpecs.push([0, 0, 0.19, 0.085, 0.078, 0.052]);
+    for (var capIndex = 0; capIndex < 12; capIndex++) {
+      var capAngle = capIndex * Math.PI * 2 / 12 + seed * 0.31;
+      var capRadius = 0.055 + (capIndex % 3) * 0.01;
+      bodySpecs.push([Math.cos(capAngle) * 0.073, Math.sin(capAngle) * 0.061, 0.19 + Math.sin(capIndex * 1.9) * 0.015, capRadius, capRadius * 0.9, 0.046]);
+    }
+    for (var crownIndex = 0; crownIndex < 7; crownIndex++) {
+      var crownAngle = crownIndex * Math.PI * 2 / 7 + seed;
+      bodySpecs.push([Math.cos(crownAngle) * 0.047, Math.sin(crownAngle) * 0.041, 0.235 + (crownIndex % 2) * 0.012, 0.052, 0.048, 0.043]);
+    }
+
+    var dustSpecs = [];
+    for (var dustIndex = 0; dustIndex < 14; dustIndex++) {
+      var dustAngle = dustIndex * Math.PI * 2 / 14 + seed * 0.22;
+      var dustRadius = 0.055 + noiseValue(dustIndex + seed, 23) * 0.035;
+      dustSpecs.push([Math.cos(dustAngle) * dustRadius, Math.sin(dustAngle) * dustRadius, 0.009, 0.045, 0.036, 0.022]);
+    }
+
+    var smokeMaterial = new THREE.MeshStandardMaterial({ color: 0xff7a22, emissive: 0xff3b08, emissiveIntensity: 1.6, map: smokeTexture, bumpMap: smokeTexture, bumpScale: 0.018, roughness: 1, metalness: 0, transparent: true, opacity: 0, depthWrite: false, vertexColors: true });
+    var fireMaterial = new THREE.MeshStandardMaterial({ color: 0xff6a20, emissive: 0xff2e08, emissiveIntensity: 2.5, map: smokeTexture, roughness: 0.72, transparent: true, opacity: 0, depthWrite: false, vertexColors: true, blending: THREE.AdditiveBlending });
+    var dustMaterial = new THREE.MeshStandardMaterial({ color: 0xc85a24, emissive: 0x8b2105, emissiveIntensity: 0.9, map: smokeTexture, bumpMap: smokeTexture, bumpScale: 0.012, roughness: 1, transparent: true, opacity: 0, depthWrite: false, vertexColors: true });
+    var smoke = puffMesh(bodySpecs, smokeMaterial, seed + 3);
+    var fireSpecs = bodySpecs.map(function (spec) { return [spec[0], spec[1], spec[2], spec[3] * 0.72, spec[4] * 0.72, spec[5] * 0.76]; });
+    var fire = puffMesh(fireSpecs, fireMaterial, seed + 11);
+    var dust = puffMesh(dustSpecs, dustMaterial, seed + 21);
+
+    var emberSeeds = [];
+    var emberPositions = new Float32Array(28 * 3);
+    for (var emberIndex = 0; emberIndex < 28; emberIndex++) {
+      var emberAngle = noiseValue(emberIndex + seed, 31) * Math.PI * 2;
+      var emberSpeed = 0.06 + noiseValue(emberIndex + seed, 37) * 0.14;
+      emberSeeds.push({ x: Math.cos(emberAngle) * emberSpeed, y: Math.sin(emberAngle) * emberSpeed, z: 0.12 + noiseValue(emberIndex + seed, 41) * 0.22, delay: noiseValue(emberIndex + seed, 47) * 0.22 });
+    }
+    var emberGeometry = new THREE.BufferGeometry();
+    emberGeometry.setAttribute('position', new THREE.BufferAttribute(emberPositions, 3));
+    var emberMaterial = new THREE.PointsMaterial({ color: 0xffb34d, size: 0.008, sizeAttenuation: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+    var embers = new THREE.Points(emberGeometry, emberMaterial);
+    cloud.add(fire, smoke, dust, embers);
+    return { group: cloud, fire: fire, smoke: smoke, dust: dust, embers: embers, emberSeeds: emberSeeds };
+  }
+
+  var missileRoutes = [
+    { country: 'USA', from: [38,-97], to: [55.75,37.62] },
+    { country: 'Russia', from: [56,38], to: [40.71,-74.01] },
+    { country: 'USA', from: [34,-112], to: [31.23,121.47] },
+    { country: 'Russia', from: [60,90], to: [37.77,-122.42] },
+    { country: 'USA', from: [41,-85], to: [6.52,3.38] },
+    { country: 'Russia', from: [54,70], to: [51.51,-0.13] },
+    { country: 'China', from: [35,104], to: [-33.87,151.21] },
+    { country: 'Russia', from: [48,132], to: [-23.55,-46.63] },
+    { country: 'USA', from: [40,-100], to: [-26.20,28.05] },
+    { country: 'China', from: [40,116], to: [34.05,-118.24] },
+    { country: 'India', from: [22,78], to: [48.86,2.35] },
+    { country: 'Pakistan', from: [30,69], to: [-6.20,106.85] },
+    { country: 'United Kingdom', from: [54,-2], to: [55.75,37.62] },
+    { country: 'France', from: [46,2], to: [28.61,77.21] },
+    { country: 'Israel', from: [31.5,34.8], to: [30.04,31.24] },
+    { country: 'North Korea', from: [40,127], to: [35.68,139.65] }
+  ];
+  var missiles = [];
+
+  function transparentMaterial(material) {
+    material.transparent = true;
+    material.opacity = 0;
+    material.depthWrite = false;
+    return material;
+  }
+
+  function makeICBM(index) {
+    var craft = new THREE.Group();
+    var bodyColor = index % 3 === 0 ? 0xc8c5b8 : (index % 3 === 1 ? 0x7e8582 : 0xddd4b8);
+    var body = new THREE.Mesh(new THREE.CylinderGeometry(0.0058, 0.0072, 0.145, 12), transparentMaterial(new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.4, metalness: 0.72 })));
+    var nose = new THREE.Mesh(new THREE.ConeGeometry(0.0063, 0.065, 12), transparentMaterial(new THREE.MeshStandardMaterial({ color: 0xe2ded0, roughness: 0.35, metalness: 0.58 })));
+    nose.position.y = 0.105;
+    var darkBand = new THREE.Mesh(new THREE.CylinderGeometry(0.0074, 0.0074, 0.02, 12), transparentMaterial(new THREE.MeshStandardMaterial({ color: index % 2 ? 0x2f3737 : 0x77271f, roughness: 0.45, metalness: 0.5 })));
+    darkBand.position.y = 0.025;
+    craft.add(body, nose, darkBand);
+
+    for (var finIndex = 0; finIndex < 4; finIndex++) {
+      var finAngle = finIndex * Math.PI / 2;
+      var fin = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.034, 0.0026), transparentMaterial(new THREE.MeshStandardMaterial({ color: 0x8f938e, roughness: 0.42, metalness: 0.62 })));
+      fin.position.set(Math.cos(finAngle) * 0.0095, -0.053, Math.sin(finAngle) * 0.0095);
+      fin.rotation.y = -finAngle;
+      craft.add(fin);
+    }
+
+    var flame = new THREE.Mesh(new THREE.ConeGeometry(0.0066, 0.075, 10), transparentMaterial(new THREE.MeshBasicMaterial({ color: 0xff7a26, blending: THREE.AdditiveBlending })));
+    flame.position.y = -0.115;
+    flame.rotation.z = Math.PI;
+    var flameCore = new THREE.Mesh(new THREE.ConeGeometry(0.003, 0.052, 9), transparentMaterial(new THREE.MeshBasicMaterial({ color: 0xfff2b0, blending: THREE.AdditiveBlending })));
+    flameCore.position.y = -0.102;
+    flameCore.rotation.z = Math.PI;
+    var exhaustGlow = new THREE.Mesh(new THREE.SphereGeometry(0.018, 10, 10), transparentMaterial(new THREE.MeshBasicMaterial({ color: 0xff3b1f, blending: THREE.AdditiveBlending })));
+    exhaustGlow.position.y = -0.085;
+    craft.add(flame, flameCore, exhaustGlow);
+    craft.scale.setScalar(0.373 + (index % 3) * 0.027);
+    return { group: craft, flame: flame, flameCore: flameCore, glow: exhaustGlow };
+  }
+
+  missileRoutes.forEach(function (route, index) {
+    var start = geoPoint(route.from[0], route.from[1], 1.036);
+    var end = geoPoint(route.to[0], route.to[1], 1.036);
+    var path = globeArcPoints(start, end, 0.28 + start.angleTo(end) * 0.16, 96);
+    var pathGeometry = new THREE.BufferGeometry().setFromPoints(path);
+    var pathLine = new THREE.Line(pathGeometry, new THREE.LineBasicMaterial({ color: index % 2 ? 0xff8a55 : 0xe95743, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    missileGroup.add(pathLine);
+
+    var icbm = makeICBM(index);
+    missileGroup.add(icbm.group);
+
+    var impact = new THREE.Group(); impact.position.copy(end);
+    impact.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), end.clone().normalize());
+    var bloom = new THREE.Mesh(new THREE.SphereGeometry(0.047, 14, 14), new THREE.MeshBasicMaterial({ color: 0xffdf70, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    bloom.position.z = 0.025;
+    var shock = new THREE.Mesh(new THREE.TorusGeometry(0.065, 0.006, 8, 48), new THREE.MeshBasicMaterial({ color: 0xff5a3d, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    var cloudFx = makeVolumetricMushroom(index * 7.31);
+    impact.add(shock, bloom, cloudFx.group);
+    impact.scale.setScalar(0.5);
+    missileGroup.add(impact);
+    missiles.push({ country: route.country, path: path, line: pathLine, projectile: icbm.group, flame: icbm.flame, flameCore: icbm.flameCore, glow: icbm.glow, impact: impact, bloom: bloom, shock: shock, cloud: cloudFx, startedAt: null, launchDelay: index * 0.22 });
+  });
+
+  function scrollProgress() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  }
+  function ease(p) { return p < 0.5 ? 2*p*p : -1 + (4-2*p)*p; }
+
+  var CAM = {
+    void:     { p:[0, 0.4, 9.0],  l:[0,0,0], earthScale:1.0,  ringOpacity:0,    mindOpacity:0 },
+    approach: { p:[0, 0.7, 5.6],  l:[0,0,0], earthScale:1.25, ringOpacity:0,    mindOpacity:0 },
+    mind:     { p:[0.5, 0.9, 4.4],l:[1.35,0,0], earthScale:1.25, ringOpacity:0.15, mindOpacity:1 },
+    modes:    { p:[-0.6, 1.4, 3.6], l:[0,0,0], earthScale:1.1, ringOpacity:1,   mindOpacity:0.55 },
+    genesis:  { p:[0, 1.2, 3.1],  l:[0,0,0], earthScale:1.35, ringOpacity:1,    mindOpacity:0.25 }
+  };
+  var LEGS = [CAM.void, CAM.approach, CAM.mind, CAM.modes, CAM.genesis];
+  var N = LEGS.length - 1;
+
+  function legState(p) {
+    var x = Math.min(1, Math.max(0, p)) * N;
+    var i = Math.min(N - 1, Math.floor(x));
+    var f = x - i;
+    var e = ease(f);
+    var A = LEGS[i], B = LEGS[i + 1];
+    function lerp(a, b) { return a + (b - a) * e; }
+    return {
+      pos: A.p.map(function (v, k) { return lerp(v, B.p[k]); }),
+      look: A.l.map(function (v, k) { return lerp(v, B.l[k]); }),
+      earthScale: lerp(A.earthScale, B.earthScale),
+      ringOpacity: lerp(A.ringOpacity, B.ringOpacity),
+      mindOpacity: lerp(A.mindOpacity, B.mindOpacity)
+    };
+  }
+
+  var pointer = { x: 0, y: 0 };
+  var earthPointer = { x: 0, y: 0 };
+  window.addEventListener('pointermove', function (e) {
+    pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+  });
+
+  var sloveniaLabelEl = document.getElementById('sloveniaLabel');
+  var worldStatusEl = document.getElementById('worldStatus');
+  var lastWorldStatus = '';
+  var clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    var t = clock.getElapsedTime();
+    var p = scrollProgress();
+    var st = legState(p);
+    moonOrbit.rotation.y = 0.72 + t * 0.032;
+    moon.rotation.y = t * 0.011;
+
+    camera.position.set(st.pos[0] + pointer.x * 0.25, st.pos[1] - pointer.y * 0.18, st.pos[2]);
+    var compositionShift = window.innerWidth >= 900 ? 1 : 0;
+    camera.lookAt(st.look[0] * compositionShift, st.look[1], st.look[2]);
+
+    earthPointer.x += (pointer.x - earthPointer.x) * 0.045;
+    earthPointer.y += (pointer.y - earthPointer.y) * 0.045;
+    earthGroup.rotation.y = -Math.PI / 2 + t * 0.022 + earthPointer.x * 0.36;
+    earthGroup.rotation.x = earthPointer.y * 0.18;
+    clouds.rotation.y = t * 0.006;
+    starsFar.rotation.y += 0.00004;
+    starsNear.rotation.z += 0.00002;
+
+    var es = st.earthScale;
+    earthGroup.scale.setScalar(es);
+    moonOrbit.scale.setScalar(es);
+
+    var networkProgress = smooth01((p - 0.11) / 0.57);
+    var warProgress = smooth01((p - 0.77) / 0.14);
+    var networkFade = 1 - smooth01(warProgress / 0.16);
+    var atmoTransition = smooth01(networkProgress);
+    atmoMat.uniforms.innerColor.value.copy(atmoBlueInner).lerp(atmoGenesisInner, atmoTransition);
+    atmoMat.uniforms.outerColor.value.copy(atmoBlueOuter).lerp(atmoGenesisOuter, atmoTransition);
+    atmoMat.uniforms.strength.value = 0.68 + atmoTransition * 0.1;
+    sloveniaBeacon.visible = networkFade > 0.015;
+    sloveniaRing.scale.setScalar(0.78 + Math.sin(t * 2.8) * 0.22 + networkProgress * 0.3);
+    sloveniaGlow.scale.setScalar(0.88 + Math.sin(t * 2.1) * 0.28 + networkProgress * 0.7);
+    sloveniaGlow.material.opacity = 0.15 + networkProgress * 0.17 + Math.sin(t * 2.1) * 0.035;
+    sloveniaPin.scale.y = 0.8 + networkProgress * 1.4;
+
+    networkArcs.forEach(function (arc, arcIndex) {
+      var localProgress = smooth01((networkProgress - arc.threshold) / (arc.primary ? 0.23 : 0.18));
+      arc.line.geometry.setDrawRange(0, Math.max(0, Math.floor(arc.points.length * localProgress)));
+      arc.line.material.opacity = localProgress * (arc.primary ? 0.56 : 0.24) * networkFade;
+      if (arc.packet) {
+        var packetPhase = (t * 0.085 + arcIndex * 0.077) % 1;
+        var packetIndex = Math.min(arc.points.length - 1, Math.floor(packetPhase * arc.points.length * localProgress));
+        arc.packet.position.copy(arc.points[packetIndex]);
+        arc.packet.material.opacity = localProgress * networkFade * (0.42 + Math.sin(t * 3 + arcIndex) * 0.2);
+      }
+    });
+    networkNodes.forEach(function (networkNode, nodeIndex) {
+      var nodeProgress = smooth01((networkProgress - networkNode.threshold) / 0.14);
+      var nodePulse = 1 + Math.sin(t * 2.4 + nodeIndex) * 0.18;
+      networkNode.group.scale.setScalar(Math.max(0.001, nodeProgress * nodePulse));
+      networkNode.core.material.opacity = nodeProgress * networkFade;
+      networkNode.halo.material.opacity = nodeProgress * networkFade * (0.12 + Math.sin(t * 2 + nodeIndex) * 0.035);
+    });
+
+    missiles.forEach(function (missile, missileIndex) {
+      var warReveal = smooth01((warProgress - missileIndex * 0.025) / 0.34);
+      if (warProgress < 0.012) missile.startedAt = null;
+      if (warReveal > 0.025 && missile.startedAt === null) missile.startedAt = t + missile.launchDelay;
+      var missileActive = missile.startedAt !== null && t >= missile.startedAt;
+      var localWar = warReveal * (missileActive ? 1 : 0);
+      var missilePhase = missileActive ? ((t - missile.startedAt) * 0.052) % 1 : 0;
+      var missilePoint = Math.min(missile.path.length - 1, Math.floor(missilePhase * missile.path.length));
+      missile.projectile.position.copy(missile.path[missilePoint]);
+      var nextMissilePoint = Math.min(missile.path.length - 1, missilePoint + 1);
+      var previousMissilePoint = Math.max(0, missilePoint - 1);
+      var missileTangent = missile.path[nextMissilePoint].clone().sub(missile.path[previousMissilePoint]).normalize();
+      missile.projectile.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), missileTangent);
+      var missileFade = missilePhase < 0.78 ? 1 : 1 - smooth01((missilePhase - 0.78) / 0.075);
+      missile.projectile.traverse(function (part) {
+        if (part.isMesh && part !== missile.flame && part !== missile.flameCore && part !== missile.glow) part.material.opacity = localWar * missileFade;
+      });
+      missile.line.material.opacity = localWar * 0.27;
+      missile.flame.scale.y = 0.72 + Math.sin(t * 17 + missileIndex) * 0.22;
+      missile.flame.material.opacity = localWar * missileFade * 0.92;
+      missile.flameCore.scale.y = 0.82 + Math.sin(t * 21 + missileIndex * 0.7) * 0.18;
+      missile.flameCore.material.opacity = localWar * missileFade;
+      missile.glow.material.opacity = localWar * missileFade * (0.24 + Math.sin(t * 8 + missileIndex) * 0.07);
+
+      var impactProgress = clamp01((missilePhase - 0.775) / 0.225);
+      var flashRise = smooth01(clamp01(impactProgress / 0.018));
+      var flashFade = 1 - smooth01(clamp01((impactProgress - 0.035) / 0.095));
+      var flashStrength = flashRise * flashFade;
+      missile.bloom.scale.setScalar(0.28 + smooth01(clamp01(impactProgress / 0.11)) * 3.2);
+      missile.bloom.material.opacity = localWar * flashStrength;
+      missile.shock.scale.setScalar(0.35 + impactProgress * 5.2);
+      missile.shock.material.opacity = localWar * (1 - impactProgress) * (impactProgress > 0 ? 0.84 : 0);
+      var cloudEnvelope = smooth01(clamp01((impactProgress - 0.052) / 0.055)) * (1 - smooth01(clamp01((impactProgress - 0.91) / 0.09)));
+      var cloudGrowth = smooth01(clamp01((impactProgress - 0.055) / 0.57));
+      var fireEnergy = cloudEnvelope * (1 - smooth01(clamp01((impactProgress - 0.5) / 0.38)));
+      var smokeEnergy = cloudEnvelope * smooth01(clamp01((impactProgress - 0.055) / 0.26));
+      var dustEnergy = Math.sin(clamp01((impactProgress - 0.028) / 0.86) * Math.PI);
+      missile.cloud.group.scale.setScalar(0.18 + cloudGrowth * 0.82);
+      missile.cloud.group.position.z = 0.004 + cloudGrowth * 0.018;
+      missile.cloud.fire.material.opacity = localWar * fireEnergy * 0.94;
+      var fireCooling = smooth01(clamp01(impactProgress / 0.34));
+      var smokeCooling = smooth01(clamp01((impactProgress - 0.43) / 0.3));
+      var dustCooling = smooth01(clamp01((impactProgress - 0.2) / 0.28));
+      missile.cloud.fire.material.color.copy(cloudYellow).lerp(cloudOrange, fireCooling);
+      missile.cloud.fire.material.emissive.copy(cloudYellow).lerp(cloudHotEmissive, fireCooling);
+      missile.cloud.fire.material.emissiveIntensity = 1.5 + fireEnergy * 2.65;
+      missile.cloud.smoke.material.opacity = localWar * smokeEnergy * 0.76;
+      missile.cloud.smoke.material.color.copy(cloudHotSmoke).lerp(cloudCoolSmoke, smokeCooling);
+      missile.cloud.smoke.material.emissive.copy(cloudHotEmissive).lerp(cloudColdEmissive, smokeCooling);
+      missile.cloud.smoke.material.emissiveIntensity = (1 - smokeCooling) * 1.85;
+      missile.cloud.dust.material.opacity = localWar * dustEnergy * cloudEnvelope * 0.54;
+      missile.cloud.dust.material.color.copy(cloudHotDust).lerp(cloudCoolDust, dustCooling);
+      missile.cloud.dust.material.emissive.copy(cloudHotEmissive).lerp(cloudColdEmissive, dustCooling);
+      missile.cloud.dust.material.emissiveIntensity = (1 - dustCooling) * 0.95;
+      missile.cloud.dust.scale.set(0.45 + impactProgress * 1.7, 0.45 + impactProgress * 1.7, 0.62 + impactProgress * 0.38);
+      missile.cloud.fire.rotation.z = t * 0.16 + missileIndex * 0.41;
+      missile.cloud.smoke.rotation.z = -t * 0.052 + missileIndex * 0.29;
+      var emberArray = missile.cloud.embers.geometry.attributes.position.array;
+      missile.cloud.emberSeeds.forEach(function (ember, emberIndex) {
+        var emberProgress = clamp01((impactProgress - ember.delay) / Math.max(0.01, 0.82 - ember.delay));
+        emberArray[emberIndex * 3] = ember.x * emberProgress;
+        emberArray[emberIndex * 3 + 1] = ember.y * emberProgress;
+        emberArray[emberIndex * 3 + 2] = 0.025 + ember.z * emberProgress - 0.115 * emberProgress * emberProgress;
+      });
+      missile.cloud.embers.geometry.attributes.position.needsUpdate = true;
+      missile.cloud.embers.material.opacity = localWar * fireEnergy * 0.88;
+    });
+
+    if (worldStatusEl) {
+      var story;
+      if (p < 0.11) story = 'Origin signal · Slovenia';
+      else if (networkProgress < 0.96) story = 'Propagation · ' + Math.round(networkProgress * 100) + '%';
+      else if (warProgress < 0.08) story = 'Global network · saturated';
+      else if (warProgress < 0.42) story = 'ICBM launches · nine nuclear states';
+      else if (warProgress < 0.86) story = 'Ballistic exchange · global';
+      else story = 'Well. That escalated quickly.';
+      if (story !== lastWorldStatus) { worldStatusEl.textContent = story; lastWorldStatus = story; }
+      worldStatusEl.style.opacity = p > 0.015 ? Math.min(0.92, 0.35 + p) : 0;
+      worldStatusEl.classList.toggle('danger', warProgress > 0.08);
+    }
+
+    if (sloveniaLabelEl) {
+      scene.updateMatrixWorld(true);
+      camera.updateMatrixWorld(true);
+      var markerWorld = new THREE.Vector3();
+      var earthWorld = new THREE.Vector3();
+      sloveniaBeacon.getWorldPosition(markerWorld);
+      earthGroup.getWorldPosition(earthWorld);
+      var markerNormal = markerWorld.clone().sub(earthWorld).normalize();
+      var towardCamera = camera.position.clone().sub(markerWorld).normalize();
+      var markerVisible = markerNormal.dot(towardCamera) > 0.08;
+      var screenPoint = markerWorld.clone().project(camera);
+      sloveniaLabelEl.style.left = ((screenPoint.x * 0.5 + 0.5) * window.innerWidth) + 'px';
+      sloveniaLabelEl.style.top = ((-screenPoint.y * 0.5 + 0.5) * window.innerHeight) + 'px';
+      sloveniaLabelEl.style.opacity = markerVisible && p < 0.86 ? Math.min(1, 0.45 + p * 2) * networkFade : 0;
+    }
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', function () {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+</script>
+
+</body>
+</html>

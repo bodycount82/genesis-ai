@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honesty — what Genesis does and does not claim</title>
+<meta name="description" content="The honest page. Specific mechanisms, precise limits, and the evidence Genesis still has to earn.">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  :root { --truth:#f4ead4; --truth-gold:#e4bd69; --truth-glass:#a9e2dc; --truth-red:#d86f61; --truth-green:#83c99b; }
+  html { scrollbar-color:rgba(228,189,105,.34) #030304; }
+  body { background:#030304; overflow-x:hidden; }
+  body::before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(58% 66% at 72% 46%,rgba(228,189,105,.045),transparent 72%),linear-gradient(90deg,rgba(3,3,4,.86),rgba(3,3,4,.22) 54%,rgba(3,3,4,.04)); }
+  #honestyScene { position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+  .truth-veil { position:fixed; inset:0; z-index:1; pointer-events:none; background:radial-gradient(42% 52% at 72% 46%,rgba(255,239,200,.045),transparent 74%); }
+  main { position:relative; z-index:2; }
+  .nav { background:linear-gradient(180deg,rgba(3,3,4,.96),rgba(3,3,4,.58) 68%,transparent); }
+  .nav-links { scrollbar-width:none; }
+  .nav-links::-webkit-scrollbar { display:none; width:0; height:0; }
+
+  .truth-rail { position:fixed; right:24px; top:50%; transform:translateY(-50%); z-index:40; display:flex; flex-direction:column; align-items:flex-end; gap:14px; }
+  .truth-rail a { position:relative; display:flex; align-items:center; justify-content:center; width:7px; height:7px; color:var(--ink-faint); font:10px/1 var(--mono); letter-spacing:.15em; text-transform:uppercase; transition:.25s; }
+  .truth-rail a span { position:absolute; right:17px; top:50%; white-space:nowrap; pointer-events:none; opacity:0; transform:translate(5px,-50%); transition:.25s; }
+  .truth-rail a::after { content:""; width:5px; height:5px; border:1px solid currentColor; border-radius:50%; transition:.25s; }
+  .truth-rail a:hover span,.truth-rail a.active span { opacity:1; transform:translate(0,-50%); }
+  .truth-rail a.active { color:var(--truth-gold); }
+  .truth-rail a.active::after { background:var(--truth-gold); box-shadow:0 0 14px var(--truth-gold); transform:scale(1.35); }
+
+  .truth-chapter { min-height:116svh; padding:140px max(28px,5vw) 100px; position:relative; display:flex; align-items:center; }
+  .truth-chapter:first-of-type { min-height:100svh; }
+  .chapter-inner { width:min(1180px,100%); margin:0 auto; }
+  .chapter-copy { width:min(610px,49vw); }
+  .align-right .chapter-copy { margin-left:auto; }
+  .chapter-no { display:flex; align-items:center; gap:10px; margin-bottom:20px; color:var(--ink-faint); font:10px/1 var(--mono); letter-spacing:.24em; text-transform:uppercase; }
+  .chapter-no::before { content:""; width:32px; height:1px; background:currentColor; }
+  .chapter-title { margin:0; font:400 clamp(45px,6.25vw,86px)/.98 var(--serif); letter-spacing:-.035em; color:var(--ink); }
+  .chapter-title em { color:var(--truth-gold); font-style:italic; }
+  .chapter-lede { max-width:590px; margin-top:24px; color:var(--ink-dim); font-size:clamp(16px,1.5vw,20px); line-height:1.65; }
+  .chapter-lede strong { color:var(--ink); font-weight:500; }
+  .chapter-transition { position:absolute; left:50%; bottom:18px; width:1px; height:72px; background:linear-gradient(transparent,rgba(228,189,105,.38),transparent); }
+  .truth-hero .chapter-copy { width:min(675px,56vw); }
+  .truth-hero .chapter-title { font-size:clamp(56px,8vw,112px); }
+  .truth-hero .chapter-lede { max-width:670px; }
+  .whisper { margin-top:36px; color:var(--ink-faint); font:10px/1.6 var(--mono); letter-spacing:.16em; text-transform:uppercase; }
+  .whisper::before { content:"↓"; color:var(--truth-gold); margin-right:10px; }
+
+  .glass-panel { margin-top:36px; overflow:hidden; border:1px solid rgba(228,189,105,.16); border-radius:18px; background:linear-gradient(145deg,rgba(9,9,10,.84),rgba(4,5,6,.58)); box-shadow:0 34px 90px rgba(0,0,0,.52),inset 0 1px rgba(255,255,255,.028); backdrop-filter:blur(18px); }
+  .panel-top { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:13px 18px; border-bottom:1px solid rgba(228,189,105,.1); color:var(--ink-faint); font:9.5px/1.4 var(--mono); letter-spacing:.15em; text-transform:uppercase; }
+  .live-mark { display:flex; align-items:center; gap:8px; color:var(--truth-glass); }
+  .live-mark::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 12px currentColor; }
+
+  .claim-panel blockquote { margin:0; padding:24px 24px 20px; color:var(--ink); font:400 clamp(19px,2vw,27px)/1.5 var(--serif); }
+  .claim-panel blockquote em { color:var(--truth-gold); }
+  .mechanism-strip { display:flex; flex-wrap:wrap; gap:7px; padding:0 24px 24px; }
+  .mechanism-strip span { padding:7px 9px; border:1px solid rgba(228,189,105,.12); border-radius:999px; color:var(--ink-faint); font:8.5px/1 var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+
+  .limits-chapter { min-height:auto; padding-top:160px; padding-bottom:160px; }
+  .limit-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin-top:36px; }
+  .limit-card { position:relative; min-height:178px; padding:20px; border:1px solid rgba(228,189,105,.12); border-radius:14px; background:rgba(5,6,7,.76); backdrop-filter:blur(14px); transition:border-color .25s,transform .25s,background .25s; }
+  .limit-card::before { content:""; position:absolute; left:20px; top:0; width:34px; height:1px; background:var(--card-color,var(--truth-gold)); box-shadow:0 0 12px var(--card-color,var(--truth-gold)); }
+  .limit-card:hover { transform:translateY(-3px); border-color:rgba(228,189,105,.28); background:rgba(10,10,11,.86); }
+  .limit-card small { display:block; color:var(--card-color,var(--truth-gold)); font:8.5px/1 var(--mono); letter-spacing:.15em; text-transform:uppercase; }
+  .limit-card h3 { margin-top:11px; color:var(--ink); font:400 18px/1.25 var(--serif); }
+  .limit-card p { margin-top:9px; color:var(--ink-dim); font-size:11.5px; line-height:1.58; }
+  .limit-card:nth-child(3n+1) { --card-color:var(--truth-glass); }
+  .limit-card:nth-child(3n+2) { --card-color:var(--truth-gold); }
+  .limit-card:nth-child(3n) { --card-color:var(--truth-red); }
+
+  .sleep-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:1px; }
+  .sleep-copy { padding:22px; color:var(--ink-dim); font-size:13px; line-height:1.7; }
+  .sleep-copy strong { color:var(--ink); font-weight:500; }
+  .truth-spec { margin:0; padding:22px; overflow:auto; border-left:1px solid rgba(228,189,105,.1); color:var(--ink-dim); font:10.5px/1.8 var(--mono); scrollbar-width:none; }
+  .truth-spec::-webkit-scrollbar { display:none; }
+  .truth-spec .k { color:var(--truth-gold); }.truth-spec .n { color:var(--truth-glass); }.truth-spec .c { color:var(--ink-faint); }
+
+  .source-grid { display:grid; grid-template-columns:repeat(3,1fr); }
+  .source-card { min-height:150px; padding:20px; border-right:1px solid rgba(228,189,105,.09); }
+  .source-card:last-child { border-right:0; }
+  .source-card small { color:var(--truth-glass); font:8.5px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+  .source-card h3 { margin-top:10px; font:400 18px/1.2 var(--serif); }
+  .source-card p { margin-top:8px; color:var(--ink-dim); font-size:11.5px; line-height:1.58; }
+
+  .evidence-list { display:grid; gap:0; }
+  .evidence-row { width:100%; display:grid; grid-template-columns:68px 1fr auto; gap:14px; align-items:center; padding:16px 18px; border:0; border-bottom:1px solid rgba(228,189,105,.09); background:transparent; color:var(--ink-dim); text-align:left; cursor:pointer; transition:.25s; }
+  .evidence-row:last-child { border-bottom:0; }
+  .evidence-row:hover,.evidence-row.active { background:rgba(228,189,105,.055); color:var(--ink); }
+  .evidence-row .status { font:9px/1 var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+  .evidence-row.has .status { color:var(--truth-green); }.evidence-row.lacks .status { color:var(--truth-red); }
+  .evidence-row .claim-name { font-size:12px; line-height:1.45; }
+  .evidence-row .measure { color:var(--ink-faint); font:9px/1 var(--mono); }
+  .evidence-readout { min-height:67px; padding:15px 18px; border-top:1px solid rgba(228,189,105,.1); color:var(--ink-dim); font-size:11.5px; line-height:1.58; }
+  .evidence-readout strong { color:var(--ink); font-weight:500; }
+
+  .closing-chapter { min-height:100svh; text-align:center; }
+  .closing-chapter .chapter-copy { width:min(820px,90vw); margin:0 auto; }
+  .closing-chapter .chapter-lede { margin-left:auto; margin-right:auto; }
+  .final-line { margin-top:34px; color:var(--ink-faint); font:10px/1.6 var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+  footer { position:relative; z-index:2; background:rgba(3,3,4,.74); backdrop-filter:blur(12px); }
+  .webgl-fallback { display:none; position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at 72% 45%,rgba(244,234,212,.15),transparent 13%,rgba(228,189,105,.07) 13.4%,transparent 14%); }
+
+  @media (max-width:980px) {
+    .truth-rail { display:none; }
+    .truth-chapter,.limits-chapter { min-height:auto; padding:128px 24px 110px; }
+    .truth-chapter:first-of-type { min-height:100svh; }
+    .chapter-copy,.truth-hero .chapter-copy { width:min(650px,82vw); }
+    .align-right .chapter-copy { margin-left:0; }
+  }
+  @media (max-width:700px) {
+    #honestyScene { opacity:.42; }
+    .nav { height:58px; padding:0 16px; }
+    .nav-links a { padding:7px 8px; font-size:10px; }
+    .nav-links a:first-child { display:none; }
+    .chapter-copy,.truth-hero .chapter-copy { width:100%; }
+    .chapter-title { font-size:clamp(42px,14vw,68px); }
+    .truth-hero .chapter-title { font-size:clamp(50px,16vw,76px); }
+    .chapter-lede { max-width:94%; }
+    .limit-grid,.sleep-grid,.source-grid { grid-template-columns:1fr; }
+    .limit-card { min-height:0; }
+    .truth-spec { border-left:0; border-top:1px solid rgba(228,189,105,.1); }
+    .source-card { border-right:0; border-bottom:1px solid rgba(228,189,105,.09); }
+    .source-card:last-child { border-bottom:0; }
+    .evidence-row { grid-template-columns:62px 1fr; }
+    .evidence-row .measure { display:none; }
+  }
+  @media (prefers-reduced-motion:reduce) { .chapter-transition { display:none; } .limit-card:hover { transform:none; } }
+</style>
+</head>
+<body data-genesis-view="honesty">
+
+<canvas id="honestyScene" aria-hidden="true"></canvas>
+<div class="webgl-fallback" id="webglFallback" aria-hidden="true"></div>
+<div class="truth-veil" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Primary navigation">
+  <a class="brand" href="index.html"><span class="orb"></span>GENESIS</a>
+  <div class="nav-links">
+    <a href="index.html">Descent</a>
+    <a href="memory.html">Memory</a>
+    <a href="modes.html">Modes</a>
+    <a href="genesis.html">Genesis</a>
+    <a href="honesty.html" class="active">Honesty</a>
+  </div>
+</nav>
+
+<aside class="truth-rail" aria-label="Honesty chapters">
+  <a href="#threshold" class="active" data-rail="threshold"><span>Threshold</span></a>
+  <a href="#claim" data-rail="claim"><span>Claim</span></a>
+  <a href="#limits" data-rail="limits"><span>Limits</span></a>
+  <a href="#sleep" data-rail="sleep"><span>Sleep</span></a>
+  <a href="#substrate" data-rail="substrate"><span>Substrate</span></a>
+  <a href="#evidence" data-rail="evidence"><span>Evidence</span></a>
+  <a href="#trust" data-rail="trust"><span>Trust</span></a>
+</aside>
+
+<main>
+  <section class="truth-chapter truth-hero" id="threshold" data-chapter="0">
+    <div class="chapter-inner"><div class="chapter-copy reveal">
+      <div class="chapter-no">The honest page</div>
+      <h1 class="chapter-title">Here is what it<br><em>will not claim.</em></h1>
+      <p class="chapter-lede">A system deserves to be believed for the same reason it deserves to be doubted—because the claims are <strong>specific and checkable.</strong> This is where Genesis draws its own line.</p>
+      <p class="whisper">Watch ornament give way to evidence.</p>
+    </div></div><span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="truth-chapter align-right" id="claim" data-chapter="1">
+    <div class="chapter-inner"><div class="chapter-copy reveal">
+      <div class="chapter-no">The one claim it will make</div>
+      <h2 class="chapter-title">Every word maps<br>to a <em>mechanism.</em></h2>
+      <div class="glass-panel claim-panel">
+        <div class="panel-top"><span>Claim boundary</span><span class="live-mark">traceable</span></div>
+        <blockquote>Genesis implements a <em>selective, layered, reconstructive memory lifecycle.</em> That is the strongest thing it will say about itself.</blockquote>
+        <div class="mechanism-strip" aria-label="Named mechanisms"><span>active recall</span><span>reinforcement</span><span>durable summaries</span><span>consolidation</span><span>forgetting</span><span>intentions</span><span>provenance</span></div>
+      </div>
+    </div></div><span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="truth-chapter limits-chapter" id="limits" data-chapter="2">
+    <div class="chapter-inner"><div class="chapter-copy reveal">
+      <div class="chapter-no">Drawn lines</div>
+      <h2 class="chapter-title">Precision begins<br>with <em>no.</em></h2>
+      <p class="chapter-lede">These are not disclaimers to wave past. They are precise statements of what the mechanism is not.</p>
+      <div class="limit-grid">
+        <article class="limit-card reveal"><small>Analogy ≠ evidence</small><h3>Not “closest to biological memory”</h3><p>Genesis shares useful design ideas with biological memory—salience gating, recall-strengthening, consolidation, and forgetting. Proximity needs evidence it does not yet have.</p></article>
+        <article class="limit-card reveal"><small>Comparison ≠ benchmark</small><h3>Not “categorically better”</h3><p>Until shared tests exist for Mem0, Zep, Letta, and Genesis, the honest statement is: a different architecture with different trade-offs.</p></article>
+        <article class="limit-card reveal"><small>Thresholded</small><h3>Contradictions are similarity-based</h3><p>The newer fact supersedes by text similarity—not by a temporal truth engine. Contradictions can survive until they are near enough to collide.</p></article>
+        <article class="limit-card reveal"><small>Degraded mode</small><h3>Hashing is not semantic memory</h3><p>Without the embedding model, retrieval becomes stable and keyword-like, but not meaning-aware. It is a fallback and is labeled as one.</p></article>
+        <article class="limit-card reveal"><small>Order-sensitive</small><h3>Clustering is greedy</h3><p>The order experiences arrive can change which rules are distilled. The pass is effective; it is not optimal.</p></article>
+        <article class="limit-card reveal"><small>Known bias</small><h3>Lexical logic is English-centric</h3><p>Keyword overlap and much of the salience language assume English structure. Other languages are scored less faithfully.</p></article>
+        <article class="limit-card reveal"><small>Graded protection</small><h3>Flashbulbs are not immortal</h3><p>A flashbulb fades more slowly. It does not live forever. Everything in this system is mortal by design.</p></article>
+        <article class="limit-card reveal"><small>Scope boundary</small><h3>Deleting is not erasing</h3><p>Removing a memory record does not scrub its chat transcript or rotating backups. Deletion is not a data-forensics guarantee.</p></article>
+      </div>
+    </div></div><span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="truth-chapter align-right" id="sleep" data-chapter="3">
+    <div class="chapter-inner"><div class="chapter-copy reveal">
+      <div class="chapter-no">A common misunderstanding</div>
+      <h2 class="chapter-title">Sleep does not lift<br>everything <em>up.</em></h2>
+      <p class="chapter-lede">Consolidation is selective, not wholesale. A single experience never becomes a rule.</p>
+      <div class="glass-panel"><div class="panel-top"><span>Consolidation, accurately</span><span class="live-mark">selective</span></div>
+        <div class="sleep-grid"><p class="sleep-copy">Recent episodes are replayed and ranked. Only genuinely similar experiences form a cluster. From a <strong>multi-episode cluster</strong>, one rule or concept may be distilled. Survivors reinforce; the rest are folded or left to fade.</p>
+        <pre class="truth-spec"><span class="c">// not “move everything up”</span>
+<span class="k">replay</span>  → strongest <span class="n">8</span>
+<span class="k">cluster</span> → cosine ≥ <span class="n">0.55</span>
+<span class="k">distill</span> → multi-episode only
+<span class="k">fold</span>    → reinforce or fade
+<span class="c">singletons never become rules</span></pre></div>
+      </div>
+    </div></div><span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="truth-chapter" id="substrate" data-chapter="4">
+    <div class="chapter-inner"><div class="chapter-copy reveal">
+      <div class="chapter-no">Model independence</div>
+      <h2 class="chapter-title">The memory is not<br>the <em>model.</em></h2>
+      <p class="chapter-lede">Storage, embedding, ranking, reinforcement, decay, consolidation, and source tags belong to Genesis. The model that answers is swappable.</p>
+      <div class="glass-panel"><div class="panel-top"><span>Persistent substrate</span><span class="live-mark">model-independent</span></div>
+        <div class="source-grid">
+          <article class="source-card"><small>Continuity</small><h3>Survives model changes</h3><p>Stored memories persist across answer-model swaps. Only changing the embedder triggers re-embedding.</p></article>
+          <article class="source-card"><small>Availability</small><h3>Works offline</h3><p>With the local embedder present, retrieval works offline—at reduced summary quality, honestly reported.</p></article>
+          <article class="source-card"><small>Auditability</small><h3>Source tags, not vibes</h3><p>Every memory line carries provenance. The model is instructed never to invent a memory.</p></article>
+        </div>
+      </div>
+    </div></div><span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="truth-chapter align-right" id="evidence" data-chapter="5">
+    <div class="chapter-inner"><div class="chapter-copy reveal">
+      <div class="chapter-no">The benchmark stance</div>
+      <h2 class="chapter-title">A claim is a debt<br>to <em>evidence.</em></h2>
+      <p class="chapter-lede">Honesty that stops at “we do not claim X” is cheap. These are the measurements that would let Genesis say more.</p>
+      <div class="glass-panel">
+        <div class="panel-top"><span>Claim → required evidence</span><span class="live-mark" id="evidenceState">1 measured · 4 owed</span></div>
+        <div class="evidence-list">
+          <button class="evidence-row has active" type="button" data-evidence="0"><span class="status">✓ has</span><span class="claim-name">A named mechanism for every memory claim</span><span class="measure">trace</span></button>
+          <button class="evidence-row lacks" type="button" data-evidence="1"><span class="status">× lacks</span><span class="claim-name">Shared retrieval and retention benchmarks</span><span class="measure">compare</span></button>
+          <button class="evidence-row lacks" type="button" data-evidence="2"><span class="status">× lacks</span><span class="claim-name">Consolidation ablation</span><span class="measure">isolate</span></button>
+          <button class="evidence-row lacks" type="button" data-evidence="3"><span class="status">× lacks</span><span class="claim-name">A measured forgetting curve</span><span class="measure">observe</span></button>
+          <button class="evidence-row lacks" type="button" data-evidence="4"><span class="status">× lacks</span><span class="claim-name">A biological-fidelity measure</span><span class="measure">validate</span></button>
+        </div>
+        <div class="evidence-readout" id="evidenceReadout"><strong>Traceability exists.</strong> Gate, recall, consolidation, decay, and continuity each map to an inspectable mechanism.</div>
+      </div>
+    </div></div><span class="chapter-transition" aria-hidden="true"></span>
+  </section>
+
+  <section class="truth-chapter closing-chapter" id="trust" data-chapter="6">
+    <div class="chapter-inner"><div class="chapter-copy reveal">
+      <div class="chapter-no" style="justify-content:center">The line remains visible</div>
+      <h2 class="chapter-title">Trust begins where<br>the performance <em>ends.</em></h2>
+      <p class="chapter-lede">Every missing measurement is a roadmap, not a shame. When the evidence arrives, the stronger claim becomes honest—and this page gets shorter.</p>
+      <div class="final-link"><a class="btn primary" href="index.html">Return to the beginning</a></div>
+      <p class="final-line">A system you can trust tells you where it stops.</p>
+    </div></div>
+  </section>
+</main>
+
+<footer><span>GENESIS · THE HONEST PAGE</span><span><a href="https://bodycount82.github.io/genesis-ai/" target="_blank" rel="noopener">current live site &amp; downloads ↗</a></span></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="assets/common.js"></script>
+<script>
+(function(){
+  "use strict";
+  var chapters=Array.prototype.slice.call(document.querySelectorAll("[data-chapter]")),railLinks=Array.prototype.slice.call(document.querySelectorAll("[data-rail]"));
+  var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(!entry.isIntersecting)return;railLinks.forEach(function(link){link.classList.toggle("active",link.dataset.rail===entry.target.id);});});},{rootMargin:"-42% 0px -42% 0px",threshold:0});chapters.forEach(function(chapter){observer.observe(chapter);});
+
+  var evidenceCopy=[
+    "<strong>Traceability exists.</strong> Gate, recall, consolidation, decay, and continuity each map to an inspectable mechanism.",
+    "<strong>Comparison is still owed.</strong> Run the same retrieval and retention tasks against Mem0, Zep, Letta, and Genesis—then publish the numbers.",
+    "<strong>Causality is still owed.</strong> Disable consolidation, hold everything else constant, and measure whether downstream answers become worse.",
+    "<strong>Decay is still owed.</strong> Track weak and reinforced traces through time and show that the observed curve matches the intended one.",
+    "<strong>Biological fidelity is still owed.</strong> Define a measurable target before using proximity to human memory as a claim."
+  ];
+  document.querySelectorAll("[data-evidence]").forEach(function(button){button.addEventListener("click",function(){var index=Number(button.dataset.evidence);document.querySelectorAll("[data-evidence]").forEach(function(row){row.classList.toggle("active",row===button);});document.getElementById("evidenceReadout").innerHTML=evidenceCopy[index];if(window.honestyWitness)window.honestyWitness.inspect(index);});});
+
+  if(!window.THREE){document.getElementById("honestyScene").style.display="none";document.getElementById("webglFallback").style.display="block";return;}
+  var reduceMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches,renderer;
+  try{renderer=new THREE.WebGLRenderer({canvas:document.getElementById("honestyScene"),antialias:true,alpha:false,powerPreference:"high-performance"});}catch(error){document.getElementById("honestyScene").style.display="none";document.getElementById("webglFallback").style.display="block";return;}
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));renderer.setSize(window.innerWidth,window.innerHeight);renderer.setClearColor(0x020304,1);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;
+  var scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x020304,.052);var camera=new THREE.PerspectiveCamera(43,window.innerWidth/window.innerHeight,.05,70);
+  scene.add(new THREE.AmbientLight(0x77746c,.58));var keyLight=new THREE.PointLight(0xffd98b,13,14,2);keyLight.position.set(3.2,3.5,4);scene.add(keyLight);var glassLight=new THREE.PointLight(0x9fe5dc,7,11,2);glassLight.position.set(-3,-1.5,3);scene.add(glassLight);var limitLight=new THREE.PointLight(0xd86858,0,9,2);limitLight.position.set(2,-2,3);scene.add(limitLight);
+
+  function seeded(seed){var x=Math.sin(seed*918.71)*43758.5453;return x-Math.floor(x);}function mix(a,b,t){return a+(b-a)*t;}function smooth(t){return t*t*(3-2*t);}
+  var world=new THREE.Group();scene.add(world);var witness=new THREE.Group();world.add(witness);
+  var porcelain=new THREE.MeshPhysicalMaterial({color:0xe9e0cf,emissive:0x5f5139,emissiveIntensity:.2,metalness:.04,roughness:.25,clearcoat:1,clearcoatRoughness:.18,transparent:true,opacity:.96});
+  var porcelainSoft=porcelain.clone(),glassMat=new THREE.MeshPhysicalMaterial({color:0x9ddbd5,emissive:0x315f5c,emissiveIntensity:.45,metalness:.08,roughness:.12,transparent:true,opacity:.18,depthWrite:false,side:THREE.DoubleSide});
+  var goldMat=new THREE.MeshStandardMaterial({color:0xdab35f,emissive:0x765116,emissiveIntensity:1.1,metalness:.78,roughness:.2,transparent:true,opacity:.85});
+  var figure=new THREE.Group();witness.add(figure);var porcelainMeshes=[];
+  function bodyMesh(geometry,material,x,y,z,sx,sy,sz){var mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);mesh.scale.set(sx,sy,sz);figure.add(mesh);porcelainMeshes.push(mesh);return mesh;}
+  var head=bodyMesh(new THREE.SphereGeometry(.34,32,32),porcelain,0,1.18,0,.82,1.04,.78);var neck=bodyMesh(new THREE.CylinderGeometry(.13,.16,.28,20),porcelainSoft,0,.82,0,1,1,1);var torso=bodyMesh(new THREE.CylinderGeometry(.27,.48,1.08,32,1,false),porcelainSoft,0,.22,0,1,1,.62);var lower=bodyMesh(new THREE.ConeGeometry(.46,.92,32,1,true),porcelainSoft,0,-.72,0,1,1,.68);
+  var shoulderL=bodyMesh(new THREE.SphereGeometry(.19,20,20),porcelainSoft,-.37,.58,0,1.15,.72,.7),shoulderR=bodyMesh(new THREE.SphereGeometry(.19,20,20),porcelainSoft,.37,.58,0,1.15,.72,.7);
+  var armGeo=new THREE.CylinderGeometry(.075,.105,.78,16);var armL=bodyMesh(armGeo,porcelainSoft,-.49,.2,0,1,1,1),armR=bodyMesh(armGeo,porcelainSoft,.49,.2,0,1,1,1);armL.rotation.z=-.18;armR.rotation.z=.18;
+  var faceShell=new THREE.Mesh(new THREE.SphereGeometry(.346,32,32,0,Math.PI*2,.13,Math.PI*.6),glassMat);faceShell.position.copy(head.position);faceShell.scale.copy(head.scale);figure.add(faceShell);
+  var eyeMat=new THREE.MeshBasicMaterial({color:0xffe7a8,transparent:true,opacity:.72,blending:THREE.AdditiveBlending,depthWrite:false});[-.115,.115].forEach(function(x){var eye=new THREE.Mesh(new THREE.SphereGeometry(.018,12,12),eyeMat);eye.position.set(x,1.22,.265);figure.add(eye);});
+  var heart=new THREE.Mesh(new THREE.OctahedronGeometry(.105,1),goldMat);heart.position.set(0,.34,.28);figure.add(heart);var heartHalo=new THREE.Mesh(new THREE.SphereGeometry(.22,24,24),new THREE.MeshBasicMaterial({color:0xe6bd67,transparent:true,opacity:.08,blending:THREE.AdditiveBlending,side:THREE.BackSide,depthWrite:false}));heartHalo.position.copy(heart.position);figure.add(heartHalo);
+  var halo=new THREE.Mesh(new THREE.TorusGeometry(.48,.012,8,96),goldMat.clone());halo.position.set(0,1.72,-.03);halo.rotation.x=1.08;figure.add(halo);
+  var crown=[];for(var ci=0;ci<9;ci++){var crystal=new THREE.Mesh(new THREE.ConeGeometry(.018,.18,5),goldMat.clone());var ca=ci/9*Math.PI*2;crystal.position.set(Math.cos(ca)*.47,1.72+Math.sin(ca)*.18,-.02);crystal.rotation.z=-ca;figure.add(crystal);crown.push(crystal);}
+
+  var featherMaterial=new THREE.MeshPhysicalMaterial({color:0xf0e9dc,emissive:0x524a3c,emissiveIntensity:.18,metalness:.03,roughness:.3,clearcoat:.85,transparent:true,opacity:.68,side:THREE.DoubleSide,depthWrite:false});
+  var featherShape=new THREE.Shape();featherShape.moveTo(0,0);featherShape.bezierCurveTo(.42,.18,.34,.72,0,1);featherShape.bezierCurveTo(-.34,.72,-.42,.18,0,0);var featherGeometry=new THREE.ExtrudeGeometry(featherShape,{depth:.035,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.018,bevelThickness:.012});featherGeometry.center();
+  var leftWing=new THREE.Group(),rightWing=new THREE.Group();witness.add(leftWing,rightWing);var feathers=[],wingRibs=[];
+  function buildWing(group,side){for(var row=0;row<4;row++)for(var fi=0;fi<8-row;fi++){var length=.48+row*.12+(fi%3)*.035,feather=new THREE.Mesh(featherGeometry,featherMaterial);var spread=fi/(7-row);feather.position.set(side*(.38+spread*(1.25-row*.13)),.62-spread*(.32+row*.12)-row*.12,-.08-row*.035);feather.scale.set(.52+row*.05,length,.72);feather.rotation.z=side*(-.78-spread*.34);feather.rotation.x=.08*row;group.add(feather);feathers.push(feather);}var pts=[];for(var pi=0;pi<24;pi++){var p=pi/23;pts.push(new THREE.Vector3(side*(.34+p*1.55),.68-p*.72,-.12));}var rib=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),38,.018,6,false),goldMat.clone());group.add(rib);wingRibs.push(rib);}
+  buildWing(leftWing,-1);buildWing(rightWing,1);
+
+  var wireMaterial=new THREE.LineBasicMaterial({color:0x9fe5dc,transparent:true,opacity:.08,blending:THREE.AdditiveBlending,depthWrite:false}),wireGroup=new THREE.Group();witness.add(wireGroup);
+  [new THREE.SphereGeometry(.36,12,8),new THREE.CylinderGeometry(.28,.49,1.12,12,3,false),new THREE.ConeGeometry(.47,.94,12,3,true)].forEach(function(geo,index){var wire=new THREE.LineSegments(new THREE.EdgesGeometry(geo),wireMaterial);wire.position.y=[1.18,.22,-.72][index];wire.scale.z=.7;wireGroup.add(wire);});
+  var orbitMat=new THREE.LineBasicMaterial({color:0xdab35f,transparent:true,opacity:.2,blending:THREE.AdditiveBlending});var orbits=[];for(var oi=0;oi<3;oi++){var orbit=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.TorusGeometry(.64+oi*.23,.005,4,80)),orbitMat.clone());orbit.rotation.set(.55+oi*.42,.2+oi*.55,oi*.3);orbit.position.y=.28;witness.add(orbit);orbits.push(orbit);}
+
+  var traceGroup=new THREE.Group();witness.add(traceGroup);var traces=[];for(var ti=0;ti<34;ti++){var trace=new THREE.Mesh(new THREE.SphereGeometry(.012+(ti%4)*.004,8,8),new THREE.MeshBasicMaterial({color:ti%5===0?0x9fe5dc:0xe4bd69,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false}));trace.userData={radius:.42+(ti%7)*.14,phase:seeded(ti*17)*Math.PI*2,speed:.18+seeded(ti*31)*.28};traceGroup.add(trace);traces.push(trace);}
+
+  var measureGroup=new THREE.Group();witness.add(measureGroup);var measureMat=new THREE.MeshStandardMaterial({color:0xb69858,emissive:0x5e4314,emissiveIntensity:.65,metalness:.82,roughness:.22,transparent:true,opacity:0});var post=new THREE.Mesh(new THREE.CylinderGeometry(.018,.025,1.05,10),measureMat);post.position.y=-.35;measureGroup.add(post);var beam=new THREE.Mesh(new THREE.BoxGeometry(1.55,.025,.035),measureMat.clone());beam.position.y=.16;measureGroup.add(beam);var scalePans=[];[-.63,.63].forEach(function(x){var pan=new THREE.Mesh(new THREE.CylinderGeometry(.25,.18,.035,24),measureMat.clone());pan.position.set(x,-.12,0);measureGroup.add(pan);scalePans.push(pan);var threadGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x,.16,0),new THREE.Vector3(x,-.1,0)]);measureGroup.add(new THREE.Line(threadGeo,new THREE.LineBasicMaterial({color:0xb69858,transparent:true,opacity:0})));});
+  var evidenceGlyphs=[];for(var eg=0;eg<5;eg++){var gm=new THREE.MeshStandardMaterial({color:eg===0?0x83c99b:0xd86f61,emissive:eg===0?0x34714a:0x681c15,emissiveIntensity:1.2,metalness:.62,roughness:.25,transparent:true,opacity:0}),glyph=new THREE.Mesh(new THREE.OctahedronGeometry(.07,0),gm),ga=eg/5*Math.PI*2;glyph.position.set(Math.cos(ga)*.64,.34+Math.sin(ga)*.64,.38);glyph.userData.index=eg;measureGroup.add(glyph);evidenceGlyphs.push(glyph);}
+
+  var dustGeo=new THREE.BufferGeometry(),dustPos=[];for(var d=0;d<760;d++)dustPos.push((seeded(d*71)-.5)*20,(seeded(d*79)-.5)*13,(seeded(d*83)-.5)*24-5);dustGeo.setAttribute("position",new THREE.Float32BufferAttribute(dustPos,3));var dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xe6d7b3,size:.013,transparent:true,opacity:.3,depthWrite:false}));scene.add(dust);
+
+  var configs=[
+    {cam:5.95,look:.4,pos:[2.2,-.08,0],scale:.82,wing:1,expose:.06,trace:.18,measure:0,limit:0,bright:1,presence:1},
+    {cam:5.45,look:-.4,pos:[-1.92,-.05,0],scale:.88,wing:.78,expose:.24,trace:.42,measure:0,limit:0,bright:.9,presence:1},
+    {cam:5.65,look:.4,pos:[2.25,-.08,0],scale:.74,wing:.48,expose:.5,trace:.2,measure:0,limit:1,bright:.6,presence:1},
+    {cam:5.35,look:-.4,pos:[-1.92,-.06,0],scale:.86,wing:.62,expose:.66,trace:1,measure:0,limit:.15,bright:.82,presence:1},
+    {cam:5.4,look:.4,pos:[1.98,-.08,0],scale:.84,wing:.34,expose:.82,trace:.62,measure:.16,limit:0,bright:.72,presence:1},
+    {cam:5.3,look:-.4,pos:[-2.15,-.06,0],scale:.8,wing:.12,expose:1,trace:.3,measure:1,limit:.24,bright:.64,presence:1},
+    {cam:6.2,look:0,pos:[0,-.48,-.8],scale:.68,wing:1,expose:.08,trace:.7,measure:0,limit:0,bright:1.25,presence:.18}
+  ];
+  function stage(){var y=window.scrollY+window.innerHeight*.5,centers=chapters.map(function(el){return el.offsetTop+el.offsetHeight*.5;});if(y<=centers[0])return{i:0,t:0};for(var i=0;i<centers.length-1;i++)if(y<centers[i+1])return{i:i,t:smooth((y-centers[i])/(centers[i+1]-centers[i]))};return{i:centers.length-2,t:1};}
+  var pointer={x:0,y:0},pointerSmooth={x:0,y:0},activeEvidence=0,targetEvidence=0;window.addEventListener("pointermove",function(event){pointer.x=event.clientX/window.innerWidth*2-1;pointer.y=event.clientY/window.innerHeight*2-1;},{passive:true});window.honestyWitness={inspect:function(index){targetEvidence=index;}};
+  var clock=new THREE.Clock();
+  function animate(){requestAnimationFrame(animate);var time=reduceMotion?0:clock.getElapsedTime(),st=stage(),A=configs[st.i],B=configs[st.i+1],t=st.t;pointerSmooth.x+=(pointer.x-pointerSmooth.x)*.035;pointerSmooth.y+=(pointer.y-pointerSmooth.y)*.035;activeEvidence+=(targetEvidence-activeEvidence)*.08;
+    camera.position.set(pointerSmooth.x*.07,-pointerSmooth.y*.055,mix(A.cam,B.cam,t));camera.lookAt(mix(A.look,B.look,t)+pointerSmooth.x*.035,-pointerSmooth.y*.025,0);
+    var wx=mix(A.pos[0],B.pos[0],t),ws=mix(A.scale,B.scale,t),compact=window.innerWidth<700;if(compact){wx+=wx>=0?1.05:-1.05;ws*=.68;}witness.position.set(wx,mix(A.pos[1],B.pos[1],t),mix(A.pos[2],B.pos[2],t));witness.scale.setScalar(ws);
+    var wing=mix(A.wing,B.wing,t),expose=mix(A.expose,B.expose,t),traceAmount=mix(A.trace,B.trace,t),measure=mix(A.measure,B.measure,t),limit=mix(A.limit,B.limit,t),bright=mix(A.bright,B.bright,t),presence=mix(A.presence,B.presence,t);
+    leftWing.rotation.y=(1-wing)*1.28+Math.sin(time*.7)*.025*wing;rightWing.rotation.y=-(1-wing)*1.28-Math.sin(time*.7)*.025*wing;leftWing.rotation.z=Math.sin(time*.55)*.012*wing;rightWing.rotation.z=-leftWing.rotation.z;featherMaterial.opacity=(.28+wing*.48)*(1-expose*.18)*presence;wingRibs.forEach(function(rib){rib.material.opacity=.85*presence;});
+    porcelainMeshes.forEach(function(mesh,index){mesh.material.opacity=(.96-expose*.28)*presence;mesh.material.emissiveIntensity=.15+bright*.12;mesh.rotation.y=Math.sin(time*.35+index)*.004;});faceShell.material.opacity=(.13+expose*.22)*presence;wireMaterial.opacity=(.06+expose*.46)*presence;eyeMat.opacity=.72*presence;
+    heart.rotation.x=time*.28;heart.rotation.y=time*.42;heart.scale.setScalar(1+Math.sin(time*2.15)*.08);heart.material.emissiveIntensity=.8+bright*1.1+expose*.55;heart.material.opacity=.85*presence;heartHalo.scale.setScalar(1.1+Math.sin(time*1.7)*.1);heartHalo.material.opacity=(.055+bright*.055)*presence;
+    halo.rotation.z=time*.06;halo.material.opacity=(.36+wing*.48)*presence;crown.forEach(function(crystal,index){crystal.material.opacity=(.22+wing*.68)*(1-expose*.45)*presence;crystal.scale.y=.72+wing*.28+Math.sin(time*1.2+index)*.035;});
+    orbits.forEach(function(orbit,index){orbit.rotation.x+=reduceMotion?0:.00035*(index+1);orbit.rotation.y+=reduceMotion?0:(index%2?-.0007:.00055);orbit.material.opacity=(.08+traceAmount*.17)*(1-measure*.35)*presence;});
+    traces.forEach(function(trace,index){var data=trace.userData,a=time*data.speed+data.phase,fold=1-traceAmount*.28;trace.position.set(Math.cos(a)*data.radius*fold,.3+Math.sin(a*(index%3===0?.65:1))*data.radius*.72,Math.sin(a)*data.radius*.45);trace.material.opacity=traceAmount*(.28+.46*(.5+.5*Math.sin(time+index)))*presence;});
+    measureGroup.visible=measure>.01;measureGroup.children.forEach(function(obj){if(obj.material)obj.material.opacity=(obj.userData.index===undefined?.72:.88)*measure*presence;});beam.rotation.z=Math.sin(time*.65)*.025*measure+(activeEvidence-2)*.012;scalePans[0].position.y=-.12+beam.rotation.z*.63;scalePans[1].position.y=-.12-beam.rotation.z*.63;evidenceGlyphs.forEach(function(glyph,index){var focus=Math.max(0,1-Math.abs(index-activeEvidence));glyph.scale.setScalar(1+focus*.7+Math.sin(time*2.2+index)*.06*measure);glyph.material.emissiveIntensity=1+focus*2.2;});
+    limitLight.intensity=5.5*limit;keyLight.intensity=8+bright*5-limit*3;glassLight.intensity=5+expose*4;scene.fog.color.setRGB(.008+limit*.025,.011,.014);dust.rotation.y=time*.0015;dust.position.z=(window.scrollY*.00055)%3;witness.rotation.y=pointerSmooth.x*.035;witness.rotation.x=-pointerSmooth.y*.018;
+    renderer.render(scene,camera);
+  }
+  animate();window.addEventListener("resize",function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));renderer.setSize(window.innerWidth,window.innerHeight);},{passive:true});
+})();
+</script>
+</body>
+</html>
