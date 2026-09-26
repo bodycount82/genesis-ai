@@ -8,6 +8,8 @@
 //   node render.mjs                     # 1920x1080 → out/genesis-ai-trailer-1080p.mp4
 //   node render.mjs --vertical          # 1080x1920 → out/genesis-ai-trailer-vertical.mp4
 //   node render.mjs --still 3,8.5,20    # PNG stills → out/stills/
+//   node render.mjs --cut extended      # ~98 s cut with long reading holds → out/genesis-ai-trailer-extended-1080p.mp4
+//                                       # (add --vertical for the Shorts version)
 //   options: --workers 3  --from 10 --to 20  --silent  --crf 18
 //
 // ffmpeg is taken from $FFMPEG, else from PATH.
@@ -26,8 +28,9 @@ const flag = (name) => args.includes("--" + name);
 const opt = (name, dflt) => { const i = args.indexOf("--" + name); return i >= 0 ? args[i + 1] : dflt; };
 
 const vertical = flag("vertical");
+const cut = opt("cut", "teaser");
+const extended = cut === "extended";
 const FPS = 30;
-const DURATION = 45;
 const crf = opt("crf", "18");
 const workers = Math.max(1, parseInt(opt("workers", "3"), 10));
 const ffmpegBin = process.env.FFMPEG || "ffmpeg";
@@ -37,7 +40,7 @@ fs.mkdirSync(outDir, { recursive: true });
 fs.mkdirSync(tmpDir, { recursive: true });
 
 const W = vertical ? 1080 : 1920, H = vertical ? 1920 : 1080;
-const outFile = path.join(outDir, opt("out", vertical ? "genesis-ai-trailer-vertical.mp4" : "genesis-ai-trailer-1080p.mp4"));
+const outFile = path.join(outDir, opt("out", `genesis-ai-trailer${extended ? "-extended" : ""}-${vertical ? "vertical" : "1080p"}.mp4`));
 
 /* --- tiny static server (textures and fonts need http, not file://) --- */
 const types = { ".html": "text/html", ".js": "text/javascript", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".woff2": "font/woff2", ".css": "text/css" };
@@ -51,7 +54,8 @@ const server = http.createServer((req, res) => {
   });
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
-const pageUrl = `http://127.0.0.1:${server.address().port}/video/trailer.html${vertical ? "?format=vertical" : ""}`;
+const query = [vertical ? "format=vertical" : "", extended ? "cut=extended" : ""].filter(Boolean).join("&");
+const pageUrl = `http://127.0.0.1:${server.address().port}/video/trailer.html${query ? "?" + query : ""}`;
 
 async function openPage() {
   const browser = await chromium.launch({
@@ -83,7 +87,7 @@ if (opt("still")) {
   for (const s of opt("still").split(",")) {
     const t = parseFloat(s);
     const buf = await frameAt(page, t);
-    const f = path.join(dir, `${vertical ? "v" : "h"}-${t.toFixed(2)}.png`);
+    const f = path.join(dir, `${extended ? "x" : ""}${vertical ? "v" : "h"}-${t.toFixed(2)}.png`);
     fs.writeFileSync(f, buf);
     console.log(f);
   }
@@ -93,6 +97,7 @@ if (opt("still")) {
 }
 
 /* --- frames → segments → final mp4 --- */
+const DURATION = await (async () => { const { browser, page } = await openPage(); const d = await page.evaluate(() => window.TRAILER.duration); await browser.close(); return d; })();
 const from = Math.round(parseFloat(opt("from", "0")) * FPS);
 const to = Math.round(parseFloat(opt("to", String(DURATION))) * FPS);
 const total = to - from;
@@ -103,7 +108,7 @@ let done = 0;
 async function renderSegment(k) {
   const a = from + k * per, b = Math.min(to, a + per);
   if (a >= b) return null;
-  const seg = path.join(tmpDir, `${vertical ? "v" : "h"}-seg-${k}.mkv`);
+  const seg = path.join(tmpDir, `${extended ? "x" : ""}${vertical ? "v" : "h"}-seg-${k}.mkv`);
   const ff = spawn(ffmpegBin, ["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(FPS), "-c:v", "png", "-i", "-",
     "-vf", "scale=out_color_matrix=bt709:out_range=tv", "-c:v", "libx264", "-preset", "veryfast", "-crf", "8", "-pix_fmt", "yuv444p",
     "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", seg], { stdio: ["pipe", "inherit", "inherit"] });
@@ -128,12 +133,12 @@ const segs = (await Promise.all(Array.from({ length: workers }, (_, k) => render
 server.close();
 console.log(`\nframes done in ${((Date.now() - t0) / 60000).toFixed(1)} min`);
 
-const list = path.join(tmpDir, "segments.txt");
+const list = path.join(tmpDir, `${extended ? "x" : ""}${vertical ? "v" : "h"}-segments.txt`);
 fs.writeFileSync(list, segs.map((s) => `file '${s.replace(/'/g, "'\\''")}'`).join("\n"));
 
-const music = path.join(here, "out", "genesis-ai-score.wav");
+const music = path.join(here, "out", extended ? "genesis-ai-score-extended.wav" : "genesis-ai-score.wav");
 const withAudio = !flag("silent") && fs.existsSync(music);
-if (!flag("silent") && !withAudio) console.log("no out/genesis-ai-score.wav — run `node music.mjs` first; exporting silent");
+if (!flag("silent") && !withAudio) console.log(`no ${path.relative(here, music)} — run \`node ${extended ? "score-extended.mjs" : "music.mjs"}\` first; exporting silent`);
 
 const enc = ["-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", list];
 if (withAudio) enc.push("-ss", String(from / FPS), "-i", music);

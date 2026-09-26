@@ -108,6 +108,13 @@
   .caption .kicker { justify-content: center; }
   .caption .headline { font-size: 60px; margin-top: 14px; }
 
+  /* ---------- extended cut: calmer, easier-to-read small type ---------- */
+  body.extended .sub { font-size: 30px; font-weight: 400; color: #c2bbad; max-width: 760px; }
+  body.extended .kicker { font-size: 20px; }
+  body.extended .platforms { font-size: 20px; color: #bdb6a8; }
+  body.extended .url { font-size: 28px; color: #c2bbad; }
+  body.extended .eyebrow { font-size: 20px; }
+
   /* ---------- vertical (Shorts) layout ---------- */
   body.vertical .beat, body.vertical .beat.right { left: 90px; right: 90px; width: auto; top: 250px; transform: none; text-align: left; }
   body.vertical .beat.right .kicker { justify-content: flex-start; }
@@ -115,6 +122,7 @@
   body.vertical .beat.right .sub { margin-left: 0; }
   body.vertical .headline { font-size: 88px; }
   body.vertical .sub { font-size: 30px; }
+  body.vertical.extended .sub { font-size: 34px; }
   body.vertical .kicker { font-size: 20px; letter-spacing: 0.34em; }
   body.vertical .wordmark { font-size: 118px; }
   body.vertical .tagline { font-size: 50px; line-height: 1.2; padding: 0 80px; }
@@ -207,7 +215,50 @@
   var VERTICAL = params.has("v") || params.get("format") === "vertical";
   if (VERTICAL) document.body.classList.add("vertical");
   var W = VERTICAL ? 1080 : 1920, H = VERTICAL ? 1920 : 1080;
-  var DURATION = 45;
+  // ?cut=extended: the same film, ~98 s, with long holds so every line can be read.
+  var EXTENDED = params.get("cut") === "extended";
+  if (EXTENDED) document.body.classList.add("extended");
+  // [original start, original end, seconds added] — each window starts once a title is fully on screen.
+  var HOLDS = EXTENDED ? [
+    [9.4, 9.9, 2],                                                             // logo + tagline
+    [13.15, 14.2, 7], [16.65, 18.0, 7], [20.45, 21.8, 7], [24.25, 25.6, 7], [28.05, 28.95, 7], // five beats
+    [34.2, 37.3, 7],                                                           // showcase
+    [41.8, 44.1, 9]                                                            // end card + link
+  ] : [];
+  var SECTIONS = [0, 11, 30, 38, 45];                                         // A · B · C · D (original time)
+  var DURATION = 45 + HOLDS.reduce(function (sum, h) { return sum + h[2]; }, 0);
+  // text clock: 1:1 except inside the holds
+  var textKnots = [[0, 0]];
+  (function () {
+    var shift = 0;
+    HOLDS.forEach(function (h) { textKnots.push([h[0] + shift, h[0]]); shift += h[2]; textKnots.push([h[1] + shift, h[1]]); });
+    textKnots.push([45 + shift, 45]);
+  })();
+  function mapKnots(knots, x, from, to) {
+    if (x <= knots[0][from]) return knots[0][to] + (x - knots[0][from]);
+    for (var i = 1; i < knots.length; i++) {
+      var a = knots[i - 1], b = knots[i];
+      if (x <= b[from]) return a[to] + (b[to] - a[to]) * (x - a[from]) / Math.max(1e-9, b[from] - a[from]);
+    }
+    var last = knots[knots.length - 1]; return last[to] + (x - last[from]);
+  }
+  function textWarp(te) { return mapKnots(textKnots, te, 0, 1); }
+  // scene clock: each section slows evenly. The opening keeps its pace until 7.5 s and then eases
+  // down under the logo, so the sunrise still lands exactly where it does in the teaser.
+  var sectionExt = SECTIONS.map(function (o) { return mapKnots(textKnots, o, 1, 0); });
+  function sceneWarp(te) {
+    if (!EXTENDED) return te;
+    if (te < sectionExt[1]) {
+      var e1 = sectionExt[1], k = (11 - 8.5) / (e1 - 9.5);
+      if (te <= 7.5) return te;
+      if (te <= 9.5) { var u = (te - 7.5) / 2; return 7.5 + 2 * (u + (k - 1) * (u * u * u - u * u * u * u / 2)); }
+      return 8.5 + k + k * (te - 9.5);
+    }
+    for (var i = 1; i < SECTIONS.length - 1; i++) {
+      if (te < sectionExt[i + 1]) return SECTIONS[i] + (te - sectionExt[i]) * (SECTIONS[i + 1] - SECTIONS[i]) / (sectionExt[i + 1] - sectionExt[i]);
+    }
+    return 45 + (te - sectionExt[4]);
+  }
 
   /* ---------------- helpers ---------------- */
   function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
@@ -678,39 +729,48 @@
     ["logo", "showcase", "end"].forEach(function (id) { $(id).style.opacity = 0; });
   }
 
-  function renderFrame(t) {
-    var frameIndex = Math.round(t * 30);
+  /* Story time. The teaser runs at original time. The extended cut plays the same story slower:
+     ts (scene: camera, sun, wave, arcs) slows evenly within each section, tt (titles) keeps every
+     fade at its original speed and only lengthens the holds once a line is fully on screen. */
+  function renderFrame(te) {
+    var frameIndex = Math.round(te * 30);
+    var ts = sceneWarp(te), tt = textWarp(te);
+    return renderStory(ts, tt, te, frameIndex);
+  }
+
+  function renderStory(ts, tt, te, frameIndex) {
+    var t = ts;
     hideAllText();
     var fade = 0, cityGain = 1, glowAmt = 0, spread = 0, beaconA = 0, starOp = 1, glareK = 1, canvasFilter = "none";
-    earthMat.uniforms.cloudShift.value = cloudMat.uniforms.cloudShift.value = t * 0.0009;
+    earthMat.uniforms.cloudShift.value = cloudMat.uniforms.cloudShift.value = ts * 0.0009;
 
-    if (t < 10.9) {
+    if (tt < 10.9) {
       /* ---- A: sunrise + logo ---- */
       placeCamera(shotA(t));
       earthGroup.rotation.y = spinA + t * 0.012;
       sunDir.copy(sunA0).lerp(sunA1, easeInOut(ramp(t, 2.5, 10.5))).normalize();
-      fade = 1 - smooth(ramp(t, 0.0, 3.2));
-      starOp = smooth(ramp(t, 0.2, 2.6));
+      fade = 1 - smooth(ramp(tt, 0.0, 3.2));
+      starOp = smooth(ramp(tt, 0.2, 2.6));
       glareK = smooth(ramp(t, 2.0, 6.5));
-      fade = Math.max(fade, smooth(ramp(t, 10.35, 10.9)));
+      fade = Math.max(fade, smooth(ramp(tt, 10.35, 10.9)));
       var L = $("logo"); L.style.opacity = 1;
-      reveal($("logoGlyphWrap"), stagedIn(t, 5.9, 10.5, 1.6, 0.6), 0, 18);
-      $("logoGlyphWrap").style.transform = "scale(" + (1.06 - 0.06 * easeOut(ramp(t, 5.9, 9.0))).toFixed(4) + ")";
-      reveal($("logoWord"), stagedIn(t, 6.5, 10.5, 1.4, 0.6), 0, 10);
-      $("logoWord").style.letterSpacing = (0.14 - 0.12 * easeOut(ramp(t, 6.5, 9.5))).toFixed(4) + "em";
-      $("logoHair").style.opacity = stagedIn(t, 7.3, 10.5, 1.0, 0.6);
-      $("logoHair").style.transform = "scaleX(" + easeOut(ramp(t, 7.3, 8.8)).toFixed(4) + ")";
-      reveal($("logoTag"), stagedIn(t, 7.7, 10.5, 1.2, 0.6), 12, 6);
-      reveal($("logoEyebrow"), stagedIn(t, 8.4, 10.5, 1.0, 0.6), 0, 4);
-    } else if (t < 30.0) {
+      reveal($("logoGlyphWrap"), stagedIn(tt, 5.9, 10.5, 1.6, 0.6), 0, 18);
+      $("logoGlyphWrap").style.transform = "scale(" + (1.06 - 0.06 * easeOut(ramp(tt, 5.9, 9.0))).toFixed(4) + ")";
+      reveal($("logoWord"), stagedIn(tt, 6.5, 10.5, 1.4, 0.6), 0, 10);
+      $("logoWord").style.letterSpacing = (0.14 - 0.12 * easeOut(ramp(tt, 6.5, 9.5))).toFixed(4) + "em";
+      $("logoHair").style.opacity = stagedIn(tt, 7.3, 10.5, 1.0, 0.6);
+      $("logoHair").style.transform = "scaleX(" + easeOut(ramp(tt, 7.3, 8.8)).toFixed(4) + ")";
+      reveal($("logoTag"), stagedIn(tt, 7.7, 10.5, 1.2, 0.6), 12, 6);
+      reveal($("logoEyebrow"), stagedIn(tt, 8.4, 10.5, 1.0, 0.6), 0, 4);
+    } else if (tt < 30.0) {
       /* ---- B: the five feature beats over one continuous orbit ---- */
       var s = shotB(t);
       placeCamera(s);
       earthGroup.rotation.y = spinB + s.spin * D2R;
       sunDir.copy(sunB);
       glareK = 0;
-      fade = 1 - smooth(ramp(t, 10.9, 11.6));
-      fade = Math.max(fade, smooth(ramp(t, 29.55, 30.0)));
+      fade = 1 - smooth(ramp(tt, 10.9, 11.6));
+      fade = Math.max(fade, smooth(ramp(tt, 29.55, 30.0)));
       // memory: the gold wave spreads from the origin
       glowAmt = smooth(ramp(t, 14.9, 15.6)) * (1 - smooth(ramp(t, 25.5, 27.0)));
       spread = 2.9 * easeInOut(ramp(t, 15.0, 22.0));
@@ -729,56 +789,56 @@
         var a0 = BEAT0 + i * BEAT_LEN + (i === 0 ? 0.55 : 0.25), b0 = BEAT0 + (i + 1) * BEAT_LEN - 0.05;
         if (i === beats.length - 1) b0 = 29.5;
         var el = beats[i];
-        var on = stagedIn(t, a0, b0, 0.9, 0.55);
+        var on = stagedIn(tt, a0, b0, 0.9, 0.55);
         if (on <= 0) continue;
         el.style.opacity = 1;
         var kick = el.querySelector(".kicker"), head = el.querySelector(".headline"), sub = el.querySelector(".sub"), rule = el.querySelector(".rule");
-        reveal(kick, stagedIn(t, a0, b0, 0.8, 0.5), 0, 4);
-        kick.style.letterSpacing = (0.62 - 0.2 * easeOut(ramp(t, a0, a0 + 1.6))).toFixed(4) + "em";
-        rule.style.transform = "scaleX(" + easeOut(ramp(t, a0, a0 + 1.2)).toFixed(4) + ")";
-        reveal(head, stagedIn(t, a0 + 0.2, b0, 1.0, 0.5), 16, 10);
-        reveal(sub, stagedIn(t, a0 + 0.6, b0, 1.0, 0.5), 10, 4);
+        reveal(kick, stagedIn(tt, a0, b0, 0.8, 0.5), 0, 4);
+        kick.style.letterSpacing = (0.62 - 0.2 * easeOut(ramp(tt, a0, a0 + 1.6))).toFixed(4) + "em";
+        rule.style.transform = "scaleX(" + easeOut(ramp(tt, a0, a0 + 1.2)).toFixed(4) + ")";
+        reveal(head, stagedIn(tt, a0 + 0.2, b0, 1.0, 0.5), 16, 10);
+        reveal(sub, stagedIn(tt, a0 + 0.6, b0, 1.0, 0.5), 10, 4);
       }
-    } else if (t < 38.0) {
+    } else if (tt < 38.0) {
       /* ---- C: app showcase ---- */
       placeCamera(shotC(t));
       earthGroup.rotation.y = spinB + (22 + (t - 30) * 1.2) * D2R;
       sunDir.copy(sunC);
       glareK = 0;
-      fade = 1 - smooth(ramp(t, 30.0, 30.7));
-      fade = Math.max(fade, smooth(ramp(t, 37.5, 38.0)));
-      canvasFilter = "blur(" + (3 + 3 * smooth(ramp(t, 30, 32))).toFixed(2) + "px) brightness(0.5)";
+      fade = 1 - smooth(ramp(tt, 30.0, 30.7));
+      fade = Math.max(fade, smooth(ramp(tt, 37.5, 38.0)));
+      canvasFilter = "blur(" + (3 + 3 * smooth(ramp(tt, 30, 32))).toFixed(2) + "px) brightness(0.5)";
       var S = $("showcase"); S.style.opacity = 1;
       var u = ramp(t, 30.0, 38.0), e = easeInOut(u);
       var rig = $("rig");
       var ry = VERTICAL ? lerp(8, 2, e) : lerp(-9, -3, e), rx = VERTICAL ? lerp(6, 3, e) : lerp(5, 2, e);
       rig.style.transform = "translateZ(" + lerp(-160, -20, e).toFixed(2) + "px) rotateY(" + ry.toFixed(3) + "deg) rotateX(" + rx.toFixed(3) + "deg)";
-      var inWin = easeOut(ramp(t, 30.2, 31.8)), inP1 = easeOut(ramp(t, 30.8, 32.6)), inP2 = easeOut(ramp(t, 31.2, 33.0));
+      var inWin = easeOut(ramp(tt, 30.2, 31.8)), inP1 = easeOut(ramp(tt, 30.8, 32.6)), inP2 = easeOut(ramp(tt, 31.2, 33.0));
       $("win").style.opacity = inWin; $("win").style.transform = "translate3d(" + lerp(-30, 0, e).toFixed(2) + "px," + ((1 - inWin) * 40).toFixed(2) + "px, 0)";
       $("ph1").style.opacity = inP1; $("ph1").style.transform = "translate3d(" + lerp(40, -30, e).toFixed(2) + "px," + ((1 - inP1) * 60 + lerp(10, -10, e)).toFixed(2) + "px, 120px)";
       $("ph2").style.opacity = inP2 * 0.9; $("ph2").style.transform = "translate3d(" + lerp(60, 0, e).toFixed(2) + "px," + ((1 - inP2) * 60).toFixed(2) + "px, -90px)";
       var g = lerp(-40, 140, e);
       Array.prototype.forEach.call(document.querySelectorAll(".gloss"), function (el) { el.style.transform = "translateX(" + g.toFixed(1) + "%)"; });
       var cap = $("showCaption");
-      reveal(cap.querySelector(".kicker"), stagedIn(t, 32.6, 37.8, 1.0, 0.5), 0, 4);
-      reveal(cap.querySelector(".headline"), stagedIn(t, 33.0, 37.8, 1.2, 0.5), 14, 8);
+      reveal(cap.querySelector(".kicker"), stagedIn(tt, 32.6, 37.8, 1.0, 0.5), 0, 4);
+      reveal(cap.querySelector(".headline"), stagedIn(tt, 33.0, 37.8, 1.2, 0.5), 14, 8);
     } else {
       /* ---- D: end card ---- */
       placeCamera(shotD(t));
       earthGroup.rotation.y = spinD + (t - 38) * 0.012;
       sunDir.copy(sunD0).lerp(sunD1, easeInOut(ramp(t, 38.0, 45.0))).normalize();
-      fade = 1 - smooth(ramp(t, 38.0, 39.4));
-      fade = Math.max(fade, smooth(ramp(t, 44.1, 45.0)));
+      fade = 1 - smooth(ramp(tt, 38.0, 39.4));
+      fade = Math.max(fade, smooth(ramp(tt, 44.1, 45.0)));
       glareK = 0.85;
       var E = $("end"); E.style.opacity = 1;
-      reveal($("endGlyphWrap"), stagedIn(t, 38.5, 46, 1.4, 0.1), 0, 14);
-      reveal($("endWord"), stagedIn(t, 38.9, 46, 1.3, 0.1), 0, 8);
-      $("endWord").style.letterSpacing = (0.1 - 0.08 * easeOut(ramp(t, 38.9, 41.5))).toFixed(4) + "em";
-      $("endHair").style.opacity = stagedIn(t, 39.6, 46, 1.0, 0.1);
-      $("endHair").style.transform = "scaleX(" + easeOut(ramp(t, 39.6, 41.0)).toFixed(4) + ")";
-      reveal($("endCta"), stagedIn(t, 39.9, 46, 1.0, 0.1), 10, 5);
-      reveal($("endPlat"), stagedIn(t, 40.3, 46, 1.0, 0.1), 0, 3);
-      reveal($("endUrl"), stagedIn(t, 40.8, 46, 1.0, 0.1), 8, 3);
+      reveal($("endGlyphWrap"), stagedIn(tt, 38.5, 46, 1.4, 0.1), 0, 14);
+      reveal($("endWord"), stagedIn(tt, 38.9, 46, 1.3, 0.1), 0, 8);
+      $("endWord").style.letterSpacing = (0.1 - 0.08 * easeOut(ramp(tt, 38.9, 41.5))).toFixed(4) + "em";
+      $("endHair").style.opacity = stagedIn(tt, 39.6, 46, 1.0, 0.1);
+      $("endHair").style.transform = "scaleX(" + easeOut(ramp(tt, 39.6, 41.0)).toFixed(4) + ")";
+      reveal($("endCta"), stagedIn(tt, 39.9, 46, 1.0, 0.1), 10, 5);
+      reveal($("endPlat"), stagedIn(tt, 40.3, 46, 1.0, 0.1), 0, 3);
+      reveal($("endUrl"), stagedIn(tt, 40.8, 46, 1.0, 0.1), 8, 3);
     }
 
     earthMat.uniforms.genesisGlow.value = glowAmt;
@@ -786,7 +846,7 @@
     earthMat.uniforms.cityGain.value = cityGain;
     beaconCore.material.opacity = beaconA;
     beaconGlow.material.opacity = beaconA * 0.6;
-    var ringP = ((t * 0.5) % 1);
+    var ringP = ((te * 0.5) % 1);
     beaconRing.material.opacity = beaconA * 0.7 * (1 - ringP);
     beaconRing.scale.setScalar(0.5 + ringP * 1.3);
     arcGroup.visible = t >= 18.5 && t < 30;
@@ -806,7 +866,7 @@
   }
   window.addEventListener("resize", fit); fit();
 
-  window.TRAILER = { duration: DURATION, width: W, height: H, fps: 30 };
+  window.TRAILER = { duration: DURATION, width: W, height: H, fps: 30, cut: EXTENDED ? "extended" : "teaser" };
   window.renderFrame = renderFrame;
   window.trailerReady = Promise.all([texturesReady, glyphReady, shotImages, document.fonts.ready,
     document.fonts.load("500 40px Cormorant"), document.fonts.load("italic 500 40px Cormorant"),
