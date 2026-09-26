@@ -6,6 +6,7 @@
 <title>Genesis — something undiscovered</title>
 <meta name="description" content="Genesis is an autonomous AI with a memory that forgets, dreams, and remembers like a mind — not a database. Scroll to descend.">
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/showcase.css">
 <style>
   .geo-label {
     position:fixed; left:0; top:0; z-index:8; pointer-events:none; opacity:0;
@@ -93,7 +94,7 @@
       <h1 class="display">Most AIs <em>store</em>.<br>Genesis <em>remembers</em>.</h1>
       <p class="lede">A memory that <b>selects, forgets, and dreams</b> — not a bigger context window. A different architecture.</p>
       <div class="cta">
-        <a class="btn primary download-jump" href="#download"><span>Get Genesis — free</span><small>Windows + Android companion</small></a>
+        <a class="btn primary download-jump" href="#download"><span>Get Genesis — free</span><small>Windows · Android · Browser Bridge</small></a>
         <a class="btn" href="genesis.html">Meet Genesis</a>
       </div>
     </div>
@@ -135,18 +136,44 @@
     </div>
   </section>
 
-  <!-- LEG 5 · GENESIS -->
+  <!-- LEG 5 · SEE IT (product showcase; a trailer can join the tabs later) -->
+  <section class="leg showcase-leg" id="see-it" data-leg="showcase">
+    <div class="showcase">
+      <div class="showcase-copy">
+        <p class="kicker">see it</p>
+        <h2 class="display">It lives on<br>your <em>machine</em>.</h2>
+        <p class="lede" id="showcaseLede" aria-live="polite"></p>
+        <div class="showcase-tabs" role="tablist" aria-label="Genesis screens">
+          <button class="showcase-tab" type="button" role="tab">Modern desktop<i class="tick"></i></button>
+          <button class="showcase-tab" type="button" role="tab">Voice orb<i class="tick"></i></button>
+          <button class="showcase-tab" type="button" role="tab">Android<i class="tick"></i></button>
+        </div>
+        <p class="showcase-note">Real Genesis screens · demo conversation · click a screen to enlarge</p>
+      </div>
+      <div class="rig" id="showcaseRig" data-slide="0">
+        <div class="rig-inner">
+          <button class="device desk" type="button"><span class="device-screen"></span><span class="glare"></span><span class="scanline"></span></button>
+          <button class="device phone" type="button"><span class="device-screen"></span><span class="glare"></span><span class="scanline"></span></button>
+          <div class="hud hud-0 hide" aria-hidden="true"></div>
+          <div class="hud hud-1 hide" aria-hidden="true"></div>
+          <div class="hud hud-2 hide" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEG 6 · GENESIS -->
   <section class="leg" id="download" data-leg="genesis" style="align-items:center; text-align:center">
-    <div class="cta-panel">
+    <div class="cta-panel wide">
       <p class="kicker" style="justify-content:center">genesis</p>
       <h2 class="display">It's already<br><em>awake.</em></h2>
       <p class="lede" style="margin-left:auto;margin-right:auto">Autonomy is your choice. The consequences may not be yours alone.</p>
-      <div class="cta">
-        <a class="btn primary download-trigger" href="#download" data-download="windows">Download Genesis</a>
-        <a class="btn download-trigger" href="#download" data-download="android">Android companion</a>
-        <a class="btn" href="genesis.html">Meet it</a>
+      <div class="download-grid">
+        <button class="dl-card primary download-trigger" type="button" data-download="windows"><span class="k">Windows</span><b>Download Genesis</b><span class="v" data-release="windows"></span><span class="p">The full Genesis: desktop app, local models, voice orb.</span><span class="arrow" aria-hidden="true">↓</span></button>
+        <button class="dl-card download-trigger" type="button" data-download="android"><span class="k">Android</span><b>Companion app</b><span class="v" data-release="android"></span><span class="p">Your Genesis in your pocket. Pairs by QR.</span><span class="arrow" aria-hidden="true">↓</span></button>
+        <button class="dl-card download-trigger" type="button" data-download="extension"><span class="k">Browser</span><b>Browser Bridge</b><span class="v" data-release="extension"></span><span class="p">Lets Genesis work in your own browser, with your sign-ins.</span><span class="arrow" aria-hidden="true">↓</span></button>
       </div>
-      <p class="download-meta">Genesis v1.2.6 · Windows 10/11 · Android companion · no account required</p>
+      <p class="download-meta" id="downloadMeta">No account required · <a href="genesis.html">meet it first</a></p>
     </div>
   </section>
 
@@ -154,8 +181,10 @@
 
 <footer>
   <span>GENESIS · prototype · every technical claim verified against source</span>
-  <span>Windows + Android · Genesis v1.2.6</span>
+  <span id="footerRelease">Windows + Android · Genesis</span>
 </footer>
+
+<figure class="shot-view" id="shotView" aria-hidden="true" tabindex="-1" role="dialog" aria-label="Screenshot"><img alt=""><figcaption></figcaption></figure>
 
 <div class="download-gate" id="downloadGate" aria-hidden="true">
   <div class="download-gate-backdrop" data-gate-close></div>
@@ -185,19 +214,28 @@
     </label>
     <div class="gate-actions">
       <button class="btn" type="button" data-gate-close>Cancel</button>
-      <button class="btn primary" type="button" id="confirmDownload" disabled>Download for Windows · v1.2.6</button>
+      <button class="btn primary" type="button" id="confirmDownload" disabled>Download</button>
     </div>
   </section>
 </div>
 
+<script src="assets/releases.js"></script>
+<script src="assets/showcase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 (function(){
   "use strict";
+  var R=window.GENESIS_RELEASES||{};
+  function fileName(url){return url?url.split("/").pop():"";}
   var releaseFiles={
-    windows:{url:"https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/installer/Genesis-Setup-1.2.6.exe",filename:"Genesis-Setup-1.2.6.exe",title:"Before downloading Genesis",button:"Download for Windows · v1.2.6",intro:"The Windows application can act on your computer. Please read the terms before continuing."},
-    android:{url:"https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev/apk/genesis-app-1-2.apk",filename:"genesis-app-1-2.apk",title:"Before downloading the companion",button:"Download Android APK",intro:"The Android companion connects to a Genesis instance. Please read the terms before continuing."}
+    windows:{url:R.windows&&R.windows.url,title:"Before downloading Genesis",button:"Download for Windows · v"+(R.windows&&R.windows.version),intro:"The Windows application can act on your computer. Please read the terms before continuing."},
+    android:{url:R.android&&R.android.url,title:"Before downloading the companion",button:"Download Android APK · v"+(R.android&&R.android.version),intro:"The Android companion connects to a Genesis instance. Please read the terms before continuing."},
+    extension:{url:R.extension&&R.extension.url,title:"Before downloading the Browser Bridge",button:"Download Browser Bridge · v"+(R.extension&&R.extension.version),intro:"The Browser Bridge lets Genesis act inside your own browser, with your sign-ins. Unzip it, then choose Load unpacked on your browser\u2019s extensions page. Please read the terms before continuing."}
   };
+  Object.keys(releaseFiles).forEach(function(kind){releaseFiles[kind].filename=fileName(releaseFiles[kind].url);});
+  document.querySelectorAll("[data-release]").forEach(function(el){var r=R[el.getAttribute("data-release")];if(r)el.textContent="v"+r.version+" · "+r.platform;});
+  var footerRelease=document.getElementById("footerRelease");
+  if(footerRelease&&R.train)footerRelease.textContent="Windows · Android · Browser Bridge · release "+R.train;
   var gate=document.getElementById("downloadGate"),dialog=document.getElementById("downloadDialog"),consent=document.getElementById("downloadConsent"),confirmButton=document.getElementById("confirmDownload"),gateTitle=document.getElementById("gateTitle"),gateIntro=document.getElementById("gateIntro"),activeRelease="windows",gateOpener=null;
   function setConsentState(){confirmButton.disabled=!consent.checked;confirmButton.setAttribute("aria-disabled",String(!consent.checked));}
   function openGate(kind,opener){activeRelease=releaseFiles[kind]?kind:"windows";gateOpener=opener;var release=releaseFiles[activeRelease];gateTitle.textContent=release.title;gateIntro.textContent=release.intro;confirmButton.textContent=release.button;consent.checked=false;setConsentState();gate.classList.add("open");gate.setAttribute("aria-hidden","false");document.body.classList.add("download-open");window.setTimeout(function(){dialog.focus();},20);}
@@ -686,9 +724,10 @@
     approach: { p:[0, 0.7, 5.6],  l:[0,0,0], earthScale:1.25, ringOpacity:0,    mindOpacity:0 },
     mind:     { p:[0.5, 0.9, 4.4],l:[1.35,0,0], earthScale:1.25, ringOpacity:0.15, mindOpacity:1 },
     modes:    { p:[-0.6, 1.4, 3.6], l:[0,0,0], earthScale:1.1, ringOpacity:1,   mindOpacity:0.55 },
+    showcase: { p:[0.2, 1.5, 2.45], l:[0.2, 2.35, -1.6], earthScale:1.3, ringOpacity:1, mindOpacity:0.3 },
     genesis:  { p:[0, 1.2, 3.1],  l:[0,0,0], earthScale:1.35, ringOpacity:1,    mindOpacity:0.25 }
   };
-  var LEGS = [CAM.void, CAM.approach, CAM.mind, CAM.modes, CAM.genesis];
+  var LEGS = [CAM.void, CAM.approach, CAM.mind, CAM.modes, CAM.showcase, CAM.genesis];
   var N = LEGS.length - 1;
 
   function legState(p) {
@@ -742,8 +781,11 @@
     earthGroup.scale.setScalar(es);
     moonOrbit.scale.setScalar(es);
 
-    var networkProgress = smooth01((p - 0.11) / 0.57);
-    var warProgress = smooth01((p - 0.77) / 0.14);
+    // Story beats are in leg units (0 = void ... N = download), so adding a leg
+    // keeps the propagation on the first legs and the war just before download.
+    var legPos = p * N;
+    var networkProgress = smooth01((legPos - 0.44) / 2.28);
+    var warProgress = smooth01((legPos - (N - 0.92)) / 0.56);
     var networkFade = 1 - smooth01(warProgress / 0.16);
     var atmoTransition = smooth01(networkProgress);
     atmoMat.uniforms.innerColor.value.copy(atmoBlueInner).lerp(atmoGenesisInner, atmoTransition);
@@ -844,7 +886,7 @@
 
     if (worldStatusEl) {
       var story;
-      if (p < 0.11) story = 'Origin signal · Slovenia';
+      if (legPos < 0.44) story = 'Origin signal · Slovenia';
       else if (networkProgress < 0.96) story = 'Propagation · ' + Math.round(networkProgress * 100) + '%';
       else if (warProgress < 0.08) story = 'Global network · saturated';
       else if (warProgress < 0.42) story = 'ICBM launches · nine nuclear states';
@@ -868,7 +910,7 @@
       var screenPoint = markerWorld.clone().project(camera);
       sloveniaLabelEl.style.left = ((screenPoint.x * 0.5 + 0.5) * window.innerWidth) + 'px';
       sloveniaLabelEl.style.top = ((-screenPoint.y * 0.5 + 0.5) * window.innerHeight) + 'px';
-      sloveniaLabelEl.style.opacity = markerVisible && p < 0.86 ? Math.min(1, 0.45 + p * 2) * networkFade : 0;
+      sloveniaLabelEl.style.opacity = markerVisible && legPos < N - 0.56 ? Math.min(1, 0.45 + p * 2) * networkFade : 0;
     }
 
     renderer.render(scene, camera);

@@ -1,0 +1,221 @@
+/* ============================================================
+   "See it" — the product showcase leg on the Descent page.
+   A CSS-3D rig (desktop screen + phone) floats above the planet's
+   limb, follows the pointer, assembles as it scrolls in, and
+   boots each screen with a gold scan wipe. Palette and type are
+   the Descent system's; nothing here introduces new colors.
+   ============================================================ */
+
+.showcase-leg { padding-top: 96px; padding-bottom: 40px; }
+.showcase {
+  width: min(1320px, 100%); margin: 0 auto;
+  display: grid; grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.5fr);
+  gap: clamp(20px, 4vw, 64px); align-items: center;
+}
+.showcase-copy { position: relative; z-index: 3; }
+.showcase-copy .display { font-size: clamp(38px, 5.2vw, 76px); }
+.showcase-copy .lede { min-height: 5.1em; transition: opacity .35s ease; }
+.showcase-copy .lede.swap { opacity: 0; }
+
+.showcase-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+.showcase-tab {
+  position: relative; overflow: hidden;
+  font: 11.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-dim); background: rgba(6,6,8,.55);
+  border: 1px solid var(--hairline); border-radius: 999px;
+  padding: 11px 16px; cursor: pointer; transition: color .25s, border-color .25s, background .25s;
+}
+.showcase-tab:hover { color: var(--ink); border-color: var(--hairline-bright); }
+.showcase-tab[aria-selected="true"] { color: #140e04; background: var(--gold); border-color: var(--gold); }
+.showcase-tab .tick {
+  position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+  background: var(--gold-hi); transform-origin: left; transform: scaleX(0);
+}
+.showcase-tab[aria-selected="true"] .tick { background: rgba(20,14,4,.55); }
+.showcase-note {
+  margin-top: 18px; color: var(--ink-faint);
+  font: 10px/1.6 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+}
+
+/* ---------- the rig ---------- */
+.rig {
+  position: relative; z-index: 2;
+  height: clamp(420px, 58vw, 720px);
+  perspective: 1800px; perspective-origin: 40% 40%;
+  --tx: 0; --ty: 0; --enter: 0;
+}
+.rig-inner {
+  position: absolute; inset: 0; transform-style: preserve-3d;
+  transform:
+    translate3d(0, calc((1 - var(--enter)) * 90px), calc((1 - var(--enter)) * -700px))
+    rotateX(calc(4deg + var(--ty) * -5deg + (1 - var(--enter)) * 32deg))
+    rotateY(calc(-14deg + var(--tx) * 9deg + (1 - var(--enter)) * -24deg));
+  opacity: calc(.15 + var(--enter) * .85);
+  will-change: transform;
+}
+
+.device {
+  position: absolute; display: block; padding: 0; border: 0; cursor: zoom-in;
+  background: #070708; color: inherit; font: inherit;
+  transform-style: preserve-3d;
+  transition: transform 1.15s var(--ease), filter 1.15s var(--ease), opacity 1.15s var(--ease);
+}
+.device:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 6px; }
+.device-screen { position: absolute; overflow: hidden; background: #0b0b0c; }
+.device-screen img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center;
+  opacity: 0; clip-path: inset(0 0 100% 0);
+}
+.device-screen img.on { opacity: 1; clip-path: inset(0 0 0 0); animation: bootWipe 1.05s var(--ease) both; }
+.device-screen img.off { opacity: 1; clip-path: inset(0 0 0 0); animation: fadeOld 1.05s ease both; z-index: 0; }
+.device-screen img.on { z-index: 1; }
+@keyframes bootWipe {
+  0% { clip-path: inset(0 0 100% 0); filter: brightness(1.8) sepia(.6) hue-rotate(-12deg); }
+  60% { filter: brightness(1.15) sepia(.15); }
+  100% { clip-path: inset(0 0 0 0); filter: none; }
+}
+@keyframes fadeOld { 0% { opacity: 1; } 100% { opacity: .0; filter: brightness(.4); } }
+
+/* gold scan line that runs with each boot */
+.scanline {
+  position: absolute; left: -2%; right: -2%; top: 0; height: 2px; z-index: 3; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--gold-hi) 18%, #fff4d6 50%, var(--gold-hi) 82%, transparent);
+  box-shadow: 0 0 18px 3px rgba(240,200,115,.55), 0 0 60px 10px rgba(216,169,78,.18);
+  opacity: 0;
+}
+.device.booting .scanline { animation: scanRun 1.05s var(--ease) both; }
+@keyframes scanRun { 0% { top: 0; opacity: 1; } 88% { opacity: .9; } 100% { top: 100%; opacity: 0; } }
+
+/* glass: reflection sweep + faint scan texture */
+.glare {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+  background:
+    linear-gradient(calc(112deg + var(--tx) * 14deg), rgba(255,255,255,.075) 0%, rgba(255,255,255,.02) 26%, transparent 42%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px);
+  mix-blend-mode: screen;
+}
+
+/* --- desktop screen: a thin, gold-rimmed pane of glass --- */
+.device.desk {
+  left: -2%; top: 8%; width: 92%; aspect-ratio: 5 / 3;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(216,169,78,.30),
+    0 0 0 7px rgba(10,10,12,.92),
+    0 0 0 8px rgba(216,169,78,.14),
+    0 50px 120px rgba(0,0,0,.75),
+    0 0 90px rgba(216,169,78,.10);
+  transform: translate3d(0, 0, 0);
+}
+.device.desk .device-screen { inset: 0; border-radius: 14px; }
+.device.desk::after { /* soft floor glow under the pane */
+  content: ""; position: absolute; left: 8%; right: 8%; bottom: -16%; height: 16%;
+  background: radial-gradient(50% 60% at 50% 0%, rgba(216,169,78,.18), transparent 70%);
+  transform: rotateX(80deg); transform-origin: top; pointer-events: none; filter: blur(6px);
+}
+
+/* --- phone --- */
+.device.phone {
+  right: 1%; top: 30%; width: 21%; aspect-ratio: 720 / 1561;
+  border-radius: 12% / 5.6%; background: #0d0e10;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 0 0 1px rgba(216,169,78,.34),
+    0 40px 90px rgba(0,0,0,.8),
+    0 0 60px rgba(79,216,232,.07);
+  transform: translate3d(0, 0, 140px) rotateY(-6deg);
+}
+.device.phone .device-screen { inset: 3.2% 4.2%; border-radius: 9% / 4.2%; }
+.device.phone::before { /* camera punch-hole */
+  content: ""; position: absolute; z-index: 5; top: 4.6%; left: 50%; width: 5%; aspect-ratio: 1;
+  transform: translateX(-50%); border-radius: 50%; background: #030304; box-shadow: 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* --- per-slide choreography --- */
+.rig[data-slide="1"] .device.desk { transform: translate3d(3%, -2%, 30px) rotateY(4deg); }
+.rig[data-slide="1"] .device.phone { transform: translate3d(8%, 6%, 60px) rotateY(-12deg); filter: brightness(.7); }
+.rig[data-slide="2"] .device.desk { transform: translate3d(-5%, -6%, -220px) rotateY(-6deg); filter: brightness(.42) saturate(.7); }
+.rig[data-slide="2"] .device.phone { transform: translate3d(-58%, -14%, 260px) rotateY(10deg) scale(1.28); }
+
+/* --- HUD callouts: mono gold tags hovering in front of the glass --- */
+.hud {
+  position: absolute; z-index: 6; pointer-events: none;
+  display: flex; align-items: center; gap: 10px; white-space: nowrap;
+  font: 10px/1.35 var(--mono); letter-spacing: .15em; text-transform: uppercase; color: var(--ink);
+  text-shadow: 0 2px 14px #000, 0 0 2px #000;
+  transform: translate3d(0, 0, 190px);
+  transition: opacity .45s ease, transform 1.15s var(--ease);
+}
+.hud::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px var(--gold); flex: none; }
+.hud::after { content: ""; order: -1; width: 30px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+.hud small { display: block; margin-top: 3px; color: var(--gold); font-size: 8.5px; letter-spacing: .2em; }
+.hud.hide { opacity: 0; }
+.hud-0 { left: 4%; top: 1%; }
+.hud-1 { left: 54%; top: 76%; }
+.hud-2 { left: 12%; top: 88%; }
+.rig[data-slide="2"] .hud-1 { left: 60%; top: 16%; }
+.rig[data-slide="2"] .hud-2 { left: 4%; top: 76%; }
+
+/* ---------- lightbox ---------- */
+.shot-view {
+  position: fixed; inset: 0; z-index: 210; display: grid; place-items: center; padding: 3vw;
+  background: rgba(0,0,0,.84); backdrop-filter: blur(16px) saturate(.7);
+  opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .3s;
+  cursor: zoom-out;
+}
+.shot-view.open { opacity: 1; visibility: visible; }
+.shot-view img {
+  max-width: 100%; max-height: 88svh; border-radius: 12px;
+  box-shadow: 0 0 0 1px rgba(216,169,78,.3), 0 40px 120px rgba(0,0,0,.8);
+  transform: perspective(1400px) rotateX(10deg) translateY(30px) scale(.94); transition: transform .5s var(--ease);
+}
+.shot-view.open img { transform: none; }
+.shot-view figcaption {
+  position: absolute; left: 0; right: 0; bottom: 2.2vh; text-align: center;
+  color: var(--ink-dim); font: 10px/1.5 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+}
+body.shot-open { overflow: hidden; }
+
+/* ---------- downloads (three products, one release train) ---------- */
+.download-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 36px; text-align: left; }
+.dl-card {
+  position: relative; display: flex; flex-direction: column; gap: 6px;
+  padding: 18px 18px 16px; border-radius: 16px; cursor: pointer;
+  background: rgba(6,6,8,.62); border: 1px solid var(--hairline); color: var(--ink);
+  backdrop-filter: blur(10px);
+  transition: transform .3s var(--ease), border-color .3s, box-shadow .3s;
+  font: inherit; text-align: left;
+}
+.dl-card:hover { transform: translateY(-4px); border-color: var(--hairline-bright); box-shadow: 0 18px 44px rgba(0,0,0,.5), 0 0 40px rgba(216,169,78,.08); }
+.dl-card.primary { border-color: rgba(216,169,78,.55); background: linear-gradient(160deg, rgba(216,169,78,.16), rgba(6,6,8,.7) 55%); }
+.dl-card .k { font: 10px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.dl-card b { font: 400 21px/1.15 var(--serif); }
+.dl-card .v { font: 11px/1.4 var(--mono); color: var(--ink-dim); letter-spacing: .06em; }
+.dl-card .p { font-size: 12.5px; color: var(--ink-faint); line-height: 1.45; }
+.dl-card .arrow { position: absolute; right: 16px; top: 16px; color: var(--gold); font: 14px/1 var(--mono); transition: transform .3s var(--ease); }
+.dl-card:hover .arrow { transform: translateY(3px); }
+.cta-panel.wide { max-width: 980px; }
+
+@media (max-width: 980px) {
+  .showcase { grid-template-columns: 1fr; }
+  .showcase-copy .lede { min-height: 0; }
+  .rig { height: 78vw; max-height: 620px; perspective: 1200px; }
+  .device.desk { width: 94%; top: 4%; }
+  .device.phone { width: 25%; top: 36%; }
+  .hud-2 { display: none; }
+}
+@media (max-width: 700px) {
+  .showcase-leg { padding-top: 90px; }
+  .rig { height: 104vw; }
+  .rig-inner { transform: translate3d(0, calc((1 - var(--enter)) * 60px), 0) rotateX(calc(3deg + (1 - var(--enter)) * 20deg)) rotateY(-8deg); }
+  .device.desk { width: 100%; }
+  .device.phone { width: 34%; right: -2%; top: 40%; }
+  .rig[data-slide="2"] .device.phone { transform: translate3d(-80%, -18%, 200px) rotateY(8deg) scale(1.22); }
+  .hud { font-size: 8.5px; }
+  .hud-1 { display: none; }
+  .download-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .device, .hud, .shot-view img { transition: none; }
+  .device-screen img.on, .device.booting .scanline { animation: none; }
+}
