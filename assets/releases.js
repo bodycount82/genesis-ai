@@ -14,7 +14,7 @@
   window.GENESIS_RELEASES = {
     train: train,
     windows: {
-      label: "Genesis for Windows",
+      label: "Genesis AI for Windows",
       version: train,
       url: bucket + "/installer/Genesis-Setup-" + train + ".exe",
       platform: "Windows 10/11 · 64-bit"
@@ -23,7 +23,7 @@
       label: "Android companion",
       version: train,
       url: bucket + "/android/Genesis-Android-" + train + ".apk",
-      platform: "Android 10+ · pairs with Genesis " + train
+      platform: "Android 10+ · pairs with Genesis AI " + train
     },
     extension: {
       label: "Browser Bridge",

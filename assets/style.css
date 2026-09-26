@@ -89,7 +89,7 @@ a:hover { color: var(--gold-hi); }
 .brand {
   display: flex; align-items: center; gap: 11px;
   font-weight: 700; letter-spacing: 0.04em; color: var(--ink);
-  font-size: 17px;
+  font-size: 17px; white-space: nowrap; flex-shrink: 0;
 }
 .brand:hover { color: var(--ink); }
 .brand .orb {
