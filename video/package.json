@@ -1,0 +1,15 @@
+{
+  "name": "genesis-ai-trailer",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic headless-Chromium renderer for the Genesis AI trailer",
+  "scripts": {
+    "music": "node music.mjs",
+    "render": "node music.mjs && node render.mjs",
+    "render:vertical": "node music.mjs && node render.mjs --vertical",
+    "stills": "node render.mjs --still 2,5,8.5,13,17,21,25,28.5,34,41,44"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}
