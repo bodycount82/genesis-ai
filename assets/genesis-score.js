@@ -7,6 +7,14 @@
 
   if (!toggle || !player || !status) return;
 
+  // A shell that ended up inside the site frame must stay silent; the top
+  // shell owns the one and only soundtrack (see shell-guard.js).
+  if (window.self !== window.top) {
+    player.pause();
+    player.removeAttribute("src");
+    return;
+  }
+
   player.volume = 0.72;
 
   function showPlaying() {
@@ -50,7 +58,22 @@
     }
   });
 
-  player.addEventListener("play", showPlaying);
+  // One soundtrack per browser: when another Genesis tab starts the song,
+  // this one pauses instead of layering a second copy on top.
+  var channel = null;
+  try {
+    channel = new BroadcastChannel("genesis-soundtrack");
+    channel.onmessage = function (event) {
+      if (event.data === "playing" && !player.paused) player.pause();
+    };
+  } catch (error) {
+    channel = null;
+  }
+
+  player.addEventListener("play", function () {
+    if (channel) channel.postMessage("playing");
+    showPlaying();
+  });
   player.addEventListener("playing", function () {
     clearWaiting();
     showPlaying();

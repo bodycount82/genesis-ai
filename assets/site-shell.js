@@ -15,6 +15,9 @@
   var currentRoute = document.body.getAttribute("data-route") || "index.html";
 
   if (!shell || !frame) return;
+  // Only the top-level page is the shell; a nested copy is handed back to it
+  // by shell-guard.js and must not start its own router.
+  if (window.self !== window.top) return;
 
   function routeFromUrl(value) {
     var url;
@@ -65,6 +68,7 @@
 
     currentRoute = route;
     shell.classList.add("is-loading");
+    watchFrame();
     if (status) status.textContent = "Loading " + route.replace(".html", "");
     if (addHistory) updateHistory(route, hash, false);
     try {
@@ -95,6 +99,34 @@
     navigate(route.name, route.hash, true);
   }
 
+  // Wire link handling into a view document as soon as it exists, not at its
+  // load event: the 3D views take seconds to load, and a link clicked in that
+  // window would otherwise load a whole second shell (and soundtrack) inside
+  // the frame.
+  var wiredDocument = null;
+  var watchUntil = 0;
+
+  function wireView(viewDocument) {
+    if (!viewDocument || viewDocument === wiredDocument) return;
+    if (viewDocument.location.href === "about:blank") return;
+    viewDocument.addEventListener("click", handleViewClick);
+    wiredDocument = viewDocument;
+  }
+
+  function watchFrame() {
+    var alreadyWatching = watchUntil > Date.now();
+    watchUntil = Date.now() + 30000;
+    if (alreadyWatching) return;
+    (function tick() {
+      try {
+        wireView(frame.contentDocument);
+      } catch (error) {
+        return;
+      }
+      if (Date.now() < watchUntil) window.requestAnimationFrame(tick);
+    }());
+  }
+
   function viewReady() {
     var viewDocument;
     try {
@@ -104,8 +136,7 @@
     }
 
     if (!viewDocument) return;
-    viewDocument.removeEventListener("click", handleViewClick);
-    viewDocument.addEventListener("click", handleViewClick);
+    wireView(viewDocument);
 
     if (viewDocument.title) {
       document.title = viewDocument.title;
@@ -118,6 +149,19 @@
 
   frame.addEventListener("load", viewReady);
 
+  // Called by shell-guard.js when a shell page loaded inside the frame anyway.
+  window.genesisShell = {
+    adopt: function (route, hash) {
+      if (!routes[route]) return false;
+      if (route !== currentRoute) updateHistory(route, hash, false);
+      currentRoute = route;
+      shell.classList.add("is-loading");
+      watchFrame();
+      frame.contentWindow.location.replace(routes[route] + (hash || ""));
+      return true;
+    }
+  };
+
   window.addEventListener("popstate", function () {
     var route = routeFromUrl(window.location.href);
     if (!route) route = { name: "index.html", hash: "" };
@@ -128,6 +172,7 @@
   currentRoute = initial.name;
   updateHistory(initial.name, initial.hash, true);
 
+  watchFrame();
   if (frame.contentDocument && frame.contentDocument.readyState === "complete") {
     viewReady();
   }
