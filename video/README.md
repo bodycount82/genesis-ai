@@ -22,7 +22,7 @@ render is identical.
 | --- | --- |
 | 0–6 s | Black → the planet's night side fades in; the camera pushes in and the sun breaks the limb |
 | 6–11 s | The Genesis AI glyph and wordmark resolve over the horizon: *Most AIs store. Genesis remembers.* |
-| 11–30 s | One continuous orbit under five lines (≈3.8 s each): Local & private · Memory (a gold wave spreads from the Slovenia origin) · Missions & Autonomy (arcs to the world) · Browser Bridge · Android |
+| 11–30 s | One continuous orbit under five lines (≈3.8 s each): Local & private · Memory (a gold wave spreads from the Slovenia origin) · Missions · Work · Autonomy (arcs to the world) · Browser Bridge · Android |
 | 30–38 s | Showcase: desktop window and two phones, slow parallax — *It's already awake.* |
 | 38–45 s | End card over a new sunrise: Genesis AI · Free download · Windows · Android · Browser Bridge · https://bodycount82.github.io/genesis-ai/ |
 
