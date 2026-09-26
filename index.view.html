@@ -303,23 +303,99 @@
   var earthTex = texLoader.load(texBase + 'img/earth-blue-marble.jpg');
   earthTex.colorSpace = THREE.SRGBColorSpace;
   earthTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-  var earth = new THREE.Mesh(
-    new THREE.SphereGeometry(1, 96, 96),
-    new THREE.MeshPhongMaterial({ map: earthTex, specular: new THREE.Color(0x111111), shininess: 9 })
-  );
-  earthGroup.add(earth);
-
   var nightTex = texLoader.load(texBase + 'img/earth-night.jpg');
   nightTex.colorSpace = THREE.SRGBColorSpace;
-  var night = new THREE.Mesh(
-    new THREE.SphereGeometry(1.001, 96, 96),
-    new THREE.MeshBasicMaterial({ map: nightTex, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.5 })
-  );
-  earthGroup.add(night);
-
+  nightTex.anisotropy = earthTex.anisotropy;
+  var waterTex = texLoader.load(texBase + 'img/earth-water.png');
   var cloudTex = texLoader.load(texBase + 'clouds/clouds.png');
+  cloudTex.wrapS = THREE.RepeatWrapping;
+
+  // One shader for the planet: a sunlit day side, city lights only where it is night,
+  // ocean glint, cloud shadows, the gold Genesis wave from Slovenia and, at the end, burn scars.
+  var MAX_SCARS = 32;
+  var scarDirs = [], scarStates = [];
+  for (var scarIndex = 0; scarIndex < MAX_SCARS; scarIndex++) { scarDirs.push(new THREE.Vector3(0, 1, 0)); scarStates.push(new THREE.Vector2(0, 0)); }
+  var earthMat = new THREE.ShaderMaterial({
+    uniforms: {
+      dayMap: { value: earthTex }, nightMap: { value: nightTex }, waterMap: { value: waterTex }, cloudMap: { value: cloudTex },
+      sunDir: { value: new THREE.Vector3(6, 1.5, 3).normalize() },
+      rimDir: { value: new THREE.Vector3(-4, -1, -3).normalize() },
+      rimColor: { value: new THREE.Color(0xd8a94e) },
+      cloudShift: { value: 0 },
+      originDir: { value: new THREE.Vector3(0, 1, 0) },
+      spread: { value: 0 }, genesisGlow: { value: 0 }, lightsOut: { value: 0 },
+      scarDir: { value: scarDirs }, scarState: { value: scarStates }
+    },
+    vertexShader: [
+      'varying vec2 vUv; varying vec3 vNormalW; varying vec3 vPosW; varying vec3 vDir;',
+      'void main() {',
+      '  vUv = uv;',
+      '  vDir = normalize(position);',
+      '  vNormalW = normalize(mat3(modelMatrix) * normal);',
+      '  vec4 world = modelMatrix * vec4(position, 1.0);',
+      '  vPosW = world.xyz;',
+      '  gl_Position = projectionMatrix * viewMatrix * world;',
+      '}'
+    ].join('\n'),
+    fragmentShader: [
+      'uniform sampler2D dayMap; uniform sampler2D nightMap; uniform sampler2D waterMap; uniform sampler2D cloudMap;',
+      'uniform vec3 sunDir; uniform vec3 rimDir; uniform vec3 rimColor; uniform float cloudShift;',
+      'uniform vec3 originDir; uniform float spread; uniform float genesisGlow; uniform float lightsOut;',
+      'uniform vec3 scarDir[' + MAX_SCARS + ']; uniform vec2 scarState[' + MAX_SCARS + '];',
+      'varying vec2 vUv; varying vec3 vNormalW; varying vec3 vPosW; varying vec3 vDir;',
+      'void main() {',
+      '  vec3 N = normalize(vNormalW);',
+      '  vec3 V = normalize(cameraPosition - vPosW);',
+      '  vec3 D = normalize(vDir);',
+      '  float ndl = dot(N, sunDir);',
+      '  float lit = max(ndl, 0.0);',
+      '  float dark = 1.0 - smoothstep(-0.16, 0.1, ndl);',
+      '  vec3 albedo = texture2D(dayMap, vUv).rgb;',
+      '  float water = texture2D(waterMap, vUv).r;',
+      '  float cloud = texture2D(cloudMap, vec2(vUv.x - cloudShift, vUv.y)).a;',
+      '  vec3 col = albedo * (0.95 * lit * (1.0 - 0.3 * cloud) + 0.014);',
+      '  col += albedo * rimColor * 0.36 * max(dot(N, rimDir), 0.0);',
+      '  vec3 H = normalize(sunDir + V);',
+      '  float nh = max(dot(N, H), 0.0);',
+      '  float glint = water * lit * (1.0 - 0.85 * cloud);',
+      '  col += vec3(1.0, 0.88, 0.7) * pow(nh, 160.0) * glint * 0.42;',
+      '  col += vec3(0.16, 0.3, 0.46) * pow(nh, 10.0) * glint * 0.08;',
+      '  col += vec3(0.62, 0.24, 0.06) * exp(-pow(ndl / 0.09, 2.0)) * 0.07;',
+      '  vec3 night = texture2D(nightMap, vUv).rgb;',
+      '  float lum = dot(night, vec3(0.3, 0.59, 0.11));',
+      '  float ang = acos(clamp(dot(D, originDir), -1.0, 1.0));',
+      '  float covered = (1.0 - smoothstep(spread - 0.07, spread, ang)) * genesisGlow;',
+      '  float front = exp(-pow((ang - spread) / 0.03, 2.0)) * step(0.02, spread) * (1.0 - smoothstep(3.0, 3.14, spread)) * genesisGlow;',
+      '  float charred = 0.0; float killed = 0.0; vec3 embers = vec3(0.0);',
+      '  for (int i = 0; i < ' + MAX_SCARS + '; i++) {',
+      '    vec2 st = scarState[i];',
+      '    if (st.x <= 0.0) continue;',
+      '    float d = acos(clamp(dot(D, scarDir[i]), -1.0, 1.0));',
+      '    float core = 1.0 - smoothstep(0.0, 0.07, d);',
+      '    charred = max(charred, core * st.x);',
+      '    killed = max(killed, (1.0 - smoothstep(0.0, 0.17, d)) * st.x);',
+      '    float ring = exp(-pow((d - 0.03 - 0.06 * (1.0 - st.y)) / 0.016, 2.0));',
+      '    embers += (vec3(1.0, 0.32, 0.05) * core * 1.4 + vec3(1.0, 0.52, 0.12) * ring * 0.7) * st.y * st.x;',
+      '  }',
+      '  float cityPower = (1.0 - killed) * (1.0 - lightsOut * 0.88);',
+      '  vec3 cities = night * 1.4 * dark;',
+      '  vec3 genesisCities = vec3(1.0, 0.7, 0.26) * lum * 2.6 * (0.22 + 0.78 * dark);',
+      '  col = mix(col, col * vec3(1.06, 0.97, 0.82), covered * 0.35);',
+      '  col += mix(cities, genesisCities, covered) * cityPower;',
+      '  col += vec3(1.0, 0.74, 0.32) * front * (0.12 + 0.3 * dark);',
+      '  col = mix(col, col * 0.22 + vec3(0.025, 0.018, 0.014), charred * 0.85);',
+      '  col += embers;',
+      '  gl_FragColor = vec4(col, 1.0);',
+      '  #include <tonemapping_fragment>',
+      '  #include <colorspace_fragment>',
+      '}'
+    ].join('\n')
+  });
+  var earth = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 128), earthMat);
+  earthGroup.add(earth);
+
   var clouds = new THREE.Mesh(
-    new THREE.SphereGeometry(1.015, 96, 96),
+    new THREE.SphereGeometry(1.015, 128, 128),
     new THREE.MeshPhongMaterial({ map: cloudTex, transparent: true, opacity: 0.7, depthWrite: false })
   );
   clouds.renderOrder = 1;
@@ -388,6 +464,7 @@
   }
 
   var slovenia = geoPoint(46.1512, 14.9955, 1.032);
+  earthMat.uniforms.originDir.value.copy(slovenia).normalize();
   var sloveniaBeacon = new THREE.Group();
   sloveniaBeacon.position.copy(slovenia);
   sloveniaBeacon.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), slovenia.clone().normalize());
@@ -650,13 +727,46 @@
     { country: 'Israel', from: [31.5,34.8], to: [30.04,31.24] },
     { country: 'North Korea', from: [40,127], to: [35.68,139.65] }
   ];
-  var missiles = [];
+  // The heavy long-range launches carry several warheads that part ways after apogee (MIRV).
+  var mirvTargets = {
+    0: [[59.94, 30.31], [56.33, 44.00]],
+    1: [[42.36, -71.06], [38.91, -77.04]],
+    2: [[39.90, 116.40], [22.54, 114.06]],
+    3: [[47.61, -122.33], [36.17, -115.14]],
+    9: [[32.72, -117.16], [33.45, -112.07]]
+  };
+  // Ground-track fractions: engine burnout, warhead release, atmospheric re-entry.
+  var SURFACE = 1.006, BURNOUT_S = 0.13, RELEASE_S = 0.56, REENTRY_S = 0.87, FLIGHT = 0.78;
+  var missiles = [], warheadCount = 0;
+  var tmpA = new THREE.Vector3(), tmpB = new THREE.Vector3(), upY = new THREE.Vector3(0, 1, 0);
 
   function transparentMaterial(material) {
     material.transparent = true;
     material.opacity = 0;
     material.depthWrite = false;
     return material;
+  }
+
+  function makeGlowTexture() {
+    var canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 128;
+    var context = canvas.getContext('2d');
+    var gradient = context.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(0.16, 'rgba(255,246,210,0.92)');
+    gradient.addColorStop(0.42, 'rgba(255,164,70,0.34)');
+    gradient.addColorStop(1, 'rgba(255,80,20,0)');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 128, 128);
+    var texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }
+  var glowTexture = makeGlowTexture();
+  function glowSprite(color, size) {
+    var sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture, color: color, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    sprite.scale.setScalar(size);
+    return sprite;
   }
 
   function makeICBM(index) {
@@ -668,7 +778,6 @@
     var darkBand = new THREE.Mesh(new THREE.CylinderGeometry(0.0074, 0.0074, 0.02, 12), transparentMaterial(new THREE.MeshStandardMaterial({ color: index % 2 ? 0x2f3737 : 0x77271f, roughness: 0.45, metalness: 0.5 })));
     darkBand.position.y = 0.025;
     craft.add(body, nose, darkBand);
-
     for (var finIndex = 0; finIndex < 4; finIndex++) {
       var finAngle = finIndex * Math.PI / 2;
       var fin = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.034, 0.0026), transparentMaterial(new THREE.MeshStandardMaterial({ color: 0x8f938e, roughness: 0.42, metalness: 0.62 })));
@@ -676,7 +785,7 @@
       fin.rotation.y = -finAngle;
       craft.add(fin);
     }
-
+    var hull = craft.children.slice();
     var flame = new THREE.Mesh(new THREE.ConeGeometry(0.0066, 0.075, 10), transparentMaterial(new THREE.MeshBasicMaterial({ color: 0xff7a26, blending: THREE.AdditiveBlending })));
     flame.position.y = -0.115;
     flame.rotation.z = Math.PI;
@@ -686,31 +795,176 @@
     var exhaustGlow = new THREE.Mesh(new THREE.SphereGeometry(0.018, 10, 10), transparentMaterial(new THREE.MeshBasicMaterial({ color: 0xff3b1f, blending: THREE.AdditiveBlending })));
     exhaustGlow.position.y = -0.085;
     craft.add(flame, flameCore, exhaustGlow);
-    craft.scale.setScalar(0.373 + (index % 3) * 0.027);
-    return { group: craft, flame: flame, flameCore: flameCore, glow: exhaustGlow };
+    craft.position.y = 0.09; // pivot at the nozzle so it stands on the pad instead of in the ground
+    var rig = new THREE.Group();
+    rig.add(craft);
+    rig.scale.setScalar(0.25 + (index % 3) * 0.02);
+    return { group: rig, hull: hull, flame: flame, flameCore: flameCore, glow: exhaustGlow };
   }
 
-  missileRoutes.forEach(function (route, index) {
-    var start = geoPoint(route.from[0], route.from[1], 1.036);
-    var end = geoPoint(route.to[0], route.to[1], 1.036);
-    var path = globeArcPoints(start, end, 0.28 + start.angleTo(end) * 0.16, 96);
-    var pathGeometry = new THREE.BufferGeometry().setFromPoints(path);
-    var pathLine = new THREE.Line(pathGeometry, new THREE.LineBasicMaterial({ color: index % 2 ? 0xff8a55 : 0xe95743, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-    missileGroup.add(pathLine);
+  function makeWarhead() {
+    var group = new THREE.Group();
+    var body = new THREE.Mesh(new THREE.ConeGeometry(0.0034, 0.015, 10), transparentMaterial(new THREE.MeshStandardMaterial({ color: 0x3b3834, roughness: 0.5, metalness: 0.6 })));
+    var plasma = glowSprite(0xff8a3a, 0.04);
+    plasma.position.y = 0.005;
+    group.add(body, plasma);
+    return { group: group, body: body, plasma: plasma };
+  }
 
-    var icbm = makeICBM(index);
-    missileGroup.add(icbm.group);
+  // A ballistic flight: near-vertical climb, an arc that peaks around 1,000 km, a steep
+  // fall back in. Time runs with speed: slow off the pad, slowest at apogee, fastest in.
+  function ballisticPath(from, to, steps, split) {
+    var a = from.clone().normalize(), b = to.clone().normalize();
+    var angle = Math.max(0.001, a.angleTo(b)), sinAngle = Math.sin(angle);
+    var apogee = 0.03 + angle * 0.095;
+    var aim = split ? split.clone().normalize().sub(b) : null;
+    var points = [], times = [], clock = 0, previous = null;
+    for (var i = 0; i <= steps; i++) {
+      var s = i / steps;
+      var dir = sinAngle < 0.001 ? a.clone().lerp(b, s)
+        : a.clone().multiplyScalar(Math.sin((1 - s) * angle) / sinAngle).add(b.clone().multiplyScalar(Math.sin(s * angle) / sinAngle));
+      dir.normalize();
+      if (aim) dir.add(aim.clone().multiplyScalar(smooth01((s - RELEASE_S) / (1 - RELEASE_S)))).normalize();
+      var height = apogee * Math.pow(Math.sin(Math.PI * s), 0.62);
+      var point = dir.multiplyScalar(SURFACE + height);
+      if (previous) {
+        var thrust = 0.16 + 0.84 * smooth01(s / BURNOUT_S);
+        var coast = Math.sqrt(1 - 0.5 * height / apogee);
+        clock += point.distanceTo(previous) / (thrust * coast);
+      }
+      points.push(point); times.push(clock); previous = point;
+    }
+    for (var k = 0; k < times.length; k++) times[k] /= clock;
+    return { points: points, times: times, steps: steps };
+  }
+  function flightIndex(path, f) {
+    var times = path.times, lo = 0, hi = times.length - 1;
+    if (f >= 1) return hi;
+    while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (times[mid] <= f) lo = mid; else hi = mid; }
+    return lo;
+  }
+  function sampleFlight(path, f, out) {
+    var i = flightIndex(path, f), times = path.times;
+    if (i >= times.length - 1) return out.copy(path.points[i]);
+    var span = times[i + 1] - times[i];
+    return out.copy(path.points[i]).lerp(path.points[i + 1], span > 0 ? clamp01((f - times[i]) / span) : 0);
+  }
+  function timeAt(path, s) { return path.times[Math.round(s * path.steps)]; }
+  function aimAlong(object, path, f) {
+    sampleFlight(path, f, tmpA);
+    sampleFlight(path, Math.min(1, f + 0.004), tmpB);
+    object.position.copy(tmpA);
+    tmpB.sub(tmpA);
+    if (tmpB.lengthSq() < 1e-12) tmpB.copy(tmpA);
+    object.quaternion.setFromUnitVectors(upY, tmpB.normalize());
+  }
 
-    var impact = new THREE.Group(); impact.position.copy(end);
-    impact.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), end.clone().normalize());
+  var trailPale = new THREE.Color(0xf2e2c4), trailRed = new THREE.Color(0xe8563d), trailHot = new THREE.Color(0xffa04a);
+  function trailLine(path, fromS) {
+    var geometry = new THREE.BufferGeometry().setFromPoints(path.points);
+    var colors = new Float32Array(path.points.length * 3), color = new THREE.Color();
+    for (var i = 0; i < path.points.length; i++) {
+      var s = i / path.steps;
+      color.copy(trailRed).lerp(trailPale, 1 - smooth01((s - BURNOUT_S) / 0.08)).lerp(trailHot, smooth01((s - REENTRY_S + 0.03) / 0.07));
+      color.toArray(colors, i * 3);
+    }
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setDrawRange(0, 0);
+    var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    line.userData.first = Math.round(fromS * path.steps);
+    return line;
+  }
+
+  function makeBlast(target, seed, size) {
+    var dir = target.clone().normalize();
+    var impact = new THREE.Group();
+    impact.position.copy(dir).multiplyScalar(1.004);
+    impact.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), dir);
+    var flash = glowSprite(0xffffff, 0.1);
+    flash.position.z = 0.035;
     var bloom = new THREE.Mesh(new THREE.SphereGeometry(0.047, 14, 14), new THREE.MeshBasicMaterial({ color: 0xffdf70, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
     bloom.position.z = 0.025;
     var shock = new THREE.Mesh(new THREE.TorusGeometry(0.065, 0.006, 8, 48), new THREE.MeshBasicMaterial({ color: 0xff5a3d, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-    var cloudFx = makeVolumetricMushroom(index * 7.31);
-    impact.add(shock, bloom, cloudFx.group);
-    impact.scale.setScalar(0.5);
+    // the white condensation ring that flashes around the rising stem
+    var wilson = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.012, 8, 48), new THREE.MeshBasicMaterial({ color: 0xf3eee4, transparent: true, opacity: 0, depthWrite: false }));
+    wilson.position.z = 0.1;
+    var cloudFx = makeVolumetricMushroom(seed);
+    impact.add(shock, bloom, wilson, cloudFx.group, flash);
+    impact.scale.setScalar(size);
     missileGroup.add(impact);
-    missiles.push({ country: route.country, path: path, line: pathLine, projectile: icbm.group, flame: icbm.flame, flameCore: icbm.flameCore, glow: icbm.glow, impact: impact, bloom: bloom, shock: shock, cloud: cloudFx, startedAt: null, launchDelay: index * 0.22 });
+    return { dir: dir, group: impact, flash: flash, bloom: bloom, shock: shock, wilson: wilson, cloud: cloudFx };
+  }
+
+  function updateBlast(blast, impactProgress, localWar, index, t) {
+    var flashIn = smooth01(impactProgress / 0.012), flashOut = 1 - smooth01((impactProgress - 0.02) / 0.1);
+    blast.flash.material.opacity = localWar * flashIn * flashOut;
+    blast.flash.scale.setScalar(0.12 + smooth01(impactProgress / 0.05) * 0.7);
+    var flashStrength = smooth01(clamp01(impactProgress / 0.018)) * (1 - smooth01(clamp01((impactProgress - 0.035) / 0.095)));
+    blast.bloom.scale.setScalar(0.28 + smooth01(clamp01(impactProgress / 0.11)) * 3.2);
+    blast.bloom.material.opacity = localWar * flashStrength;
+    blast.shock.scale.setScalar(0.35 + impactProgress * 5.2);
+    blast.shock.material.opacity = localWar * (1 - impactProgress) * (impactProgress > 0 ? 0.84 : 0);
+    var wilsonT = clamp01((impactProgress - 0.05) / 0.16);
+    blast.wilson.scale.setScalar(0.6 + wilsonT * 1.3);
+    blast.wilson.material.opacity = localWar * Math.sin(wilsonT * Math.PI) * 0.34;
+    var cloud = blast.cloud;
+    var cloudEnvelope = smooth01(clamp01((impactProgress - 0.052) / 0.055)) * (1 - smooth01(clamp01((impactProgress - 0.91) / 0.09)));
+    var cloudGrowth = smooth01(clamp01((impactProgress - 0.055) / 0.57));
+    var fireEnergy = cloudEnvelope * (1 - smooth01(clamp01((impactProgress - 0.5) / 0.38)));
+    var smokeEnergy = cloudEnvelope * smooth01(clamp01((impactProgress - 0.055) / 0.26));
+    var dustEnergy = Math.sin(clamp01((impactProgress - 0.028) / 0.86) * Math.PI);
+    cloud.group.scale.setScalar(0.18 + cloudGrowth * 0.82);
+    cloud.group.position.z = 0.004 + cloudGrowth * 0.018;
+    cloud.fire.material.opacity = localWar * fireEnergy * 0.94;
+    var fireCooling = smooth01(clamp01(impactProgress / 0.34));
+    var smokeCooling = smooth01(clamp01((impactProgress - 0.43) / 0.3));
+    var dustCooling = smooth01(clamp01((impactProgress - 0.2) / 0.28));
+    cloud.fire.material.color.copy(cloudYellow).lerp(cloudOrange, fireCooling);
+    cloud.fire.material.emissive.copy(cloudYellow).lerp(cloudHotEmissive, fireCooling);
+    cloud.fire.material.emissiveIntensity = 1.5 + fireEnergy * 2.65;
+    cloud.smoke.material.opacity = localWar * smokeEnergy * 0.76;
+    cloud.smoke.material.color.copy(cloudHotSmoke).lerp(cloudCoolSmoke, smokeCooling);
+    cloud.smoke.material.emissive.copy(cloudHotEmissive).lerp(cloudColdEmissive, smokeCooling);
+    cloud.smoke.material.emissiveIntensity = (1 - smokeCooling) * 1.85;
+    cloud.dust.material.opacity = localWar * dustEnergy * cloudEnvelope * 0.54;
+    cloud.dust.material.color.copy(cloudHotDust).lerp(cloudCoolDust, dustCooling);
+    cloud.dust.material.emissive.copy(cloudHotEmissive).lerp(cloudColdEmissive, dustCooling);
+    cloud.dust.material.emissiveIntensity = (1 - dustCooling) * 0.95;
+    cloud.dust.scale.set(0.45 + impactProgress * 1.7, 0.45 + impactProgress * 1.7, 0.62 + impactProgress * 0.38);
+    cloud.fire.rotation.z = t * 0.16 + index * 0.41;
+    cloud.smoke.rotation.z = -t * 0.052 + index * 0.29;
+    var emberArray = cloud.embers.geometry.attributes.position.array;
+    cloud.emberSeeds.forEach(function (ember, emberIndex) {
+      var emberProgress = clamp01((impactProgress - ember.delay) / Math.max(0.01, 0.82 - ember.delay));
+      emberArray[emberIndex * 3] = ember.x * emberProgress;
+      emberArray[emberIndex * 3 + 1] = ember.y * emberProgress;
+      emberArray[emberIndex * 3 + 2] = 0.025 + ember.z * emberProgress - 0.115 * emberProgress * emberProgress;
+    });
+    cloud.embers.geometry.attributes.position.needsUpdate = true;
+    cloud.embers.material.opacity = localWar * fireEnergy * 0.88;
+  }
+
+  missileRoutes.forEach(function (route, index) {
+    var start = geoPoint(route.from[0], route.from[1], 1);
+    var end = geoPoint(route.to[0], route.to[1], 1);
+    var main = ballisticPath(start, end, 160, null);
+    var booster = makeICBM(index);
+    var pad = glowSprite(0xffc27a, 0.08);
+    pad.position.copy(start).multiplyScalar(1.012);
+    missileGroup.add(booster.group, pad);
+    var missile = { country: route.country, path: main, booster: booster, pad: pad, warheads: [], startedAt: null, launchDelay: index * 0.22,
+      burnout: timeAt(main, BURNOUT_S), reentry: timeAt(main, REENTRY_S) };
+    var splits = [null].concat((mirvTargets[index] || []).map(function (c) { return geoPoint(c[0], c[1], 1); }));
+    splits.forEach(function (split, k) {
+      var path = k === 0 ? main : ballisticPath(start, end, 160, split);
+      if (k) path.times = main.times;
+      var warhead = makeWarhead();
+      var trail = trailLine(path, k === 0 ? 0 : RELEASE_S);
+      missileGroup.add(trail, warhead.group);
+      missile.warheads.push({ path: path, rv: warhead, trail: trail, blast: makeBlast(split || end, index * 7.31 + k * 3.7, k ? 0.4 : 0.5),
+        release: k ? timeAt(main, RELEASE_S) : 0, flightEnd: FLIGHT * (1 + 0.022 * k), slot: warheadCount++, hit: false });
+    });
+    missiles.push(missile);
   });
 
   function scrollProgress() {
@@ -816,73 +1070,59 @@
       networkNode.halo.material.opacity = nodeProgress * networkFade * (0.12 + Math.sin(t * 2 + nodeIndex) * 0.035);
     });
 
+    earthMat.uniforms.cloudShift.value = clouds.rotation.y / (Math.PI * 2);
+    earthMat.uniforms.spread.value = networkProgress * 3.2;
+    earthMat.uniforms.genesisGlow.value = smooth01(networkProgress / 0.06) * networkFade;
+
+    var warheadsHit = 0;
     missiles.forEach(function (missile, missileIndex) {
       var warReveal = smooth01((warProgress - missileIndex * 0.025) / 0.34);
-      if (warProgress < 0.012) missile.startedAt = null;
+      if (warProgress < 0.012) { missile.startedAt = null; missile.warheads.forEach(function (w) { w.hit = false; }); }
       if (warReveal > 0.025 && missile.startedAt === null) missile.startedAt = t + missile.launchDelay;
-      var missileActive = missile.startedAt !== null && t >= missile.startedAt;
-      var localWar = warReveal * (missileActive ? 1 : 0);
-      var missilePhase = missileActive ? ((t - missile.startedAt) * 0.052) % 1 : 0;
-      var missilePoint = Math.min(missile.path.length - 1, Math.floor(missilePhase * missile.path.length));
-      missile.projectile.position.copy(missile.path[missilePoint]);
-      var nextMissilePoint = Math.min(missile.path.length - 1, missilePoint + 1);
-      var previousMissilePoint = Math.max(0, missilePoint - 1);
-      var missileTangent = missile.path[nextMissilePoint].clone().sub(missile.path[previousMissilePoint]).normalize();
-      missile.projectile.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), missileTangent);
-      var missileFade = missilePhase < 0.78 ? 1 : 1 - smooth01((missilePhase - 0.78) / 0.075);
-      missile.projectile.traverse(function (part) {
-        if (part.isMesh && part !== missile.flame && part !== missile.flameCore && part !== missile.glow) part.material.opacity = localWar * missileFade;
-      });
-      missile.line.material.opacity = localWar * 0.27;
-      missile.flame.scale.y = 0.72 + Math.sin(t * 17 + missileIndex) * 0.22;
-      missile.flame.material.opacity = localWar * missileFade * 0.92;
-      missile.flameCore.scale.y = 0.82 + Math.sin(t * 21 + missileIndex * 0.7) * 0.18;
-      missile.flameCore.material.opacity = localWar * missileFade;
-      missile.glow.material.opacity = localWar * missileFade * (0.24 + Math.sin(t * 8 + missileIndex) * 0.07);
+      var active = missile.startedAt !== null && t >= missile.startedAt;
+      var localWar = warReveal * (active ? 1 : 0);
+      var phase = active ? ((t - missile.startedAt) * 0.052) % 1 : 0;
+      var flight = clamp01(phase / FLIGHT);
 
-      var impactProgress = clamp01((missilePhase - 0.775) / 0.225);
-      var flashRise = smooth01(clamp01(impactProgress / 0.018));
-      var flashFade = 1 - smooth01(clamp01((impactProgress - 0.035) / 0.095));
-      var flashStrength = flashRise * flashFade;
-      missile.bloom.scale.setScalar(0.28 + smooth01(clamp01(impactProgress / 0.11)) * 3.2);
-      missile.bloom.material.opacity = localWar * flashStrength;
-      missile.shock.scale.setScalar(0.35 + impactProgress * 5.2);
-      missile.shock.material.opacity = localWar * (1 - impactProgress) * (impactProgress > 0 ? 0.84 : 0);
-      var cloudEnvelope = smooth01(clamp01((impactProgress - 0.052) / 0.055)) * (1 - smooth01(clamp01((impactProgress - 0.91) / 0.09)));
-      var cloudGrowth = smooth01(clamp01((impactProgress - 0.055) / 0.57));
-      var fireEnergy = cloudEnvelope * (1 - smooth01(clamp01((impactProgress - 0.5) / 0.38)));
-      var smokeEnergy = cloudEnvelope * smooth01(clamp01((impactProgress - 0.055) / 0.26));
-      var dustEnergy = Math.sin(clamp01((impactProgress - 0.028) / 0.86) * Math.PI);
-      missile.cloud.group.scale.setScalar(0.18 + cloudGrowth * 0.82);
-      missile.cloud.group.position.z = 0.004 + cloudGrowth * 0.018;
-      missile.cloud.fire.material.opacity = localWar * fireEnergy * 0.94;
-      var fireCooling = smooth01(clamp01(impactProgress / 0.34));
-      var smokeCooling = smooth01(clamp01((impactProgress - 0.43) / 0.3));
-      var dustCooling = smooth01(clamp01((impactProgress - 0.2) / 0.28));
-      missile.cloud.fire.material.color.copy(cloudYellow).lerp(cloudOrange, fireCooling);
-      missile.cloud.fire.material.emissive.copy(cloudYellow).lerp(cloudHotEmissive, fireCooling);
-      missile.cloud.fire.material.emissiveIntensity = 1.5 + fireEnergy * 2.65;
-      missile.cloud.smoke.material.opacity = localWar * smokeEnergy * 0.76;
-      missile.cloud.smoke.material.color.copy(cloudHotSmoke).lerp(cloudCoolSmoke, smokeCooling);
-      missile.cloud.smoke.material.emissive.copy(cloudHotEmissive).lerp(cloudColdEmissive, smokeCooling);
-      missile.cloud.smoke.material.emissiveIntensity = (1 - smokeCooling) * 1.85;
-      missile.cloud.dust.material.opacity = localWar * dustEnergy * cloudEnvelope * 0.54;
-      missile.cloud.dust.material.color.copy(cloudHotDust).lerp(cloudCoolDust, dustCooling);
-      missile.cloud.dust.material.emissive.copy(cloudHotEmissive).lerp(cloudColdEmissive, dustCooling);
-      missile.cloud.dust.material.emissiveIntensity = (1 - dustCooling) * 0.95;
-      missile.cloud.dust.scale.set(0.45 + impactProgress * 1.7, 0.45 + impactProgress * 1.7, 0.62 + impactProgress * 0.38);
-      missile.cloud.fire.rotation.z = t * 0.16 + missileIndex * 0.41;
-      missile.cloud.smoke.rotation.z = -t * 0.052 + missileIndex * 0.29;
-      var emberArray = missile.cloud.embers.geometry.attributes.position.array;
-      missile.cloud.emberSeeds.forEach(function (ember, emberIndex) {
-        var emberProgress = clamp01((impactProgress - ember.delay) / Math.max(0.01, 0.82 - ember.delay));
-        emberArray[emberIndex * 3] = ember.x * emberProgress;
-        emberArray[emberIndex * 3 + 1] = ember.y * emberProgress;
-        emberArray[emberIndex * 3 + 2] = 0.025 + ember.z * emberProgress - 0.115 * emberProgress * emberProgress;
+      // First stage: lifts off the pad under full thrust, burns out and drops away.
+      var booster = missile.booster;
+      var boosterOn = localWar * (1 - smooth01((flight - missile.burnout) / 0.035));
+      aimAlong(booster.group, missile.path, flight);
+      booster.hull.forEach(function (part) { part.material.opacity = boosterOn; });
+      booster.flame.scale.y = 0.72 + Math.sin(t * 17 + missileIndex) * 0.22;
+      booster.flame.material.opacity = boosterOn * 0.92;
+      booster.flameCore.scale.y = 0.82 + Math.sin(t * 21 + missileIndex * 0.7) * 0.18;
+      booster.flameCore.material.opacity = boosterOn;
+      booster.glow.material.opacity = boosterOn * (0.24 + Math.sin(t * 8 + missileIndex) * 0.07);
+      missile.pad.material.opacity = localWar * (1 - smooth01(flight / 0.05)) * 0.9;
+      missile.pad.scale.setScalar(0.05 + flight * 1.1);
+
+      missile.warheads.forEach(function (w, k) {
+        var releasePhase = w.release * FLIGHT;
+        var wf = phase <= releasePhase ? phase / FLIGHT
+          : w.release + (1 - w.release) * clamp01((phase - releasePhase) / (w.flightEnd - releasePhase));
+        var flying = active && phase < w.flightEnd;
+        aimAlong(w.rv.group, w.path, wf);
+        var shown = k === 0 ? smooth01((wf - missile.burnout + 0.01) / 0.025) : (wf >= w.release ? 1 : 0);
+        var rvOpacity = flying ? localWar * shown : 0;
+        var heat = smooth01((wf - missile.reentry) / 0.05);
+        w.rv.body.material.opacity = rvOpacity;
+        w.rv.plasma.material.opacity = rvOpacity * heat * (0.75 + Math.sin(t * 23 + k) * 0.2);
+        w.rv.plasma.scale.setScalar(0.025 + heat * 0.035);
+
+        var first = w.trail.userData.first, reached = flightIndex(w.path, wf);
+        w.trail.geometry.setDrawRange(first, Math.max(0, reached - first + 1));
+        w.trail.material.opacity = localWar * 0.44 * (1 - smooth01((phase - w.flightEnd - 0.05) / 0.14));
+
+        var impactProgress = active ? clamp01((phase - w.flightEnd + 0.005) / (1 - w.flightEnd)) : 0;
+        if (impactProgress > 0 && localWar > 0.05) w.hit = true;
+        updateBlast(w.blast, impactProgress, localWar, missileIndex * 3 + k, t);
+        scarDirs[w.slot].copy(w.blast.dir);
+        scarStates[w.slot].set(w.hit ? warReveal : 0, impactProgress > 0 ? Math.max(0.12, 1 - smooth01(impactProgress / 0.75)) : 0.12);
+        if (w.hit) warheadsHit++;
       });
-      missile.cloud.embers.geometry.attributes.position.needsUpdate = true;
-      missile.cloud.embers.material.opacity = localWar * fireEnergy * 0.88;
     });
+    earthMat.uniforms.lightsOut.value = warheadsHit / warheadCount;
 
     if (worldStatusEl) {
       var story;
