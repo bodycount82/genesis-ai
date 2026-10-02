@@ -21,6 +21,8 @@
   if (window.self !== window.top) return;
 
   var siteRoot = new URL(".", document.baseURI);
+  var base = document.querySelector("base");
+  if (base) base.href = siteRoot.href;
   function viewUrl(route, hash) {
     return new URL(routes[route] + (hash || ""), siteRoot).href;
   }
