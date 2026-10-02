@@ -6,7 +6,8 @@
     "memory.html": "memory.view.html",
     "modes.html": "modes.view.html",
     "genesis.html": "genesis.view.html",
-    "honesty.html": "honesty.view.html"
+    "honesty.html": "honesty.view.html",
+    "tutorials.html": "tutorials/index.view.html"
   };
 
   var shell = document.getElementById("siteShell");
@@ -19,6 +20,11 @@
   // by shell-guard.js and must not start its own router.
   if (window.self !== window.top) return;
 
+  var siteRoot = new URL(".", document.baseURI);
+  function viewUrl(route, hash) {
+    return new URL(routes[route] + (hash || ""), siteRoot).href;
+  }
+
   function routeFromUrl(value) {
     var url;
     try {
@@ -29,15 +35,17 @@
 
     if (url.origin !== window.location.origin) return null;
 
-    var parts = url.pathname.split("/");
-    var name = parts[parts.length - 1] || "index.html";
+    var relative = url.pathname.slice(siteRoot.pathname.length);
+    if (url.pathname.indexOf(siteRoot.pathname) !== 0) return null;
+    var name = relative === "tutorials/" || relative === "tutorials/index.html" ? "tutorials.html" : relative || "index.html";
     if (!routes[name]) return null;
 
     return { name: name, hash: url.hash };
   }
 
   function updateHistory(route, hash, replace) {
-    var destination = route + (hash || "");
+    var path = route === "tutorials.html" ? "tutorials/" : route;
+    var destination = new URL(path + (hash || ""), siteRoot).href;
     var state = { genesisRoute: route };
     if (replace) {
       window.history.replaceState(state, "", destination);
@@ -50,10 +58,14 @@
     if (!routes[route]) return;
 
     if (route === currentRoute) {
-      if (!hash && addHistory) return;
+      if (!hash && addHistory && route !== "tutorials.html") return;
       if (addHistory) updateHistory(route, hash, false);
       try {
-        if (hash) {
+        if (route === "tutorials.html") {
+          if (frame.contentWindow.location.hash !== (hash || "")) {
+            frame.contentWindow.location.replace(viewUrl(route, hash));
+          }
+        } else if (hash) {
           var id = decodeURIComponent(hash.slice(1));
           var anchor = frame.contentDocument.getElementById(id);
           if (anchor) anchor.scrollIntoView();
@@ -61,7 +73,7 @@
           frame.contentWindow.scrollTo(0, 0);
         }
       } catch (error) {
-        frame.contentWindow.location.replace(routes[route] + (hash || ""));
+        frame.contentWindow.location.replace(viewUrl(route, hash));
       }
       return;
     }
@@ -72,9 +84,9 @@
     if (status) status.textContent = "Loading " + route.replace(".html", "");
     if (addHistory) updateHistory(route, hash, false);
     try {
-      frame.contentWindow.location.replace(routes[route] + (hash || ""));
+      frame.contentWindow.location.replace(viewUrl(route, hash));
     } catch (error) {
-      frame.src = routes[route] + (hash || "");
+      frame.src = viewUrl(route, hash);
     }
   }
 
@@ -90,7 +102,13 @@
     if (link.target && link.target.toLowerCase() !== "_self") return;
 
     var rawHref = link.getAttribute("href");
-    if (!rawHref || rawHref.charAt(0) === "#") return;
+    if (!rawHref) return;
+    if (rawHref.charAt(0) === "#") {
+      if (currentRoute !== "tutorials.html") return;
+      event.preventDefault();
+      navigate(currentRoute, rawHref === "#" ? "" : rawHref, true);
+      return;
+    }
 
     var route = routeFromUrl(link.href);
     if (!route) return;
@@ -111,6 +129,11 @@
     if (viewDocument.location.href === "about:blank") return;
     viewDocument.addEventListener("click", handleViewClick);
     wiredDocument = viewDocument;
+    viewDocument.defaultView.addEventListener("hashchange", function () {
+      if (viewDocument !== wiredDocument || currentRoute !== "tutorials.html") return;
+      var hash = viewDocument.location.hash;
+      if (window.location.hash !== hash) updateHistory(currentRoute, hash, true);
+    });
   }
 
   function watchFrame() {
@@ -151,13 +174,16 @@
 
   // Called by shell-guard.js when a shell page loaded inside the frame anyway.
   window.genesisShell = {
+    navigateTutorial: function (hash) {
+      navigate("tutorials.html", hash, true);
+    },
     adopt: function (route, hash) {
       if (!routes[route]) return false;
       if (route !== currentRoute) updateHistory(route, hash, false);
       currentRoute = route;
       shell.classList.add("is-loading");
       watchFrame();
-      frame.contentWindow.location.replace(routes[route] + (hash || ""));
+      frame.contentWindow.location.replace(viewUrl(route, hash));
       return true;
     }
   };
@@ -172,6 +198,8 @@
   currentRoute = initial.name;
   updateHistory(initial.name, initial.hash, true);
 
+  // A direct public lesson link must reach the guide on first load too.
+  if (initial.hash) frame.src = viewUrl(initial.name, initial.hash);
   watchFrame();
   if (frame.contentDocument && frame.contentDocument.readyState === "complete") {
     viewReady();

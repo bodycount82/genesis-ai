@@ -16,10 +16,15 @@ let manifest;
 try{const r=await fetch('assets/screens.json');if(!r.ok)throw Error(r.status);manifest=await r.json()}catch{main.innerHTML='<p class="loading">The screenshots could not load. Please refresh the page to try again.</p>';throw Error('Screenshot manifest unavailable')}
 const groupOf=l=>groups.find(g=>g.id===l.group);
 const lessonUrl=(l,i=0)=>`#lesson/${l.id}/${i+1}`;
+function publicUrl(){try{if(window.parent!==window&&window.parent.genesisShell)return window.parent.location.href}catch{}return location.href}
 function save(){try{localStorage.setItem(progressKey,JSON.stringify(progress))}catch{}updateResume()}
 function updateResume(){const el=$('#resumeNav');el.hidden=!progress.last;el.textContent='Continue learning'}
 function toast(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3200)}
-function go(l,i){location.hash=lessonUrl(l,Math.max(0,Math.min(l.steps.length-1,i)))}
+function setRoute(hash){
+ try{if(window.parent!==window&&window.parent.genesisShell){window.parent.genesisShell.navigateTutorial(hash);return}}catch{}
+ location.hash=hash;
+}
+function go(l,i){setRoute(lessonUrl(l,Math.max(0,Math.min(l.steps.length-1,i))))}
 const aliases={
  'Type a message…':['Type a message…','Type a message...'],
  'Toggle navigation':['Toggle sidebar','Navigation'],
@@ -123,7 +128,7 @@ document.addEventListener('click',async e=>{
  const button=e.target.closest('[data-action]');if(!button)return;const action=button.dataset.action;
  if(action==='close'){dialog.close();return}if(action==='glossary'){showGlossary();return}if(action==='resume'){const l=lessons.find(l=>l.id===progress.last?.id);if(l)go(l,progress.last.step);return}
  if(action==='about'){openDialog('Real screens. A clean example.',`<div class="dialog-content"><p>These ${Object.keys(manifest.screens).length} images were captured on 2 October 2026 from the current Genesis React/Electron interface. Screens use demonstration conversations, models and status data. Personal memories, credentials and live accounts were not used.</p><p>The interface is real. A displayed model connection, backup status or mission example is a teaching scene, not proof of a live provider connection. Your installed release and computer may show different choices.</p></div>`);return}
- if(action==='reset'){openDialog('Start the guide afresh?',`<div class="dialog-content"><p>This clears completed lessons and your saved place in this tutorial browser. It has no connection to your Genesis data or settings.</p><button class="btn primary" data-action="confirm-reset">Reset tutorial progress</button></div>`);return}if(action==='confirm-reset'){progress={done:[],last:null};save();dialog.close();location.hash='';home();toast('Tutorial progress reset.');return}
+ if(action==='reset'){openDialog('Start the guide afresh?',`<div class="dialog-content"><p>This clears completed lessons and your saved place in this tutorial browser. It has no connection to your Genesis data or settings.</p><button class="btn primary" data-action="confirm-reset">Reset tutorial progress</button></div>`);return}if(action==='confirm-reset'){progress={done:[],last:null};save();dialog.close();setRoute('');home();toast('Tutorial progress reset.');return}
  if(action==='group-link'){catalogFilter=button.dataset.group;return}if(action==='filter'){catalogFilter=button.dataset.filter;$('.filters').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===catalogFilter)));renderCatalog();return}
  if(action==='choose-lesson'){showLessonPicker();return}if(action==='picker-filter'){pickerFilter=button.dataset.filter;$('.picker-filters').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===pickerFilter)));renderPicker();return}if(action==='pick-lesson'){const chosen=courseLessons.find(l=>l.id===button.dataset.lesson);if(chosen){dialog.close();go(chosen,0)}return}if(action==='full-library'){catalogFilter='all';catalogSearch='';dialog.close();return}
  if(!current)return;
@@ -133,7 +138,7 @@ document.addEventListener('click',async e=>{
  if(action==='step'){dialog.open&&dialog.close();go(l,Number(button.dataset.step));return}
  if(action==='previous'){go(l,i-1);return}if(action==='next'){advance();return}if(action==='next-lesson'){nextLesson();return}if(action==='complete'){complete();return}
  if(action==='zoom'){zoom();return}if(action==='read'){const all=$('#allSteps');all.open=true;all.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});all.querySelector('summary').focus({preventScroll:true});return}
- if(action==='copy'){try{await navigator.clipboard.writeText(location.href);toast('Lesson link copied.')}catch{openDialog('Your lesson link',`<div class="dialog-content"><p>Copy this link to share the lesson.</p><input aria-label="Lesson link" value="${esc(location.href)}" style="width:100%;padding:12px;background:#15130f;color:#f3efe6;border:1px solid #d8a94e40"></div>`);dialog.querySelector('input').select()}return}
+ if(action==='copy'){try{await navigator.clipboard.writeText(publicUrl());toast('Lesson link copied.')}catch{openDialog('Your lesson link',`<div class="dialog-content"><p>Copy this link to share the lesson.</p><input aria-label="Lesson link" value="${esc(publicUrl())}" style="width:100%;padding:12px;background:#15130f;color:#f3efe6;border:1px solid #d8a94e40"></div>`);dialog.querySelector('input').select()}return}
  if(action==='quiz'){const correct=Number(button.dataset.answer)===l.quiz.answer;$('.quiz').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));$('#quizFeedback').textContent=(correct?'Exactly. ':'Try another choice. ')+(correct?l.quiz.why:'You can revisit the steps above whenever you like.');return}
 });
 document.addEventListener('input',e=>{if(e.target.id==='lessonSearch'){catalogSearch=e.target.value;renderCatalog()}if(e.target.id==='pickerSearch'){pickerSearch=e.target.value;renderPicker()}if(e.target.id==='wordSearch')renderWords(e.target.value);if(e.target.id==='labTemp'){labState.temp=Number(e.target.value);updateLab()}});

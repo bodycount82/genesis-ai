@@ -9,7 +9,8 @@
   if (window.self === window.top) return;
 
   document.documentElement.setAttribute("data-nested-shell", "");
-  var name = window.location.pathname.split("/").pop() || "index.html";
+  var name = document.body ? document.body.getAttribute("data-route") : null;
+  if (!name) name = /\/tutorials\/(?:index.html)?$/.test(window.location.pathname) ? "tutorials.html" : window.location.pathname.split("/").pop() || "index.html";
   var hash = window.location.hash || "";
 
   try {
@@ -17,5 +18,5 @@
   } catch (error) {
     /* cross-origin parent: fall through */
   }
-  window.location.replace(name.replace(/\.html$/, ".view.html") + hash);
+  window.location.replace(name === "tutorials.html" ? "index.view.html" + hash : name.replace(/\.html$/, ".view.html") + hash);
 }());

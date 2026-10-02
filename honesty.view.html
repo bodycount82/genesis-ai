@@ -124,6 +124,7 @@
   }
   @media (prefers-reduced-motion:reduce) { .chapter-transition { display:none; } .limit-card:hover { transform:none; } }
 </style>
+<link rel="stylesheet" href="assets/primary-nav.css">
 </head>
 <body data-genesis-view="honesty">
 
@@ -133,13 +134,14 @@
 
 <nav class="nav" aria-label="Primary navigation">
   <a class="brand" href="index.html"><span class="orb"></span>GENESIS AI</a>
-  <div class="nav-links">
+  <button class="primary-menu" type="button" aria-expanded="false" aria-controls="primaryLinks"><span>Menu</span><span aria-hidden="true">⌄</span></button>
+  <div class="nav-links" id="primaryLinks">
     <a href="index.html">Descent</a>
     <a href="memory.html">Memory</a>
     <a href="modes.html">Modes</a>
     <a href="genesis.html">Genesis</a>
     <a href="honesty.html" class="active">Honesty</a>
-    <a href="tutorials/" target="_top">Tutorials</a>
+    <a href="tutorials/">Tutorials</a>
   </div>
 </nav>
 
@@ -343,5 +345,6 @@
   animate();window.addEventListener("resize",function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));renderer.setSize(window.innerWidth,window.innerHeight);},{passive:true});
 })();
 </script>
+<script src="assets/primary-nav.js"></script>
 </body>
 </html>

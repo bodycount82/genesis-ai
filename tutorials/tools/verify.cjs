@@ -1,7 +1,7 @@
 const {app,BrowserWindow}=require('electron');
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http');
 const root=path.resolve(__dirname,'..'),workspace=path.resolve(root,'../../..');
-const evidence=path.join(workspace,'Claude and OpenAI docs/Genesis-Knowledge/evidence/tutorials-20261002/publication');
+const evidence=path.join(workspace,'Claude and OpenAI docs/Genesis-Knowledge/evidence/tutorials-20261002/shell-integration');
 fs.mkdirSync(evidence,{recursive:true});app.setPath('userData',path.join(workspace,'Development/Genesis/.audit-runtime/tutorial-verification'));
 const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.svg':'image/svg+xml'};
 const server=http.createServer((req,res)=>{try{let p=decodeURIComponent(new URL(req.url,'http://localhost').pathname);if(p.endsWith('/'))p+='index.html';const f=path.resolve(root,'.'+p);if(!f.startsWith(root+path.sep)||!fs.existsSync(f)){res.writeHead(404);return res.end()}res.writeHead(200,{'Content-Type':types[path.extname(f)]||'application/octet-stream'});fs.createReadStream(f).pipe(res)}catch{res.writeHead(400);res.end()}});
@@ -26,11 +26,11 @@ async function inspectLesson(){return js(`(()=>{
 app.whenReady().then(async()=>{
  await new Promise(r=>server.listen(0,'127.0.0.1',r));win=new BrowserWindow({width:1440,height:1000,useContentSize:true,show:false,webPreferences:{offscreen:true,contextIsolation:true,nodeIntegration:false,backgroundThrottling:false}});
  win.webContents.on('console-message',e=>{if(e.level==='error'&&!e.message.includes('favicon'))report.errors.push(e.message)});
- await win.loadURL(`http://127.0.0.1:${server.address().port}/`);await ready();await shot('desktop-home');
+ await win.loadURL(`http://127.0.0.1:${server.address().port}/index.view.html`);await ready();await shot('desktop-home');check('Shared primary navigation is present with Tutorials active',await js(`document.querySelector('.nav-links a.active').textContent==='Tutorials'&&document.querySelector('.nav .brand').textContent==='GENESIS AI'`));
  const inventory=await js(`(()=>{const g=window.tutorialGuide;return {lessons:g.lessons.length,steps:g.lessons.reduce((n,l)=>n+l.steps.length,0),screens:Object.keys(g.manifest.screens).length,missingImages:g.lessons.flatMap(l=>[l.image,...l.steps.map(s=>s.screen)]).filter(s=>!g.manifest.screens[s]),missingAnchors:g.lessons.flatMap(l=>l.steps.map((s,i)=>({id:l.id,step:i+1,screen:s.screen,anchor:s.anchor,found:!!g.resolveAnchor(s)}))).filter(s=>!s.found)}})()`);
  Object.assign(report,{inventory,missingAnchors:inventory.missingAnchors});check('All referenced screenshot scenes exist',!inventory.missingImages.length,JSON.stringify(inventory.missingImages));check('Every step resolves to a visible screenshot control',!inventory.missingAnchors.length,JSON.stringify(inventory.missingAnchors));
  const ids=await js('window.tutorialGuide.lessons.map(l=>({id:l.id,steps:l.steps.length}))');
- check('Standard Genesis logo is loaded in header and footer',await js(`[...document.querySelectorAll('.brand-logo')].length===2&&[...document.querySelectorAll('.brand-logo')].every(i=>i.complete&&i.naturalWidth===192)&&!document.querySelector('.sigil')`));
+ check('Standard Genesis logo is loaded in the footer; shared primary bar supplies site branding',await js(`[...document.querySelectorAll('.brand-logo')].length===1&&[...document.querySelectorAll('.brand-logo')].every(i=>i.complete&&i.naturalWidth===192)&&!document.querySelector('.sigil')`));
  for(const l of ids){for(let n=1;n<=l.steps;n++){await route(l.id,n);const data=await js(`(()=>{const g=window.tutorialGuide.getCurrent();return {id:g?.l.id,step:g?.i,title:document.querySelector('#stepTitle')?.textContent,img:document.querySelector('.screen-stage img')?.getAttribute('src'),overflow:document.documentElement.scrollWidth>innerWidth}})()`);check(`Route ${l.id}/${n}`,data.id===l.id&&data.step===n-1&&!data.overflow,JSON.stringify(data));const layout=await inspectLesson();check(`Navigation and precise unobscured annotation ${l.id}/${n}`,Object.entries(layout).every(([k,v])=>k==='overflow'?!v:v),JSON.stringify(layout))}console.log('Verified '+l.id)}
  await route('model-controls',1);await js('window.scrollTo(0,370)');await shot('desktop-navigation');
  await route('parse-code',1);await js(`document.querySelector('[data-action="choose-lesson"]').click()`);

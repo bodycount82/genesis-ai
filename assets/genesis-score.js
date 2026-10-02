@@ -98,5 +98,5 @@
     status.textContent = "Audio unavailable";
   });
 
-  play();
+  showPaused();
 }());

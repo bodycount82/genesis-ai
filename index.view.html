@@ -72,6 +72,7 @@
   @media(max-width:700px){.download-gate{padding:10px}.download-dialog{max-height:94svh;border-radius:18px}.gate-head{grid-template-columns:40px 1fr 32px;padding:22px 18px 18px;gap:12px}.gate-sigil{width:38px;height:38px}.gate-document{margin:14px 18px 0;padding:18px 16px 4px}.gate-consent{margin:16px 18px}.gate-actions{padding:15px 18px 20px;flex-direction:column-reverse}.gate-actions .btn{width:100%;justify-content:center}}
   @media(prefers-reduced-motion:reduce){.download-gate,.download-dialog,.gate-close,.gate-check,.gate-check::after{transition:none}}
 </style>
+<link rel="stylesheet" href="assets/primary-nav.css">
 </head>
 <body data-genesis-view="index">
 
@@ -83,13 +84,14 @@
 <!-- fixed chrome -->
 <nav class="nav">
   <a class="brand" href="index.html"><span class="orb"></span>GENESIS AI</a>
-  <div class="nav-links">
+  <button class="primary-menu" type="button" aria-expanded="false" aria-controls="primaryLinks"><span>Menu</span><span aria-hidden="true">⌄</span></button>
+  <div class="nav-links" id="primaryLinks">
     <a href="index.html" class="active">Descent</a>
     <a href="memory.html">Memory</a>
     <a href="modes.html">Modes</a>
     <a href="genesis.html">Genesis</a>
     <a href="honesty.html">Honesty</a>
-    <a href="tutorials/" target="_top">Tutorials</a>
+    <a href="tutorials/">Tutorials</a>
   </div>
 </nav>
 
@@ -1180,5 +1182,6 @@
 })();
 </script>
 
+<script src="assets/primary-nav.js"></script>
 </body>
 </html>

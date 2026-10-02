@@ -2,25 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <base href="../">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#030304">
-  <meta name="description" content="Learn Genesis AI one clear step at a time, with interactive tours of its real interface.">
+  <meta name="description" content="Genesis AI is a local, autonomous AI with a memory that forgets, dreams, and remembers like a mind — not a database. Scroll to descend.">
   <title>Genesis Tutorials — the interactive field guide</title>
+  <link rel="icon" href="assets/brand/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <meta name="theme-color" content="#030304">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Genesis AI">
+  <meta property="og:title" content="Genesis Tutorials — the interactive field guide">
+  <meta property="og:description" content="Genesis AI is a local, autonomous AI with a memory that forgets, dreams, and remembers like a mind — not a database. Scroll to descend.">
+  <meta property="og:url" content="https://bodycount82.github.io/genesis-ai/tutorials/">
+  <meta property="og:image" content="https://bodycount82.github.io/genesis-ai/assets/brand/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@_genesisAI">
+  <meta name="twitter:image" content="https://bodycount82.github.io/genesis-ai/assets/brand/og-image.png">
   <link rel="canonical" href="https://bodycount82.github.io/genesis-ai/tutorials/">
-  <link rel="icon" href="assets/brand/favicon.ico">
-  <link rel="stylesheet" href="styles.css">
+  <script src="assets/shell-guard.js"></script>
+  <link rel="stylesheet" href="assets/site-shell.css">
 </head>
-<body>
-  <a class="skip" href="#main">Skip to content</a>
-  <div class="ambient" aria-hidden="true"></div>
-  <header class="masthead">
-    <a class="brand" href="#" aria-label="Genesis tutorials home"><img class="brand-logo" src="assets/brand/genesis.png" width="36" height="36" alt=""><span>GENESIS <small>THE FIELD GUIDE</small></span></a>
-    <nav aria-label="Tutorial navigation"><a href="../index.html">Website</a><a href="#library">All lessons</a><button data-action="glossary">Plain words</button><button data-action="resume" id="resumeNav" hidden>Continue learning</button></nav>
-  </header>
-  <main id="main" tabindex="-1"><p class="loading">Opening your field guide…</p></main>
-  <footer class="footer"><a class="brand" href="#"><img class="brand-logo" src="assets/brand/genesis.png" width="36" height="36" alt=""> GENESIS</a><p>Learn at your pace. Try a little. Make it yours.</p><button data-action="about">About these screenshots</button><button data-action="reset">Reset tutorial progress</button></footer>
-  <dialog id="dialog" aria-labelledby="dialogTitle"><div id="dialogBody"></div></dialog>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js"></script>
+<body data-route="tutorials.html">
+  <div class="site-shell is-loading" id="siteShell">
+    <iframe class="site-view" id="siteView" src="tutorials/index.view.html" title="Genesis Tutorials — the interactive field guide"></iframe>
+    <div class="route-loader" aria-hidden="true"></div>
+  </div>
+  <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false" aria-label="Play Life Is Life by Laibach">
+    <span class="sound-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-copy"><span>Life Is Life</span><small id="soundChapter">Laibach · play</small></span>
+  </button>
+  <audio id="genesisSong" src="assets/audio/laibach-life-is-life-trimmed.mp3" preload="auto"></audio>
+  <span class="route-status" id="routeStatus" role="status" aria-live="polite"></span>
+  <script src="assets/genesis-score.js"></script>
+  <script src="assets/site-shell.js"></script>
 </body>
 </html>

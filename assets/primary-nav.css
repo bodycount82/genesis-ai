@@ -1,0 +1,44 @@
+.nav {
+  --ink:#f3efe6; --ink-dim:#a9a294; --gold:#d8a94e; --gold-lo:#8a6a2c;
+  --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono:ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, "SF Mono", monospace;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  padding: 0 28px;
+  height: 62px;
+  display: flex; align-items: center; gap: 26px;
+  background: linear-gradient(180deg, rgba(3,3,4,0.85), rgba(3,3,4,0));
+}
+.nav .brand {
+  display: flex; align-items: center; gap: 11px;
+  font-family:var(--sans); line-height:1.6;
+  font-weight: 700; letter-spacing: 0.04em; color: var(--ink);
+  font-size: 17px; white-space: nowrap; flex-shrink: 0;
+}
+.nav .brand:hover { color: var(--ink); }
+.nav .brand .orb {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff3cf, var(--gold) 55%, var(--gold-lo));
+  box-shadow: 0 0 14px rgba(216, 169, 78, 0.85);
+  animation: orbPulse 3.4s ease-in-out infinite;
+}
+@keyframes orbPulse { 50% { box-shadow: 0 0 24px rgba(216, 169, 78, 1); } }
+
+.nav .nav-links { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; }
+.nav .nav-links a {
+  color: var(--ink-dim); font-family: var(--mono); font-size: 12.5px;
+  letter-spacing: 0.06em; padding: 7px 12px; border-radius: 999px;
+  white-space: nowrap; transition: color 0.2s, background 0.2s;
+}
+.nav .nav-links a:hover { color: var(--ink); background: rgba(216,169,78,0.08); }
+.nav .nav-links a.active { color: var(--gold); background: rgba(216,169,78,0.10); }
+
+
+.nav .primary-menu{display:none}
+@media(max-width:700px){
+ .nav{padding:0 17px;gap:16px;background:rgba(3,3,4,.96)}
+ .nav .primary-menu{display:flex;align-items:center;gap:12px;margin-left:auto;padding:9px 14px;border:1px solid rgba(216,169,78,.26);border-radius:999px;background:rgba(216,169,78,.08);color:var(--gold);font:12px var(--mono);cursor:pointer}
+ .nav .primary-menu:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+ .nav .nav-links{display:none;position:absolute;top:56px;right:17px;min-width:190px;flex-direction:column;gap:3px;padding:9px;margin:0;border:1px solid rgba(216,169,78,.26);border-radius:13px;background:#080807;box-shadow:0 14px 40px #0009;overflow:visible}
+ .nav.is-open .nav-links{display:flex}
+ .nav .nav-links a{padding:12px 15px;border-radius:7px}
+}

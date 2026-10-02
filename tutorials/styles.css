@@ -46,3 +46,8 @@ dialog{background:#0a0909;color:var(--ink);border:1px solid #d8a94e40;border-rad
 @media(max-width:820px){.lesson-sidebar{grid-row:1}.course-panel{padding:21px 23px}.annotation-label{left:50%;transform:translateX(-50%)}.screen-steps{padding:10px}.screen-steps button{font-size:10px}}
 @media(max-width:520px){.annotation-label{left:50%}.annotation-label b{font-size:11px}.picker-row{gap:9px;padding:12px 6px}.picker-name{font-size:12px}.picker-status{font-size:8px}.picker-list{padding-right:1px}.picker-filters{gap:6px;margin-bottom:15px}}
 @media print{body{background:white;color:#111}.masthead,.footer,.ambient,.lesson-workspace,.lesson-below,.lesson-tools,.related,.crumbs{display:none}.lesson-title p,.full-lesson p,.full-lesson .check{color:#222}.full-lesson{display:block}.full-lesson article{break-inside:avoid}.full-lesson summary{display:none}.full-lesson h3{color:#111}.lesson-page{padding:0}.full-lesson:not([open])>article{display:block}}
+
+/* The primary bar matches the rest of the website; learning controls stay separate. */
+body{padding-top:62px}.masthead{top:62px;height:64px}.guide-title{font:12px var(--mono);color:var(--gold);letter-spacing:.08em;white-space:nowrap}.masthead nav{gap:24px}
+@media(max-width:700px){.masthead{padding:0 17px;gap:12px}.guide-title{font-size:10px}.masthead nav{gap:14px}.masthead nav a,.masthead nav button{font-size:11px}}
+@media(max-width:390px){.guide-title{display:none}.masthead nav{margin-left:0;justify-content:space-between;width:100%}}
