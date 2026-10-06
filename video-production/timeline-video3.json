@@ -1,0 +1,4787 @@
+{
+  "title": "Choose your intelligence",
+  "subtitle": "Complete category 2",
+  "music": "C:/Development-Gen/songs/video 3 song.mp3",
+  "outputFolder": "output/video-03",
+  "filename": "Genesis-Choose-Your-Intelligence.mp4",
+  "lessonIds": [
+    "local-model",
+    "cloud-model",
+    "parse-code",
+    "model-controls",
+    "backup"
+  ],
+  "chapters": [
+    "Introduction",
+    "Connect a model on your computer",
+    "Connect a cloud model",
+    "Add a model by pasting connection code",
+    "Understand model settings",
+    "Keep going with a backup model"
+  ],
+  "progressLabels": [
+    "LOCAL MODEL",
+    "CLOUD MODEL",
+    "PASTE CODE",
+    "MODEL CONTROLS",
+    "BACKUP"
+  ],
+  "sourceLessons": [
+    {
+      "id": "local-model",
+      "title": "Connect a model on your computer",
+      "group": "models",
+      "coursePosition": 7,
+      "prerequisites": "A downloaded local model, or the first-run automatic setup. Enough disk space and memory for that model.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Understand the two local routes",
+          "screenshot": "screens/models.png",
+          "screenshotSha256": "d019c6eabb3ceb009dcf2f9ffd5ebdd90616928c1c87b19593d7abc7fbae0605",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Ollama (local)",
+            "x": 373,
+            "y": 874,
+            "width": 85,
+            "height": 20,
+            "xPercent": 23.3125,
+            "yPercent": 87.4
+          },
+          "annotation": {
+            "left": 326.5,
+            "right": 419.5,
+            "top": 860,
+            "bottom": 888,
+            "startX": 504.5,
+            "startY": 1000,
+            "endX": 419.5,
+            "endY": 874,
+            "below": true,
+            "path": "M 504.5 1000 L 504.5 929 L 419.5 874"
+          },
+          "narrationDraft": "Ollama manages downloaded models by name. llama.cpp loads a model file, usually ending in .gguf. Both can run the brain on your computer. Downloading a model initially needs internet; after setup, local inference can work offline. Internet tools still need internet.",
+          "checkpoint": "You have chosen Ollama or llama.cpp.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Open Models and create a template",
+          "screenshot": "screens/model-new.png",
+          "screenshotSha256": "20b91b5e5543b9cd7f26b71684c04d3da5f87bb3736470478b0f1cc784ea3c1a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Template name",
+            "x": 795,
+            "y": 152,
+            "width": 524,
+            "height": 17,
+            "xPercent": 49.6875,
+            "yPercent": 15.2
+          },
+          "annotation": {
+            "left": 529,
+            "right": 1061,
+            "top": 139.5,
+            "bottom": 164.5,
+            "startX": 1146,
+            "startY": 0,
+            "endX": 1061,
+            "endY": 152,
+            "below": false,
+            "path": "M 1146 0 L 1146 97 L 1061 152"
+          },
+          "narrationDraft": "Open Settings → Models → New. Give the template an easy name such as “My everyday local model.” A template, also called a preset, is a saved model connection and its settings. Choosing a preset later saves you from typing the connection again.",
+          "checkpoint": "The New template window is open.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "For Ollama, match the model name",
+          "screenshot": "screens/model-connection.png",
+          "screenshotSha256": "6867112af92abbf372e6f5f5e90c86a8eebcd6f4f3b76dd90da994c1b49293ad",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Model name",
+            "x": 319,
+            "y": 280,
+            "width": 78,
+            "height": 20,
+            "xPercent": 19.9375,
+            "yPercent": 28
+          },
+          "annotation": {
+            "left": 276,
+            "right": 362,
+            "top": 266,
+            "bottom": 294,
+            "startX": 447,
+            "startY": 0,
+            "endX": 362,
+            "endY": 280,
+            "below": false,
+            "path": "M 447 0 L 447 225 L 362 280"
+          },
+          "narrationDraft": "Choose Ollama (local). Keep the local endpoint if Ollama is on this computer. Enter the exact installed model name. The example qwen3:8b only works when that model is installed in Ollama. Genesis’s automatic welcome setup can download a model for you; typing a name in Models does not download it.",
+          "checkpoint": "The model name matches an installed Ollama model.",
+          "tip": "An endpoint is the address of the model service. “127.0.0.1” means this computer."
+        },
+        {
+          "step": 4,
+          "title": "For llama.cpp, choose your GGUF file",
+          "screenshot": "screens/model-new.png",
+          "screenshotSha256": "20b91b5e5543b9cd7f26b71684c04d3da5f87bb3736470478b0f1cc784ea3c1a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "GGUF model path",
+            "x": 658,
+            "y": 442,
+            "width": 251,
+            "height": 20,
+            "xPercent": 41.125,
+            "yPercent": 44.2
+          },
+          "annotation": {
+            "left": 528.5,
+            "right": 787.5,
+            "top": 428,
+            "bottom": 456,
+            "startX": 872.5,
+            "startY": 0,
+            "endX": 787.5,
+            "endY": 442,
+            "below": false,
+            "path": "M 872.5 0 L 872.5 387 L 787.5 442"
+          },
+          "narrationDraft": "Choose llama.cpp (local). Enter the GGUF model path and check the endpoint. Genesis can load a configured local model when selected. If you already run your own server, use its address and matching model setup. GPU layers controls how much work goes to the graphics card; start with the supplied settings.",
+          "checkpoint": "The file path points to an existing GGUF model.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Save a modest starting configuration",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Context window",
+            "x": 596,
+            "y": 451,
+            "width": 580,
+            "height": 20,
+            "xPercent": 37.25,
+            "yPercent": 45.1
+          },
+          "annotation": {
+            "left": 302,
+            "right": 890,
+            "top": 437,
+            "bottom": 465,
+            "startX": 975,
+            "startY": 0,
+            "endX": 890,
+            "endY": 451,
+            "below": false,
+            "path": "M 975 0 L 975 396 L 890 451"
+          },
+          "narrationDraft": "Leave the model’s recommended generation settings in place. Large context sizes and large models need more memory. A context number in Genesis does not give a model more capacity than its server or hardware supports. Save the template, choose it, and press Save changes in the Models page.",
+          "checkpoint": "The selected primary is the local model you configured.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Say hello and check the answer",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Choose primary model from saved templates",
+            "x": 1167,
+            "y": 922,
+            "width": 81,
+            "height": 30,
+            "xPercent": 72.9375,
+            "yPercent": 92.2
+          },
+          "annotation": {
+            "left": 1122.5,
+            "right": 1211.5,
+            "top": 903,
+            "bottom": 941,
+            "startX": 1296.5,
+            "startY": 1000,
+            "endX": 1211.5,
+            "endY": 922,
+            "below": true,
+            "path": "M 1296.5 1000 L 1296.5 977 L 1211.5 922"
+          },
+          "narrationDraft": "Return to Conversation and send a short hello. If it cannot connect, check that the local model service is running, the address is right and the name matches. If it is very slow or runs out of memory, try a smaller model or smaller supported context.",
+          "checkpoint": "A real answer arrives from your local model.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "cloud-model",
+      "title": "Connect a cloud model",
+      "group": "models",
+      "coursePosition": 8,
+      "prerequisites": "An account and API key from the provider you chose. Internet access.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Choose where answers will come from",
+          "screenshot": "screens/models.png",
+          "screenshotSha256": "d019c6eabb3ceb009dcf2f9ffd5ebdd90616928c1c87b19593d7abc7fbae0605",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "NVIDIA Cloud",
+            "x": 745,
+            "y": 874,
+            "width": 86,
+            "height": 20,
+            "xPercent": 46.5625,
+            "yPercent": 87.4
+          },
+          "annotation": {
+            "left": 698,
+            "right": 792,
+            "top": 860,
+            "bottom": 888,
+            "startX": 877,
+            "startY": 1000,
+            "endX": 792,
+            "endY": 874,
+            "below": true,
+            "path": "M 877 1000 L 877 929 L 792 874"
+          },
+          "narrationDraft": "Open Settings → Models. The provider choices include NVIDIA Cloud, Nebius Token Factory, Anthropic, and Custom (OpenAI-compatible). Custom is for a service that accepts the compatible API format. A chat website subscription and an API account may be separate; use the key for the service’s API.",
+          "checkpoint": "You have selected the provider you actually have access to.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Keep the connection details together",
+          "screenshot": "screens/model-new.png",
+          "screenshotSha256": "20b91b5e5543b9cd7f26b71684c04d3da5f87bb3736470478b0f1cc784ea3c1a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Model name",
+            "x": 572,
+            "y": 551,
+            "width": 78,
+            "height": 20,
+            "xPercent": 35.75,
+            "yPercent": 55.1
+          },
+          "annotation": {
+            "left": 529,
+            "right": 615,
+            "top": 537,
+            "bottom": 565,
+            "startX": 700,
+            "startY": 1000,
+            "endX": 615,
+            "endY": 551,
+            "below": true,
+            "path": "M 700 1000 L 700 606 L 615 551"
+          },
+          "narrationDraft": "Choose a matching preset or make a new template. For providers with an Endpoint URL, use the base address supplied by that provider. Enter the exact Model name available to your API account. Example names and example URLs are placeholders, not a working account.",
+          "checkpoint": "Provider, endpoint and model name all belong to the same service.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Enter your key in its own field",
+          "screenshot": "screens/model-cloud.png",
+          "screenshotSha256": "2e8825e1ba0447a272182472e235fc568c421f0e9c09b39081368e297356bb77",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "API key",
+            "x": 508,
+            "y": 376,
+            "width": 456,
+            "height": 20,
+            "xPercent": 31.75,
+            "yPercent": 37.6
+          },
+          "annotation": {
+            "left": 276,
+            "right": 740,
+            "top": 362,
+            "bottom": 390,
+            "startX": 825,
+            "startY": 0,
+            "endX": 740,
+            "endY": 376,
+            "below": false,
+            "path": "M 825 0 L 825 321 L 740 376"
+          },
+          "narrationDraft": "Paste the provider’s API key into the key field on the Models page. Keys are stored separately from templates. Do not put your real key in a screenshot or shared example. Parse code does not fill the key field; a copied example is not a substitute for entering the key here.",
+          "checkpoint": "The provider key field reports that a key is set after saving.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Use the provider’s supported settings",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Generation parameters",
+            "x": 355,
+            "y": 219,
+            "width": 149,
+            "height": 17,
+            "xPercent": 22.1875,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276.5,
+            "right": 433.5,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 518.5,
+            "startY": 0,
+            "endX": 433.5,
+            "endY": 219,
+            "below": false,
+            "path": "M 518.5 0 L 518.5 164 L 433.5 219"
+          },
+          "narrationDraft": "Start with a supplied preset or the provider’s example connection code. Some providers do not accept every generation control. A disabled parameter switch leaves that form parameter out where supported. Provider-specific thinking profiles belong to the matching model, not every model you own.",
+          "checkpoint": "Your settings match what the provider supports.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Save and try a short request",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Choose primary model from saved templates",
+            "x": 1167,
+            "y": 922,
+            "width": 81,
+            "height": 30,
+            "xPercent": 72.9375,
+            "yPercent": 92.2
+          },
+          "annotation": {
+            "left": 1122.5,
+            "right": 1211.5,
+            "top": 903,
+            "bottom": 941,
+            "startX": 1296.5,
+            "startY": 1000,
+            "endX": 1211.5,
+            "endY": 922,
+            "below": true,
+            "path": "M 1296.5 1000 L 1296.5 977 L 1211.5 922"
+          },
+          "narrationDraft": "Click Save changes, return to Conversation and send a short request. A wrong model name, expired key, exhausted quota or incorrect address can prevent a reply. Check those first. The Backup lesson shows how a second model can help when the primary becomes unavailable.",
+          "checkpoint": "You receive an answer before trying a larger task.",
+          "tip": "Cloud usage may have charges or limits set by the provider. Genesis’s activity totals are not your provider’s bill."
+        }
+      ]
+    },
+    {
+      "id": "parse-code",
+      "title": "Add a model by pasting connection code",
+      "group": "models",
+      "coursePosition": 9,
+      "prerequisites": "A provider’s example Python, cURL, Node or compatible connection snippet. Use an example without your real secret.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Start with the provider and key",
+          "screenshot": "screens/models.png",
+          "screenshotSha256": "d019c6eabb3ceb009dcf2f9ffd5ebdd90616928c1c87b19593d7abc7fbae0605",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Models",
+            "x": 303,
+            "y": 181,
+            "width": 79,
+            "height": 28,
+            "xPercent": 18.9375,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 259.5,
+            "right": 346.5,
+            "top": 163,
+            "bottom": 199,
+            "startX": 431.5,
+            "startY": 0,
+            "endX": 346.5,
+            "endY": 181,
+            "below": false,
+            "path": "M 431.5 0 L 431.5 126 L 346.5 181"
+          },
+          "narrationDraft": "Open Settings → Models and choose the right provider, or use New for a separate template. Enter the actual API key in the provider’s key field. The parser reads the example as text; it does not run the pasted program, install a model or create a provider account.",
+          "checkpoint": "You are editing the intended provider or template.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Open the optional code panel",
+          "screenshot": "screens/model-code.png",
+          "screenshotSha256": "8688de689da8a39e1cf104f994892e0804bd11adcadcd8acbc7dfabcc95dbcd3",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Paste connection code (optional)",
+            "x": 389,
+            "y": 219,
+            "width": 217,
+            "height": 17,
+            "xPercent": 24.3125,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276.5,
+            "right": 501.5,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 586.5,
+            "startY": 0,
+            "endX": 501.5,
+            "endY": 219,
+            "below": false,
+            "path": "M 586.5 0 L 586.5 164 L 501.5 219"
+          },
+          "narrationDraft": "Find Paste connection code (optional) and click Show. Paste the provider’s connection example. It can contain the model name, base URL and request settings. The example in this tutorial uses a deliberately nonworking example address and key placeholder. For your model, copy the provider’s real documented values.",
+          "checkpoint": "The connection snippet is visible in the text box.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Click Parse code and review the result",
+          "screenshot": "screens/model-parsed.png",
+          "screenshotSha256": "1f4aafb6a643de752f725d3aee55cda64b74c1581933d9cb30e6d8727251a909",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Parse code",
+            "x": 317,
+            "y": 414,
+            "width": 74,
+            "height": 25,
+            "xPercent": 19.8125,
+            "yPercent": 41.4
+          },
+          "annotation": {
+            "left": 276,
+            "right": 358,
+            "top": 397.5,
+            "bottom": 430.5,
+            "startX": 443,
+            "startY": 0,
+            "endX": 358,
+            "endY": 414,
+            "below": false,
+            "path": "M 443 0 L 443 359 L 358 414"
+          },
+          "narrationDraft": "Click Parse code. Genesis extracts values it recognises, redacts key text in the saved snippet, and shows detected information or warnings. When it finds a model and base URL, those fill the relevant form fields. Image capability and thinking profiles can also be detected. Check the result; unusual code may not be fully understood.",
+          "checkpoint": "The imported checklist contains the values you expected.",
+          "tip": "Do not assume the parser chose a different provider for you. Check the provider yourself. It never reads the real API key into the key field."
+        },
+        {
+          "step": 4,
+          "title": "Understand which value will be sent",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Temperature",
+            "x": 386,
+            "y": 313,
+            "width": 159,
+            "height": 20,
+            "xPercent": 24.125,
+            "yPercent": 31.3
+          },
+          "annotation": {
+            "left": 302.5,
+            "right": 469.5,
+            "top": 299,
+            "bottom": 327,
+            "startX": 554.5,
+            "startY": 0,
+            "endX": 469.5,
+            "endY": 313,
+            "below": false,
+            "path": "M 554.5 0 L 554.5 258 L 469.5 313"
+          },
+          "narrationDraft": "With Apply pasted parameters to this model on, each checked imported key wins over the matching form value. In our example, imported temperature = 0.7 wins even if the temperature field still displays 0.3. The field can be dimmed and labelled “Pasted code applies temperature.” The summary labels imported values “pasted.”",
+          "checkpoint": "You can identify the value that will actually control the next request.",
+          "tip": "Temperature affects how varied answers are. The pasted value is active; a visible old slider value is not necessarily the value being sent."
+        },
+        {
+          "step": 5,
+          "title": "Give one setting back to its slider",
+          "screenshot": "screens/model-parsed.png",
+          "screenshotSha256": "1f4aafb6a643de752f725d3aee55cda64b74c1581933d9cb30e6d8727251a909",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Parameters from pasted code",
+            "x": 647,
+            "y": 529,
+            "width": 708,
+            "height": 15,
+            "xPercent": 40.4375,
+            "yPercent": 52.9
+          },
+          "annotation": {
+            "left": 289,
+            "right": 1005,
+            "top": 517.5,
+            "bottom": 540.5,
+            "startX": 1090,
+            "startY": 1000,
+            "endX": 1005,
+            "endY": 529,
+            "below": true,
+            "path": "M 1090 1000 L 1090 584 L 1005 529"
+          },
+          "narrationDraft": "To control temperature from the normal form again, uncheck temperature in the imported checklist. Then enable and adjust the form’s Temperature control. Other checked imported keys still apply. To stop using all pasted parameters together, turn off the master Apply pasted parameters switch.",
+          "checkpoint": "Only the imported keys you want remain active.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Know the separate settings",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Context window",
+            "x": 596,
+            "y": 451,
+            "width": 580,
+            "height": 20,
+            "xPercent": 37.25,
+            "yPercent": 45.1
+          },
+          "annotation": {
+            "left": 302,
+            "right": 890,
+            "top": 437,
+            "bottom": 465,
+            "startX": 975,
+            "startY": 0,
+            "endX": 890,
+            "endY": 451,
+            "below": false,
+            "path": "M 975 0 L 975 396 L 890 451"
+          },
+          "narrationDraft": "Imported max_tokens or max_completion_tokens can replace the form’s output limit. seed may have no normal slider. The Context window is Genesis’s prompt budget and local-server setting; it is not simply another pasted request parameter. Active thinking ON/OFF profiles can override pasted thinking-related settings when thinking changes.",
+          "checkpoint": "You know which settings are separate from the imported checklist.",
+          "tip": ""
+        },
+        {
+          "step": 7,
+          "title": "Save both the configuration and the template you need",
+          "screenshot": "screens/model-parsed.png",
+          "screenshotSha256": "1f4aafb6a643de752f725d3aee55cda64b74c1581933d9cb30e6d8727251a909",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Save changes",
+            "x": 1518,
+            "y": 116,
+            "width": 116,
+            "height": 30,
+            "xPercent": 94.875,
+            "yPercent": 11.6
+          },
+          "annotation": {
+            "left": 1456,
+            "right": 1580,
+            "top": 97,
+            "bottom": 135,
+            "startX": 1371,
+            "startY": 0,
+            "endX": 1456,
+            "endY": 116,
+            "below": false,
+            "path": "M 1371 0 L 1371 61 L 1456 116"
+          },
+          "narrationDraft": "Check the provider, URL, model name, key status and imported values. In an existing Models form, Save changes applies the edited configuration. Update template saves changes back into the selected reusable template. In a New template window, use Create template, then Save changes on the Models page. Test a short message.",
+          "checkpoint": "The chosen model answers with the saved configuration.",
+          "tip": ""
+        },
+        {
+          "step": 8,
+          "title": "Switch models without carrying the old example along",
+          "screenshot": "screens/model-chooser.png",
+          "screenshotSha256": "ccce6741cb119e5d6a8698eb3dd4e76f301621107a3c05727e32a73f8a5fde45",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Primary model",
+            "x": 1053,
+            "y": 605,
+            "width": 268,
+            "height": 34,
+            "xPercent": 65.8125,
+            "yPercent": 60.5
+          },
+          "annotation": {
+            "left": 915,
+            "right": 1191,
+            "top": 584,
+            "bottom": 626,
+            "startX": 1276,
+            "startY": 1000,
+            "endX": 1191,
+            "endY": 605,
+            "below": true,
+            "path": "M 1276 1000 L 1276 660 L 1191 605"
+          },
+          "narrationDraft": "When you select a different saved preset, its own settings replace the model-specific pasted configuration. Old presets without imported values receive neutral defaults. Keep separate presets for different models. Clear removes the imported snippet and keys; review any separately detected thinking profiles or image capability afterward.",
+          "checkpoint": "Each preset has the connection and parameters intended for that model.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "model-controls",
+      "title": "Understand model settings",
+      "group": "models",
+      "coursePosition": 10,
+      "prerequisites": "Settings → Models open. Start with a working preset.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Context is the model’s working desk",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Context window",
+            "x": 596,
+            "y": 451,
+            "width": 580,
+            "height": 20,
+            "xPercent": 37.25,
+            "yPercent": 45.1
+          },
+          "annotation": {
+            "left": 302,
+            "right": 890,
+            "top": 437,
+            "bottom": 465,
+            "startX": 975,
+            "startY": 0,
+            "endX": 890,
+            "endY": 451,
+            "below": false,
+            "path": "M 975 0 L 975 396 L 890 451"
+          },
+          "narrationDraft": "Context window is how much text can fit into one model request: instructions, conversation, memories and tools. Max output tokens limits one generated reply. A token is a small piece of text, not necessarily a whole word. More output leaves less room for input within the total window.",
+          "checkpoint": "You can distinguish the input workspace from the length of one answer.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Use a size your model can really handle",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Trust my context window",
+            "x": 621,
+            "y": 520,
+            "width": 682,
+            "height": 20,
+            "xPercent": 38.8125,
+            "yPercent": 52
+          },
+          "annotation": {
+            "left": 276,
+            "right": 966,
+            "top": 506,
+            "bottom": 534,
+            "startX": 1051,
+            "startY": 1000,
+            "endX": 966,
+            "endY": 520,
+            "below": true,
+            "path": "M 1051 1000 L 1051 575 L 966 520"
+          },
+          "narrationDraft": "Genesis checks model limits and local memory where possible. Trust my context window overrides some local safeguards; use it only when both the server and hardware support your chosen size. Context framing reserve keeps room for chat and tool formatting. Turning off the form’s context switch does not remove Genesis’s internal safe prompt budget.",
+          "checkpoint": "The context choice agrees with your model and server.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Variety and repetition controls",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Temperature",
+            "x": 386,
+            "y": 313,
+            "width": 159,
+            "height": 20,
+            "xPercent": 24.125,
+            "yPercent": 31.3
+          },
+          "annotation": {
+            "left": 302.5,
+            "right": 469.5,
+            "top": 299,
+            "bottom": 327,
+            "startX": 554.5,
+            "startY": 0,
+            "endX": 469.5,
+            "endY": 313,
+            "below": false,
+            "path": "M 554.5 0 L 554.5 258 L 469.5 313"
+          },
+          "narrationDraft": "Temperature adjusts variation. Top-P and Top-K adjust which possible next words can be considered. Presence penalty and Repeat penalty affect repetition when supported. These are optional fine-tuning controls. Keep the model’s recommended values until you have a specific problem to solve.",
+          "checkpoint": "You know what these controls broadly mean without needing to change them.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Reasoning and streaming",
+          "screenshot": "screens/model-reasoning.png",
+          "screenshotSha256": "cd6aa726b6b87d1eb140070e9b6f3eab694c47e17243b3f1f9c6c99792a1cd12",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Reasoning & streaming",
+            "x": 647,
+            "y": 418,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 41.8
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 405.5,
+            "bottom": 430.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 418,
+            "below": false,
+            "path": "M 1103 0 L 1103 363 L 1018 418"
+          },
+          "narrationDraft": "The reasoning chooser appears according to the model’s abilities. Use profile follows the saved configuration; supported models may offer Off, Low, Medium or High. Stream mode shows words as they arrive; off waits for a full reply. Streaming changes presentation, not whether Genesis can use tools.",
+          "checkpoint": "You can choose a supported reasoning level and recognise streaming.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Advanced profiles and mood-following thinking",
+          "screenshot": "screens/model-reasoning.png",
+          "screenshotSha256": "cd6aa726b6b87d1eb140070e9b6f3eab694c47e17243b3f1f9c6c99792a1cd12",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Reasoning & streaming",
+            "x": 647,
+            "y": 418,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 41.8
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 405.5,
+            "bottom": 430.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 418,
+            "below": false,
+            "path": "M 1103 0 L 1103 363 L 1018 418"
+          },
+          "narrationDraft": "Advanced thinking profiles and Custom reasoning levels describe provider-specific request settings. Use the provider’s supported values; invented level names do not give a model new abilities. Thinking follows mood, when enabled, adjusts effort within your selected ceiling for supported models. It does not add reasoning levels to a model that has none.",
+          "checkpoint": "You understand why some controls are unavailable for a particular model.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "backup",
+      "title": "Keep going with a backup model",
+      "group": "models",
+      "coursePosition": 11,
+      "prerequisites": "Two working saved model presets. A local backup can work when a cloud service is unavailable.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Save the backup first",
+          "screenshot": "screens/model-chooser.png",
+          "screenshotSha256": "ccce6741cb119e5d6a8698eb3dd4e76f301621107a3c05727e32a73f8a5fde45",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Primary model",
+            "x": 1053,
+            "y": 605,
+            "width": 268,
+            "height": 34,
+            "xPercent": 65.8125,
+            "yPercent": 60.5
+          },
+          "annotation": {
+            "left": 915,
+            "right": 1191,
+            "top": 584,
+            "bottom": 626,
+            "startX": 1276,
+            "startY": 1000,
+            "endX": 1191,
+            "endY": 605,
+            "below": true,
+            "path": "M 1276 1000 L 1276 660 L 1191 605"
+          },
+          "narrationDraft": "Connect and test your second model, then save it as a preset. A backup must be able to answer on its own. Selecting an uninstalled local model or a cloud model without a valid key will not provide a working backup.",
+          "checkpoint": "Both the primary and backup have answered a small test.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Choose Backup model",
+          "screenshot": "screens/models.png",
+          "screenshotSha256": "d019c6eabb3ceb009dcf2f9ffd5ebdd90616928c1c87b19593d7abc7fbae0605",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Backup model",
+            "x": 442,
+            "y": 629,
+            "width": 325,
+            "height": 20,
+            "xPercent": 27.625,
+            "yPercent": 62.9
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 608.5,
+            "top": 615,
+            "bottom": 643,
+            "startX": 693.5,
+            "startY": 1000,
+            "endX": 608.5,
+            "endY": 629,
+            "below": true,
+            "path": "M 693.5 1000 L 693.5 684 L 608.5 629"
+          },
+          "narrationDraft": "Open Settings → Models → Companion failover — not Missions. Choose the second preset under Backup model and click Save changes. This covers Chat, Work, Autonomy and companion helpers. The compact Backup chooser below the Modern message box also selects a saved backup.",
+          "checkpoint": "The backup status reports standby or current fallback use.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Know what makes it switch",
+          "screenshot": "screens/chat-backup.png",
+          "screenshotSha256": "5c5b3d0a38a3b34ae3fe381fa22c52f53611856e56235d0491171bcb5b4bfd5a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+            "x": 651,
+            "y": 968,
+            "width": 103,
+            "height": 29,
+            "xPercent": 40.6875,
+            "yPercent": 96.8
+          },
+          "annotation": {
+            "left": 595.5,
+            "right": 706.5,
+            "top": 949.5,
+            "bottom": 986.5,
+            "startX": 791.5,
+            "startY": 1000,
+            "endX": 706.5,
+            "endY": 968,
+            "below": true,
+            "path": "M 791.5 1000 L 791.5 1000 L 706.5 968"
+          },
+          "narrationDraft": "If the primary fails before delivering an answer—for example because of a provider usage limit, rate limit, timeout or outage—Genesis can retry through the configured backup. It carries the working request forward. Content or tool work already delivered is not blindly replayed on the backup, so fallback is not a promise that every partial failure can be recovered.",
+          "checkpoint": "You recognise the backup status when the demonstration shows it.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Your primary choice stays saved",
+          "screenshot": "screens/chat-backup.png",
+          "screenshotSha256": "5c5b3d0a38a3b34ae3fe381fa22c52f53611856e56235d0491171bcb5b4bfd5a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+            "x": 651,
+            "y": 968,
+            "width": 103,
+            "height": 29,
+            "xPercent": 40.6875,
+            "yPercent": 96.8
+          },
+          "annotation": {
+            "left": 595.5,
+            "right": 706.5,
+            "top": 949.5,
+            "bottom": 986.5,
+            "startX": 791.5,
+            "startY": 1000,
+            "endX": 706.5,
+            "endY": 968,
+            "below": true,
+            "path": "M 791.5 1000 L 791.5 1000 L 706.5 968"
+          },
+          "narrationDraft": "The primary’s saved connection remains your primary. The status explains which model is actually answering, separately from your chosen primary. Your backup might be less capable: a smaller local model may give a simpler answer, and it may need a separate vision helper for pictures.",
+          "checkpoint": "You can tell a configured primary from the effective backup.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Return happens on a real request",
+          "screenshot": "screens/models.png",
+          "screenshotSha256": "d019c6eabb3ceb009dcf2f9ffd5ebdd90616928c1c87b19593d7abc7fbae0605",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Retry primary after (minutes)",
+            "x": 566,
+            "y": 681,
+            "width": 572,
+            "height": 20,
+            "xPercent": 35.375,
+            "yPercent": 68.1
+          },
+          "annotation": {
+            "left": 276,
+            "right": 856,
+            "top": 667,
+            "bottom": 695,
+            "startX": 941,
+            "startY": 1000,
+            "endX": 856,
+            "endY": 681,
+            "below": true,
+            "path": "M 941 1000 L 941 736 L 856 681"
+          },
+          "narrationDraft": "Retry primary after (minutes) is the cooldown. After it passes, the next real request tests the primary. Success returns to primary; failure starts another waiting period. Genesis does not make a paid background ping just because the timer expires. A backend restart starts with the saved primary again.",
+          "checkpoint": "You understand why the status can say the next request will retry.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Missions have a separate backup for each role",
+          "screenshot": "screens/mission-models.png",
+          "screenshotSha256": "7b8d876127c6bb208098885d84b65e998773e998067f56a68ef272e2e1a2eca8",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Role models",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "Open Settings → Missions → Role models for mission primary and backup choices. The companion backup does not govern Missions. Each role may use a different model and has its own failover window for provider rate limits. Check these before a big job.",
+          "checkpoint": "You know where to set the mission’s independent model choices.",
+          "tip": "Usage limits are different from a full context window or a task’s step budget. A backup does not remove those other limits."
+        }
+      ]
+    }
+  ],
+  "audio": {
+    "repeatStart": 7.5,
+    "trimEnd": 231.5,
+    "crossfade": 8,
+    "fadeIn": 4,
+    "fadeOut": 8,
+    "rationale": "Video-3 decoded envelope: retain its original opening once; repeats enter at the first strong 7.5s section. Use a 224s musical span and 8s overlap (216s repeat spacing); omit the descending near-silent ending after 237s. Equal-power overlaps cover the final 223.5–231.5s phrase with the incoming 7.5–15.5s phrase. Four-second opening and eight-second final fades, calm -20 LUFS target. Instrumented envelope inspection; no continuous subjective-listening claim."
+  },
+  "scenes": [
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "GENESIS AI · CATEGORY 2",
+      "title": "Choose your\nintelligence",
+      "body": "Five complete lessons for a model setup you understand.\nLocal. Cloud. Connection code. Controls. Backup.",
+      "tag": "VIDEO 3 · COMPLETE CATEGORY 2",
+      "readingWords": 18,
+      "readingSeconds": 7.199999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "GENESIS AI · CATEGORY 2",
+      "title": "Your route\nthrough this video",
+      "items": [
+        "Connect a model on your computer",
+        "Connect a cloud model",
+        "Add a model by pasting connection code",
+        "Understand model settings",
+        "Keep going with a backup model"
+      ],
+      "note": "Have Genesis open. Pause to practice. Screenshots are demonstration fixtures; displayed numbers are not recommendations. Test your own connection.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 31,
+      "kind": "compare",
+      "eyebrow": "GENESIS AI · CATEGORY 2",
+      "title": "Pick a brain\nfor the job",
+      "cards": [
+        {
+          "title": "LOCAL",
+          "body": "Runs on your computer. Choose a model that fits your memory and a service that can load it.",
+          "tag": "YOUR COMPUTER"
+        },
+        {
+          "title": "CLOUD",
+          "body": "Runs at your provider. Requires internet, API access and matching connection details.",
+          "tag": "PROVIDER’S COMPUTERS"
+        }
+      ],
+      "note": "Both routes use saved presets. A working second preset can become your backup.",
+      "readingWords": 55,
+      "readingSeconds": 22,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "01 / LOCAL MODEL",
+      "title": "Your computer.\nYour model.",
+      "body": "Connect a model on your computer\nThe local route, saved setup and first real answer.",
+      "tag": "LESSON 1 OF 5",
+      "readingWords": 19,
+      "readingSeconds": 7.6000000000000005,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL",
+      "title": "Before\nyou begin",
+      "items": [
+        "A downloaded local model, or the first-run automatic setup. Enough disk space and memory for that model."
+      ],
+      "note": "These are the prerequisites for this lesson. Prepare them before you try the connection.",
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 1",
+      "title": "Two local\nroutes",
+      "body": "Ollama manages downloaded models by name. llama.cpp loads a model file, usually ending in .gguf. Both can run the brain on your computer.",
+      "screen": "models",
+      "crop": [
+        265,
+        810,
+        765,
+        140
+      ],
+      "highlight": [
+        330.5,
+        864,
+        85,
+        20
+      ],
+      "callout": "Ollama (local)",
+      "note": "Step 1 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 1",
+      "title": "Two local\nroutes",
+      "body": "Downloading a model initially needs internet; after setup, local inference can work offline. Internet tools still need internet.",
+      "screen": "models",
+      "crop": [
+        265,
+        810,
+        765,
+        140
+      ],
+      "highlight": [
+        330.5,
+        864,
+        85,
+        20
+      ],
+      "callout": "Ollama (local)",
+      "note": "Step 1 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 1",
+      "title": "Choose the route\nthat fits",
+      "items": [
+        "Ollama: choose a downloaded model by its name",
+        "llama.cpp: choose an existing .gguf model file",
+        "Initial download: internet required",
+        "Local replies can work offline after setup"
+      ],
+      "note": "A web search still needs internet, even while the model itself runs locally.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You have chosen Ollama or llama.cpp."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 2",
+      "title": "Save a\nuseful preset",
+      "body": "Open Settings → Models → New.",
+      "screen": "model-new",
+      "crop": [
+        515,
+        120,
+        560,
+        215
+      ],
+      "highlight": [
+        533,
+        143.5,
+        524,
+        17
+      ],
+      "callout": "Template name",
+      "note": "Step 2 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 23,
+      "readingSeconds": 9.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 2",
+      "title": "Save a\nuseful preset",
+      "body": "Give the template an easy name such as “My everyday local model.” A template, also called a preset, is a saved model connection and its settings.",
+      "screen": "model-new",
+      "crop": [
+        515,
+        120,
+        560,
+        215
+      ],
+      "highlight": [
+        533,
+        143.5,
+        524,
+        17
+      ],
+      "callout": "Template name",
+      "note": "Step 2 of 6 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 2",
+      "title": "Save a\nuseful preset",
+      "body": "Choosing a preset later saves you from typing the connection again.",
+      "screen": "model-new",
+      "crop": [
+        515,
+        120,
+        560,
+        215
+      ],
+      "highlight": [
+        533,
+        143.5,
+        524,
+        17
+      ],
+      "callout": "Template name",
+      "note": "Step 2 of 6 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 2",
+      "title": "Name it for\nyour everyday job",
+      "items": [
+        "Open Settings → Models → New",
+        "Use “My everyday local model” as the label",
+        "Pick the provider for your local route",
+        "Keep different connections in different presets"
+      ],
+      "note": "The friendly template label is separate from the exact technical model name.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The New template window is open."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 3",
+      "title": "Match the\nOllama name",
+      "body": "Choose Ollama (local). Keep the local endpoint if Ollama is on this computer. Enter the exact installed model name.",
+      "screen": "model-connection",
+      "crop": [
+        270,
+        205,
+        750,
+        225
+      ],
+      "highlight": [
+        280,
+        270,
+        78,
+        20
+      ],
+      "callout": "Model name",
+      "note": "Step 3 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 3",
+      "title": "Match the\nOllama name",
+      "body": "The example qwen3:8b only works when that model is installed in Ollama.",
+      "screen": "model-connection",
+      "crop": [
+        270,
+        205,
+        750,
+        225
+      ],
+      "highlight": [
+        280,
+        270,
+        78,
+        20
+      ],
+      "callout": "Model name",
+      "note": "Step 3 of 6 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 3",
+      "title": "Match the\nOllama name",
+      "body": "Genesis’s automatic welcome setup can download a model for you; typing a name in Models does not download it.",
+      "screen": "model-connection",
+      "crop": [
+        270,
+        205,
+        750,
+        225
+      ],
+      "highlight": [
+        280,
+        270,
+        78,
+        20
+      ],
+      "callout": "Model name",
+      "note": "Step 3 of 6 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 3",
+      "title": "A useful\ndetail",
+      "items": [
+        "An endpoint is the address of the model service. “127.0.0.1” means this computer."
+      ],
+      "note": "Keep this distinction in mind as you practice.",
+      "readingWords": 24,
+      "readingSeconds": 9.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 3",
+      "title": "Check an\nOllama example",
+      "items": [
+        "Example name: qwen3:8b",
+        "Use it only if that exact model is installed",
+        "Example local address: http://127.0.0.1:11434",
+        "Keep the address of your own running service"
+      ],
+      "note": "Typing qwen3:8b into the form saves a name; it does not install that model.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The model name matches an installed Ollama model."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 4",
+      "title": "Choose your\nGGUF file",
+      "body": "Choose llama.cpp (local). Enter the GGUF model path and check the endpoint. Genesis can load a configured local model when selected.",
+      "screen": "model-new",
+      "crop": [
+        520,
+        345,
+        550,
+        250
+      ],
+      "highlight": [
+        532.5,
+        432,
+        251,
+        20
+      ],
+      "callout": "GGUF model path",
+      "note": "Step 4 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 4",
+      "title": "Choose your\nGGUF file",
+      "body": "If you already run your own server, use its address and matching model setup. GPU layers controls how much work goes to the graphics card; start with the supplied settings.",
+      "screen": "model-new",
+      "crop": [
+        520,
+        345,
+        550,
+        250
+      ],
+      "highlight": [
+        532.5,
+        432,
+        251,
+        20
+      ],
+      "callout": "GGUF model path",
+      "note": "Step 4 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 4",
+      "title": "Check a\nGGUF example",
+      "items": [
+        "Example path: C:/Models/my-model.gguf",
+        "Replace it with a real file on your computer",
+        "Use the endpoint of the service that loads it",
+        "Leave GPU layers at the supplied starting value"
+      ],
+      "note": "A filename in this example is a placeholder. An absent file cannot supply a model.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The file path points to an existing GGUF model."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 5",
+      "title": "Start with\nmodest settings",
+      "body": "Leave the model’s recommended generation settings in place. Large context sizes and large models need more memory.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        306,
+        441,
+        580,
+        20
+      ],
+      "callout": "Context window",
+      "note": "Step 5 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 31,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 5",
+      "title": "Start with\nmodest settings",
+      "body": "A context number in Genesis does not give a model more capacity than its server or hardware supports. Save the template, choose it, and press Save changes in the Models page.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        306,
+        441,
+        580,
+        20
+      ],
+      "callout": "Context window",
+      "note": "Step 5 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 51,
+      "readingSeconds": 20.400000000000002,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 5",
+      "title": "Save, choose,\nthen apply",
+      "items": [
+        "Keep the recommended generation settings",
+        "Create the template with your connection",
+        "Choose that template as your primary",
+        "Press Save changes on the Models page"
+      ],
+      "note": "Start with a smaller model and supported context if memory is limited. A larger number is not extra hardware.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The selected primary is the local model you configured."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 6",
+      "title": "Try a\nreal hello",
+      "body": "Return to Conversation and send a short hello. If it cannot connect, check that the local model service is running, the address is right and the name matches.",
+      "screen": "chat-modern",
+      "crop": [
+        1080,
+        870,
+        250,
+        85
+      ],
+      "highlight": [
+        1126.5,
+        907,
+        81,
+        30
+      ],
+      "callout": "Choose primary model from saved templates",
+      "note": "Step 6 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / LOCAL MODEL · STEP 6",
+      "title": "Try a\nreal hello",
+      "body": "If it is very slow or runs out of memory, try a smaller model or smaller supported context.",
+      "screen": "chat-modern",
+      "crop": [
+        1080,
+        870,
+        250,
+        85
+      ],
+      "highlight": [
+        1126.5,
+        907,
+        81,
+        30
+      ],
+      "callout": "Choose primary model from saved templates",
+      "note": "Step 6 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 6",
+      "title": "Run a\nsmall connection test",
+      "items": [
+        "Send: “Hello. Reply with one short sentence.”",
+        "Wait for an actual answer",
+        "If disconnected: check service, address and name",
+        "If slow: try a smaller model or supported context"
+      ],
+      "note": "A saved template proves the configuration was stored. The reply proves your connection works.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "A real answer arrives from your local model."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "local-model",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "01 / LOCAL MODEL",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Review the saved preset and the observed result",
+        "Keep separate configurations for different models",
+        "Return to any step with the lesson chapter",
+        "Continue when the checkpoint is clear"
+      ],
+      "note": "Your pace matters more than the running time. You can revisit the lesson whenever your setup changes.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "02 / CLOUD MODEL",
+      "title": "Connect to\nthe cloud.",
+      "body": "Connect a cloud model\nProvider, endpoint, exact name and private key.",
+      "tag": "LESSON 2 OF 5",
+      "readingWords": 15,
+      "readingSeconds": 6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL",
+      "title": "Before\nyou begin",
+      "items": [
+        "An account and API key from the provider you chose. Internet access."
+      ],
+      "note": "These are the prerequisites for this lesson. Prepare them before you try the connection.",
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 1",
+      "title": "Choose your\ncloud provider",
+      "body": "Open Settings → Models. The provider choices include NVIDIA Cloud, Nebius Token Factory, Anthropic, and Custom (OpenAI-compatible).",
+      "screen": "models",
+      "crop": [
+        265,
+        810,
+        765,
+        140
+      ],
+      "highlight": [
+        702,
+        864,
+        86,
+        20
+      ],
+      "callout": "NVIDIA Cloud",
+      "note": "Step 1 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 1",
+      "title": "Choose your\ncloud provider",
+      "body": "Custom is for a service that accepts the compatible API format. A chat website subscription and an API account may be separate; use the key for the service’s API.",
+      "screen": "models",
+      "crop": [
+        265,
+        810,
+        765,
+        140
+      ],
+      "highlight": [
+        702,
+        864,
+        86,
+        20
+      ],
+      "callout": "NVIDIA Cloud",
+      "note": "Step 1 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 1",
+      "title": "A key for\nthe right service",
+      "items": [
+        "NVIDIA Cloud, Nebius or Anthropic: matching API access",
+        "Custom: an OpenAI-compatible API service",
+        "Use the provider’s API account and API key",
+        "Keep internet available for cloud requests"
+      ],
+      "note": "A chat website membership may be separate from API access. Check the account you are using.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You have selected the provider you actually have access to."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 2",
+      "title": "Keep the\ndetails together",
+      "body": "Choose a matching preset or make a new template. For providers with an Endpoint URL, use the base address supplied by that provider.",
+      "screen": "model-cloud",
+      "crop": [
+        270,
+        205,
+        750,
+        225
+      ],
+      "highlight": [
+        280,
+        270,
+        78,
+        20
+      ],
+      "callout": "Model name: exact identifier from your provider",
+      "note": "Step 2 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 2",
+      "title": "Keep the\ndetails together",
+      "body": "Enter the exact Model name available to your API account. Example names and example URLs are placeholders, not a working account.",
+      "screen": "model-cloud",
+      "crop": [
+        270,
+        205,
+        750,
+        225
+      ],
+      "highlight": [
+        280,
+        270,
+        78,
+        20
+      ],
+      "callout": "Model name: exact identifier from your provider",
+      "note": "Step 2 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 2",
+      "title": "One service,\nthree matching details",
+      "items": [
+        "Provider: the service your account belongs to",
+        "Endpoint: its documented base address, if shown",
+        "Model: the exact identifier your account can use",
+        "Preset label: a friendly name you recognise"
+      ],
+      "note": "Do not combine one company’s key with another service’s example URL or model name.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Provider, endpoint and model name all belong to the same service."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 3",
+      "title": "Use the\nAPI key field",
+      "body": "Paste the provider’s API key into the key field on the Models page. Keys are stored separately from templates. Do not put your real key in a screenshot or shared example.",
+      "screen": "model-cloud",
+      "crop": [
+        270,
+        205,
+        750,
+        235
+      ],
+      "highlight": [
+        280,
+        366,
+        456,
+        20
+      ],
+      "callout": "API key",
+      "note": "Step 3 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 3",
+      "title": "Use the\nAPI key field",
+      "body": "Parse code does not fill the key field; a copied example is not a substitute for entering the key here.",
+      "screen": "model-cloud",
+      "crop": [
+        270,
+        205,
+        750,
+        235
+      ],
+      "highlight": [
+        280,
+        366,
+        456,
+        20
+      ],
+      "callout": "API key",
+      "note": "Step 3 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 3",
+      "title": "Keep your\nkey private",
+      "items": [
+        "Paste the real key only into the provider key field",
+        "Save the configuration",
+        "Look for the saved key-set status",
+        "Use placeholders in shared examples and screenshots"
+      ],
+      "note": "A template and a pasted example are not a substitute for entering the actual key in its own field.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The provider key field reports that a key is set after saving."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 4",
+      "title": "Supported\nsettings only",
+      "body": "Start with a supplied preset or the provider’s example connection code. Some providers do not accept every generation control.",
+      "screen": "model-generation",
+      "crop": [
+        270,
+        205,
+        750,
+        280
+      ],
+      "highlight": [
+        280.5,
+        210.5,
+        149,
+        17
+      ],
+      "callout": "Generation parameters",
+      "note": "Step 4 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 4",
+      "title": "Supported\nsettings only",
+      "body": "A disabled parameter switch leaves that form parameter out where supported. Provider-specific thinking profiles belong to the matching model, not every model you own.",
+      "screen": "model-generation",
+      "crop": [
+        270,
+        205,
+        750,
+        280
+      ],
+      "highlight": [
+        280.5,
+        210.5,
+        149,
+        17
+      ],
+      "callout": "Generation parameters",
+      "note": "Step 4 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 4",
+      "title": "Follow the\nmodel’s support",
+      "items": [
+        "Begin with the matching supplied preset",
+        "Use documented values for that provider and model",
+        "Omit unsupported optional form parameters",
+        "Keep thinking profiles with their matching preset"
+      ],
+      "note": "Switches can omit form parameters where supported. Active imported parameters are covered in the next lesson.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Your settings match what the provider supports."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 5",
+      "title": "Save and\ntry it",
+      "body": "Click Save changes, return to Conversation and send a short request. A wrong model name, expired key, exhausted quota or incorrect address can prevent a reply.",
+      "screen": "chat-modern",
+      "crop": [
+        1080,
+        870,
+        250,
+        85
+      ],
+      "highlight": [
+        1126.5,
+        907,
+        81,
+        30
+      ],
+      "callout": "Choose primary model from saved templates",
+      "note": "Step 5 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / CLOUD MODEL · STEP 5",
+      "title": "Save and\ntry it",
+      "body": "Check those first. The Backup lesson shows how a second model can help when the primary becomes unavailable.",
+      "screen": "chat-modern",
+      "crop": [
+        1080,
+        870,
+        250,
+        85
+      ],
+      "highlight": [
+        1126.5,
+        907,
+        81,
+        30
+      ],
+      "callout": "Choose primary model from saved templates",
+      "note": "Step 5 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 5",
+      "title": "A useful\ndetail",
+      "items": [
+        "Cloud usage may have charges or limits set by the provider.",
+        "Genesis’s activity totals are not your provider’s bill."
+      ],
+      "note": "Keep this distinction in mind as you practice.",
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 5",
+      "title": "Test before\na larger task",
+      "items": [
+        "Save changes, then return to Conversation",
+        "Send one short request",
+        "Check key, exact name, address and quota if it fails",
+        "Inspect provider usage when checking costs"
+      ],
+      "note": "Genesis Activity totals help you track use; they do not replace the provider’s charges or quota page.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You receive an answer before trying a larger task."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "cloud-model",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "02 / CLOUD MODEL",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Review the saved preset and the observed result",
+        "Keep separate configurations for different models",
+        "Return to any step with the lesson chapter",
+        "Continue when the checkpoint is clear"
+      ],
+      "note": "Your pace matters more than the running time. You can revisit the lesson whenever your setup changes.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "03 / PASTE CODE",
+      "title": "Paste. Parse.\nUnderstand.",
+      "body": "Add a model by pasting connection code\nRead the import and know which values win.",
+      "tag": "LESSON 3 OF 5",
+      "readingWords": 18,
+      "readingSeconds": 7.199999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE",
+      "title": "Before\nyou begin",
+      "items": [
+        "A provider’s example Python, cURL, Node or compatible connection snippet.",
+        "Use an example without your real secret."
+      ],
+      "note": "These are the prerequisites for this lesson. Prepare them before you try the connection.",
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 1",
+      "title": "Choose provider\nand key first",
+      "body": "Open Settings → Models and choose the right provider, or use New for a separate template. Enter the actual API key in the provider’s key field.",
+      "screen": "models",
+      "crop": [
+        250,
+        145,
+        790,
+        365
+      ],
+      "highlight": [
+        263.5,
+        167,
+        79,
+        28
+      ],
+      "callout": "Models",
+      "note": "Step 1 of 8 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 1",
+      "title": "Choose provider\nand key first",
+      "body": "The parser reads the example as text; it does not run the pasted program, install a model or create a provider account.",
+      "screen": "models",
+      "crop": [
+        250,
+        145,
+        790,
+        365
+      ],
+      "highlight": [
+        263.5,
+        167,
+        79,
+        28
+      ],
+      "callout": "Models",
+      "note": "Step 1 of 8 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 29,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 1",
+      "title": "What the\nparser does",
+      "items": [
+        "You choose the intended provider or template",
+        "You enter the real API key in its own field",
+        "Parse code reads the pasted example as text",
+        "It neither executes code nor installs a model"
+      ],
+      "note": "Connection code is a convenient source of settings. It cannot create a provider account or grant API access.",
+      "readingWords": 55,
+      "readingSeconds": 22,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You are editing the intended provider or template."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 2",
+      "title": "Show the\ncode panel",
+      "body": "Find Paste connection code (optional) and click Show. Paste the provider’s connection example. It can contain the model name, base URL and request settings.",
+      "screen": "model-code",
+      "crop": [
+        270,
+        205,
+        750,
+        225
+      ],
+      "highlight": [
+        280.5,
+        210.5,
+        217,
+        17
+      ],
+      "callout": "Paste connection code (optional)",
+      "note": "Step 2 of 8 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 2",
+      "title": "Show the\ncode panel",
+      "body": "The example in this tutorial uses a deliberately nonworking example address and key placeholder. For your model, copy the provider’s real documented values.",
+      "screen": "model-code",
+      "crop": [
+        270,
+        205,
+        750,
+        225
+      ],
+      "highlight": [
+        280.5,
+        210.5,
+        217,
+        17
+      ],
+      "callout": "Paste connection code (optional)",
+      "note": "Step 2 of 8 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 2",
+      "title": "Read the\nexample first",
+      "items": [
+        "base_url = https://api.example.com/v1",
+        "model = your-model-name",
+        "api_key = YOUR_API_KEY",
+        "temperature = 0.7; max_tokens = 4096; seed = 42"
+      ],
+      "note": "Deliberately nonworking example values. Use your provider’s documented address and model; keep a placeholder here.",
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The connection snippet is visible in the text box."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 3",
+      "title": "Parse, then\nreview",
+      "body": "Click Parse code. Genesis extracts values it recognises, redacts key text in the saved snippet, and shows detected information or warnings.",
+      "screen": "model-parsed",
+      "crop": [
+        275,
+        275,
+        740,
+        165
+      ],
+      "highlight": [
+        280,
+        401.5,
+        74,
+        25
+      ],
+      "callout": "Parse code",
+      "note": "Step 3 of 8 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 3",
+      "title": "Parse, then\nreview",
+      "body": "When it finds a model and base URL, those fill the relevant form fields. Image capability and thinking profiles can also be detected.",
+      "screen": "model-parsed",
+      "crop": [
+        275,
+        275,
+        740,
+        165
+      ],
+      "highlight": [
+        280,
+        401.5,
+        74,
+        25
+      ],
+      "callout": "Parse code",
+      "note": "Step 3 of 8 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 3",
+      "title": "Parse, then\nreview",
+      "body": "Check the result; unusual code may not be fully understood.",
+      "screen": "model-parsed",
+      "crop": [
+        275,
+        275,
+        740,
+        165
+      ],
+      "highlight": [
+        280,
+        401.5,
+        74,
+        25
+      ],
+      "callout": "Parse code",
+      "note": "Step 3 of 8 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 3",
+      "title": "A useful\ndetail",
+      "items": [
+        "Do not assume the parser chose a different provider for you. Check the provider yourself.",
+        "It never reads the real API key into the key field."
+      ],
+      "note": "Keep this distinction in mind as you practice.",
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 3",
+      "title": "Review what\nwas detected",
+      "items": [
+        "Confirm the provider yourself",
+        "Review detected model and base URL",
+        "Read warnings and the imported checklist",
+        "Check any detected vision or thinking profiles"
+      ],
+      "note": "The saved snippet redacts recognised key text. The parser never fills the actual provider API key field.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The imported checklist contains the values you expected."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 4",
+      "title": "Which value\nwill be sent?",
+      "body": "With Apply pasted parameters to this model on, each checked imported key wins over the matching form value.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        295,
+        740,
+        155
+      ],
+      "highlight": [
+        306.5,
+        303,
+        159,
+        20
+      ],
+      "callout": "Temperature",
+      "note": "Step 4 of 8 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 4",
+      "title": "Which value\nwill be sent?",
+      "body": "In our example, imported temperature = 0.7 wins even if the temperature field still displays 0.3.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        295,
+        740,
+        155
+      ],
+      "highlight": [
+        306.5,
+        303,
+        159,
+        20
+      ],
+      "callout": "Temperature",
+      "note": "Step 4 of 8 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 4",
+      "title": "Which value\nwill be sent?",
+      "body": "The field can be dimmed and labelled “Pasted code applies temperature.” The summary labels imported values “pasted.”",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        295,
+        740,
+        155
+      ],
+      "highlight": [
+        306.5,
+        303,
+        159,
+        20
+      ],
+      "callout": "Temperature",
+      "note": "Step 4 of 8 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 4",
+      "title": "A useful\ndetail",
+      "items": [
+        "Temperature affects how varied answers are.",
+        "The pasted value is active; a visible old slider value is not necessarily the value being sent."
+      ],
+      "note": "Keep this distinction in mind as you practice.",
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 4",
+      "title": "The 0.7 / 0.3\nexample",
+      "items": [
+        "Imported temperature: 0.7, checked",
+        "Apply pasted parameters: on",
+        "Form temperature: 0.3, dimmed",
+        "Effective temperature for the request: 0.7"
+      ],
+      "note": "Pause: which wins? The checked imported 0.7 wins over the matching form value. Genesis does not average them.",
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can identify the value that will actually control the next request."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 5",
+      "title": "Return control\nto the form",
+      "body": "To control temperature from the normal form again, uncheck temperature in the imported checklist. Then enable and adjust the form’s Temperature control.",
+      "screen": "model-parsed",
+      "crop": [
+        275,
+        438,
+        740,
+        180
+      ],
+      "highlight": [
+        293,
+        521.5,
+        708,
+        15
+      ],
+      "callout": "Parameters from pasted code",
+      "note": "Step 5 of 8 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 5",
+      "title": "Return control\nto the form",
+      "body": "Other checked imported keys still apply. To stop using all pasted parameters together, turn off the master Apply pasted parameters switch.",
+      "screen": "model-parsed",
+      "crop": [
+        275,
+        438,
+        740,
+        180
+      ],
+      "highlight": [
+        293,
+        521.5,
+        708,
+        15
+      ],
+      "callout": "Parameters from pasted code",
+      "note": "Step 5 of 8 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 5",
+      "title": "Give just one\ncontrol back",
+      "items": [
+        "Uncheck temperature in the imported checklist",
+        "Enable the form’s Temperature control",
+        "Set the form value you actually want",
+        "Leave other wanted imported keys checked"
+      ],
+      "note": "Turning off the master Apply pasted parameters switch stops the whole imported overlay. Enable the form controls you need.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Only the imported keys you want remain active."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 6",
+      "title": "Separate\nsettings",
+      "body": "Imported max_tokens or max_completion_tokens can replace the form’s output limit. seed may have no normal slider.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        306,
+        441,
+        580,
+        20
+      ],
+      "callout": "Context window",
+      "note": "Step 6 of 8 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 6",
+      "title": "Separate\nsettings",
+      "body": "The Context window is Genesis’s prompt budget and local-server setting; it is not simply another pasted request parameter.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        306,
+        441,
+        580,
+        20
+      ],
+      "callout": "Context window",
+      "note": "Step 6 of 8 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 6",
+      "title": "Separate\nsettings",
+      "body": "Active thinking ON/OFF profiles can override pasted thinking-related settings when thinking changes.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        306,
+        441,
+        580,
+        20
+      ],
+      "callout": "Context window",
+      "note": "Step 6 of 8 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 6",
+      "title": "Output and\ncontext differ",
+      "items": [
+        "max_tokens / max_completion_tokens: reply limit",
+        "seed: may have no matching form slider",
+        "Context window: prompt budget and local-server setup",
+        "Thinking ON/OFF profiles: separate active overrides"
+      ],
+      "note": "Changing thinking can select a profile that overrides static pasted thinking settings. Review the matching profile.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know which settings are separate from the imported checklist."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        7
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 7",
+      "title": "Save the form\nand template",
+      "body": "Check the provider, URL, model name, key status and imported values. In an existing Models form, Save changes applies the edited configuration.",
+      "screen": "model-parsed",
+      "crop": [
+        1435,
+        90,
+        150,
+        65
+      ],
+      "highlight": [
+        1460,
+        101,
+        116,
+        30
+      ],
+      "callout": "Save changes",
+      "note": "Step 7 of 8 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        7
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 7",
+      "title": "Save the form\nand template",
+      "body": "Update template saves changes back into the selected reusable template. In a New template window, use Create template, then Save changes on the Models page. Test a short message.",
+      "screen": "model-parsed",
+      "crop": [
+        1435,
+        90,
+        150,
+        65
+      ],
+      "highlight": [
+        1460,
+        101,
+        116,
+        30
+      ],
+      "callout": "Save changes",
+      "note": "Step 7 of 8 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        7
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 7",
+      "title": "Two places\nto save",
+      "items": [
+        "Save changes: apply the edited Models form",
+        "Update template: keep edits in the reusable preset",
+        "New: Create template, then Models → Save changes",
+        "Test one short message after saving"
+      ],
+      "note": "Before saving, verify provider, URL, exact model, key status and active imported values together.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 7",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The chosen model answers with the saved configuration."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        7
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        8
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 8",
+      "title": "Each preset\nis independent",
+      "body": "When you select a different saved preset, its own settings replace the model-specific pasted configuration. Old presets without imported values receive neutral defaults.",
+      "screen": "model-chooser",
+      "crop": [
+        895,
+        590,
+        345,
+        300
+      ],
+      "highlight": [
+        919,
+        588,
+        268,
+        34
+      ],
+      "callout": "Primary model",
+      "note": "Step 8 of 8 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        8
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / PASTE CODE · STEP 8",
+      "title": "Each preset\nis independent",
+      "body": "Keep separate presets for different models. Clear removes the imported snippet and keys; review any separately detected thinking profiles or image capability afterward.",
+      "screen": "model-chooser",
+      "crop": [
+        895,
+        590,
+        345,
+        300
+      ],
+      "highlight": [
+        919,
+        588,
+        268,
+        34
+      ],
+      "callout": "Primary model",
+      "note": "Step 8 of 8 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [
+        8
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 8",
+      "title": "Keep model A\nand B separate",
+      "items": [
+        "Save model A’s connection and imported settings",
+        "Choose model B’s own saved preset",
+        "Check that B has B’s intended configuration",
+        "Clear removes the imported snippet and keys"
+      ],
+      "note": "After Clear, review separately detected thinking profiles and image capability. They may need their own adjustment.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE · STEP 8",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Each preset has the connection and parameters intended for that model."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        8
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "parse-code",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "03 / PASTE CODE",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Review the saved preset and the observed result",
+        "Keep separate configurations for different models",
+        "Return to any step with the lesson chapter",
+        "Continue when the checkpoint is clear"
+      ],
+      "note": "Your pace matters more than the running time. You can revisit the lesson whenever your setup changes.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "04 / MODEL CONTROLS",
+      "title": "Know your\nmodel controls.",
+      "body": "Understand model settings\nContext, output, variation and supported thinking.",
+      "tag": "LESSON 4 OF 5",
+      "readingWords": 13,
+      "readingSeconds": 5.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS",
+      "title": "Before\nyou begin",
+      "items": [
+        "Settings → Models open. Start with a working preset."
+      ],
+      "note": "These are the prerequisites for this lesson. Prepare them before you try the connection.",
+      "readingWords": 26,
+      "readingSeconds": 10.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 1",
+      "title": "Your model’s\nworking desk",
+      "body": "Context window is how much text can fit into one model request: instructions, conversation, memories and tools. Max output tokens limits one generated reply.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        306,
+        441,
+        580,
+        20
+      ],
+      "callout": "Context window",
+      "note": "Step 1 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 1",
+      "title": "Your model’s\nworking desk",
+      "body": "A token is a small piece of text, not necessarily a whole word. More output leaves less room for input within the total window.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        306,
+        441,
+        580,
+        20
+      ],
+      "callout": "Context window",
+      "note": "Step 1 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 1",
+      "title": "A working-desk\nexample",
+      "items": [
+        "Example total context: 8,192 tokens",
+        "Example output limit: 1,024 tokens",
+        "Example framing reserve: 512 tokens",
+        "Input must also leave room for output and framing"
+      ],
+      "note": "Illustrative arithmetic leaves at most 6,656 tokens before other constraints. A token is a piece of text, not a word.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can distinguish the input workspace from the length of one answer."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 2",
+      "title": "A size that\nreally fits",
+      "body": "Genesis checks model limits and local memory where possible.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        280,
+        510,
+        682,
+        20
+      ],
+      "callout": "Trust my context window",
+      "note": "Step 2 of 5 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 27,
+      "readingSeconds": 10.799999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 2",
+      "title": "A size that\nreally fits",
+      "body": "Trust my context window overrides some local safeguards; use it only when both the server and hardware support your chosen size.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        280,
+        510,
+        682,
+        20
+      ],
+      "callout": "Trust my context window",
+      "note": "Step 2 of 5 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 2",
+      "title": "A size that\nreally fits",
+      "body": "Context framing reserve keeps room for chat and tool formatting. Turning off the form’s context switch does not remove Genesis’s internal safe prompt budget.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        370,
+        745,
+        260
+      ],
+      "highlight": [
+        280,
+        510,
+        682,
+        20
+      ],
+      "callout": "Trust my context window",
+      "note": "Step 2 of 5 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 2",
+      "title": "Match the\nreal capacity",
+      "items": [
+        "Check what your model actually supports",
+        "Check the loaded server’s context",
+        "Check available RAM / graphics memory",
+        "Leave Trust my context window off unless verified"
+      ],
+      "note": "For Ollama, configure the loaded model/server separately. Genesis’s form alone does not enlarge that server window.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The context choice agrees with your model and server."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 3",
+      "title": "Variation and\nrepetition",
+      "body": "Temperature adjusts variation. Top-P and Top-K adjust which possible next words can be considered. Presence penalty and Repeat penalty affect repetition when supported.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        295,
+        740,
+        155
+      ],
+      "highlight": [
+        306.5,
+        303,
+        159,
+        20
+      ],
+      "callout": "Temperature",
+      "note": "Step 3 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 3",
+      "title": "Variation and\nrepetition",
+      "body": "These are optional fine-tuning controls. Keep the model’s recommended values until you have a specific problem to solve.",
+      "screen": "model-generation",
+      "crop": [
+        275,
+        295,
+        740,
+        155
+      ],
+      "highlight": [
+        306.5,
+        303,
+        159,
+        20
+      ],
+      "callout": "Temperature",
+      "note": "Step 3 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 3",
+      "title": "Change one\nthing at a time",
+      "items": [
+        "Keep the model’s recommended starting values",
+        "Use the same short request for comparison",
+        "Change one supported control only",
+        "Save, inspect the result, then keep or undo"
+      ],
+      "note": "Temperature changes variation. Top-P/Top-K constrain choices. Repetition controls depend on provider support.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know what these controls broadly mean without needing to change them."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 4",
+      "title": "Reasoning and\nstreaming",
+      "body": "The reasoning chooser appears according to the model’s abilities. Use profile follows the saved configuration; supported models may offer Off, Low, Medium or High.",
+      "screen": "model-reasoning",
+      "crop": [
+        270,
+        395,
+        750,
+        335
+      ],
+      "highlight": [
+        280,
+        409.5,
+        734,
+        17
+      ],
+      "callout": "Reasoning & streaming",
+      "note": "Step 4 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 4",
+      "title": "Reasoning and\nstreaming",
+      "body": "Stream mode shows words as they arrive; off waits for a full reply. Streaming changes presentation, not whether Genesis can use tools.",
+      "screen": "model-reasoning",
+      "crop": [
+        270,
+        395,
+        750,
+        335
+      ],
+      "highlight": [
+        280,
+        409.5,
+        734,
+        17
+      ],
+      "callout": "Reasoning & streaming",
+      "note": "Step 4 of 5 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 4",
+      "title": "Choose effort\nand presentation",
+      "items": [
+        "Use profile: retain the saved reasoning behavior",
+        "Off / Low / Medium / High: only if supported",
+        "Stream on: display words as they arrive",
+        "Stream off: wait for the complete reply"
+      ],
+      "note": "Try the same small request with streaming on and off. Tools remain available; the display timing changes.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can choose a supported reasoning level and recognise streaming."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 5",
+      "title": "Profiles and\nmood",
+      "body": "Advanced thinking profiles and Custom reasoning levels describe provider-specific request settings.",
+      "screen": "model-reasoning",
+      "crop": [
+        270,
+        395,
+        750,
+        335
+      ],
+      "highlight": [
+        280,
+        409.5,
+        734,
+        17
+      ],
+      "callout": "Reasoning & streaming",
+      "note": "Step 5 of 5 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 27,
+      "readingSeconds": 10.799999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 5",
+      "title": "Profiles and\nmood",
+      "body": "Use the provider’s supported values; invented level names do not give a model new abilities.",
+      "screen": "model-reasoning",
+      "crop": [
+        270,
+        395,
+        750,
+        335
+      ],
+      "highlight": [
+        280,
+        409.5,
+        734,
+        17
+      ],
+      "callout": "Reasoning & streaming",
+      "note": "Step 5 of 5 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 5",
+      "title": "Profiles and\nmood",
+      "body": "Thinking follows mood, when enabled, adjusts effort within your selected ceiling for supported models. It does not add reasoning levels to a model that has none.",
+      "screen": "model-reasoning",
+      "crop": [
+        270,
+        395,
+        750,
+        335
+      ],
+      "highlight": [
+        280,
+        409.5,
+        734,
+        17
+      ],
+      "callout": "Reasoning & streaming",
+      "note": "Step 5 of 5 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 29,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 5",
+      "title": "A ceiling for\nmood-based effort",
+      "items": [
+        "Thinking follows mood starts off",
+        "On: effort responds to mood and kind of turn",
+        "It stays within your selected ceiling",
+        "Use profile uses High as the ceiling"
+      ],
+      "note": "Rested or flowing work can use more effort; tiredness or small talk less; resting can turn thinking off. Supported reasoning models only.",
+      "readingWords": 54,
+      "readingSeconds": 21.599999999999998,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You understand why some controls are unavailable for a particular model."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "model-controls",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "04 / MODEL CONTROLS",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Review the saved preset and the observed result",
+        "Keep separate configurations for different models",
+        "Return to any step with the lesson chapter",
+        "Continue when the checkpoint is clear"
+      ],
+      "note": "Your pace matters more than the running time. You can revisit the lesson whenever your setup changes.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "05 / BACKUP",
+      "title": "Keep a\nbackup ready.",
+      "body": "Keep going with a backup model\nTest a second model and understand recovery.",
+      "tag": "LESSON 5 OF 5",
+      "readingWords": 17,
+      "readingSeconds": 6.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP",
+      "title": "Before\nyou begin",
+      "items": [
+        "Two working saved model presets. A local backup can work when a cloud service is unavailable."
+      ],
+      "note": "These are the prerequisites for this lesson. Prepare them before you try the connection.",
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 1",
+      "title": "Test both\nmodels first",
+      "body": "Connect and test your second model, then save it as a preset. A backup must be able to answer on its own.",
+      "screen": "model-chooser",
+      "crop": [
+        895,
+        590,
+        345,
+        300
+      ],
+      "highlight": [
+        919,
+        588,
+        268,
+        34
+      ],
+      "callout": "Primary model",
+      "note": "Step 1 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 1",
+      "title": "Test both\nmodels first",
+      "body": "Selecting an uninstalled local model or a cloud model without a valid key will not provide a working backup.",
+      "screen": "model-chooser",
+      "crop": [
+        895,
+        590,
+        345,
+        300
+      ],
+      "highlight": [
+        919,
+        588,
+        268,
+        34
+      ],
+      "callout": "Primary model",
+      "note": "Step 1 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 1",
+      "title": "Prove both\nconnections work",
+      "items": [
+        "Choose the primary and send a short test",
+        "Choose the intended backup and test it too",
+        "Save both as their own presets",
+        "Return to the primary you want for everyday use"
+      ],
+      "note": "An uninstalled local model or cloud model with an invalid key cannot rescue the primary.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Both the primary and backup have answered a small test."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 2",
+      "title": "Choose your\nbackup",
+      "body": "Open Settings → Models → Companion failover — not Missions. Choose the second preset under Backup model and click Save changes.",
+      "screen": "models",
+      "crop": [
+        265,
+        525,
+        765,
+        270
+      ],
+      "highlight": [
+        279.5,
+        619,
+        325,
+        20
+      ],
+      "callout": "Backup model",
+      "note": "Step 2 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 2",
+      "title": "Choose your\nbackup",
+      "body": "This covers Chat, Work, Autonomy and companion helpers. The compact Backup chooser below the Modern message box also selects a saved backup.",
+      "screen": "models",
+      "crop": [
+        265,
+        525,
+        765,
+        270
+      ],
+      "highlight": [
+        279.5,
+        619,
+        325,
+        20
+      ],
+      "callout": "Backup model",
+      "note": "Step 2 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 2",
+      "title": "A companion\nbackup example",
+      "items": [
+        "Primary: your tested cloud preset",
+        "Backup: your tested local preset",
+        "Models → Companion failover → Backup model",
+        "Save changes; look for the standby status"
+      ],
+      "note": "The compact Backup chooser below the Modern draft also selects a saved backup. A cloud outage need not stop local replies.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The backup status reports standby or current fallback use."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 3",
+      "title": "When fallback\ncan help",
+      "body": "If the primary fails before delivering an answer—for example because of a provider usage limit, rate limit, timeout or outage—Genesis can retry through the configured backup.",
+      "screen": "chat-backup",
+      "crop": [
+        540,
+        905,
+        410,
+        90
+      ],
+      "highlight": [
+        599.5,
+        953.5,
+        103,
+        29
+      ],
+      "callout": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+      "note": "Step 3 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 3",
+      "title": "When fallback\ncan help",
+      "body": "It carries the working request forward.",
+      "screen": "chat-backup",
+      "crop": [
+        540,
+        905,
+        410,
+        90
+      ],
+      "highlight": [
+        599.5,
+        953.5,
+        103,
+        29
+      ],
+      "callout": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+      "note": "Step 3 of 6 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 26,
+      "readingSeconds": 10.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 3",
+      "title": "When fallback\ncan help",
+      "body": "Content or tool work already delivered is not blindly replayed on the backup, so fallback is not a promise that every partial failure can be recovered.",
+      "screen": "chat-backup",
+      "crop": [
+        540,
+        905,
+        410,
+        90
+      ],
+      "highlight": [
+        599.5,
+        953.5,
+        103,
+        29
+      ],
+      "callout": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+      "note": "Step 3 of 6 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 3",
+      "title": "Before versus\nafter delivery",
+      "items": [
+        "Primary fails before answering: backup can retry",
+        "Example cause: rate limit, timeout or outage",
+        "The working request carries forward",
+        "Delivered content or tool work is not blindly replayed"
+      ],
+      "note": "A partial failure may require you to inspect what already happened. Fallback cannot promise recovery of every unfinished result.",
+      "readingWords": 51,
+      "readingSeconds": 20.400000000000002,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You recognise the backup status when the demonstration shows it."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 4",
+      "title": "Chosen versus\nanswering model",
+      "body": "The primary’s saved connection remains your primary. The status explains which model is actually answering, separately from your chosen primary.",
+      "screen": "chat-backup",
+      "crop": [
+        540,
+        905,
+        410,
+        90
+      ],
+      "highlight": [
+        599.5,
+        953.5,
+        103,
+        29
+      ],
+      "callout": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+      "note": "Step 4 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 4",
+      "title": "Chosen versus\nanswering model",
+      "body": "Your backup might be less capable: a smaller local model may give a simpler answer, and it may need a separate vision helper for pictures.",
+      "screen": "chat-backup",
+      "crop": [
+        540,
+        905,
+        410,
+        90
+      ],
+      "highlight": [
+        599.5,
+        953.5,
+        103,
+        29
+      ],
+      "callout": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+      "note": "Step 4 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 4",
+      "title": "Read both\nmodel identities",
+      "items": [
+        "Configured primary: your chosen cloud preset",
+        "Effective model during fallback: the local backup",
+        "The saved primary remains the same",
+        "Expect the backup’s own capabilities and limits"
+      ],
+      "note": "Illustrative fallback status. A smaller text-only model may answer more simply or need a separate vision helper for pictures.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can tell a configured primary from the effective backup."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 5",
+      "title": "Retry on a\nreal request",
+      "body": "Retry primary after (minutes) is the cooldown. After it passes, the next real request tests the primary. Success returns to primary; failure starts another waiting period.",
+      "screen": "models",
+      "crop": [
+        265,
+        525,
+        765,
+        270
+      ],
+      "highlight": [
+        280,
+        671,
+        572,
+        20
+      ],
+      "callout": "Retry primary after (minutes)",
+      "note": "Step 5 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 5",
+      "title": "Retry on a\nreal request",
+      "body": "Genesis does not make a paid background ping just because the timer expires. A backend restart starts with the saved primary again.",
+      "screen": "models",
+      "crop": [
+        265,
+        525,
+        765,
+        270
+      ],
+      "highlight": [
+        280,
+        671,
+        572,
+        20
+      ],
+      "callout": "Retry primary after (minutes)",
+      "note": "Step 5 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 5",
+      "title": "A 30-minute\ncooldown example",
+      "items": [
+        "00:00 — recoverable primary failure uses backup",
+        "00:30 — timer passes; no paid background ping",
+        "Next actual request tries the primary",
+        "Success returns; failure starts another wait"
+      ],
+      "note": "The times are illustrative. A backend restart starts with the saved primary; timer expiry alone sends no test request.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You understand why the status can say the next request will retry."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 6",
+      "title": "Mission roles\nare separate",
+      "body": "Open Settings → Missions → Role models for mission primary and backup choices. The companion backup does not govern Missions.",
+      "screen": "mission-models",
+      "crop": [
+        270,
+        205,
+        750,
+        520
+      ],
+      "highlight": [
+        280,
+        210.5,
+        734,
+        17
+      ],
+      "callout": "Role models",
+      "note": "Step 6 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / BACKUP · STEP 6",
+      "title": "Mission roles\nare separate",
+      "body": "Each role may use a different model and has its own failover window for provider rate limits. Check these before a big job.",
+      "screen": "mission-models",
+      "crop": [
+        270,
+        205,
+        750,
+        520
+      ],
+      "highlight": [
+        280,
+        210.5,
+        734,
+        17
+      ],
+      "callout": "Role models",
+      "note": "Step 6 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 6",
+      "title": "A useful\ndetail",
+      "items": [
+        "Usage limits are different from a full context window or a task’s step budget.",
+        "A backup does not remove those other limits."
+      ],
+      "note": "Keep this distinction in mind as you practice.",
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 29,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 6",
+      "title": "Set the\nmission roles too",
+      "items": [
+        "Settings → Missions → Role models",
+        "Check each role’s own primary and backup",
+        "Roles can have different models and failover windows",
+        "Check this before starting a big mission"
+      ],
+      "note": "Companion backup covers Chat, Work, Autonomy and helpers. It does not replace mission role choices or remove context / step limits.",
+      "readingWords": 54,
+      "readingSeconds": 21.599999999999998,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know where to set the mission’s independent model choices."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "backup",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Review the saved preset and the observed result",
+        "Keep separate configurations for different models",
+        "Return to any step with the lesson chapter",
+        "Continue when the checkpoint is clear"
+      ],
+      "note": "Your pace matters more than the running time. You can revisit the lesson whenever your setup changes.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 31,
+      "kind": "list",
+      "eyebrow": "05 / BACKUP",
+      "title": "Your model\nsetup checklist",
+      "items": [
+        "A working local preset",
+        "A working cloud preset, if you choose cloud",
+        "Reviewed pasted parameters and separate keys",
+        "Context and thinking within supported limits",
+        "A tested backup and understood retry status"
+      ],
+      "note": "All five lessons and all 30 teaching steps of “Choose your intelligence” are now covered.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 20,
+      "kind": "title",
+      "eyebrow": "05 / BACKUP",
+      "title": "Ready for\nvoice and vision.",
+      "body": "Keep your tested presets.\nNext in video 4: Speak. Listen. See. — the complete third category.",
+      "tag": "PAUSE · PRACTICE · RETURN",
+      "readingWords": 21,
+      "readingSeconds": 8.4,
+      "locateSeconds": 4
+    }
+  ]
+}

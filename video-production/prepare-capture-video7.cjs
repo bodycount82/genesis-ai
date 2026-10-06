@@ -1,0 +1,28 @@
+const fs=require('fs'),path=require('path');const root=__dirname;let c=fs.readFileSync(path.join(root,'capture-video6.cjs'),'utf8').replaceAll('\r\n','\n').replaceAll('video6','video7').replaceAll('video-06','video-07');
+const fixtures=`
+const exampleMemory={id:'practice-preference',text:'Demonstration: I prefer short shopping lists.',category:'preference',importance:0.6,reinforcement:1,valence:'neutral',created_at:1790989200};
+api.memoryStats=async()=>({backend:'naive',embedder:'local demonstration',counts:{episodic:1,semantic_total:1,semantic:{preference:1},procedural:0,working:0,working_capacity:4},gate:{accepted:1,rejected:0}});
+api.memoryTier=async()=>({entries:[exampleMemory]});api.memorySearch=async()=>({results:[exampleMemory]});api.memoryWorking=async()=>({chunks:[]});api.memoryProspective=async()=>({pending:[]});api.memoryJournal=async()=>({entries:[]});
+const archivePath='C:/Genesis-Practice/data/backups/',completeArchive={name:'genesis-practice-complete.zip',path:archivePath+'genesis-practice-complete.zip',size_mb:1.2,created_at:'2026-10-03 10:00 (demonstration)',complete:true};let incomplete=false;
+api.listBackups=async()=>({backups:incomplete?[{name:'genesis-practice-incomplete.zip',path:archivePath+'genesis-practice-incomplete.zip',size_mb:0.8,created_at:'2026-10-03 10:05 (demonstration)',complete:false},completeArchive]:[completeArchive]});
+api.backupNow=async()=>({ok:true,size_mb:incomplete?0.8:1.2,incomplete,archive:incomplete?'genesis-practice-incomplete.zip':completeArchive.name});
+const health={ok:true,failed:[],reason:'manual',ts:1790992800,elapsed_s:0.1,checks:{counts:{ok:true,rows:2,lexical_rows:2,counts_sum:2},backup:{ok:true,archive:completeArchive.name,rows:2,recorded_rows:2,note:'demonstration only'},reembed:{ok:true,active:false}}};
+api.memoryHealth=async()=>({result:null});api.checkMemoryHealth=async()=>({result:health});
+api.deleteMemory=async()=>{throw Error('Deletion is disabled in tutorial fixtures')};api.reembedMemories=async()=>{throw Error('Migration is disabled in tutorial fixtures')};api.exportTransfer=async()=>{throw Error('Transfer is not executed in this tutorial')};api.importTransfer=async()=>{throw Error('Import is not executed in this tutorial')};
+`;
+c=c.replace('api.listBackups=async()=>({backups:[],path:\'Your Genesis data folder\'});\napi.memoryHealth=async()=>({ok:true,checks:[]});',fixtures);
+c=c.replace("estimated_input:0,estimated_output:0","estimated_input:120,estimated_output:80").replaceAll('tokens:2400','tokens:2600').replace('estimated_tokens:0','estimated_tokens:200');
+c=c.replace("days:[{date:'2026-10-03',tokens:2600,measured_tokens:2600,estimated_tokens:200,calls:3,tasks:1,active:true}]", "days:Array.from({length:365},(_,i)=>({date:new Date(Date.UTC(2026,9,3)-(364-i)*86400000).toISOString().slice(0,10),tokens:i===364?2600:0,measured_tokens:i===364?2400:0,estimated_tokens:i===364?200:0,calls:i===364?3:0,tasks:i===364?1:0,active:i===364}))");
+c=c.replace('window.demo={store:useStore,','window.demo={setIncomplete:(v)=>{incomplete=v},store:useStore,');
+let start=c.indexOf(' await win.loadFile'),end=c.indexOf(" fs.writeFileSync(path.join(out,'../screens.json')",start);
+c=c.slice(0,start)+`
+ await win.loadFile(path.join(run,'index.html'));await ready('!!document.querySelector("#modern-navigation")');await capture('chat-modern');
+ await settings('memory');await capture('memory-top');await reveal('Backups');await capture('backups-ready');await click('Back up now');await ready('document.body.textContent.includes("Backup complete")');await capture('backups-complete');await js('window.demo.setIncomplete(true)');await click('Back up now');await ready('document.body.textContent.includes("INCOMPLETE")');await capture('backups-incomplete');
+ await reveal('Health');await capture('health-ready');await click('Check');await ready('document.body.textContent.includes("All checks passed")');await capture('health-checked');
+ await reveal('Memory-first cognition');await capture('memory-recall');await reveal('Memory tier caps');await capture('memory-capacity');await reveal('Attention gate');await capture('memory-gate');await reveal('Consolidation & continuity');await capture('memory-consolidation');await reveal('Criticality & edge dynamics');await capture('memory-dynamics');await reveal('Embeddings & vector backend');await capture('memory-embeddings');
+ await js('window.demo.store.setState({showSettings:false,view:"memory"})');await delay(600);await capture('memory-browse');await js('(()=>{const e=document.querySelector("input[placeholder^=Hybrid]");Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value").set.call(e,"shopping lists");e.dispatchEvent(new Event("input",{bubbles:true}));})()');await click('Search');await ready('document.body.textContent.includes("Demonstration: I prefer short shopping lists.")');await capture('memory-search');
+ await js('window.demo.store.setState({view:"activity"})');await delay(600);await capture('activity-daily');await click('Weekly');await capture('activity-weekly');await click('Cumulative');await capture('activity-cumulative');await js('[...document.querySelectorAll("button.activity-cell")].at(-1).click()');await capture('activity-detail');
+ await settings('system');await reveal('Cognition speed & load');await capture('system-pace');await reveal('Cognitive thresholds');await capture('system-thresholds');await reveal('Mode step budgets');await capture('system-budgets');
+ await settings('models');await capture('models');await settings('voice');await capture('voice');await settings('vision');await capture('vision');
+`+c.slice(end);
+fs.writeFileSync(path.join(root,'capture-video7.cjs'),c);console.log('Prepared isolated video 7 fixture capture.');

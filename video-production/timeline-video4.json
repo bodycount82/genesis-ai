@@ -1,0 +1,5852 @@
+{
+  "title": "Speak. Listen. See.",
+  "subtitle": "Complete category 3",
+  "music": "C:/Development-Gen/songs/Video 4 song.mp3",
+  "outputFolder": "output/video-04",
+  "filename": "Genesis-Speak-Listen-See.mp4",
+  "lessonIds": [
+    "dictation",
+    "whisper",
+    "voices",
+    "cloud-voice",
+    "orb",
+    "vision",
+    "appshots"
+  ],
+  "chapters": [
+    "Introduction",
+    "Use your voice instead of typing",
+    "Improve speech recognition",
+    "Choose and download a speaking voice",
+    "Use cloud listening or cloud voices",
+    "Have a conversation with the orb",
+    "Give a text-only model the ability to see",
+    "Show Genesis the window you are using"
+  ],
+  "progressLabels": [
+    "DICTATION",
+    "WHISPER",
+    "VOICES",
+    "CLOUD VOICE",
+    "ORB",
+    "VISION",
+    "APPSHOTS"
+  ],
+  "sourceLessons": [
+    {
+      "id": "dictation",
+      "title": "Use your voice instead of typing",
+      "group": "senses",
+      "coursePosition": 12,
+      "prerequisites": "A microphone. Enable voice features in Settings → Voice & Vision.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Turn on voice features",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Enable voice features",
+            "x": 386,
+            "y": 333,
+            "width": 211,
+            "height": 20,
+            "xPercent": 24.125,
+            "yPercent": 33.3
+          },
+          "annotation": {
+            "left": 276.5,
+            "right": 495.5,
+            "top": 319,
+            "bottom": 347,
+            "startX": 580.5,
+            "startY": 0,
+            "endX": 495.5,
+            "endY": 333,
+            "below": false,
+            "path": "M 580.5 0 L 580.5 278 L 495.5 333"
+          },
+          "narrationDraft": "Open Settings → Voice & Vision and enable Enable voice features. Start with Whisper (local, free) for Speech-to-text and Piper (local neural, free) for Text-to-speech. Click Save changes. Listening and speaking are separate choices; they do not change your main AI model.",
+          "checkpoint": "Voice is enabled and the choices are saved.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Dictate into the message box",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Voice input",
+            "x": 1379,
+            "y": 922,
+            "width": 27,
+            "height": 27,
+            "xPercent": 86.1875,
+            "yPercent": 92.2
+          },
+          "annotation": {
+            "left": 1361.5,
+            "right": 1396.5,
+            "top": 904.5,
+            "bottom": 939.5,
+            "startX": 1481.5,
+            "startY": 1000,
+            "endX": 1396.5,
+            "endY": 922,
+            "below": true,
+            "path": "M 1481.5 1000 L 1481.5 977 L 1396.5 922"
+          },
+          "narrationDraft": "Click the microphone beside the message box and speak clearly. Dictation turns speech into draft text. Stop recording using the microphone control, check the recognised words, edit any mistake, then press Send. This gives you a chance to correct names, numbers and dates before sending.",
+          "checkpoint": "Your spoken words appear as editable text in the draft.",
+          "tip": "The first use may take a moment while the local speech engine loads. Check the selected microphone and Windows permission if it cannot start."
+        },
+        {
+          "step": 3,
+          "title": "Choose conversation for an ongoing exchange",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Open orb conversation",
+            "x": 208,
+            "y": 973,
+            "width": 37,
+            "height": 34,
+            "xPercent": 13,
+            "yPercent": 97.3
+          },
+          "annotation": {
+            "left": 185.5,
+            "right": 230.5,
+            "top": 952,
+            "bottom": 994,
+            "startX": 315.5,
+            "startY": 1000,
+            "endX": 230.5,
+            "endY": 973,
+            "below": true,
+            "path": "M 315.5 1000 L 315.5 1000 L 230.5 973"
+          },
+          "narrationDraft": "The Voice entry opens an ongoing spoken exchange rather than simply filling the draft. The circle beside it opens the minimal orb view. In conversation mode, spoken turns are sent as the conversation proceeds. Use the mute and exit controls when you want it to stop listening.",
+          "checkpoint": "You can distinguish draft dictation from an ongoing voice session.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Listen to an existing reply",
+          "screenshot": "screens/voice-speaker.png",
+          "screenshotSha256": "a576982933bc0c72961b5b85c3765d43aa9c139f01d4eaa04dfdea3b564fb33e",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Autonomous speech",
+            "x": 401,
+            "y": 418,
+            "width": 242,
+            "height": 20,
+            "xPercent": 25.0625,
+            "yPercent": 41.8
+          },
+          "annotation": {
+            "left": 276,
+            "right": 526,
+            "top": 404,
+            "bottom": 432,
+            "startX": 611,
+            "startY": 0,
+            "endX": 526,
+            "endY": 418,
+            "below": false,
+            "path": "M 611 0 L 611 363 L 526 418"
+          },
+          "narrationDraft": "Use a reply’s read-aloud control when you want to hear text already on screen. Autonomous speech in Voice settings controls when Genesis may speak without a play click. Choose On request only if you want quiet unless you explicitly ask for speech.",
+          "checkpoint": "You have chosen when Genesis may speak.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "whisper",
+      "title": "Improve speech recognition",
+      "group": "senses",
+      "coursePosition": 13,
+      "prerequisites": "Settings → Voice & Vision. Internet for an optional download.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Speech-to-text listens; it does not answer",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Speech-to-text",
+            "x": 459,
+            "y": 454,
+            "width": 359,
+            "height": 20,
+            "xPercent": 28.6875,
+            "yPercent": 45.4
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 642.5,
+            "top": 440,
+            "bottom": 468,
+            "startX": 727.5,
+            "startY": 0,
+            "endX": 642.5,
+            "endY": 454,
+            "below": false,
+            "path": "M 727.5 0 L 727.5 399 L 642.5 454"
+          },
+          "narrationDraft": "Whisper turns audio into words. Your language model then answers those words. Changing Whisper changes recognition, not the brain’s knowledge or personality. The bundled base model gets you started. A larger recognition model can help with other languages and harder audio, at a memory and speed cost.",
+          "checkpoint": "You know which part is recognising your voice.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Choose the languages you speak",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Languages you speak",
+            "x": 530,
+            "y": 507,
+            "width": 501,
+            "height": 20,
+            "xPercent": 33.125,
+            "yPercent": 50.7
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 784.5,
+            "top": 493,
+            "bottom": 521,
+            "startX": 869.5,
+            "startY": 1000,
+            "endX": 784.5,
+            "endY": 507,
+            "below": true,
+            "path": "M 869.5 1000 L 869.5 562 L 784.5 507"
+          },
+          "narrationDraft": "Use Languages you speak → Add a language. Selecting your languages helps avoid a similar language being mistaken for yours. Leave the list empty only if you want recognition to consider any language. A single Whisper model supports multiple languages; you do not need a separate download for each language.",
+          "checkpoint": "The languages you actually use appear in the list.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Pick a size and download it",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Whisper model",
+            "x": 490,
+            "y": 579,
+            "width": 420,
+            "height": 20,
+            "xPercent": 30.625,
+            "yPercent": 57.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 704,
+            "top": 565,
+            "bottom": 593,
+            "startX": 789,
+            "startY": 1000,
+            "endX": 704,
+            "endY": 579,
+            "below": true,
+            "path": "M 789 1000 L 789 634 L 704 579"
+          },
+          "narrationDraft": "Open Whisper model. Automatic chooses the recommended size for this computer once available. A missing size offers a Download button and shows its size. Click Download and wait for completion. Progress can resume after a dropped connection. Choose the size, then save changes.",
+          "checkpoint": "The selected model is installed, and you have checked “In use now.”",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Read In use now",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Whisper model",
+            "x": 490,
+            "y": 579,
+            "width": 420,
+            "height": 20,
+            "xPercent": 30.625,
+            "yPercent": 57.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 704,
+            "top": 565,
+            "bottom": 593,
+            "startX": 789,
+            "startY": 1000,
+            "endX": 704,
+            "endY": 579,
+            "below": true,
+            "path": "M 789 1000 L 789 634 L 704 579"
+          },
+          "narrationDraft": "The size you choose and the size currently running can differ. If a size is not downloaded or does not fit in free memory, Genesis uses an installed size that fits. In use now tells you which one is actually active. Freeing memory or choosing a smaller size can help on an older computer.",
+          "checkpoint": "You can explain why “Automatic small” might currently be using base.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Leave the device on Automatic to start",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Whisper device",
+            "x": 480,
+            "y": 685,
+            "width": 401,
+            "height": 20,
+            "xPercent": 30,
+            "yPercent": 68.5
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 684.5,
+            "top": 671,
+            "bottom": 699,
+            "startX": 769.5,
+            "startY": 1000,
+            "endX": 684.5,
+            "endY": 685,
+            "below": true,
+            "path": "M 769.5 1000 L 769.5 740 L 684.5 685"
+          },
+          "narrationDraft": "Whisper device → Automatic uses the NVIDIA graphics card only when there is room and a local AI model is not competing for it. Otherwise recognition uses the processor. Selecting graphics-card recognition may require the optional NVIDIA libraries, offered with a download button. The processor remains a useful choice.",
+          "checkpoint": "The “Running on” line tells you the active device.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Try a short sentence and compare",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Voice resources",
+            "x": 553,
+            "y": 385,
+            "width": 546,
+            "height": 20,
+            "xPercent": 34.5625,
+            "yPercent": 38.5
+          },
+          "annotation": {
+            "left": 276,
+            "right": 830,
+            "top": 371,
+            "bottom": 399,
+            "startX": 915,
+            "startY": 0,
+            "endX": 830,
+            "endY": 385,
+            "below": false,
+            "path": "M 915 0 L 915 330 L 830 385"
+          },
+          "narrationDraft": "Dictate a short sentence with a name and a number. Correct any mistakes in the draft. If recognition is poor, reduce background noise, check your languages, and compare an installed larger size. Voice resources → Auto · save memory unloads idle engines; an active session is protected.",
+          "checkpoint": "Your next dictated sentence is understandable without a long wait.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "voices",
+      "title": "Choose and download a speaking voice",
+      "group": "senses",
+      "coursePosition": 14,
+      "prerequisites": "Voice enabled. Internet only for a new voice download.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Text-to-speech is the speaking part",
+          "screenshot": "screens/voice-speaker.png",
+          "screenshotSha256": "a576982933bc0c72961b5b85c3765d43aa9c139f01d4eaa04dfdea3b564fb33e",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Text-to-speech",
+            "x": 436,
+            "y": 221,
+            "width": 313,
+            "height": 20,
+            "xPercent": 27.25,
+            "yPercent": 22.1
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 596.5,
+            "top": 207,
+            "bottom": 235,
+            "startX": 681.5,
+            "startY": 0,
+            "endX": 596.5,
+            "endY": 221,
+            "below": false,
+            "path": "M 681.5 0 L 681.5 166 L 596.5 221"
+          },
+          "narrationDraft": "Open Settings → Voice & Vision → Text-to-speech. Piper is a local neural voice. Windows voices use installed system voices. Browser voices depend on the browser environment. The voice choice belongs to its selected engine; changing the engine changes the available voices.",
+          "checkpoint": "You have chosen the engine that will speak.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Choose an installed voice",
+          "screenshot": "screens/voice-speaker.png",
+          "screenshotSha256": "a576982933bc0c72961b5b85c3765d43aa9c139f01d4eaa04dfdea3b564fb33e",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Voice",
+            "x": 49,
+            "y": 973,
+            "width": 74,
+            "height": 34,
+            "xPercent": 3.0625,
+            "yPercent": 97.3
+          },
+          "annotation": {
+            "left": 8,
+            "right": 90,
+            "top": 952,
+            "bottom": 994,
+            "startX": 175,
+            "startY": 1000,
+            "endX": 90,
+            "endY": 973,
+            "below": true,
+            "path": "M 175 1000 L 175 1000 L 90 973"
+          },
+          "narrationDraft": "Open Voice and select an installed voice. The bundled Piper voice is Amy in US English. Choose a voice appropriate for the language you want spoken. Custom… lets you enter a known voice name or ID; it does not create or download a new voice by itself.",
+          "checkpoint": "Your selected voice appears in the field.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Download another Piper voice",
+          "screenshot": "screens/voice-speaker.png",
+          "screenshotSha256": "a576982933bc0c72961b5b85c3765d43aa9c139f01d4eaa04dfdea3b564fb33e",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Download",
+            "x": 978,
+            "y": 322,
+            "width": 73,
+            "height": 27,
+            "xPercent": 61.125,
+            "yPercent": 32.2
+          },
+          "annotation": {
+            "left": 937.5,
+            "right": 1018.5,
+            "top": 304.5,
+            "bottom": 339.5,
+            "startX": 1103.5,
+            "startY": 0,
+            "endX": 1018.5,
+            "endY": 322,
+            "below": false,
+            "path": "M 1103.5 0 L 1103.5 267 L 1018.5 322"
+          },
+          "narrationDraft": "With Piper selected, use Download a voice…, choose a catalog entry, then click Download. Wait for Downloaded or Already installed. The successful download selects that voice. Click Save changes, then use read-aloud on a short reply to hear it.",
+          "checkpoint": "The new voice is available and speaks a short test.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Choose when it speaks",
+          "screenshot": "screens/voice-speaker.png",
+          "screenshotSha256": "a576982933bc0c72961b5b85c3765d43aa9c139f01d4eaa04dfdea3b564fb33e",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Autonomous speech",
+            "x": 401,
+            "y": 418,
+            "width": 242,
+            "height": 20,
+            "xPercent": 25.0625,
+            "yPercent": 41.8
+          },
+          "annotation": {
+            "left": 276,
+            "right": 526,
+            "top": 404,
+            "bottom": 432,
+            "startX": 611,
+            "startY": 0,
+            "endX": 526,
+            "endY": 418,
+            "below": false,
+            "path": "M 611 0 L 611 363 L 526 418"
+          },
+          "narrationDraft": "Set Autonomous speech to On request only, Urgent / important, or Everything (natural pacing). These choices control spontaneous speech. They do not mean the microphone is always listening. An ongoing voice conversation has its own mute and exit controls.",
+          "checkpoint": "Genesis speaks only as often as you intended.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Effects and the HAL choices",
+          "screenshot": "screens/voice-speaker.png",
+          "screenshotSha256": "a576982933bc0c72961b5b85c3765d43aa9c139f01d4eaa04dfdea3b564fb33e",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Voice effect",
+            "x": 573,
+            "y": 470,
+            "width": 586,
+            "height": 20,
+            "xPercent": 35.8125,
+            "yPercent": 47
+          },
+          "annotation": {
+            "left": 276,
+            "right": 870,
+            "top": 456,
+            "bottom": 484,
+            "startX": 955,
+            "startY": 0,
+            "endX": 870,
+            "endY": 470,
+            "below": false,
+            "path": "M 955 0 L 955 415 L 870 470"
+          },
+          "narrationDraft": "Voice effect → HAL 9000 changes the pitch, pace and room reverb of a local Piper or Windows voice. Set up HAL 9000 voice for me sets an effect and downloads the chosen local voice; save afterward. The separate HAL 9000 — real voice (clone, sidecar) engine needs its own running sidecar service. An effect is different from that separate engine.",
+          "checkpoint": "You know whether you selected an effect or a separate voice engine.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "If the chosen voice cannot speak",
+          "screenshot": "screens/voice-speaker.png",
+          "screenshotSha256": "a576982933bc0c72961b5b85c3765d43aa9c139f01d4eaa04dfdea3b564fb33e",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Text-to-speech",
+            "x": 436,
+            "y": 221,
+            "width": 313,
+            "height": 20,
+            "xPercent": 27.25,
+            "yPercent": 22.1
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 596.5,
+            "top": 207,
+            "bottom": 235,
+            "startX": 681.5,
+            "startY": 0,
+            "endX": 596.5,
+            "endY": 221,
+            "below": false,
+            "path": "M 681.5 0 L 681.5 166 L 596.5 221"
+          },
+          "narrationDraft": "A missing configured Piper voice can use bundled Amy. Local speech can fall back to Windows and then browser speech when available. Check the voice status and test again. Genesis does not silently switch a local voice to a paid cloud service. An unavailable cloud or sidecar engine should be checked in its own configuration.",
+          "checkpoint": "You know how to get speech working again without enabling a cloud provider.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "cloud-voice",
+      "title": "Use cloud listening or cloud voices",
+      "group": "senses",
+      "coursePosition": 15,
+      "prerequisites": "Internet and the matching provider’s API key or voice credentials.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Listening and speaking can be mixed",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Speech-to-text",
+            "x": 459,
+            "y": 454,
+            "width": 359,
+            "height": 20,
+            "xPercent": 28.6875,
+            "yPercent": 45.4
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 642.5,
+            "top": 440,
+            "bottom": 468,
+            "startX": 727.5,
+            "startY": 0,
+            "endX": 642.5,
+            "endY": 454,
+            "below": false,
+            "path": "M 727.5 0 L 727.5 399 L 642.5 454"
+          },
+          "narrationDraft": "You can listen locally and speak with a cloud voice, or use cloud listening and local speech. They are independent. Your main model can still be local. Choose each part in Settings → Voice & Vision and save. Cloud recognition sends audio to that provider; cloud speech sends the text to be spoken.",
+          "checkpoint": "You know which part, if any, will use a cloud service.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "For cloud recognition, choose OpenAI STT",
+          "screenshot": "screens/voice-cloud-listen.png",
+          "screenshotSha256": "7c65119eef1a0f2d2d4244d95e5b58366eea376aa6bda155169d2ce6dce83be1",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "STT API key",
+            "x": 344,
+            "y": 554,
+            "width": 128,
+            "height": 20,
+            "xPercent": 21.5,
+            "yPercent": 55.4
+          },
+          "annotation": {
+            "left": 276,
+            "right": 412,
+            "top": 540,
+            "bottom": 568,
+            "startX": 497,
+            "startY": 1000,
+            "endX": 412,
+            "endY": 554,
+            "below": true,
+            "path": "M 497 1000 L 497 609 L 412 554"
+          },
+          "narrationDraft": "Set Speech-to-text → OpenAI STT (cloud) and enter its key in STT API key. This field is separate from the main model’s key. Save and try a short recording. The Whisper size and device controls describe the local recognition route; they do not tune the cloud service.",
+          "checkpoint": "A small recording is recognised using the selected provider.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "For a cloud voice, choose its engine",
+          "screenshot": "screens/voice-cloud-speak.png",
+          "screenshotSha256": "59c8e5e9af89af4336b1171846e3080cc183629802f2ee7c51b8d66617c57884",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "TTS API key",
+            "x": 324,
+            "y": 342,
+            "width": 88,
+            "height": 20,
+            "xPercent": 20.25,
+            "yPercent": 34.2
+          },
+          "annotation": {
+            "left": 276,
+            "right": 372,
+            "top": 328,
+            "bottom": 356,
+            "startX": 457,
+            "startY": 0,
+            "endX": 372,
+            "endY": 342,
+            "below": false,
+            "path": "M 457 0 L 457 287 L 372 342"
+          },
+          "narrationDraft": "Under Text-to-speech, choose OpenAI (cloud), ElevenLabs (cloud) or Azure (cloud). Enter the appropriate TTS API key and choose a voice supported by that engine, or use Custom for a known voice ID. This picture shows the OpenAI choice; select your own provider. Use the provider’s required configuration; an Azure credential or provider-specific voice identifier may need additional setup.",
+          "checkpoint": "The engine, credential and voice belong to the same provider.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Save and test before a long conversation",
+          "screenshot": "screens/voice-cloud-speak.png",
+          "screenshotSha256": "59c8e5e9af89af4336b1171846e3080cc183629802f2ee7c51b8d66617c57884",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Save changes",
+            "x": 1518,
+            "y": 116,
+            "width": 116,
+            "height": 30,
+            "xPercent": 94.875,
+            "yPercent": 11.6
+          },
+          "annotation": {
+            "left": 1456,
+            "right": 1580,
+            "top": 97,
+            "bottom": 135,
+            "startX": 1371,
+            "startY": 0,
+            "endX": 1456,
+            "endY": 116,
+            "below": false,
+            "path": "M 1371 0 L 1371 61 L 1456 116"
+          },
+          "narrationDraft": "Click Save changes. Play one short reply. Check connectivity, key access and the voice identifier if it fails. Provider charges and quotas are controlled by that company. Local voice never changes to cloud automatically: you explicitly choose the cloud engine and supply its key.",
+          "checkpoint": "You hear a short test in the voice you selected.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "orb",
+      "title": "Have a conversation with the orb",
+      "group": "senses",
+      "coursePosition": 16,
+      "prerequisites": "The Modern interface, a connected model and working voice input/output.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Open the circle beside Voice",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Open orb conversation",
+            "x": 208,
+            "y": 973,
+            "width": 37,
+            "height": 34,
+            "xPercent": 13,
+            "yPercent": 97.3
+          },
+          "annotation": {
+            "left": 185.5,
+            "right": 230.5,
+            "top": 952,
+            "bottom": 994,
+            "startX": 315.5,
+            "startY": 1000,
+            "endX": 230.5,
+            "endY": 973,
+            "below": true,
+            "path": "M 315.5 1000 L 315.5 1000 L 230.5 973"
+          },
+          "narrationDraft": "In Modern, find Voice near the bottom of the left panel. Click its small circle for the orb conversation. Genesis opens a minimal screen and starts the voice session when ready. This is an ongoing conversation: your spoken turns go to the model without pressing Send for each one.",
+          "checkpoint": "The orb view opens and reports its voice state.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Follow the words beneath the orb",
+          "screenshot": "screens/voice-orb.png",
+          "screenshotSha256": "8d1000d38f8a59aa299e5b8599971469447462c4ade600deec97dfcbea78237d",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Voice orb",
+            "x": 800,
+            "y": 460,
+            "width": 224,
+            "height": 224,
+            "xPercent": 50,
+            "yPercent": 46
+          },
+          "annotation": {
+            "left": 684,
+            "right": 916,
+            "top": 344,
+            "bottom": 576,
+            "startX": 1001,
+            "startY": 0,
+            "endX": 916,
+            "endY": 460,
+            "below": false,
+            "path": "M 1001 0 L 1001 405 L 916 460"
+          },
+          "narrationDraft": "The state tells you what is happening: Opening microphone, Listening, Waiting for your next words, Transcribing, Thinking, or Speaking. A brief pause can let it gather your next words before sending the turn. If it is thinking, give it a moment to work.",
+          "checkpoint": "You can tell whether it is listening or answering.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Move the pointer to reveal controls",
+          "screenshot": "screens/voice-orb.png",
+          "screenshotSha256": "8d1000d38f8a59aa299e5b8599971469447462c4ade600deec97dfcbea78237d",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Mute microphone",
+            "x": 778,
+            "y": 635,
+            "width": 37,
+            "height": 29,
+            "xPercent": 48.625,
+            "yPercent": 63.5
+          },
+          "annotation": {
+            "left": 755.5,
+            "right": 800.5,
+            "top": 616.5,
+            "bottom": 653.5,
+            "startX": 885.5,
+            "startY": 1000,
+            "endX": 800.5,
+            "endY": 635,
+            "below": true,
+            "path": "M 885.5 1000 L 885.5 690 L 800.5 635"
+          },
+          "narrationDraft": "Move your mouse over the orb view to show controls. The microphone button mutes listening; the speaker button mutes sound. They are separate. Use the left chevrons to show the transcript and the right chevrons to show the browser panel. Panels can be resized.",
+          "checkpoint": "You can mute listening without losing the conversation.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Interrupt when you want to speak",
+          "screenshot": "screens/voice-orb.png",
+          "screenshotSha256": "8d1000d38f8a59aa299e5b8599971469447462c4ade600deec97dfcbea78237d",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Voice orb",
+            "x": 800,
+            "y": 460,
+            "width": 224,
+            "height": 224,
+            "xPercent": 50,
+            "yPercent": 46
+          },
+          "annotation": {
+            "left": 684,
+            "right": 916,
+            "top": 344,
+            "bottom": 576,
+            "startX": 1001,
+            "startY": 0,
+            "endX": 916,
+            "endY": 460,
+            "below": false,
+            "path": "M 1001 0 L 1001 405 L 916 460"
+          },
+          "narrationDraft": "While it is thinking or speaking, tap the orb to interrupt the reply and speak. The microphone’s mute state still matters. Interrupting a voice reply is not the same as undoing an action or stopping every background task. Use the work controls for that.",
+          "checkpoint": "You know how to interrupt the spoken turn.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Read along or watch browsing",
+          "screenshot": "screens/voice-orb.png",
+          "screenshotSha256": "8d1000d38f8a59aa299e5b8599971469447462c4ade600deec97dfcbea78237d",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Toggle transcript",
+            "x": 26,
+            "y": 500,
+            "width": 36,
+            "height": 36,
+            "xPercent": 1.625,
+            "yPercent": 50
+          },
+          "annotation": {
+            "left": 4,
+            "right": 48,
+            "top": 478,
+            "bottom": 522,
+            "startX": 133,
+            "startY": 0,
+            "endX": 48,
+            "endY": 500,
+            "below": false,
+            "path": "M 133 0 L 133 445 L 48 500"
+          },
+          "narrationDraft": "Open Transcript to see the words and tool activity. Open Browser when Genesis uses its browser. Closing the browser panel hides the view; it does not mean all browser work has stopped. If a site needs you, follow the request and return control when ready.",
+          "checkpoint": "You can reveal the transcript while keeping the orb visible.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "End the session deliberately",
+          "screenshot": "screens/voice-orb.png",
+          "screenshotSha256": "8d1000d38f8a59aa299e5b8599971469447462c4ade600deec97dfcbea78237d",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Exit voice conversation",
+            "x": 37,
+            "y": 31,
+            "width": 38,
+            "height": 30,
+            "xPercent": 2.3125,
+            "yPercent": 3.1
+          },
+          "annotation": {
+            "left": 14,
+            "right": 60,
+            "top": 12,
+            "bottom": 50,
+            "startX": 145,
+            "startY": 0,
+            "endX": 60,
+            "endY": 31,
+            "below": false,
+            "path": "M 145 0 L 145 0 L 60 31"
+          },
+          "narrationDraft": "Click the exit icon or press Escape to leave the focused orb conversation. End or mute the session when you do not want it listening. If audio recovery offers Retry audio, Save audio or Discard & reset, read that notice before choosing.",
+          "checkpoint": "You are back in the main interface and the voice session has ended.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "vision",
+      "title": "Give a text-only model the ability to see",
+      "group": "senses",
+      "coursePosition": 17,
+      "prerequisites": "A working saved preset for a model that actually accepts images.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "The helper sees; your main model still answers",
+          "screenshot": "screens/vision.png",
+          "screenshotSha256": "05028e873c165b104695311848d7cb22178c14fb68e6a9af070e6b044e54a557",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Secondary vision model",
+            "x": 495,
+            "y": 476,
+            "width": 430,
+            "height": 20,
+            "xPercent": 30.9375,
+            "yPercent": 47.6
+          },
+          "annotation": {
+            "left": 276,
+            "right": 714,
+            "top": 462,
+            "bottom": 490,
+            "startX": 799,
+            "startY": 0,
+            "endX": 714,
+            "endY": 476,
+            "below": false,
+            "path": "M 799 0 L 799 421 L 714 476"
+          },
+          "narrationDraft": "A language model that only reads text cannot see pixels. Genesis can ask a separate vision model to describe an image, then give that description to your main model. Think of one helper looking at a photograph and explaining it to another helper. This does not change the main model’s underlying abilities.",
+          "checkpoint": "You understand the two-model arrangement.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Save the image model as a preset",
+          "screenshot": "screens/model-new.png",
+          "screenshotSha256": "20b91b5e5543b9cd7f26b71684c04d3da5f87bb3736470478b0f1cc784ea3c1a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Image input",
+            "x": 705,
+            "y": 594,
+            "width": 344,
+            "height": 20,
+            "xPercent": 44.0625,
+            "yPercent": 59.4
+          },
+          "annotation": {
+            "left": 529,
+            "right": 881,
+            "top": 580,
+            "bottom": 608,
+            "startX": 966,
+            "startY": 1000,
+            "endX": 881,
+            "endY": 594,
+            "below": true,
+            "path": "M 966 1000 L 966 649 L 881 594"
+          },
+          "narrationDraft": "First add and test the picture-capable model in Settings → Models. It may be local or cloud. Set Image input to Auto-detect, unless provider metadata is missing or wrong and you know the correct capability. Choosing “Vision / multimodal” does not make a text-only model capable of seeing.",
+          "checkpoint": "The secondary preset points to a real image-capable model.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Choose the Secondary vision model",
+          "screenshot": "screens/vision.png",
+          "screenshotSha256": "05028e873c165b104695311848d7cb22178c14fb68e6a9af070e6b044e54a557",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Secondary vision model",
+            "x": 495,
+            "y": 476,
+            "width": 430,
+            "height": 20,
+            "xPercent": 30.9375,
+            "yPercent": 47.6
+          },
+          "annotation": {
+            "left": 276,
+            "right": 714,
+            "top": 462,
+            "bottom": 490,
+            "startX": 799,
+            "startY": 0,
+            "endX": 714,
+            "endY": 476,
+            "below": false,
+            "path": "M 799 0 L 799 421 L 714 476"
+          },
+          "narrationDraft": "Open Settings → Voice & Vision → Screen & desktop control. Under Secondary vision model, select that saved preset. It has its own provider, connection and model. A cloud helper can receive pictures even when your main language model runs locally; choose a local helper if you want that image processing local.",
+          "checkpoint": "The intended image model is selected.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Choose how images are routed",
+          "screenshot": "screens/vision.png",
+          "screenshotSha256": "05028e873c165b104695311848d7cb22178c14fb68e6a9af070e6b044e54a557",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Vision routing",
+            "x": 477,
+            "y": 423,
+            "width": 394,
+            "height": 20,
+            "xPercent": 29.8125,
+            "yPercent": 42.3
+          },
+          "annotation": {
+            "left": 276,
+            "right": 678,
+            "top": 409,
+            "bottom": 437,
+            "startX": 763,
+            "startY": 0,
+            "endX": 678,
+            "endY": 423,
+            "below": false,
+            "path": "M 763 0 L 763 368 L 678 423"
+          },
+          "narrationDraft": "Auto: primary → secondary fallback uses the resolved model if it can accept images, and the secondary when needed. Always use secondary preset sends every image through the selected helper. Disabled turns image-model routing off. The Legacy options exist for older dedicated configurations; a saved secondary preset is easier to manage.",
+          "checkpoint": "The selected routing choice matches what you want.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Read the effective route, then try a picture",
+          "screenshot": "screens/vision.png",
+          "screenshotSha256": "05028e873c165b104695311848d7cb22178c14fb68e6a9af070e6b044e54a557",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Save changes",
+            "x": 1518,
+            "y": 116,
+            "width": 116,
+            "height": 30,
+            "xPercent": 94.875,
+            "yPercent": 11.6
+          },
+          "annotation": {
+            "left": 1456,
+            "right": 1580,
+            "top": 97,
+            "bottom": 135,
+            "startX": 1371,
+            "startY": 0,
+            "endX": 1456,
+            "endY": 116,
+            "below": false,
+            "path": "M 1371 0 L 1371 61 L 1456 116"
+          },
+          "narrationDraft": "Click Save changes and check Effective route. A model may say it will be tested on first use until image input has been verified. Attach a simple picture and ask “Describe what you see.” Confirm the description is right before asking it to reason about a tiny label or complicated screen.",
+          "checkpoint": "The image is described correctly and the route status makes sense.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Understand the limit of the handoff",
+          "screenshot": "screens/vision.png",
+          "screenshotSha256": "05028e873c165b104695311848d7cb22178c14fb68e6a9af070e6b044e54a557",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Secondary vision model",
+            "x": 495,
+            "y": 476,
+            "width": 430,
+            "height": 20,
+            "xPercent": 30.9375,
+            "yPercent": 47.6
+          },
+          "annotation": {
+            "left": 276,
+            "right": 714,
+            "top": 462,
+            "bottom": 490,
+            "startX": 799,
+            "startY": 0,
+            "endX": 714,
+            "endY": 476,
+            "below": false,
+            "path": "M 799 0 L 799 421 L 714 476"
+          },
+          "narrationDraft": "Your text-only model reasons from the helper’s description, not from the original pixels. If the helper misses a detail, the main answer can miss it too. Ask for a specific region or a clearer screenshot. A local language model plus local vision helper keeps those model calls local; web tools and other cloud choices remain separate.",
+          "checkpoint": "You know why checking the image description matters.",
+          "tip": ""
+        },
+        {
+          "step": 7,
+          "title": "Screen reading has extra tools",
+          "screenshot": "screens/vision.png",
+          "screenshotSha256": "05028e873c165b104695311848d7cb22178c14fb68e6a9af070e6b044e54a557",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "OCR engine",
+            "x": 421,
+            "y": 371,
+            "width": 282,
+            "height": 20,
+            "xPercent": 26.3125,
+            "yPercent": 37.1
+          },
+          "annotation": {
+            "left": 276,
+            "right": 566,
+            "top": 357,
+            "bottom": 385,
+            "startX": 651,
+            "startY": 0,
+            "endX": 566,
+            "endY": 371,
+            "below": false,
+            "path": "M 651 0 L 651 316 L 566 371"
+          },
+          "narrationDraft": "OCR engine reads written text from a screen. Maximum Set-of-Marks targets limits numbered controls in a vision pass. These help screen tasks but do not replace permission to control an app. Computer use decides what Genesis may operate. The vision route is also used by image-file tools and Missions.",
+          "checkpoint": "You can distinguish reading the screen from permission to act on it.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "appshots",
+      "title": "Show Genesis the window you are using",
+      "group": "senses",
+      "coursePosition": 18,
+      "prerequisites": "Genesis desktop on Windows and another app window you want to show.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Enable the screenshot shortcut",
+          "screenshot": "screens/appshots.png",
+          "screenshotSha256": "428c4456bb859f9b41b1d4085a682585da638740533f5d3b529b0337ef7d1d73",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Enable Appshots",
+            "x": 992,
+            "y": 492,
+            "width": 36,
+            "height": 20,
+            "xPercent": 62,
+            "yPercent": 49.2
+          },
+          "annotation": {
+            "left": 970,
+            "right": 1014,
+            "top": 478,
+            "bottom": 506,
+            "startX": 1099,
+            "startY": 0,
+            "endX": 1014,
+            "endY": 492,
+            "below": false,
+            "path": "M 1099 0 L 1099 437 L 1014 492"
+          },
+          "narrationDraft": "Open Settings → Computer use → Appshots and turn on Enable Appshots. This desktop preference applies immediately. The status should say the shortcut is ready. You can also choose whether a sound plays after capture.",
+          "checkpoint": "The shortcut reports ready.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Bring the other app to the front",
+          "screenshot": "screens/appshots.png",
+          "screenshotSha256": "428c4456bb859f9b41b1d4085a682585da638740533f5d3b529b0337ef7d1d73",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Hotkey",
+            "x": 486,
+            "y": 536,
+            "width": 403,
+            "height": 20,
+            "xPercent": 30.375,
+            "yPercent": 53.6
+          },
+          "annotation": {
+            "left": 280.5,
+            "right": 691.5,
+            "top": 522,
+            "bottom": 550,
+            "startX": 776.5,
+            "startY": 1000,
+            "endX": 691.5,
+            "endY": 536,
+            "below": true,
+            "path": "M 776.5 1000 L 776.5 591 L 691.5 536"
+          },
+          "narrationDraft": "Open the window you want to show Genesis. Press Left Alt + Right Alt together. Release both keys before taking another screenshot. Appshots captures the foreground app’s visible window and puts the image into your current conversation draft.",
+          "checkpoint": "The screenshot appears attached to the draft.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Explain what you want and send",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Type a message…",
+            "x": 920,
+            "y": 888,
+            "width": 1098,
+            "height": 38,
+            "xPercent": 57.5,
+            "yPercent": 88.8
+          },
+          "annotation": {
+            "left": 367,
+            "right": 1473,
+            "top": 865,
+            "bottom": 911,
+            "startX": 1558,
+            "startY": 1000,
+            "endX": 1473,
+            "endY": 888,
+            "below": true,
+            "path": "M 1558 1000 L 1558 943 L 1473 888"
+          },
+          "narrationDraft": "Return to Genesis. Check the screenshot, write something like “Explain this error message” or “Which button opens the settings?”, then press Send. The shortcut does not send the screenshot by itself. Your selected image route reads it after you send.",
+          "checkpoint": "The image and your question are sent together.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Check before sharing",
+          "screenshot": "screens/appshots.png",
+          "screenshotSha256": "428c4456bb859f9b41b1d4085a682585da638740533f5d3b529b0337ef7d1d73",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Appshot destination",
+            "x": 410,
+            "y": 589,
+            "width": 252,
+            "height": 20,
+            "xPercent": 25.625,
+            "yPercent": 58.9
+          },
+          "annotation": {
+            "left": 280,
+            "right": 540,
+            "top": 575,
+            "bottom": 603,
+            "startX": 625,
+            "startY": 1000,
+            "endX": 540,
+            "endY": 589,
+            "below": true,
+            "path": "M 625 1000 L 625 644 L 540 589"
+          },
+          "narrationDraft": "If the picture shows a private letter, key or personal information you did not intend to share, remove it from the draft. Choose a local vision route when you want picture interpretation to stay local. The screenshot only shows what was visible at capture time; it is not a live screen stream.",
+          "checkpoint": "You are sending exactly the window content you intended.",
+          "tip": ""
+        }
+      ]
+    }
+  ],
+  "audio": {
+    "repeatStart": 7.5,
+    "trimEnd": 232.5,
+    "crossfade": 9,
+    "fadeIn": 4,
+    "fadeOut": 8,
+    "rationale": "Video-4 source decodes to 239.8535s. Its first 7s are a quieter opening before the strong section; preserve that opening once. Repeat from 7.5s, end at 232.5s before the late 233–236s dynamic break and 239s near-silence. The repeat span is 225s with 9s equal-power qsin overlaps, giving 216s spacing. Four-second entrance and eight-second final fade. Derived from this track’s measured envelope; inspect every rendered join, entire-bed silence and loudness. No continuous subjective-listening claim."
+  },
+  "scenes": [
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "GENESIS AI · CATEGORY 3",
+      "title": "Speak.\nListen. See.",
+      "body": "Seven complete lessons for voice, pictures and your screen.\nChoose the routes. Read the status. Keep control.",
+      "tag": "VIDEO 4 · COMPLETE CATEGORY 3",
+      "readingWords": 20,
+      "readingSeconds": 8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "GENESIS AI · CATEGORY 3",
+      "title": "Your route\nthrough voice",
+      "items": [
+        "Use your voice instead of typing",
+        "Improve speech recognition",
+        "Choose and download a speaking voice",
+        "Use cloud listening or cloud voices"
+      ],
+      "note": "Have Genesis open. Pause to practice. Screenshots are clean demonstration fixtures; examples are not live provider results.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "GENESIS AI · CATEGORY 3",
+      "title": "Your route\nthrough vision",
+      "items": [
+        "Have a conversation with the orb",
+        "Give a text-only model the ability to see",
+        "Show Genesis the window you are using"
+      ],
+      "note": "This video has no duration target. Keep the prerequisite, practical example and checkpoint for each step.",
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 31,
+      "kind": "compare",
+      "eyebrow": "GENESIS AI · CATEGORY 3",
+      "title": "Three parts\nof a spoken reply",
+      "cards": [
+        {
+          "title": "LISTENING",
+          "body": "A recognition engine turns your audio into words. Dictation lets you review those words before Send.",
+          "tag": "SPEECH-TO-TEXT"
+        },
+        {
+          "title": "SPEAKING",
+          "body": "A speaking engine turns reply text into audio. Your language model remains the part that answers.",
+          "tag": "TEXT-TO-SPEECH"
+        }
+      ],
+      "note": "Choose listening, answering and speaking independently. Start with one short test of each part.",
+      "readingWords": 56,
+      "readingSeconds": 22.400000000000002,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "01 / DICTATION",
+      "title": "Speak into\nyour draft.",
+      "body": "Use your voice instead of typing\nDictation, spoken conversation and read-aloud.",
+      "tag": "LESSON 1 OF 7",
+      "readingWords": 15,
+      "readingSeconds": 6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION",
+      "title": "Before\nyou begin",
+      "items": [
+        "A microphone. Enable voice features in Settings → Voice & Vision."
+      ],
+      "note": "Prepare these prerequisites before you try the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 1",
+      "title": "Turn on\nvoice features",
+      "body": "Open Settings → Voice & Vision and enable Enable voice features. Start with Whisper (local, free) for Speech-to-text and Piper (local neural, free) for Text-to-speech.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        265,
+        765,
+        130
+      ],
+      "highlight": [
+        972,
+        330,
+        40,
+        24
+      ],
+      "callout": "Enable voice features",
+      "note": "Step 1 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 1",
+      "title": "Turn on\nvoice features",
+      "body": "Click Save changes. Listening and speaking are separate choices; they do not change your main AI model.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        265,
+        765,
+        130
+      ],
+      "highlight": [
+        972,
+        330,
+        40,
+        24
+      ],
+      "callout": "Enable voice features",
+      "note": "Step 1 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 1",
+      "title": "Set up\nthe three parts",
+      "items": [
+        "Listening: Whisper turns your audio into text",
+        "Answering: your connected language model",
+        "Speaking: Piper reads the answer aloud",
+        "Save changes after enabling voice"
+      ],
+      "note": "You can change the listening or speaking engine while keeping the same main model.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Voice is enabled and the choices are saved."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 2",
+      "title": "Speak into\nyour draft",
+      "body": "Click the microphone beside the message box and speak clearly. Dictation turns speech into draft text.",
+      "screen": "chat-modern",
+      "crop": [
+        1060,
+        870,
+        435,
+        88
+      ],
+      "highlight": [
+        1365.5,
+        908.5,
+        27,
+        27
+      ],
+      "callout": "Microphone: editable draft, then Send",
+      "note": "Step 2 of 4 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 2",
+      "title": "Speak into\nyour draft",
+      "body": "Stop recording using the microphone control, check the recognised words, edit any mistake, then press Send.",
+      "screen": "chat-modern",
+      "crop": [
+        1060,
+        870,
+        435,
+        88
+      ],
+      "highlight": [
+        1365.5,
+        908.5,
+        27,
+        27
+      ],
+      "callout": "Microphone: editable draft, then Send",
+      "note": "Step 2 of 4 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 2",
+      "title": "Speak into\nyour draft",
+      "body": "This gives you a chance to correct names, numbers and dates before sending.",
+      "screen": "chat-modern",
+      "crop": [
+        1060,
+        870,
+        435,
+        88
+      ],
+      "highlight": [
+        1365.5,
+        908.5,
+        27,
+        27
+      ],
+      "callout": "Microphone: editable draft, then Send",
+      "note": "Step 2 of 4 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 2",
+      "title": "A useful\ndetail",
+      "items": [
+        "The first use may take a moment while the local speech engine loads.",
+        "Check the selected microphone and Windows permission if it cannot start."
+      ],
+      "note": "Keep this distinction in mind as you practice.",
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 2",
+      "title": "A name and\na number",
+      "items": [
+        "Say: “Remind me to call Mira at 16:30.”",
+        "Stop the recording with the microphone control",
+        "Check Mira and 16:30 in the draft",
+        "Correct any mistake, then press Send"
+      ],
+      "note": "This is a practice sentence. Recognition can make mistakes; editable text gives you control before sending.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Your spoken words appear as editable text in the draft."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 3",
+      "title": "An ongoing\nconversation",
+      "body": "The Voice entry opens an ongoing spoken exchange rather than simply filling the draft. The circle beside it opens the minimal orb view.",
+      "screen": "chat-modern",
+      "crop": [
+        8,
+        905,
+        232,
+        94
+      ],
+      "highlight": [
+        189.5,
+        956,
+        37,
+        34
+      ],
+      "callout": "Circle beside Voice: ongoing orb conversation",
+      "note": "Step 3 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 3",
+      "title": "An ongoing\nconversation",
+      "body": "In conversation mode, spoken turns are sent as the conversation proceeds. Use the mute and exit controls when you want it to stop listening.",
+      "screen": "chat-modern",
+      "crop": [
+        8,
+        905,
+        232,
+        94
+      ],
+      "highlight": [
+        189.5,
+        956,
+        37,
+        34
+      ],
+      "callout": "Circle beside Voice: ongoing orb conversation",
+      "note": "Step 3 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 3",
+      "title": "Draft or\nconversation?",
+      "items": [
+        "Dictation fills your editable message draft",
+        "You review it and press Send",
+        "Orb conversation sends spoken turns as it proceeds",
+        "Mute or end the session to stop listening"
+      ],
+      "note": "Choose dictation for a precise name or number. Choose conversation when you want an ongoing exchange.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can distinguish draft dictation from an ongoing voice session."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 4",
+      "title": "Hear an\nexisting reply",
+      "body": "Use a reply’s read-aloud control when you want to hear text already on screen. Autonomous speech in Voice settings controls when Genesis may speak without a play click.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        385,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        405,
+        738,
+        67
+      ],
+      "callout": "Autonomous speech",
+      "note": "Step 4 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 4",
+      "title": "Hear an\nexisting reply",
+      "body": "Choose On request only if you want quiet unless you explicitly ask for speech.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        385,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        405,
+        738,
+        67
+      ],
+      "callout": "Autonomous speech",
+      "note": "Step 4 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / DICTATION · STEP 4",
+      "title": "Find\nRead aloud",
+      "body": "Use Read aloud beside an existing reply. This plays the reply text; it does not open an ongoing listening session.",
+      "screen": "@video4/chat-read-aloud",
+      "crop": [
+        355,
+        166,
+        440,
+        86
+      ],
+      "highlight": [
+        367,
+        207,
+        18,
+        18
+      ],
+      "callout": "Read aloud: play the reply already on screen",
+      "note": "Demonstration reply. Use one short read-aloud test to check the voice.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 4",
+      "title": "Start with\none short reply",
+      "items": [
+        "Find Read aloud on an existing reply",
+        "Play it to test the installed voice",
+        "Open Voice & Vision → Autonomous speech",
+        "Choose On request only for deliberate playback"
+      ],
+      "note": "Read-aloud plays existing text. Changing spontaneous speech does not turn the microphone on.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You have chosen when Genesis may speak."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "dictation",
+      "sourceSteps": [],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "01 / DICTATION",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Check the actual status and a small test",
+        "Keep listening, answering and speaking separate",
+        "Review what is sent and which route receives it",
+        "Return to any step with the lesson chapter"
+      ],
+      "note": "Continue at your own pace. A saved setting and a real successful test provide different evidence.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "02 / WHISPER",
+      "title": "Hear the\nwords clearly.",
+      "body": "Improve speech recognition\nLanguages, installed sizes and the active device.",
+      "tag": "LESSON 2 OF 7",
+      "readingWords": 14,
+      "readingSeconds": 5.6000000000000005,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER",
+      "title": "Before\nyou begin",
+      "items": [
+        "Settings → Voice & Vision. Internet for an optional download."
+      ],
+      "note": "Prepare these prerequisites before you try the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 1",
+      "title": "Recognition\nis the listener",
+      "body": "Whisper turns audio into words. Your language model then answers those words. Changing Whisper changes recognition, not the brain’s knowledge or personality.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        418,
+        765,
+        90
+      ],
+      "highlight": [
+        280,
+        438,
+        738,
+        50
+      ],
+      "callout": "Speech-to-text: choose the listening engine",
+      "note": "Step 1 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 1",
+      "title": "Recognition\nis the listener",
+      "body": "The bundled base model gets you started. A larger recognition model can help with other languages and harder audio, at a memory and speed cost.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        418,
+        765,
+        90
+      ],
+      "highlight": [
+        280,
+        438,
+        738,
+        50
+      ],
+      "callout": "Speech-to-text: choose the listening engine",
+      "note": "Step 1 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 1",
+      "title": "One sentence,\nthree stages",
+      "items": [
+        "You say: “Water the basil on Friday.”",
+        "Whisper recognises those words",
+        "Your language model decides how to answer",
+        "The selected speaking engine reads the reply"
+      ],
+      "note": "Better recognition does not give the answering model new knowledge. Test the recognised text itself.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know which part is recognising your voice."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 2",
+      "title": "Choose your\nlanguages",
+      "body": "Use Languages you speak → Add a language. Selecting your languages helps avoid a similar language being mistaken for yours.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        470,
+        765,
+        98
+      ],
+      "highlight": [
+        280,
+        490,
+        738,
+        58
+      ],
+      "callout": "Languages you speak: Add a language",
+      "note": "Step 2 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 2",
+      "title": "Choose your\nlanguages",
+      "body": "Leave the list empty only if you want recognition to consider any language.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        470,
+        765,
+        98
+      ],
+      "highlight": [
+        280,
+        490,
+        738,
+        58
+      ],
+      "callout": "Languages you speak: Add a language",
+      "note": "Step 2 of 6 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 2",
+      "title": "Choose your\nlanguages",
+      "body": "A single Whisper model supports multiple languages; you do not need a separate download for each language.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        470,
+        765,
+        98
+      ],
+      "highlight": [
+        280,
+        490,
+        738,
+        58
+      ],
+      "callout": "Languages you speak: Add a language",
+      "note": "Step 2 of 6 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 2",
+      "title": "Use your\nactual languages",
+      "items": [
+        "Add English if that is what you speak",
+        "Add Slovenian if you also use it",
+        "Keep only the languages you actually need",
+        "One installed Whisper model covers the list"
+      ],
+      "note": "These are examples. Choose your own languages; an empty list allows recognition to consider any language.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The languages you actually use appear in the list."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 3",
+      "title": "Choose, download,\nthen save",
+      "body": "Open Whisper model. Automatic chooses the recommended size for this computer once available. A missing size offers a Download button and shows its size.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        546,
+        765,
+        134
+      ],
+      "highlight": [
+        280,
+        566,
+        738,
+        94
+      ],
+      "callout": "Model choice, download and actual running size",
+      "note": "Step 3 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 3",
+      "title": "Choose, download,\nthen save",
+      "body": "Click Download and wait for completion. Progress can resume after a dropped connection. Choose the size, then save changes.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        546,
+        765,
+        134
+      ],
+      "highlight": [
+        280,
+        566,
+        738,
+        94
+      ],
+      "callout": "Model choice, download and actual running size",
+      "note": "Step 3 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 3",
+      "title": "A download\nis a real action",
+      "items": [
+        "Example: Automatic recommends small",
+        "The picture shows small is not yet installed",
+        "Download, wait for completion, then save",
+        "Resume a dropped download before testing"
+      ],
+      "note": "The displayed 462 MB is a fixture value. A selected model name does not prove its files finished downloading.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The selected model is installed, and you have checked “In use now.”"
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 4",
+      "title": "Read what\nis running",
+      "body": "The size you choose and the size currently running can differ. If a size is not downloaded or does not fit in free memory, Genesis uses an installed size that fits.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        546,
+        765,
+        134
+      ],
+      "highlight": [
+        280,
+        566,
+        738,
+        94
+      ],
+      "callout": "In use now: base in this demonstration",
+      "note": "Step 4 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 4",
+      "title": "Read what\nis running",
+      "body": "In use now tells you which one is actually active. Freeing memory or choosing a smaller size can help on an older computer.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        546,
+        765,
+        134
+      ],
+      "highlight": [
+        280,
+        566,
+        738,
+        94
+      ],
+      "callout": "In use now: base in this demonstration",
+      "note": "Step 4 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 4",
+      "title": "Chosen, installed,\nand active",
+      "items": [
+        "Chosen: Automatic, recommending small",
+        "Installed in the example: bundled base",
+        "In use now: base",
+        "Install the intended size and check memory"
+      ],
+      "note": "This demonstration explains the status. If the larger size does not fit free memory, an installed smaller size can run.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can explain why “Automatic small” might currently be using base."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 5",
+      "title": "Start with\nAutomatic",
+      "body": "Whisper device → Automatic uses the NVIDIA graphics card only when there is room and a local AI model is not competing for it. Otherwise recognition uses the processor.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        654,
+        765,
+        118
+      ],
+      "highlight": [
+        280,
+        674,
+        738,
+        78
+      ],
+      "callout": "Automatic device and Running on",
+      "note": "Step 5 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 5",
+      "title": "Start with\nAutomatic",
+      "body": "Selecting graphics-card recognition may require the optional NVIDIA libraries, offered with a download button. The processor remains a useful choice.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        654,
+        765,
+        118
+      ],
+      "highlight": [
+        280,
+        674,
+        738,
+        78
+      ],
+      "callout": "Automatic device and Running on",
+      "note": "Step 5 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 5",
+      "title": "Read the\nactive device",
+      "items": [
+        "Begin with Whisper device → Automatic",
+        "Running on may say processor",
+        "A local AI model can need the graphics memory",
+        "Download optional NVIDIA libraries only if wanted"
+      ],
+      "note": "CPU recognition remains valid. Selecting a graphics device does not install its libraries or create more free memory.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The “Running on” line tells you the active device."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 6",
+      "title": "Try a\nshort sentence",
+      "body": "Dictate a short sentence with a name and a number. Correct any mistakes in the draft.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        351,
+        765,
+        102
+      ],
+      "highlight": [
+        280,
+        371,
+        738,
+        62
+      ],
+      "callout": "Voice resources: Auto · save memory",
+      "note": "Step 6 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 6",
+      "title": "Try a\nshort sentence",
+      "body": "If recognition is poor, reduce background noise, check your languages, and compare an installed larger size.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        351,
+        765,
+        102
+      ],
+      "highlight": [
+        280,
+        371,
+        738,
+        62
+      ],
+      "callout": "Voice resources: Auto · save memory",
+      "note": "Step 6 of 6 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / WHISPER · STEP 6",
+      "title": "Try a\nshort sentence",
+      "body": "Voice resources → Auto · save memory unloads idle engines; an active session is protected.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        351,
+        765,
+        102
+      ],
+      "highlight": [
+        280,
+        371,
+        738,
+        62
+      ],
+      "callout": "Voice resources: Auto · save memory",
+      "note": "Step 6 of 6 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 6",
+      "title": "Compare\none change",
+      "items": [
+        "Say: “Mira needs 12 pots on Friday.”",
+        "Read the names and numbers in the draft",
+        "Reduce noise and check the selected languages",
+        "Compare one installed recognition size at a time"
+      ],
+      "note": "Auto · save memory unloads idle engines. First use can load them again; an active voice session is protected.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Your next dictated sentence is understandable without a long wait."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "whisper",
+      "sourceSteps": [],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "02 / WHISPER",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Check the actual status and a small test",
+        "Keep listening, answering and speaking separate",
+        "Review what is sent and which route receives it",
+        "Return to any step with the lesson chapter"
+      ],
+      "note": "Continue at your own pace. A saved setting and a real successful test provide different evidence.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "03 / VOICES",
+      "title": "A voice\nyou choose.",
+      "body": "Choose and download a speaking voice\nInstalled voices, downloads, effects and recovery.",
+      "tag": "LESSON 3 OF 7",
+      "readingWords": 16,
+      "readingSeconds": 6.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "03 / VOICES",
+      "title": "Before\nyou begin",
+      "items": [
+        "Voice enabled. Internet only for a new voice download."
+      ],
+      "note": "Prepare these prerequisites before you try the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 27,
+      "readingSeconds": 10.799999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 1",
+      "title": "Choose the\nspeaking engine",
+      "body": "Open Settings → Voice & Vision → Text-to-speech. Piper is a local neural voice. Windows voices use installed system voices. Browser voices depend on the browser environment.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        188,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        208,
+        738,
+        67
+      ],
+      "callout": "Text-to-speech",
+      "note": "Step 1 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 1",
+      "title": "Choose the\nspeaking engine",
+      "body": "The voice choice belongs to its selected engine; changing the engine changes the available voices.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        188,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        208,
+        738,
+        67
+      ],
+      "callout": "Text-to-speech",
+      "note": "Step 1 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 1",
+      "title": "Match engine\nand voice",
+      "items": [
+        "Piper: locally installed neural voice files",
+        "Windows: installed system voices",
+        "Browser: available browser voices",
+        "Each engine has its own voice choices"
+      ],
+      "note": "A voice ID from another engine may not work. Pick the engine first, then its supported voice.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You have chosen the engine that will speak."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 2",
+      "title": "Choose an\ninstalled voice",
+      "body": "Open Voice and select an installed voice. The bundled Piper voice is Amy in US English. Choose a voice appropriate for the language you want spoken.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        240,
+        765,
+        125
+      ],
+      "highlight": [
+        758,
+        260,
+        254,
+        41
+      ],
+      "callout": "Voice: installed Amy · English (US)",
+      "note": "Step 2 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 2",
+      "title": "Choose an\ninstalled voice",
+      "body": "Custom… lets you enter a known voice name or ID; it does not create or download a new voice by itself.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        240,
+        765,
+        125
+      ],
+      "highlight": [
+        758,
+        260,
+        254,
+        41
+      ],
+      "callout": "Voice: installed Amy · English (US)",
+      "note": "Step 2 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 2",
+      "title": "Start with\nbundled Amy",
+      "items": [
+        "Choose Piper as the speaking engine",
+        "Choose Amy · English (US)",
+        "Save changes and play one short reply",
+        "Custom accepts an existing name or ID"
+      ],
+      "note": "Custom does not synthesise a new voice identity or download missing files. Choose a voice for the spoken language.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Your selected voice appears in the field."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 3",
+      "title": "Download a\nPiper voice",
+      "body": "With Piper selected, use Download a voice…, choose a catalog entry, then click Download. Wait for Downloaded or Already installed. The successful download selects that voice.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        272,
+        765,
+        125
+      ],
+      "highlight": [
+        758,
+        308,
+        256,
+        33
+      ],
+      "callout": "Select a catalog voice, then Download",
+      "note": "Step 3 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 3",
+      "title": "Download a\nPiper voice",
+      "body": "Click Save changes, then use read-aloud on a short reply to hear it.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        272,
+        765,
+        125
+      ],
+      "highlight": [
+        758,
+        308,
+        256,
+        33
+      ],
+      "callout": "Select a catalog voice, then Download",
+      "note": "Step 3 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 3",
+      "title": "A catalog\ndownload example",
+      "items": [
+        "Choose a wanted entry in Download a voice…",
+        "Press Download and wait for success",
+        "The downloaded voice becomes selected",
+        "Save changes and play a short reply"
+      ],
+      "note": "Ryan is one example catalog entry. Use a voice available in your current catalog; this fixture performs no download.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The new voice is available and speaks a short test."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 4",
+      "title": "Choose when\nit speaks",
+      "body": "Set Autonomous speech to On request only, Urgent / important, or Everything (natural pacing). These choices control spontaneous speech.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        385,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        405,
+        738,
+        67
+      ],
+      "callout": "Autonomous speech",
+      "note": "Step 4 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 4",
+      "title": "Choose when\nit speaks",
+      "body": "They do not mean the microphone is always listening. An ongoing voice conversation has its own mute and exit controls.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        385,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        405,
+        738,
+        67
+      ],
+      "callout": "Autonomous speech",
+      "note": "Step 4 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 4",
+      "title": "Choose your\nspeech rhythm",
+      "items": [
+        "On request only: ask or play explicitly",
+        "Urgent / important: selected spontaneous speech",
+        "Everything: natural pacing",
+        "Mute and exit belong to the ongoing session"
+      ],
+      "note": "Spontaneous speech and microphone listening are different decisions. Check both when you want quiet.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Genesis speaks only as often as you intended."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 5",
+      "title": "Effect or\nseparate engine?",
+      "body": "Voice effect → HAL 9000 changes the pitch, pace and room reverb of a local Piper or Windows voice.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        439,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        459,
+        738,
+        67
+      ],
+      "callout": "Voice effect: separate from the HAL sidecar engine",
+      "note": "Step 5 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 5",
+      "title": "Effect or\nseparate engine?",
+      "body": "Set up HAL 9000 voice for me sets an effect and downloads the chosen local voice; save afterward.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        439,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        459,
+        738,
+        67
+      ],
+      "callout": "Voice effect: separate from the HAL sidecar engine",
+      "note": "Step 5 of 6 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 5",
+      "title": "Effect or\nseparate engine?",
+      "body": "The separate HAL 9000 — real voice (clone, sidecar) engine needs its own running sidecar service. An effect is different from that separate engine.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        439,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        459,
+        738,
+        67
+      ],
+      "callout": "Voice effect: separate from the HAL sidecar engine",
+      "note": "Step 5 of 6 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 5",
+      "title": "Two HAL\nchoices",
+      "items": [
+        "HAL 9000 effect processes a local voice",
+        "The setup action selects an effect and voice",
+        "Save after the local voice setup completes",
+        "Real voice (clone, sidecar) needs its own service"
+      ],
+      "note": "A pitch, pace and reverb effect is different from the separate HAL voice engine. Choose the one you intend.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know whether you selected an effect or a separate voice engine."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 6",
+      "title": "Get local\nspeech back",
+      "body": "A missing configured Piper voice can use bundled Amy. Local speech can fall back to Windows and then browser speech when available. Check the voice status and test again.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        188,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        208,
+        738,
+        67
+      ],
+      "callout": "Text-to-speech",
+      "note": "Step 6 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "03 / VOICES · STEP 6",
+      "title": "Get local\nspeech back",
+      "body": "Genesis does not silently switch a local voice to a paid cloud service. An unavailable cloud or sidecar engine should be checked in its own configuration.",
+      "screen": "voice-speaker",
+      "crop": [
+        265,
+        188,
+        765,
+        107
+      ],
+      "highlight": [
+        280,
+        208,
+        738,
+        67
+      ],
+      "callout": "Text-to-speech",
+      "note": "Step 6 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 6",
+      "title": "Recover\nlocal speech",
+      "items": [
+        "Check the selected Piper voice is installed",
+        "Bundled Amy can replace a missing Piper voice",
+        "Local fallback can use Windows, then browser",
+        "Check status, mute and one short read-aloud test"
+      ],
+      "note": "An unavailable cloud or sidecar engine needs its own configuration checked. Local fallback does not silently enable paid cloud.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / VOICES · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know how to get speech working again without enabling a cloud provider."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "voices",
+      "sourceSteps": [],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "03 / VOICES",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Check the actual status and a small test",
+        "Keep listening, answering and speaking separate",
+        "Review what is sent and which route receives it",
+        "Return to any step with the lesson chapter"
+      ],
+      "note": "Continue at your own pace. A saved setting and a real successful test provide different evidence.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "04 / CLOUD VOICE",
+      "title": "Local or cloud.\nYour choice.",
+      "body": "Use cloud listening or cloud voices\nIndependent audio routes and matching credentials.",
+      "tag": "LESSON 4 OF 7",
+      "readingWords": 17,
+      "readingSeconds": 6.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE",
+      "title": "Before\nyou begin",
+      "items": [
+        "Internet and the matching provider’s API key or voice credentials."
+      ],
+      "note": "Prepare these prerequisites before you try the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 1",
+      "title": "Mix listening\nand speaking",
+      "body": "You can listen locally and speak with a cloud voice, or use cloud listening and local speech. They are independent. Your main model can still be local.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        418,
+        765,
+        90
+      ],
+      "highlight": [
+        280,
+        438,
+        738,
+        50
+      ],
+      "callout": "Speech-to-text: choose the listening engine",
+      "note": "Step 1 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 1",
+      "title": "Mix listening\nand speaking",
+      "body": "Choose each part in Settings → Voice & Vision and save. Cloud recognition sends audio to that provider; cloud speech sends the text to be spoken.",
+      "screen": "voice-local",
+      "crop": [
+        265,
+        418,
+        765,
+        90
+      ],
+      "highlight": [
+        280,
+        438,
+        738,
+        50
+      ],
+      "callout": "Speech-to-text: choose the listening engine",
+      "note": "Step 1 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 1",
+      "title": "Choose where\neach part goes",
+      "items": [
+        "Local recognition + cloud speech is possible",
+        "Cloud recognition + local speech is possible",
+        "Your main language model can remain local",
+        "Cloud listening receives audio; speech receives text"
+      ],
+      "note": "Keep track of each selected route. A local main model does not make an explicitly chosen cloud voice local.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know which part, if any, will use a cloud service."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 2",
+      "title": "Choose cloud\nrecognition",
+      "body": "Set Speech-to-text → OpenAI STT (cloud) and enter its key in STT API key. This field is separate from the main model’s key. Save and try a short recording.",
+      "screen": "voice-cloud-listen",
+      "crop": [
+        265,
+        515,
+        765,
+        110
+      ],
+      "highlight": [
+        280,
+        535,
+        738,
+        70
+      ],
+      "callout": "STT API key: separate listening credential",
+      "note": "Step 2 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 2",
+      "title": "Choose cloud\nrecognition",
+      "body": "The Whisper size and device controls describe the local recognition route; they do not tune the cloud service.",
+      "screen": "voice-cloud-listen",
+      "crop": [
+        265,
+        515,
+        765,
+        110
+      ],
+      "highlight": [
+        280,
+        535,
+        738,
+        70
+      ],
+      "callout": "STT API key: separate listening credential",
+      "note": "Step 2 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 2",
+      "title": "A separate\nlistening key",
+      "items": [
+        "Choose OpenAI STT (cloud)",
+        "Enter the matching key in STT API key",
+        "Save changes, then try one short recording",
+        "Check recognised text before a long exchange"
+      ],
+      "note": "Use your own credential only in Genesis. This tutorial contains no real key; local Whisper controls do not tune cloud STT.",
+      "readingWords": 51,
+      "readingSeconds": 20.400000000000002,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "A small recording is recognised using the selected provider."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 3",
+      "title": "Match the\ncloud voice",
+      "body": "Under Text-to-speech, choose OpenAI (cloud), ElevenLabs (cloud) or Azure (cloud).",
+      "screen": "voice-cloud-speak",
+      "crop": [
+        265,
+        195,
+        765,
+        218
+      ],
+      "highlight": [
+        280,
+        330,
+        738,
+        68
+      ],
+      "callout": "Matching TTS engine, voice and key",
+      "note": "Step 3 of 4 · Teaching 1 of 4. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 27,
+      "readingSeconds": 10.799999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 3",
+      "title": "Match the\ncloud voice",
+      "body": "Enter the appropriate TTS API key and choose a voice supported by that engine, or use Custom for a known voice ID.",
+      "screen": "voice-cloud-speak",
+      "crop": [
+        265,
+        195,
+        765,
+        218
+      ],
+      "highlight": [
+        280,
+        330,
+        738,
+        68
+      ],
+      "callout": "Matching TTS engine, voice and key",
+      "note": "Step 3 of 4 · Teaching 2 of 4. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 3",
+      "title": "Match the\ncloud voice",
+      "body": "This picture shows the OpenAI choice; select your own provider.",
+      "screen": "voice-cloud-speak",
+      "crop": [
+        265,
+        195,
+        765,
+        218
+      ],
+      "highlight": [
+        280,
+        330,
+        738,
+        68
+      ],
+      "callout": "Matching TTS engine, voice and key",
+      "note": "Step 3 of 4 · Teaching 3 of 4. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 3",
+      "title": "Match the\ncloud voice",
+      "body": "Use the provider’s required configuration; an Azure credential or provider-specific voice identifier may need additional setup.",
+      "screen": "voice-cloud-speak",
+      "crop": [
+        265,
+        195,
+        765,
+        218
+      ],
+      "highlight": [
+        280,
+        330,
+        738,
+        68
+      ],
+      "callout": "Matching TTS engine, voice and key",
+      "note": "Step 3 of 4 · Teaching 4 of 4. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 3",
+      "title": "Keep the\nvoice details together",
+      "items": [
+        "Choose OpenAI, ElevenLabs or Azure",
+        "Use that provider’s TTS credential",
+        "Choose its supported voice or known voice ID",
+        "Check any provider-specific setup requirements"
+      ],
+      "note": "Azure may require region and voice details beyond an example key. The screenshot illustrates OpenAI only.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The engine, credential and voice belong to the same provider."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 4",
+      "title": "Save, then\ntest briefly",
+      "body": "Click Save changes. Play one short reply. Check connectivity, key access and the voice identifier if it fails. Provider charges and quotas are controlled by that company.",
+      "screen": "voice-cloud-speak",
+      "crop": [
+        1120,
+        70,
+        470,
+        155
+      ],
+      "highlight": [
+        1460,
+        101,
+        116,
+        30
+      ],
+      "callout": "Save changes",
+      "note": "Step 4 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / CLOUD VOICE · STEP 4",
+      "title": "Save, then\ntest briefly",
+      "body": "Local voice never changes to cloud automatically: you explicitly choose the cloud engine and supply its key.",
+      "screen": "voice-cloud-speak",
+      "crop": [
+        1120,
+        70,
+        470,
+        155
+      ],
+      "highlight": [
+        1460,
+        101,
+        116,
+        30
+      ],
+      "callout": "Save changes",
+      "note": "Step 4 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 4",
+      "title": "A ten-word\ntest first",
+      "items": [
+        "Save the matching engine, credential and voice",
+        "Play one short existing reply",
+        "Check internet, access and voice ID if silent",
+        "Check the provider’s quota and billing"
+      ],
+      "note": "A saved setting does not prove the provider accepted the request. Hear a small test before starting a long conversation.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You hear a short test in the voice you selected."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "cloud-voice",
+      "sourceSteps": [],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "04 / CLOUD VOICE",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Check the actual status and a small test",
+        "Keep listening, answering and speaking separate",
+        "Review what is sent and which route receives it",
+        "Return to any step with the lesson chapter"
+      ],
+      "note": "Continue at your own pace. A saved setting and a real successful test provide different evidence.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "05 / ORB",
+      "title": "An ongoing\nconversation.",
+      "body": "Have a conversation with the orb\nStates, mute controls, interruptions and ending.",
+      "tag": "LESSON 5 OF 7",
+      "readingWords": 15,
+      "readingSeconds": 6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "05 / ORB",
+      "title": "Before\nyou begin",
+      "items": [
+        "The Modern interface, a connected model and working voice input/output."
+      ],
+      "note": "Prepare these prerequisites before you try the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 1",
+      "title": "Open the\norb conversation",
+      "body": "In Modern, find Voice near the bottom of the left panel. Click its small circle for the orb conversation. Genesis opens a minimal screen and starts the voice session when ready.",
+      "screen": "chat-modern",
+      "crop": [
+        8,
+        905,
+        232,
+        94
+      ],
+      "highlight": [
+        189.5,
+        956,
+        37,
+        34
+      ],
+      "callout": "Circle beside Voice: ongoing orb conversation",
+      "note": "Step 1 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 1",
+      "title": "Open the\norb conversation",
+      "body": "This is an ongoing conversation: your spoken turns go to the model without pressing Send for each one.",
+      "screen": "chat-modern",
+      "crop": [
+        8,
+        905,
+        232,
+        94
+      ],
+      "highlight": [
+        189.5,
+        956,
+        37,
+        34
+      ],
+      "callout": "Circle beside Voice: ongoing orb conversation",
+      "note": "Step 1 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 1",
+      "title": "Prepare an\nongoing session",
+      "items": [
+        "Use the Modern interface",
+        "Check your model connection",
+        "Test listening and speaking first",
+        "Clear or send your draft before opening the circle"
+      ],
+      "note": "Spoken turns submit as the session proceeds. Dictation’s review-and-Send behavior is a different mode.",
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The orb view opens and reports its voice state."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 2",
+      "title": "Read the\nstate beneath it",
+      "body": "The state tells you what is happening: Opening microphone, Listening, Waiting for your next words, Transcribing, Thinking, or Speaking.",
+      "screen": "voice-orb",
+      "crop": [
+        570,
+        315,
+        470,
+        430
+      ],
+      "highlight": [
+        688,
+        348,
+        224,
+        224
+      ],
+      "callout": "Read the state text beneath the orb",
+      "note": "Step 2 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 2",
+      "title": "Read the\nstate beneath it",
+      "body": "A brief pause can let it gather your next words before sending the turn. If it is thinking, give it a moment to work.",
+      "screen": "voice-orb",
+      "crop": [
+        570,
+        315,
+        470,
+        430
+      ],
+      "highlight": [
+        688,
+        348,
+        224,
+        224
+      ],
+      "callout": "Read the state text beneath the orb",
+      "note": "Step 2 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 2",
+      "title": "Let the\nstate guide you",
+      "items": [
+        "Opening microphone: audio is starting",
+        "Listening: it can hear your words",
+        "Waiting for your next words: gathering a turn",
+        "Transcribing, Thinking, Speaking: processing stages"
+      ],
+      "note": "A brief pause can gather more words. Check the state before assuming the conversation has stopped.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can tell whether it is listening or answering."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 3",
+      "title": "Reveal the\ncontrols",
+      "body": "Move your mouse over the orb view to show controls. The microphone button mutes listening; the speaker button mutes sound. They are separate.",
+      "screen": "voice-orb",
+      "crop": [
+        570,
+        315,
+        470,
+        430
+      ],
+      "highlight": [
+        759,
+        620,
+        85,
+        29
+      ],
+      "callout": "Microphone mute and speaker mute are separate",
+      "note": "Step 3 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 3",
+      "title": "Reveal the\ncontrols",
+      "body": "Use the left chevrons to show the transcript and the right chevrons to show the browser panel. Panels can be resized.",
+      "screen": "voice-orb",
+      "crop": [
+        570,
+        315,
+        470,
+        430
+      ],
+      "highlight": [
+        759,
+        620,
+        85,
+        29
+      ],
+      "callout": "Microphone mute and speaker mute are separate",
+      "note": "Step 3 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 3",
+      "title": "Two independent\nmute controls",
+      "items": [
+        "Move the pointer to reveal controls",
+        "Microphone mute stops listening",
+        "Speaker mute stops audible output",
+        "Reveal transcript and browser with the chevrons"
+      ],
+      "note": "Mute the microphone when you want privacy from listening. Speaker mute alone does not stop microphone input.",
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can mute listening without losing the conversation."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 4",
+      "title": "Interrupt\na spoken reply",
+      "body": "While it is thinking or speaking, tap the orb to interrupt the reply and speak. The microphone’s mute state still matters.",
+      "screen": "voice-orb",
+      "crop": [
+        570,
+        315,
+        470,
+        430
+      ],
+      "highlight": [
+        688,
+        348,
+        224,
+        224
+      ],
+      "callout": "Tap the orb while thinking or speaking",
+      "note": "Step 4 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 4",
+      "title": "Interrupt\na spoken reply",
+      "body": "Interrupting a voice reply is not the same as undoing an action or stopping every background task. Use the work controls for that.",
+      "screen": "voice-orb",
+      "crop": [
+        570,
+        315,
+        470,
+        430
+      ],
+      "highlight": [
+        688,
+        348,
+        224,
+        224
+      ],
+      "callout": "Tap the orb while thinking or speaking",
+      "note": "Step 4 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 4",
+      "title": "An interruption\nexample",
+      "items": [
+        "It begins an answer about your garden",
+        "Tap the orb while thinking or speaking",
+        "If the microphone is muted, unmute to speak",
+        "Say: “Use only the sunny windowsill.”"
+      ],
+      "note": "Interrupting the voice reply preserves the microphone’s mute state. Inspect work controls to pause or stop other work.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know how to interrupt the spoken turn."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 5",
+      "title": "Read along\nand reveal panels",
+      "body": "Open Transcript to see the words and tool activity. Open Browser when Genesis uses its browser.",
+      "screen": "@video4/orb-transcript",
+      "crop": [
+        0,
+        10,
+        480,
+        270
+      ],
+      "highlight": [
+        10,
+        111,
+        453,
+        69
+      ],
+      "callout": "Transcript: read the conversation alongside the orb",
+      "note": "Step 5 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 5",
+      "title": "Read along\nand reveal panels",
+      "body": "Closing the browser panel hides the view; it does not mean all browser work has stopped. If a site needs you, follow the request and return control when ready.",
+      "screen": "@video4/orb-transcript",
+      "crop": [
+        0,
+        10,
+        480,
+        270
+      ],
+      "highlight": [
+        10,
+        111,
+        453,
+        69
+      ],
+      "callout": "Transcript: read the conversation alongside the orb",
+      "note": "Step 5 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 5",
+      "title": "Keep the\norb visible",
+      "body": "The transcript appears beside the orb. Resize its divider to choose how much room the words and the orb receive.",
+      "screen": "@video4/orb-transcript",
+      "crop": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "highlight": [
+        485,
+        480,
+        37,
+        37
+      ],
+      "callout": "Left chevrons reveal or hide the transcript",
+      "note": "The browser panel has its own right chevrons. Hiding a panel changes the view.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 5",
+      "title": "Read and\nwatch with context",
+      "items": [
+        "Left chevrons reveal the transcript",
+        "Right chevrons reveal the browser panel",
+        "Drag a panel divider to resize it",
+        "Follow a site’s request when Genesis needs you"
+      ],
+      "note": "Closing the browser panel hides its view. Check work status and controls when you intend to stop browser activity.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can reveal the transcript while keeping the orb visible."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 6",
+      "title": "End the\nsession deliberately",
+      "body": "Click the exit icon or press Escape to leave the focused orb conversation. End or mute the session when you do not want it listening.",
+      "screen": "voice-orb",
+      "crop": [
+        0,
+        0,
+        260,
+        170
+      ],
+      "highlight": [
+        18,
+        16,
+        38,
+        30
+      ],
+      "callout": "Exit voice conversation · Escape also exits",
+      "note": "Step 6 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / ORB · STEP 6",
+      "title": "End the\nsession deliberately",
+      "body": "If audio recovery offers Retry audio, Save audio or Discard & reset, read that notice before choosing.",
+      "screen": "voice-orb",
+      "crop": [
+        0,
+        0,
+        260,
+        170
+      ],
+      "highlight": [
+        18,
+        16,
+        38,
+        30
+      ],
+      "callout": "Exit voice conversation · Escape also exits",
+      "note": "Step 6 of 6 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 6",
+      "title": "Choose an\nexplicit ending",
+      "items": [
+        "Use the exit icon or press Escape",
+        "Check that the session has ended",
+        "Retry audio attempts the retained recording",
+        "Save audio or Discard & reset are separate choices"
+      ],
+      "note": "Read any recovery notice before acting. Ending or muting is deliberate; leaving the speaker quiet alone is not microphone mute.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / ORB · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You are back in the main interface and the voice session has ended."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "orb",
+      "sourceSteps": [],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "05 / ORB",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Check the actual status and a small test",
+        "Keep listening, answering and speaking separate",
+        "Review what is sent and which route receives it",
+        "Return to any step with the lesson chapter"
+      ],
+      "note": "Continue at your own pace. A saved setting and a real successful test provide different evidence.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "06 / VISION",
+      "title": "Give images\na helper.",
+      "body": "Give a text-only model the ability to see\nA real image model, routing and the limits of description.",
+      "tag": "LESSON 6 OF 7",
+      "readingWords": 22,
+      "readingSeconds": 8.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "06 / VISION",
+      "title": "Before\nyou begin",
+      "items": [
+        "A working saved preset for a model that actually accepts images."
+      ],
+      "note": "Prepare these prerequisites before you try the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 1",
+      "title": "One helper\nlooks at the image",
+      "body": "A language model that only reads text cannot see pixels. Genesis can ask a separate vision model to describe an image, then give that description to your main model.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        726,
+        474.5,
+        288,
+        35
+      ],
+      "callout": "Secondary vision model: choose a tested preset",
+      "note": "Step 1 of 7 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 1",
+      "title": "One helper\nlooks at the image",
+      "body": "Think of one helper looking at a photograph and explaining it to another helper. This does not change the main model’s underlying abilities.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        726,
+        474.5,
+        288,
+        35
+      ],
+      "callout": "Secondary vision model: choose a tested preset",
+      "note": "Step 1 of 7 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 1",
+      "title": "A photograph\nwith two helpers",
+      "items": [
+        "Vision helper: looks at the photograph",
+        "Helper produces an image description",
+        "Text-only main model receives that description",
+        "Main model reasons and answers you"
+      ],
+      "note": "If the helper misses a small detail, the main model may miss it too. The main model does not gain image capability.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You understand the two-model arrangement."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 2",
+      "title": "Save a real\nimage model",
+      "body": "First add and test the picture-capable model in Settings → Models. It may be local or cloud.",
+      "screen": "model-new",
+      "crop": [
+        518,
+        500,
+        562,
+        156
+      ],
+      "highlight": [
+        532,
+        584,
+        345,
+        20
+      ],
+      "callout": "Image input: declare a real capability",
+      "note": "Step 2 of 7 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 2",
+      "title": "Save a real\nimage model",
+      "body": "Set Image input to Auto-detect, unless provider metadata is missing or wrong and you know the correct capability.",
+      "screen": "model-new",
+      "crop": [
+        518,
+        500,
+        562,
+        156
+      ],
+      "highlight": [
+        532,
+        584,
+        345,
+        20
+      ],
+      "callout": "Image input: declare a real capability",
+      "note": "Step 2 of 7 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 2",
+      "title": "Save a real\nimage model",
+      "body": "Choosing “Vision / multimodal” does not make a text-only model capable of seeing.",
+      "screen": "model-new",
+      "crop": [
+        518,
+        500,
+        562,
+        156
+      ],
+      "highlight": [
+        532,
+        584,
+        345,
+        20
+      ],
+      "callout": "Image input: declare a real capability",
+      "note": "Step 2 of 7 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 2",
+      "title": "Prove the\nimage connection",
+      "items": [
+        "Create the image-capable model’s own preset",
+        "Use a real installed local or accessible cloud model",
+        "Save and test its connection and image input",
+        "Keep Auto-detect unless you know metadata is wrong"
+      ],
+      "note": "A capability selector records a declaration. Choosing Vision / multimodal cannot give a text-only model new abilities.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The secondary preset points to a real image-capable model."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 3",
+      "title": "Choose your\nvision helper",
+      "body": "Open Settings → Voice & Vision → Screen & desktop control. Under Secondary vision model, select that saved preset. It has its own provider, connection and model.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        726,
+        474.5,
+        288,
+        35
+      ],
+      "callout": "Secondary vision model: choose a tested preset",
+      "note": "Step 3 of 7 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 3",
+      "title": "Choose your\nvision helper",
+      "body": "A cloud helper can receive pictures even when your main language model runs locally; choose a local helper if you want that image processing local.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        726,
+        474.5,
+        288,
+        35
+      ],
+      "callout": "Secondary vision model: choose a tested preset",
+      "note": "Step 3 of 7 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 3",
+      "title": "A local\nhelper example",
+      "items": [
+        "Primary: your working text-only local model",
+        "Secondary: your tested local image model",
+        "Choose its preset under Secondary vision model",
+        "Save the intended Voice & Vision settings"
+      ],
+      "note": "A cloud helper receives images even with a local primary. Choose a local helper if you want these model calls local.",
+      "readingWords": 51,
+      "readingSeconds": 20.400000000000002,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The intended image model is selected."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 4",
+      "title": "Choose the\nimage route",
+      "body": "Auto: primary → secondary fallback uses the resolved model if it can accept images, and the secondary when needed.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        754,
+        413.5,
+        260,
+        35
+      ],
+      "callout": "Vision routing: Auto, secondary, disabled or legacy",
+      "note": "Step 4 of 7 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 4",
+      "title": "Choose the\nimage route",
+      "body": "Always use secondary preset sends every image through the selected helper. Disabled turns image-model routing off.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        754,
+        413.5,
+        260,
+        35
+      ],
+      "callout": "Vision routing: Auto, secondary, disabled or legacy",
+      "note": "Step 4 of 7 · Teaching 2 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 4",
+      "title": "Choose the\nimage route",
+      "body": "The Legacy options exist for older dedicated configurations; a saved secondary preset is easier to manage.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        754,
+        413.5,
+        260,
+        35
+      ],
+      "callout": "Vision routing: Auto, secondary, disabled or legacy",
+      "note": "Step 4 of 7 · Teaching 3 of 3. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 4",
+      "title": "Understand\nthe route choices",
+      "items": [
+        "Auto: resolved primary, then secondary if needed",
+        "Always secondary: every image uses the helper",
+        "Disabled: no image-model routing",
+        "Legacy: older dedicated configurations"
+      ],
+      "note": "The resolved primary can be the effective backup model. Review the actual route instead of assuming a saved name determines it.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The selected routing choice matches what you want."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 5",
+      "title": "Check the route.\nTry a picture.",
+      "body": "Click Save changes and check Effective route. A model may say it will be tested on first use until image input has been verified.",
+      "screen": "vision",
+      "crop": [
+        265,
+        510,
+        765,
+        128
+      ],
+      "highlight": [
+        279,
+        529,
+        734,
+        84
+      ],
+      "callout": "Effective route: first-use verification status",
+      "note": "Step 5 of 7 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 5",
+      "title": "Check the route.\nTry a picture.",
+      "body": "Attach a simple picture and ask “Describe what you see.” Confirm the description is right before asking it to reason about a tiny label or complicated screen.",
+      "screen": "vision",
+      "crop": [
+        265,
+        510,
+        765,
+        128
+      ],
+      "highlight": [
+        279,
+        529,
+        734,
+        84
+      ],
+      "callout": "Effective route: first-use verification status",
+      "note": "Step 5 of 7 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 5",
+      "title": "Test a\nsimple picture",
+      "items": [
+        "Save changes and read Effective route",
+        "First-use status may still be unverified",
+        "Attach a simple picture and Send your question",
+        "Ask: “Describe what you see.”"
+      ],
+      "note": "Confirm the description against the picture. A status declaration is not a successful first image response.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The image is described correctly and the route status makes sense."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 6",
+      "title": "Check the\nhelper’s description",
+      "body": "Your text-only model reasons from the helper’s description, not from the original pixels. If the helper misses a detail, the main answer can miss it too.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        726,
+        474.5,
+        288,
+        35
+      ],
+      "callout": "Secondary vision model: choose a tested preset",
+      "note": "Step 6 of 7 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 6",
+      "title": "Check the\nhelper’s description",
+      "body": "Ask for a specific region or a clearer screenshot. A local language model plus local vision helper keeps those model calls local; web tools and other cloud choices remain separate.",
+      "screen": "vision",
+      "crop": [
+        265,
+        400,
+        765,
+        130
+      ],
+      "highlight": [
+        726,
+        474.5,
+        288,
+        35
+      ],
+      "callout": "Secondary vision model: choose a tested preset",
+      "note": "Step 6 of 7 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 6",
+      "title": "Ask for the\nmissing detail",
+      "items": [
+        "Check the helper’s description first",
+        "Ask about the exact label or region you need",
+        "Provide a clearer screenshot if necessary",
+        "Compare the answer with the visible image"
+      ],
+      "note": "A local primary and local helper keep those model calls local. Web tools and other cloud services are separate routes.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know why checking the image description matters."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        7
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 7",
+      "title": "Reading and\ncontrol differ",
+      "body": "OCR engine reads written text from a screen. Maximum Set-of-Marks targets limits numbered controls in a vision pass.",
+      "screen": "vision",
+      "crop": [
+        265,
+        220,
+        765,
+        188
+      ],
+      "highlight": [
+        279,
+        230,
+        738,
+        167
+      ],
+      "callout": "Set-of-Marks targets and OCR engine",
+      "note": "Step 7 of 7 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        7
+      ],
+      "duration": 31,
+      "kind": "screen",
+      "eyebrow": "06 / VISION · STEP 7",
+      "title": "Reading and\ncontrol differ",
+      "body": "These help screen tasks but do not replace permission to control an app. Computer use decides what Genesis may operate. The vision route is also used by image-file tools and Missions.",
+      "screen": "vision",
+      "crop": [
+        265,
+        220,
+        765,
+        188
+      ],
+      "highlight": [
+        279,
+        230,
+        738,
+        167
+      ],
+      "callout": "Set-of-Marks targets and OCR engine",
+      "note": "Step 7 of 7 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 51,
+      "readingSeconds": 20.400000000000002,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [
+        7
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 7",
+      "title": "Seeing is\nnot acting",
+      "items": [
+        "OCR reads written text on the screen",
+        "Set-of-Marks limits numbered control targets",
+        "Computer use controls permission to operate apps",
+        "Image files and Missions also use vision routing"
+      ],
+      "note": "Reading a button label does not grant permission to click it. Keep image capability and tool access distinct.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / VISION · STEP 7",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can distinguish reading the screen from permission to act on it."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        7
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "vision",
+      "sourceSteps": [],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "06 / VISION",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Check the actual status and a small test",
+        "Keep listening, answering and speaking separate",
+        "Review what is sent and which route receives it",
+        "Return to any step with the lesson chapter"
+      ],
+      "note": "Continue at your own pace. A saved setting and a real successful test provide different evidence.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "07 / APPSHOTS",
+      "title": "Show the window.\nThen Send.",
+      "body": "Show Genesis the window you are using\nThe dual-Alt shortcut and an inspected draft.",
+      "tag": "LESSON 7 OF 7",
+      "readingWords": 19,
+      "readingSeconds": 7.6000000000000005,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS",
+      "title": "Before\nyou begin",
+      "items": [
+        "Genesis desktop on Windows and another app window you want to show."
+      ],
+      "note": "Prepare these prerequisites before you try the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 1",
+      "title": "Enable\nAppshots",
+      "body": "Open Settings → Computer use → Appshots and turn on Enable Appshots. This desktop preference applies immediately. The status should say the shortcut is ready.",
+      "screen": "@video4/appshots-ready",
+      "crop": [
+        265,
+        445,
+        765,
+        272
+      ],
+      "highlight": [
+        280,
+        465,
+        738,
+        232
+      ],
+      "callout": "Enable Appshots · Shortcut ready",
+      "note": "Step 1 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 1",
+      "title": "Enable\nAppshots",
+      "body": "You can also choose whether a sound plays after capture.",
+      "screen": "@video4/appshots-ready",
+      "crop": [
+        265,
+        445,
+        765,
+        272
+      ],
+      "highlight": [
+        280,
+        465,
+        738,
+        232
+      ],
+      "callout": "Enable Appshots · Shortcut ready",
+      "note": "Step 1 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 1",
+      "title": "Ready on\nthis computer",
+      "items": [
+        "Open Settings → Computer use → Appshots",
+        "Enable Appshots and check Shortcut ready",
+        "Choose whether a capture sound should play",
+        "The desktop preference applies immediately"
+      ],
+      "note": "No Save changes click is required for this desktop preference. If unavailable, read its status before trying the shortcut.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The shortcut reports ready."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 2",
+      "title": "Show the\nforeground window",
+      "body": "Open the window you want to show Genesis. Press Left Alt + Right Alt together. Release both keys before taking another screenshot.",
+      "screen": "@video4/appshots-ready",
+      "crop": [
+        265,
+        505,
+        765,
+        75
+      ],
+      "highlight": [
+        280,
+        525,
+        738,
+        45
+      ],
+      "callout": "Left Alt + Right Alt · release both keys",
+      "note": "Step 2 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 2",
+      "title": "Show the\nforeground window",
+      "body": "Appshots captures the foreground app’s visible window and puts the image into your current conversation draft.",
+      "screen": "@video4/appshots-ready",
+      "crop": [
+        265,
+        505,
+        765,
+        75
+      ],
+      "highlight": [
+        280,
+        525,
+        738,
+        45
+      ],
+      "callout": "Left Alt + Right Alt · release both keys",
+      "note": "Step 2 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 2",
+      "title": "One window,\none snapshot",
+      "items": [
+        "Bring the intended app window to the front",
+        "Press Left Alt + Right Alt together",
+        "Release both before another capture",
+        "Return to Genesis to inspect the draft attachment"
+      ],
+      "note": "Appshots captures the visible foreground window. It is a snapshot taken at that moment.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The screenshot appears attached to the draft."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 3",
+      "title": "Inspect, explain,\nthen Send",
+      "body": "Return to Genesis. Check the screenshot, write something like “Explain this error message” or “Which button opens the settings?”, then press Send.",
+      "screen": "@video4/appshot-draft",
+      "crop": [
+        365,
+        770,
+        1115,
+        190
+      ],
+      "highlight": [
+        371,
+        800,
+        1098,
+        148
+      ],
+      "callout": "Staged attachment and question: press Send",
+      "note": "Step 3 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 3",
+      "title": "Inspect, explain,\nthen Send",
+      "body": "The shortcut does not send the screenshot by itself. Your selected image route reads it after you send.",
+      "screen": "@video4/appshot-draft",
+      "crop": [
+        365,
+        770,
+        1115,
+        190
+      ],
+      "highlight": [
+        371,
+        800,
+        1098,
+        148
+      ],
+      "callout": "Staged attachment and question: press Send",
+      "note": "Step 3 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 3",
+      "title": "The Send\ncheckpoint",
+      "items": [
+        "Inspect the attached screenshot",
+        "Write: “Explain this error message.”",
+        "Press Send when the content is right",
+        "The selected image route reads it after Send"
+      ],
+      "note": "The capture never sends itself. The pictured attachment is an isolated example of the staged draft.",
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The image and your question are sent together."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 4",
+      "title": "Check before\nyou share",
+      "body": "If the picture shows a private letter, key or personal information you did not intend to share, remove it from the draft.",
+      "screen": "@video4/appshots-ready",
+      "crop": [
+        265,
+        560,
+        765,
+        88
+      ],
+      "highlight": [
+        280,
+        575,
+        738,
+        54
+      ],
+      "callout": "Destination: your current conversation draft",
+      "note": "Step 4 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "07 / APPSHOTS · STEP 4",
+      "title": "Check before\nyou share",
+      "body": "Choose a local vision route when you want picture interpretation to stay local. The screenshot only shows what was visible at capture time; it is not a live screen stream.",
+      "screen": "@video4/appshots-ready",
+      "crop": [
+        265,
+        560,
+        765,
+        88
+      ],
+      "highlight": [
+        280,
+        575,
+        738,
+        54
+      ],
+      "callout": "Destination: your current conversation draft",
+      "note": "Step 4 of 4 · Teaching 2 of 2. Read this before you change the setting.",
+      "contextZoom": false,
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 29,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 4",
+      "title": "Look before\nyou share",
+      "items": [
+        "Check the exact captured window content",
+        "Remove an accidental private screenshot",
+        "Choose a local vision route if that is your intent",
+        "Send only the image and question you checked"
+      ],
+      "note": "A snapshot is not a live screen stream. Cloud image routing can apply after Send even when your main model is local.",
+      "readingWords": 55,
+      "readingSeconds": 22,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You are sending exactly the window content you intended."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": "appshots",
+      "sourceSteps": [],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Check the actual status and a small test",
+        "Keep listening, answering and speaking separate",
+        "Review what is sent and which route receives it",
+        "Return to any step with the lesson chapter"
+      ],
+      "note": "Continue at your own pace. A saved setting and a real successful test provide different evidence.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 31,
+      "kind": "list",
+      "eyebrow": "07 / APPSHOTS",
+      "title": "Your voice\nand vision checklist",
+      "items": [
+        "Dictation produces an editable draft",
+        "Orb conversation submits spoken turns",
+        "Local and cloud routes are explicit choices",
+        "Vision helper descriptions can miss details",
+        "Appshots stages an image; you inspect and Send"
+      ],
+      "note": "All seven lessons and all 37 teaching steps of “Speak. Listen. See.” are now covered.",
+      "readingWords": 51,
+      "readingSeconds": 20.400000000000002,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 7,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 20,
+      "kind": "title",
+      "eyebrow": "07 / APPSHOTS",
+      "title": "Ready for\nwork that flows.",
+      "body": "Keep your tested listening, speaking and vision choices.\nNext in video 5: Turn ideas into finished work — the complete fourth category.",
+      "tag": "PAUSE · PRACTICE · RETURN",
+      "readingWords": 27,
+      "readingSeconds": 10.799999999999999,
+      "locateSeconds": 4
+    }
+  ]
+}

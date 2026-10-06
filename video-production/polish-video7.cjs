@@ -1,0 +1,12 @@
+const fs=require('fs'),path=require('path'),r=__dirname;
+let b=fs.readFileSync(path.join(r,'build-video7.cjs'),'utf8');
+b=b.replace("const blocks=chunks(s.narrationDraft),g=geometry(s);","const blocks=lesson.id==='memory'&&step===2?['Try “Remember that I prefer short shopping lists.”','Later ask “What do you remember about how I like shopping lists?” For an important detail, check the saved or recalled result.','Correct a wrong fact explicitly: “That date is wrong; the correct date is…”']:chunks(s.narrationDraft),g=geometry(s);");
+b=b.replace("crop:[265,270,1100,115],highlight:[275,301,750,32]","crop:[265,285,540,95],highlight:[275,301,310,35]").replace("crop:[260,160,1315,105],highlight:[265,171,1250,30]","crop:[260,150,670,115],highlight:[265,171,640,30]");
+b=b.replace('Example fixture path: C:/Genesis-Practice/data/backups/genesis-practice-complete.zip. The archive row exposes its path on hover.','Example folder: C:/Genesis-Practice/data/backups/\\nArchive: genesis-practice-complete.zip.\\nHover the archive row for its complete path.');
+b=b.replace('The next screen is a labelled memory fixture','The shown memory is a labelled fixture');
+fs.writeFileSync(path.join(r,'build-video7.cjs'),b);
+let c=fs.readFileSync(path.join(r,'prepare-capture-video7.cjs'),'utf8');
+c=c.replace("c=c.replace('window.demo={store:useStore,'",`c=c.replace("days:[{date:'2026-10-03',tokens:2600,measured_tokens:2400,estimated_tokens:200,calls:3,tasks:1,active:true}]", "days:Array.from({length:365},(_,i)=>({date:new Date(Date.UTC(2026,9,3)-(364-i)*86400000).toISOString().slice(0,10),tokens:i===364?2600:0,measured_tokens:i===364?2400:0,estimated_tokens:i===364?200:0,calls:i===364?3:0,tasks:i===364?1:0,active:i===364}))");
+c=c.replace('window.demo={store:useStore,'`);
+fs.writeFileSync(path.join(r,'prepare-capture-video7.cjs'),c);
+console.log('Polished video 7 text and fixture calendar.');

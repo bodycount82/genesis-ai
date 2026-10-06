@@ -1,0 +1,15 @@
+{
+  "model": "your-model-name",
+  "base_url": "https://api.example.com/v1",
+  "vision_capability": null,
+  "thinking_on_params": {},
+  "thinking_off_params": {},
+  "api_key_note": "Looks like a placeholder/environment variable for the API key — enter your real key in the API key field above.",
+  "params": {
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "seed": 42
+  },
+  "warnings": [],
+  "redacted_snippet": "from openai import OpenAI\nclient = OpenAI(base_url=\"https://api.example.com/v1\", api_key=<redacted>)\nresponse = client.chat.completions.create(\n    model=\"your-model-name\",\n    temperature=0.7,\n    max_tokens=4096,\n    seed=42\n)"
+}

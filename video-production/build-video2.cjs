@@ -1,0 +1,126 @@
+/* Video 2 editorial source. Reuses the approved pilot compositor without changing it. */
+const fs=require('node:fs'),path=require('node:path');
+const root=__dirname, catalog=JSON.parse(fs.readFileSync(path.resolve(root,'../tutorials/assets/scenes.json'),'utf8'));
+const ids=['interface','conversation','attachments','settings-map','display'];
+const lessons=ids.map(id=>catalog.lessons.find(l=>l.id===id));
+const scenes=[];let chapter=0,lesson=null,step=null;
+function add(kind,title,fields={},duration=24){scenes.push({chapter,lesson:lesson?.id||null,sourceSteps:step?[step]:[],duration,kind,eyebrow:chapter?`${String(chapter).padStart(2,'0')} / ${['','INTERFACE','CONVERSATION','ATTACHMENTS','SETTINGS MAP','DISPLAY'][chapter]}`:'GENESIS AI · CATEGORY 1',title,...fields});}
+function list(title,items,note='',duration=26){add('list',title,{items,note},duration)}
+function screen(title,body,name,crop,highlight,callout,note='',duration=25,contextZoom=false){add('screen',title,{body,screen:name,crop,highlight,callout,note,contextZoom},duration)}
+function quote(title,body,text,note='',duration=28){add('quote',title,{body,quote:text,note},duration)}
+function compare(title,a,b,note='',duration=30){add('compare',title,{cards:[{title:a[0],body:a[1],tag:a[2]||''},{title:b[0],body:b[1],tag:b[2]||''}],note},duration)}
+function begin(n){chapter=n;lesson=lessons[n-1];step=null;add('title',['','Find your\nway around','A conversation\nthat helps','Share the\nright material','Settings, one\nroom at a time','Make it easy\nto read'][n],{body:lesson.prerequisites+'\n'+['','Learn the map, controls and menus.','Ask clearly. Follow up. Keep your place.','Choose a file. Give it a purpose. Send it.','Find the section. Save. Try one change.','Choose a layout and a comfortable display.'][n],tag:`LESSON ${n} OF 5`},16)}
+function check(n){step=null;list('Your checkpoint',lesson.steps.map(s=>s.checkpoint), 'Pause here and try these in Genesis. Continue when you can do each one.',n===1||n===2?34:30);scenes.at(-1).checkpointSteps=lesson.steps.map(s=>s.step)}
+add('title','Find your way\naround Genesis',{body:'Make yourself at home · Part two\nFive lessons for everyday confidence.',tag:'THE COMPLETE CATEGORY 1 CONTINUATION'},14);
+list('Pick up where\nwe left off',['Video 1 connected a model and began a useful chat','Now learn the window and everyday controls','Follow the five lesson chapters in order','Pause whenever you want to practice','Category 2 starts in video 3'], 'Have Genesis open. Use a working model for chat practice. This video uses readable text and your selected music.',28);
+begin(1);step=1;
+screen('Your left panel\nis the map','Choose a page on the left. It opens in the main work area. If navigation is hidden, use the three-line icon at the top.','chat-modern',[0,0,500,780],[251,42,26,26],'Navigation shows or hides the map','Start by finding Conversation and Settings.',25,true);
+list('Four places\nto begin',['Conversation — everyday chat','Projects — work organised on a board','Schedule — timed tasks','Missions — a bigger objective'], 'Choose the place that fits the job. You will learn the other modes in their own categories.',25);
+screen('The rest of\nyour map','Lower down are Memory, Plugins, Activity, System Feed, Settings and Discoveries. You do not need to memorise them; return to this map when needed.','chat-modern',[0,280,360,670],[12,610,214,40],'Settings is on the left','Practice: open Settings, then return to Conversation.',27);
+step=2;
+screen('The middle is\nyour work area','Conversation puts replies above the draft. The paperclip adds material, the microphone dictates text, and the round arrow sends your message.','chat-modern',[350,790,1140,185],[370,866,1100,78],'The draft and its controls','Enter sends. Shift+Enter inserts a new line.',26,true);
+screen('Find the\nsmall controls','Hover over an unfamiliar icon to read its name. Small arrows reveal more choices. You can explore the controls without sending a message.','chat-modern',[350,855,520,115],[383,908,27,27],'Paperclip: attach files','Microphone: dictate text. Arrow: send the draft.',24);
+screen('Choose a\nsaved model','Click the model name below the message box to open the saved model chooser. Choose a working preset when you want to use another model.','chat-modern',[900,845,570,130],[1126,907,81,30],'The model name opens your chooser','Model setup and detailed controls belong to category 2, in video 3.',25);
+step=3;
+screen('Open Activity\n& context','The panel icon at the upper right opens the right-hand activity panel. Open it to see the current tool, context usage and memory totals.','chat-plan',[1210,28,390,840],[1562,42,26,26],'Open or close the right panel','Context is the material a model can hold in one request.',27,true);
+compare('Two different\nActivity views',['ACTIVITY & CONTEXT','The right panel describes the current work: tools, context usage and memory totals.','CURRENT REQUEST'],['ACTIVITY PAGE','The page in left navigation shows usage over time, such as totals and daily activity.','USAGE OVER TIME'],'Practice: open the right panel, close it, then locate Activity in the left panel.',32);
+step=4;
+screen('Menus give\nyou a route','The top menus collect everyday actions. File opens Settings and starts a conversation. Edit handles text actions such as copy and paste.','menu-file',[65,0,580,430],[82,3,40,26],'File: conversations and Settings','Menu arrows and choosers reveal additional options.',26,true);
+screen('Look and help\nare here','View changes interface, theme, text style and browser view. Help opens the built-in guide and optional setup extras.','menu-view',[65,0,610,580],[188,3,45,26],'View controls the appearance','Example: use View for colours; use Help when you need a guide.',26);
+step=5;
+screen('Classic shows\nmore labels','Classic presents labelled mode buttons and more controls at once. The Modern switch returns you to the compact arrangement.','chat-classic',[65,30,790,450],[112,52,47,23],'Switch back to Modern','Your conversations and settings belong to the same Genesis.',26,true);
+compare('Choose the view\nyou prefer',['MODERN','Compact icons and menus leave more space for the conversation. Hover when an icon is unfamiliar.','MORE OPEN SPACE'],['CLASSIC','Labelled mode buttons and more visible controls help you recognise actions at a glance.','MORE LABELS'],'Try both, then return to your preference. Older installed releases may place a control differently.',31);
+check(1);
+begin(2);step=1;
+quote('Name the\nfinished result','Give the goal, useful facts and limits. A clear request helps Genesis ask for anything missing.','Write a friendly birthday invitation. Keep it short. Ask me for the date and place.','Example request. You can replace the occasion with your own.',30);
+compare('Be clear about\nthe action',['IDEAS ONLY','Give me three possible invitation openings. Do not create a file yet.','ASK FOR OPTIONS'],['CREATE A FILE','Save the final invitation as invitation.txt in my chosen Tutorial Practice folder. Tell me the full path.','NAME THE FILE AND FOLDER'],'Use an actual folder on your computer when asking for a file.',30);
+step=2;
+screen('Read the answer\nand tool rows','Genesis may answer directly or use a tool. A tool is one action: reading a file, searching, or creating something. Expand a tool row to inspect its arguments and result.','chat-modern',[360,80,1070,650],null,'','The screenshots use clean demonstration data; example exchanges are illustrative.',30,true);
+list('Check the\nresult itself',['Read what Genesis says it did','Open a tool row to see the action and result','Find the named file or resulting page','Check that the contents match your request'], 'A completed tool action and a useful finished result are separate things to inspect.',26);
+quote('A useful\nfollow-up','If the invitation is too formal, say what should change. Read the revised answer before using it.','Make it warmer and simpler. Keep the date and place exactly as I gave them.','Illustrative follow-up; no live model result is claimed.',27);
+step=3;
+screen('A message can\nwait its turn','In Modern, sending during work normally queues the message After response. A waiting card appears above your draft. Read its label to know when it will arrive.','chat-queue',[360,730,1090,230],[376,809,1040,43],'The waiting card shows delivery','The current reply can finish before this follow-up is delivered.',28,true);
+screen('Send text at\nthe next step','Send now promotes an eligible text-only message for the next work step. Enter with an empty message box can promote the most recent eligible message.','chat-queue',[1050,750,390,200],[1344,817,68,28],'Send now steers the next step','Files wait until after the reply. Sending now cannot undo a completed action.',31);
+compare('Choose when\nto follow up',['AFTER RESPONSE','Useful for a next question: “Now make the invitation shorter.” Attachments wait for the reply to finish.','LET THE REPLY FINISH'],['DURING WORK','Useful for a text correction: “Use Saturday, not Sunday.” In Classic, use the Queue selector for delivery choices.','STEER THE NEXT STEP'],'If no more action should happen before a correction, pause or stop first.',33);
+step=4;
+screen('Open the\nQueue view','In Modern, choose Queue from the conversation view chooser below the message box. In Classic, use the labelled Queue tab.','queue-manager',[240,100,800,480],[572,208,66,21],'Queue: review what is waiting','Read the waiting list before letting a long task continue.',27,true);
+screen('Keep only the\nmessages you want','Edit a waiting message, move it up or down, or remove it. Clear all removes every waiting message. Choose deliberately before continuing.','queue-manager',[250,130,690,315],[572,208,66,21],'Remove one unwanted message','Practice: spot a duplicate, remove it, and confirm the remaining order.',28);
+step=5;
+screen('Start a\nfresh subject','Use File → New conversation for a new subject. This clears the visible thread for a fresh start while Genesis keeps its long-term memory.','menu-file',[65,0,510,360],[126,46,98,18],'File → New conversation','A new conversation is a fresh thread; it does not erase long-term memory.',29,true);
+screen('Return to an\nolder conversation','Open Saved conversations when you want to resume an earlier thread. Choose the relevant conversation rather than mixing unrelated subjects into the new one.','menu-file',[65,0,510,360],null,'','Practice: locate Saved conversations before starting a new subject.',25);
+check(2);
+begin(3);step=1;
+screen('Attach a small\npractice file','Click the paperclip, or drag a file onto the conversation. Documents, images and code provide material. A ZIP can hold a whole project.','chat-modern',[350,835,520,125],[383,908,27,27],'Attach files beside your draft','Begin with a short file you are comfortable sharing with the chosen model.',27,true);
+screen('The attachment\nis still a draft','The chosen file appears beside your draft before sending. Check the filename. Selecting a file prepares the request; you still need an instruction and Send.','chat-attachments',[350,790,750,170],[414,821,83,17],'garden-notes.txt is staged','A small practice document is easier to follow than a large folder.',27);
+step=2;
+quote('Give the file\na purpose','The attachment supplies material. Your words explain the job. Ask for a result you can check against the original.','Summarise these garden notes in five simple points. Keep any dates exactly as written.','Example for garden-notes.txt. Check that this is the file attached to your draft.',29);
+list('Match the\nrequest to the file',['Letter — “Find the date and deadline”','Error image — “Explain this error message”','Document — “Summarise this in five simple points”','Remove a mistaken attachment before sending'], 'Checkpoint: the draft contains the correct file and a clear instruction.',28);
+screen('A screenshot\nneeds Send too','If you use Appshots, its capture attaches a screenshot to the draft. Check the captured window, write what you want explained, then explicitly Send.','chat-attachments',[350,790,750,170],[414,821,83,17],'Check the staged item before sending','This still illustrates the attachment draft; it is not a live Appshots capture.',28);
+step=3;
+screen('Send the\ncomplete request','Press the arrow or Enter when the file and instruction are ready. The sent message should show the attachment, and Genesis should begin working.','chat-attachments',[1090,810,360,150],[1398,907,30,30],'The arrow sends your request','Open Attachments in the conversation view chooser to inspect attached items later.',28);
+compare('Pictures and\nprocessing location',['READING A PICTURE','Images need a picture-capable model or a secondary vision helper. The Vision lesson covers that setup.','CHECK VISION SUPPORT'],['LOCAL OR CLOUD','With a cloud model, relevant content can go to that service. Use a local model when you want material processed locally.','CHOOSE WHAT YOU SHARE'],'Check your chosen model and connected helpers before sharing sensitive material.',32);
+step=4;
+quote('Ask where the\nresult was saved','A preview helps you review. A finished file should have a location you can open on your own computer.','Create garden-summary.txt in my Tutorial Practice folder. Tell me the full path when it is saved.','Illustrative request. Use your real folder and inspect the resulting file.',28);
+screen('Code has its\nown review tools','Settings → Code offers code folders, history, safe copies and review. For generated code, use these tools and inspect the actual saved changes.','code',[260,150,760,620],[885,167,67,28],'Settings → Code','A preview alone does not prove that a finished file is correct.',27,true);
+list('Open and\ncheck the output',['Follow the saved path on your computer','Open the actual file','Compare its contents with your request','Ask for a correction if something is missing'], 'For the garden example, compare the dates and five-point summary against the original notes.',27);
+check(3);
+begin(4);step=1;
+screen('Open the\nright room','Open Settings from left navigation or the File menu. The section names tell you which room owns the change you want.','models',[240,80,1110,180],[263,167,79,28],'Settings sections form your map','You only need to visit the section relevant to your change.',25,true);
+list('The first\nfour rooms',['Models — the brain that answers','Voice & Vision — listening, speech and images','Computer use — control permissions, Appshots and pets','Plugins — tools, connections, MCP servers and hooks'], 'Example: picture understanding belongs to Voice & Vision; app control belongs to Computer use.',30);
+step=2;
+list('Connections\nand bigger jobs',['Communications — Telegram and your phone','Code — folders, history, safe copies and reviews','Code also holds the GitHub connection','Missions — bigger-job settings and role models'], 'Example: open Communications for phone pairing, or Code for code history.',28);
+screen('Memory and\nSystem','Memory holds memory options, health and backups. System holds general behaviour, tools and display choices. Use the section that matches your goal.','system',[255,150,850,460],[346,167,78,28],'System includes display preferences','Example: message timestamps belong to System; memory health belongs to Memory.',27);
+list('Try finding\nthe right section',['A different speaking voice → Voice & Vision','A phone connection → Communications','A code safe copy → Code','Chat timestamps → System','A memory health check → Memory'], 'Pause and locate each section. You can leave its settings unchanged while learning the map.',30);
+step=3;
+screen('Save a form\nthat needs saving','Most model and voice edits stay in the form until you press Save changes. Look for the saved confirmation after pressing it.','model-parsed',[1120,65,480,260],[1460,101,116,30],'Save changes applies the form','An unsaved switch can look on before the running app has adopted the change.',28,true);
+compare('Follow the note\nby the control',['SAVE CHANGES','For a form that needs saving: edit, press Save changes, look for confirmation, then test the result.','SAVE, THEN TRY'],['APPLIES IMMEDIATELY','Some Computer use and desktop controls say they apply at once. Read the note for that specific control.','READ THE LOCAL NOTE'],'Do not infer the save behaviour of every setting from one switch.',30);
+step=4;
+screen('One change\nat a time','Try a small task after one change. If something stops working, revisit that change. Keep unfamiliar numbers at the recommended or default setting.','model-generation',[265,185,730,480],[280,210,149,17],'Learn before changing unfamiliar numbers','Detailed model settings belong to video 3. No need to tune them here.',27,true);
+list('A simple\nchange-and-try loop',['Note the original setting','Change one control','Save if that control requires it','Try a small relevant task','Keep it or return to the original'], 'Example: after changing a voice, try one short sentence before changing anything else.',29);
+check(4);
+begin(5);step=1;
+screen('Choose a\ncomfortable layout','Open View, or use Classic / Modern. Classic shows more labelled controls; Modern leaves more space for conversation. Try both with the same thread.','menu-view',[65,0,570,520],[188,3,45,26],'View: choose your layout','Checkpoint: you can find the controls and read your conversation comfortably.',26,true);
+compare('Try the\nsame task twice',['TRY MODERN','Locate the draft, attach control, model chooser and conversation view chooser.','NOTICE THE OPEN SPACE'],['TRY CLASSIC','Locate the same actions using labelled controls and tabs. Return to the arrangement you prefer.','NOTICE THE LABELS'],'The layout changes presentation while your conversations and settings stay with Genesis.',29);
+step=2;
+screen('Choose your\ncolour theme','Use View → Toggle light / dark theme. Choose the theme that feels comfortable in your room and on your screen.','menu-view',[65,0,570,520],[188,3,45,26],'View → Toggle light / dark theme','Try reading a longer reply before deciding which theme suits you.',25);
+screen('Choose your\nmessage text style','View offers Genesis text and Compact text. This changes message typography. Try each with the same reply and choose a comfortable reading style.','menu-view',[65,0,570,520],[188,3,45,26],'Genesis text / Compact text','This display preference is separate from the model’s writing style.',26);
+quote('Simpler words\nneed a request','If the words themselves are difficult, ask Genesis to rewrite them. Typography makes text look different; your request changes the wording.','Explain that in plain words. Use one short example and avoid technical terms.','Example follow-up. Read the new answer and ask again if needed.',28);
+step=3;
+screen('Add message\ntimestamps','Open Settings → System → Chat display. Show message times in Chat adds a time beneath chat messages.','system',[260,275,740,195],[280,392,616,20],'Show message times in Chat','Activity and memory logs already have times. This is a chat display preference.',27,true);
+list('Check the\ntimestamp display',['Find Chat display in System','Choose whether chat message times should show','Follow the save note for that control','Return to Conversation and look below a message'], 'Checkpoint: you can tell when a message was sent. Times are display information, not a new answer.',26);
+step=4;
+screen('Choose when\ncode details open','Expand code changes by default opens change details automatically. Leave it off for compact chat, then open individual changes yourself.','system',[260,275,740,195],[280,323,682,20],'Expand code changes by default','This changes presentation. It does not approve, test or apply code.',28);
+compare('Compact or\nalready expanded',['COMPACT CHAT','Leave the preference off. Open a particular change when you want to inspect the details.','OPEN WHAT YOU NEED'],['DETAILS OPEN','Turn it on when you want change details expanded by default. Review the changes carefully.','INSPECT THE DETAILS'],'Whatever the display preference, code still needs its own review and testing.',28);
+check(5);
+step=null;lesson=null;
+list('Your everyday\npractice route',['Find Conversation and the activity panel','Send one clear request and inspect the result','Attach a small file, explain the goal, then Send','Find the right settings section and try one change','Choose a comfortable layout and display'], 'You have now covered all 22 remaining steps of category 1. Video 1 covered the welcome lesson.',34);
+add('title','You are\nat home',{body:'Keep exploring at your own pace.\nNext: Choose your intelligence — the complete second category, in video 3.',tag:'PAUSE · PRACTICE · RETURN'},18);
+// Editorial crop corrections use the catalog's source coordinates (centres converted to rectangles).
+const revise=(title,fields)=>Object.assign(scenes.find(s=>s.title===title),fields);
+revise('Your left panel\nis the map',{crop:[0,30,330,350]});
+revise('The rest of\nyour map',{crop:[0,590,255,245],highlight:[12,752,214,34]});
+revise('Menus give\nyou a route',{crop:[100,0,350,260],highlight:[110,3,38,26]});
+for(const title of ['Look and help\nare here','Choose a\ncomfortable layout','Choose your\ncolour theme','Choose your\nmessage text style'])revise(title,{crop:[170,0,340,285]});
+revise('Return to an\nolder conversation',{screen:'chat-modern',crop:[0,245,255,170],highlight:[22,264,194,18],callout:'Saved conversations in left navigation'});
+revise('Open the\nQueue view',{screen:'chat-modern',crop:[350,880,490,120],highlight:[422,959,84,17],callout:'Conversation view chooser → Queue'});
+revise('Open Activity\n& context',{screen:'chat-modern',crop:[1370,30,230,175]});
+revise('The middle is\nyour work area',{crop:[350,845,1140,145]});
+revise('Choose your\ncolour theme',{highlight:[204,164,216,29],callout:'Toggle light / dark theme'});
+revise('Choose your\nmessage text style',{highlight:[204,196,216,64],callout:'Choose Genesis text or Compact text'});
+revise('You are\nat home',{body:'Keep exploring at your own pace.\nNext in video 3: the complete category “Choose your intelligence”.'});
+// Supplement the unchanged original catalog with real current-UI fixture captures.
+revise('Read the answer\nand tool rows',{screen:'@video2/tool-collapsed',crop:[350,90,760,420],highlight:null,contextZoom:true});
+let at=scenes.findIndex(s=>s.title==='Two different\nActivity views');
+scenes.splice(at,0,{chapter:1,lesson:'interface',sourceSteps:[3],duration:28,kind:'screen',eyebrow:'01 / INTERFACE',title:'Read the\nright-hand panel',body:'Activity & context shows the current tool and the amount of context in use. Memory totals help you see what Genesis has available for the current work.',screen:'@video2/chat-context',crop:[1190,85,410,700],highlight:null,note:'This is the right-hand panel, separate from the Activity usage page.',contextZoom:false});
+at=scenes.findIndex(s=>s.title==='Check the\nresult itself');
+scenes.splice(at,0,{chapter:2,lesson:'conversation',sourceSteps:[2],duration:29,kind:'screen',eyebrow:'02 / CONVERSATION',title:'Open the\ntool details',body:'Expand the tool group, then the individual row. Here the path identifies the input file, and the result shows the text that was read.',screen:'@video2/tool-expanded',crop:[350,90,760,420],highlight:null,note:'Illustrative tool fixture: garden-notes.txt contains a planting date of 12 October.'});
+revise('Check the\ntimestamp display',{items:['Find Chat display in System','Choose whether chat message times should show','These chat display switches apply in the interface','Return to Conversation and look below a message']});
+revise('Read the\nright-hand panel',{crop:[1320,30,280,450]});
+revise('Read the answer\nand tool rows',{crop:[370,110,640,260]});
+revise('Open the\ntool details',{crop:[380,145,640,240]});
+revise('Find your way\naround Genesis',{tag:'CATEGORY 1 · PART TWO'});
+const total=scenes.reduce((n,s)=>n+s.duration,0);
+for(const s of scenes){const words=[s.title,s.body,s.note,s.quote,s.question,s.answer,...(s.items||[]),...(s.cards||[]).flatMap(c=>[c.title,c.body,c.tag])].filter(Boolean).join(' ').split(/\s+/).length;s.readingWords=words;s.readingSeconds=words/150*60;s.locateSeconds=s.kind==='screen'?6:3;if(s.duration<Math.ceil(s.readingSeconds+s.locateSeconds+2))s.duration=Math.ceil(s.readingSeconds+s.locateSeconds+2);}
+const data={title:'Make yourself at home — Find your way around Genesis',subtitle:'Complete category 1 continuation',music:'C:/Development-Gen/songs/video 2 song.mp3',outputFolder:'output/video-02',filename:'Genesis-Find-Your-Way-Around.mp4',lessonIds:ids,chapters:['Introduction','Find your way around','Chat, follow up and start fresh','Share files, pictures and screenshots','Settings, one room at a time','Make the window comfortable to read'],progressLabels:['INTERFACE','CONVERSATION','ATTACHMENTS','SETTINGS','DISPLAY'],sourceLessons:lessons,scenes};
+fs.writeFileSync(path.join(root,'timeline-video2.json'),JSON.stringify(data,null,2));
+console.log(JSON.stringify({scenes:scenes.length,total:scenes.reduce((n,s)=>n+s.duration,0),steps:lessons.reduce((n,l)=>n+l.steps.length,0)}));

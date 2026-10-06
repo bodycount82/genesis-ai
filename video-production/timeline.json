@@ -1,0 +1,425 @@
+{
+  "title": "Your first five minutes",
+  "subtitle": "A clear first conversation with Genesis AI",
+  "music": "C:/Development-Gen/songs/video 1 song.mp3",
+  "scenes": [
+    {
+      "chapter": 0,
+      "duration": 10,
+      "kind": "title",
+      "eyebrow": "GENESIS AI · GETTING STARTED",
+      "title": "Your first\nfive minutes",
+      "body": "Connect a model. Start a conversation.\nShape an answer you can use.",
+      "tag": "A guided first lesson"
+    },
+    {
+      "chapter": 0,
+      "duration": 23,
+      "kind": "list",
+      "eyebrow": "WHAT YOU WILL LEARN",
+      "title": "One useful conversation",
+      "items": [
+        "Connect the model that answers you",
+        "Choose local or cloud setup",
+        "Leave optional extras for later",
+        "Send a small, clear request",
+        "Ask for a better-fitting answer"
+      ],
+      "note": "Genesis should already be installed on Windows. First downloads or cloud setup need internet."
+    },
+    {
+      "chapter": 1,
+      "duration": 21,
+      "kind": "screen",
+      "eyebrow": "01 / GIVE GENESIS A BRAIN",
+      "title": "The app and the model",
+      "body": "Genesis is the app you use. The model is the part that works out an answer. Connect one working model before your first conversation.",
+      "screen": "setup-auto",
+      "crop": [
+        440,
+        280,
+        720,
+        470
+      ],
+      "highlight": [
+        512,
+        392,
+        576,
+        188
+      ],
+      "callout": "Your setup starts here",
+      "note": "You can choose automatic setup or open More options.",
+      "contextZoom": true
+    },
+    {
+      "chapter": 1,
+      "duration": 19,
+      "kind": "screen",
+      "eyebrow": "01 / GIVE GENESIS A BRAIN",
+      "title": "Start with automatic setup",
+      "body": "Choose “Set up Genesis AI for me” to let Genesis prepare the local setup. It offers a model sized for your computer and downloads what it needs.",
+      "screen": "setup-auto",
+      "crop": [
+        460,
+        300,
+        680,
+        410
+      ],
+      "highlight": [
+        537,
+        519,
+        526,
+        35
+      ],
+      "callout": "Automatic local setup",
+      "note": "Leave Genesis open until the download finishes."
+    },
+    {
+      "chapter": 1,
+      "duration": 19,
+      "kind": "screen",
+      "eyebrow": "01 / GIVE GENESIS A BRAIN",
+      "title": "Already have a model?",
+      "body": "Open “More options” if you want to choose a cloud service or a local model yourself. Automatic setup is the easiest starting route when you are new.",
+      "screen": "setup-auto",
+      "crop": [
+        460,
+        300,
+        680,
+        440
+      ],
+      "highlight": [
+        657,
+        600,
+        287,
+        24
+      ],
+      "callout": "Choose your own setup",
+      "note": "Checkpoint: you can find both setup routes."
+    },
+    {
+      "chapter": 2,
+      "duration": 29,
+      "kind": "compare",
+      "eyebrow": "02 / CHOOSE YOUR SETUP",
+      "title": "Local or cloud?",
+      "cards": [
+        {
+          "title": "LOCAL",
+          "body": "The model runs on your computer.\n\nDownload it first. Once ready, the model can answer offline. Internet-dependent tools still need a connection.",
+          "tag": "Uses your computer’s resources"
+        },
+        {
+          "title": "CLOUD",
+          "body": "A service answers over the internet.\n\nConnect that service with its API key and exact model name. The provider may charge for usage.",
+          "tag": "Needs internet to answer"
+        }
+      ],
+      "note": "Choose the route that fits your computer and the service you already use."
+    },
+    {
+      "chapter": 2,
+      "duration": 21,
+      "kind": "screen",
+      "eyebrow": "02 / CHOOSE YOUR SETUP",
+      "title": "Pick your connection",
+      "body": "In More options, choose Cloud, Ollama or llama.cpp. Cloud connects a provider. Ollama and llama.cpp are local routes for a model you manage yourself.",
+      "screen": "setup-cloud",
+      "crop": [
+        490,
+        190,
+        620,
+        545
+      ],
+      "highlight": [
+        570,
+        267,
+        460,
+        108
+      ],
+      "callout": "Connection choices",
+      "note": "If you are starting fresh locally, you can return to automatic setup.",
+      "contextZoom": true
+    },
+    {
+      "chapter": 2,
+      "duration": 22,
+      "kind": "screen",
+      "eyebrow": "02 / CHOOSE YOUR SETUP",
+      "title": "A key is a private credential",
+      "body": "For cloud setup, select your provider and enter its API key. A key lets Genesis use that service. Keep it private; do not put it in a conversation or share it.",
+      "screen": "setup-cloud",
+      "crop": [
+        500,
+        392,
+        605,
+        321
+      ],
+      "highlight": [
+        537,
+        502,
+        526,
+        38
+      ],
+      "callout": "Enter your provider’s API key",
+      "note": "The example screen uses a placeholder, not a real key."
+    },
+    {
+      "chapter": 2,
+      "duration": 22,
+      "kind": "screen",
+      "eyebrow": "02 / CHOOSE YOUR SETUP",
+      "title": "Use the exact model name",
+      "body": "Enter the model name supported by your chosen provider. A saved model name alone does not download a local model. Local setup also needs a model installed and available.",
+      "screen": "setup-cloud",
+      "crop": [
+        500,
+        392,
+        605,
+        321
+      ],
+      "highlight": [
+        537,
+        588,
+        526,
+        40
+      ],
+      "callout": "Provider’s exact model name",
+      "note": "Use the name supplied by the service or your local model server."
+    },
+    {
+      "chapter": 2,
+      "duration": 21,
+      "kind": "screen",
+      "eyebrow": "02 / CHOOSE YOUR SETUP",
+      "title": "Test before you continue",
+      "body": "Use the connection test, then finish setup when it reports success. If the test fails, recheck the provider, key and model name before trying your first message.",
+      "screen": "setup-cloud",
+      "crop": [
+        500,
+        392,
+        605,
+        321
+      ],
+      "highlight": [
+        537,
+        643,
+        526,
+        36
+      ],
+      "callout": "Test key, then Finish",
+      "note": "Checkpoint: setup reports success. This screenshot is an example, not a successful live test."
+    },
+    {
+      "chapter": 3,
+      "duration": 22,
+      "kind": "screen",
+      "eyebrow": "03 / FINISH EXTRAS LATER",
+      "title": "You can begin with the basics",
+      "body": "Once setup finishes, you reach the conversation. Better speech recognition, browser setup and a phone connection are optional extras. You can return to them later.",
+      "screen": "models",
+      "crop": [
+        1070,
+        47,
+        530,
+        235
+      ],
+      "highlight": [
+        1460,
+        101,
+        116,
+        30
+      ],
+      "callout": "Finish setting up",
+      "note": "Open Settings → Finish setting up when you are ready.",
+      "contextZoom": true
+    },
+    {
+      "chapter": 3,
+      "duration": 21,
+      "kind": "list",
+      "eyebrow": "03 / FINISH EXTRAS LATER",
+      "title": "Add extras when you need them",
+      "items": [
+        "Speech recognition: for talking to Genesis",
+        "Browser setup: for connected browser work",
+        "Phone connection: for using your phone"
+      ],
+      "note": "You can skip an extra now and return through Settings or Help. Checkpoint: you know where to resume setup."
+    },
+    {
+      "chapter": 4,
+      "duration": 21,
+      "kind": "screen",
+      "eyebrow": "04 / TRY SOMETHING SMALL",
+      "title": "Open Conversation",
+      "body": "Click Conversation in the left panel. Start with an ordinary question or a small request. You do not need special commands to explain what you want.",
+      "screen": "chat-modern",
+      "crop": [
+        0,
+        32,
+        650,
+        385
+      ],
+      "highlight": [
+        12,
+        98,
+        214,
+        34
+      ],
+      "callout": "Your conversation lives here",
+      "note": "For this first exercise, ask Genesis to help plan three easy dinners.",
+      "contextZoom": true
+    },
+    {
+      "chapter": 4,
+      "duration": 20,
+      "kind": "screen",
+      "eyebrow": "04 / TRY SOMETHING SMALL",
+      "title": "Find the message box",
+      "body": "Click the message box at the bottom of the conversation. Write a request that says what you want, and add a useful constraint or an instruction about how to begin.",
+      "screen": "chat-modern",
+      "crop": [
+        350,
+        841,
+        820,
+        145
+      ],
+      "highlight": [
+        371,
+        869,
+        720,
+        38
+      ],
+      "callout": "Type your request here",
+      "note": "Write naturally. The first exercise uses an ordinary dinner-planning request."
+    },
+    {
+      "chapter": 4,
+      "duration": 25,
+      "kind": "quote",
+      "eyebrow": "04 / TRY THIS PROMPT",
+      "title": "Give it a useful starting point",
+      "quote": "Help me plan three easy dinners.\nAsk me what food I have first.",
+      "body": "The first sentence names the outcome. The second tells Genesis to ask a question before it makes the plan.",
+      "note": "Type this in your own conversation. Pause the video here if you want to try it."
+    },
+    {
+      "chapter": 4,
+      "duration": 19,
+      "kind": "screen",
+      "eyebrow": "04 / TRY SOMETHING SMALL",
+      "title": "Send when you are ready",
+      "body": "Press Enter to send, or click the round arrow button. Use Shift+Enter if you want a new line without sending your message yet.",
+      "screen": "chat-modern",
+      "crop": [
+        940,
+        840,
+        540,
+        140
+      ],
+      "highlight": [
+        1397,
+        907,
+        33,
+        31
+      ],
+      "callout": "The round arrow sends",
+      "note": "Read your draft before sending. Enter sends; Shift+Enter adds a line."
+    },
+    {
+      "chapter": 4,
+      "duration": 26,
+      "kind": "exchange",
+      "eyebrow": "04 / AN ILLUSTRATIVE EXCHANGE",
+      "title": "Answer the next question",
+      "question": "What ingredients do you already have?",
+      "answer": "I have rice, eggs, carrots and beans.\nEach dinner should take under 20 minutes.",
+      "body": "Your reply supplies facts and a time limit. Genesis can use those details to make the plan more relevant.",
+      "note": "This is an illustrative exchange. Your model’s exact wording and answer may differ."
+    },
+    {
+      "chapter": 4,
+      "duration": 21,
+      "kind": "list",
+      "eyebrow": "04 / CHECKPOINT",
+      "title": "Did your first message work?",
+      "items": [
+        "Your request appears in Conversation",
+        "Genesis responds to your request",
+        "You can answer its next question"
+      ],
+      "note": "If no answer arrives, return to Settings → Models and check your connection. Do not assume a saved name means the model is ready."
+    },
+    {
+      "chapter": 5,
+      "duration": 23,
+      "kind": "quote",
+      "eyebrow": "05 / MAKE THE ANSWER USEFUL",
+      "title": "Ask for a change",
+      "quote": "Make that simpler.\nKeep each dinner under 20 minutes.",
+      "body": "You can follow up in the same conversation. Be specific about what should change: complexity, time, ingredients, length or tone.",
+      "note": "You do not need to start over just because the first answer needs a revision."
+    },
+    {
+      "chapter": 5,
+      "duration": 27,
+      "kind": "quote",
+      "eyebrow": "05 / MAKE THE ANSWER USEFUL",
+      "title": "Choose the format you need",
+      "quote": "Put it in a shopping list.\nLeave out the food I already have.",
+      "body": "Ask for a useful format: a list, a table, a shorter explanation or a first draft. For our dinner example, a shopping list turns the plan into a next action.",
+      "note": "Read the list and correct anything that does not fit your needs."
+    },
+    {
+      "chapter": 5,
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / MAKE THE ANSWER USEFUL",
+      "title": "Check. Correct. Continue.",
+      "items": [
+        "Read the answer before relying on it",
+        "Tell Genesis when a detail is wrong",
+        "Ask it to revise the part that needs work"
+      ],
+      "note": "Genesis can help with writing, explanations, files, research and tasks. Connected tools make more actions available; setup and permissions still matter."
+    },
+    {
+      "chapter": 5,
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "YOUR FIRST SMALL PRACTICE",
+      "title": "Make one answer fit your life",
+      "items": [
+        "Ask for three easy dinners",
+        "Reply with your ingredients and time limit",
+        "Ask for a simpler version",
+        "Turn it into a shopping list"
+      ],
+      "note": "Checkpoint: you have a useful answer and know how to ask for a change. Pause and try this sequence in your own conversation."
+    },
+    {
+      "chapter": 5,
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "YOU ARE READY TO BEGIN",
+      "title": "From setup to a useful answer",
+      "items": [
+        "One connected model, local or cloud",
+        "Optional extras can wait",
+        "A clear request and a useful follow-up",
+        "Your own review of the final answer"
+      ],
+      "note": "Next in the course: find your way around the Genesis interface. Keep this lesson nearby if you need to repeat a step."
+    },
+    {
+      "chapter": 5,
+      "duration": 10,
+      "kind": "title",
+      "eyebrow": "GENESIS AI · FIRST LESSON COMPLETE",
+      "title": "Start small.\nMake it useful.",
+      "body": "One clear request. One thoughtful follow-up.\nAn answer you have checked.",
+      "tag": "Your first five minutes"
+    }
+  ]
+}

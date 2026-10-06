@@ -1,0 +1,2515 @@
+{
+  "title": "Make yourself at home — Find your way around Genesis",
+  "subtitle": "Complete category 1 continuation",
+  "music": "C:/Development-Gen/songs/video 2 song.mp3",
+  "outputFolder": "output/video-02",
+  "filename": "Genesis-Find-Your-Way-Around.mp4",
+  "lessonIds": [
+    "interface",
+    "conversation",
+    "attachments",
+    "settings-map",
+    "display"
+  ],
+  "chapters": [
+    "Introduction",
+    "Find your way around",
+    "Chat, follow up and start fresh",
+    "Share files, pictures and screenshots",
+    "Settings, one room at a time",
+    "Make the window comfortable to read"
+  ],
+  "progressLabels": [
+    "INTERFACE",
+    "CONVERSATION",
+    "ATTACHMENTS",
+    "SETTINGS",
+    "DISPLAY"
+  ],
+  "sourceLessons": [
+    {
+      "id": "interface",
+      "title": "Find your way around",
+      "group": "begin",
+      "coursePosition": 2,
+      "prerequisites": "An open Genesis window.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Start with the left panel",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Toggle navigation",
+            "x": 264,
+            "y": 55,
+            "width": 26,
+            "height": 26,
+            "xPercent": 16.5,
+            "yPercent": 5.5
+          },
+          "annotation": {
+            "left": 247,
+            "right": 281,
+            "top": 38,
+            "bottom": 72,
+            "startX": 366,
+            "startY": 0,
+            "endX": 281,
+            "endY": 55,
+            "below": false,
+            "path": "M 366 0 L 366 0 L 281 55"
+          },
+          "narrationDraft": "The left panel is your map. Conversation is everyday chat. Projects holds work on a board. Schedule holds timed tasks. Missions handles a bigger objective. Lower down are Memory, Plugins, Activity, System Feed, Settings and Discoveries. If the panel is hidden, click the three-line Navigation icon at the top.",
+          "checkpoint": "You can open the navigation and find Settings.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "The middle is your work area",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Choose primary model from saved templates",
+            "x": 1167,
+            "y": 922,
+            "width": 81,
+            "height": 30,
+            "xPercent": 72.9375,
+            "yPercent": 92.2
+          },
+          "annotation": {
+            "left": 1122.5,
+            "right": 1211.5,
+            "top": 903,
+            "bottom": 941,
+            "startX": 1296.5,
+            "startY": 1000,
+            "endX": 1211.5,
+            "endY": 922,
+            "below": true,
+            "path": "M 1296.5 1000 L 1296.5 977 L 1211.5 922"
+          },
+          "narrationDraft": "Your selected page appears in the middle. In Conversation, replies appear above the message box. The paperclip attaches a file, the microphone dictates text, and the arrow sends it. The model name opens your saved model chooser. Small arrows open extra choices; hovering over an icon reveals its name.",
+          "checkpoint": "You can identify the attachment, microphone, send and model controls.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Open the activity panel",
+          "screenshot": "screens/chat-plan.png",
+          "screenshotSha256": "4a610242560377b9cdebaebd3ecfa3ed6df4ec81dafb66c1ccb6d1394ea45e31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Toggle activity",
+            "x": 1575,
+            "y": 55,
+            "width": 26,
+            "height": 26,
+            "xPercent": 98.4375,
+            "yPercent": 5.5
+          },
+          "annotation": {
+            "left": 1558,
+            "right": 1592,
+            "top": 38,
+            "bottom": 72,
+            "startX": 1473,
+            "startY": 0,
+            "endX": 1558,
+            "endY": 55,
+            "below": false,
+            "path": "M 1473 0 L 1473 0 L 1558 55"
+          },
+          "narrationDraft": "Click the panel icon at the upper right. Activity & context shows the current tool, context usage and memory totals. Context is the amount of material the model can hold in a single request. This panel is different from the Activity page in the left navigation, which shows usage over time.",
+          "checkpoint": "You can open and close the right-hand panel.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Use the menus at the top",
+          "screenshot": "screens/menu-view.png",
+          "screenshotSha256": "324707cb9e231b2c0416495d466a2d1a2154633ac5f6e81de8174ef88010dc72",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "View",
+            "x": 211,
+            "y": 16,
+            "width": 45,
+            "height": 26,
+            "xPercent": 13.1875,
+            "yPercent": 1.6
+          },
+          "annotation": {
+            "left": 184.5,
+            "right": 237.5,
+            "top": 1,
+            "bottom": 33,
+            "startX": 322.5,
+            "startY": 0,
+            "endX": 237.5,
+            "endY": 16,
+            "below": false,
+            "path": "M 322.5 0 L 322.5 0 L 237.5 16"
+          },
+          "narrationDraft": "File starts a new conversation and opens Settings. Edit has copy, paste and other text actions. View changes the interface, theme, text style and browser view. Help opens the built-in guide and setup extras. Menu items with a small arrow or a chooser reveal more options.",
+          "checkpoint": "You know where to change the look and where to get help.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Modern and Classic share the same work",
+          "screenshot": "screens/chat-classic.png",
+          "screenshotSha256": "7644597499b46a6176358af6becf3800fc4e0f9ebe9b83a31910edfaf845f1b3",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Modern",
+            "x": 136,
+            "y": 64,
+            "width": 47,
+            "height": 23,
+            "xPercent": 8.5,
+            "yPercent": 6.4
+          },
+          "annotation": {
+            "left": 108.5,
+            "right": 163.5,
+            "top": 48.5,
+            "bottom": 79.5,
+            "startX": 248.5,
+            "startY": 0,
+            "endX": 163.5,
+            "endY": 64,
+            "below": false,
+            "path": "M 248.5 0 L 248.5 9 L 163.5 64"
+          },
+          "narrationDraft": "The Classic / Modern switch changes the arrangement. Classic shows labelled mode buttons and more controls at once. Modern uses more compact icons and menus. View → Toggle light / dark theme changes the colours. Your conversations and settings belong to the same Genesis, whichever view you choose.",
+          "checkpoint": "You can switch layouts and return to the one you prefer.",
+          "tip": "The screenshots here use the current development interface. An older installed release may place a control differently."
+        }
+      ]
+    },
+    {
+      "id": "conversation",
+      "title": "Chat, follow up and start fresh",
+      "group": "begin",
+      "coursePosition": 3,
+      "prerequisites": "A connected model.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Say what the finished result should be",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Type a message…",
+            "x": 920,
+            "y": 888,
+            "width": 1098,
+            "height": 38,
+            "xPercent": 57.5,
+            "yPercent": 88.8
+          },
+          "annotation": {
+            "left": 367,
+            "right": 1473,
+            "top": 865,
+            "bottom": 911,
+            "startX": 1558,
+            "startY": 1000,
+            "endX": 1473,
+            "endY": 888,
+            "below": true,
+            "path": "M 1558 1000 L 1558 943 L 1473 888"
+          },
+          "narrationDraft": "Try: “Write a friendly birthday invitation. Keep it short. Ask me for the date and place.” Include the goal, helpful facts and any limits. If you want ideas only, say so. If you want it to create a file, say which folder and file you want.",
+          "checkpoint": "Your message clearly names the result you want.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Read the answer and the tool rows",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Conversation",
+            "x": 119,
+            "y": 115,
+            "width": 214,
+            "height": 34,
+            "xPercent": 7.4375,
+            "yPercent": 11.5
+          },
+          "annotation": {
+            "left": 8,
+            "right": 230,
+            "top": 94,
+            "bottom": 136,
+            "startX": 315,
+            "startY": 0,
+            "endX": 230,
+            "endY": 115,
+            "below": false,
+            "path": "M 315 0 L 315 60 L 230 115"
+          },
+          "narrationDraft": "Genesis may answer directly or use tools to read, search or create something. Tool rows in the conversation can be expanded to see the arguments and result. A tool is one action, such as reading a file. An answer saying something is done should agree with the resulting file or page.",
+          "checkpoint": "You know to open a tool row when you want to understand an action.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Send a follow-up while it works",
+          "screenshot": "screens/chat-queue.png",
+          "screenshotSha256": "bbdef725f82f4e81521612ab57198fc0540bffbfca81cfb1fdf84fbc3ca0b9d7",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Send during response (Enter with empty composer)",
+            "x": 1378,
+            "y": 831,
+            "width": 68,
+            "height": 28,
+            "xPercent": 86.125,
+            "yPercent": 83.1
+          },
+          "annotation": {
+            "left": 1340,
+            "right": 1416,
+            "top": 813,
+            "bottom": 849,
+            "startX": 1501,
+            "startY": 1000,
+            "endX": 1416,
+            "endY": 831,
+            "below": true,
+            "path": "M 1501 1000 L 1501 886 L 1416 831"
+          },
+          "narrationDraft": "In Modern, a message sent during work normally waits After response. Its waiting card appears above the message box. Send now offers a text-only message at the next work step; you can also press Enter with an empty message box to promote the most recent eligible message. Attachments wait until after the reply. In Classic, the Queue selector offers the delivery choices.",
+          "checkpoint": "You can recognise a waiting message and choose whether to send its text during work.",
+          "tip": "Sending now can steer a running task; it does not undo an action already taken. Pause or stop first when no further action should happen before your correction."
+        },
+        {
+          "step": 4,
+          "title": "Inspect the waiting messages",
+          "screenshot": "screens/queue-manager.png",
+          "screenshotSha256": "d6c1d190b4ec048d1bf26bd1dc83bed67006d57f1a99448675eb14119a579955",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Remove",
+            "x": 605,
+            "y": 219,
+            "width": 66,
+            "height": 21,
+            "xPercent": 37.8125,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 568,
+            "right": 642,
+            "top": 204.5,
+            "bottom": 233.5,
+            "startX": 727,
+            "startY": 0,
+            "endX": 642,
+            "endY": 219,
+            "below": false,
+            "path": "M 727 0 L 727 164 L 642 219"
+          },
+          "narrationDraft": "Open Queue from the conversation view chooser below the Modern message box, or its labelled tab in Classic. Each message can be edited, moved up or down, or removed. Clear all removes all waiting messages. Read what is waiting before a long task continues.",
+          "checkpoint": "Only the messages you still want remain in the queue.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Start a new conversation",
+          "screenshot": "screens/menu-file.png",
+          "screenshotSha256": "7b8dfea606dd34c245787768648776c5a0224be8cb6ee441d013820ef6f27c14",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "New conversation",
+            "x": 175,
+            "y": 55,
+            "width": 98,
+            "height": 18,
+            "xPercent": 10.9375,
+            "yPercent": 5.5
+          },
+          "annotation": {
+            "left": 122,
+            "right": 228,
+            "top": 42,
+            "bottom": 68,
+            "startX": 313,
+            "startY": 0,
+            "endX": 228,
+            "endY": 55,
+            "below": false,
+            "path": "M 313 0 L 313 0 L 228 55"
+          },
+          "narrationDraft": "Use File → New conversation for a new subject. Open Saved conversations to return to an older one. A new conversation clears the visible thread for a fresh start; it does not erase Genesis’s long-term memory.",
+          "checkpoint": "You can start a fresh thread and find an older one.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "attachments",
+      "title": "Share files, pictures and screenshots",
+      "group": "begin",
+      "coursePosition": 4,
+      "prerequisites": "A small file or image you are comfortable sharing with your chosen model.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Choose the file",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Attach files",
+            "x": 396,
+            "y": 922,
+            "width": 27,
+            "height": 27,
+            "xPercent": 24.75,
+            "yPercent": 92.2
+          },
+          "annotation": {
+            "left": 378.5,
+            "right": 413.5,
+            "top": 904.5,
+            "bottom": 939.5,
+            "startX": 498.5,
+            "startY": 1000,
+            "endX": 413.5,
+            "endY": 922,
+            "below": true,
+            "path": "M 498.5 1000 L 498.5 977 L 413.5 922"
+          },
+          "narrationDraft": "Click the paperclip beside the message box, or drag a file onto the conversation. Documents, images and code give Genesis material to work with. A ZIP can hold a whole project. Keep the first example small: a short document is easier to follow than a large folder.",
+          "checkpoint": "The file appears beside your draft before you send it.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Tell Genesis what to do with it",
+          "screenshot": "screens/chat-attachments.png",
+          "screenshotSha256": "9078e65b5dcd0f2d01bc2bdfa3a6dedc20b948c3f54e73e7a0a1a1c2b497cb91",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "garden-notes.txt",
+            "x": 456,
+            "y": 830,
+            "width": 83,
+            "height": 17,
+            "xPercent": 28.5,
+            "yPercent": 83
+          },
+          "annotation": {
+            "left": 410.5,
+            "right": 501.5,
+            "top": 817.5,
+            "bottom": 842.5,
+            "startX": 586.5,
+            "startY": 1000,
+            "endX": 501.5,
+            "endY": 830,
+            "below": true,
+            "path": "M 586.5 1000 L 586.5 885 L 501.5 830"
+          },
+          "narrationDraft": "An attachment alone does not explain your goal. Write “Summarise this in five simple points,” “Find the date in this letter,” or “Explain this error message.” Check that the right file is attached. Here, garden-notes.txt is waiting beside the draft. Remove a mistaken attachment before you send.",
+          "checkpoint": "The draft contains both the right file and a clear instruction.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Press Send when you are ready",
+          "screenshot": "screens/chat-attachments.png",
+          "screenshotSha256": "9078e65b5dcd0f2d01bc2bdfa3a6dedc20b948c3f54e73e7a0a1a1c2b497cb91",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Send message",
+            "x": 1413,
+            "y": 922,
+            "width": 30,
+            "height": 30,
+            "xPercent": 88.3125,
+            "yPercent": 92.2
+          },
+          "annotation": {
+            "left": 1394,
+            "right": 1432,
+            "top": 903,
+            "bottom": 941,
+            "startX": 1517,
+            "startY": 1000,
+            "endX": 1432,
+            "endY": 922,
+            "below": true,
+            "path": "M 1517 1000 L 1517 977 L 1432 922"
+          },
+          "narrationDraft": "Press the arrow or Enter. The file is now part of your request. Open Attachments in the conversation view chooser to inspect attached items later. Images need a model or secondary vision helper that can read pictures; the Vision lesson explains that setup.",
+          "checkpoint": "The sent message shows the attachment and Genesis starts working.",
+          "tip": "If your model is in the cloud, relevant content can be sent to that service. Choose a local model for material you want processed locally."
+        },
+        {
+          "step": 4,
+          "title": "Find and check generated files",
+          "screenshot": "screens/code.png",
+          "screenshotSha256": "ddcd6b506ec9a7bbc6fae4a532b997ce3579816d8f58ef1439d5d90dd5293e9a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Code",
+            "x": 919,
+            "y": 181,
+            "width": 67,
+            "height": 28,
+            "xPercent": 57.4375,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 881.5,
+            "right": 956.5,
+            "top": 163,
+            "bottom": 199,
+            "startX": 1041.5,
+            "startY": 0,
+            "endX": 956.5,
+            "endY": 181,
+            "below": false,
+            "path": "M 1041.5 0 L 1041.5 126 L 956.5 181"
+          },
+          "narrationDraft": "If you ask Genesis to create a document or code, ask it to say where it saved the result. Open the file and check it. For code work, Settings → Code offers history, safe copies and review. A preview in the conversation is useful, but the finished file is what you should inspect.",
+          "checkpoint": "You can locate the resulting file on your computer.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "settings-map",
+      "title": "Settings, one room at a time",
+      "group": "begin",
+      "coursePosition": 5,
+      "prerequisites": "Settings open from the left panel or File menu.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Pick the right section",
+          "screenshot": "screens/models.png",
+          "screenshotSha256": "d019c6eabb3ceb009dcf2f9ffd5ebdd90616928c1c87b19593d7abc7fbae0605",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Models",
+            "x": 303,
+            "y": 181,
+            "width": 79,
+            "height": 28,
+            "xPercent": 18.9375,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 259.5,
+            "right": 346.5,
+            "top": 163,
+            "bottom": 199,
+            "startX": 431.5,
+            "startY": 0,
+            "endX": 346.5,
+            "endY": 181,
+            "below": false,
+            "path": "M 431.5 0 L 431.5 126 L 346.5 181"
+          },
+          "narrationDraft": "Models chooses the brain. Voice & Vision chooses listening, speech and images. Computer use controls what Genesis may operate and includes Appshots and pets. Plugins holds tools, connections, MCP servers and hooks.",
+          "checkpoint": "You can find the section for the change you want.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "The other sections",
+          "screenshot": "screens/system.png",
+          "screenshotSha256": "33eab47a1611c0391ca5ff473a55a230e8bca0234cc75c17550dd1465b37fd36",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "System",
+            "x": 385,
+            "y": 181,
+            "width": 78,
+            "height": 28,
+            "xPercent": 24.0625,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 342,
+            "right": 428,
+            "top": 163,
+            "bottom": 199,
+            "startX": 513,
+            "startY": 0,
+            "endX": 428,
+            "endY": 181,
+            "below": false,
+            "path": "M 513 0 L 513 126 L 428 181"
+          },
+          "narrationDraft": "Communications connects Telegram and your phone. Code holds code folders, history, safe copies, reviews and GitHub. Missions holds bigger-job settings and role models. Memory holds memory options, health and backups. System holds general behaviour, tools and display choices.",
+          "checkpoint": "You can tell which section owns a setting.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Look for Save changes",
+          "screenshot": "screens/model-parsed.png",
+          "screenshotSha256": "1f4aafb6a643de752f725d3aee55cda64b74c1581933d9cb30e6d8727251a909",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Save changes",
+            "x": 1518,
+            "y": 116,
+            "width": 116,
+            "height": 30,
+            "xPercent": 94.875,
+            "yPercent": 11.6
+          },
+          "annotation": {
+            "left": 1456,
+            "right": 1580,
+            "top": 97,
+            "bottom": 135,
+            "startX": 1371,
+            "startY": 0,
+            "endX": 1456,
+            "endY": 116,
+            "below": false,
+            "path": "M 1371 0 L 1371 61 L 1456 116"
+          },
+          "narrationDraft": "Most model and voice edits stay in the form until you click Save changes. Some controls, including Computer use and desktop extras, say they apply immediately. Follow the note next to the control. A switch that looks on in an unsaved form is not proof the running app has adopted it.",
+          "checkpoint": "You see a saved confirmation after a change that needs saving.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Change one thing, then try it",
+          "screenshot": "screens/model-generation.png",
+          "screenshotSha256": "09d9ed0aaf673b1605ca30535110493e6fa8b4d769b82413cad440a72222aa31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Generation parameters",
+            "x": 355,
+            "y": 219,
+            "width": 149,
+            "height": 17,
+            "xPercent": 22.1875,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276.5,
+            "right": 433.5,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 518.5,
+            "startY": 0,
+            "endX": 433.5,
+            "endY": 219,
+            "below": false,
+            "path": "M 518.5 0 L 518.5 164 L 433.5 219"
+          },
+          "narrationDraft": "Make one change at a time and try a small task. If something stops working, you know which change to revisit. For unfamiliar numbers, leave the recommended or default setting and open the matching lesson first.",
+          "checkpoint": "You have a simple way to check each change.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "display",
+      "title": "Make the window comfortable to read",
+      "group": "begin",
+      "coursePosition": 6,
+      "prerequisites": "An open Genesis window.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Choose your layout",
+          "screenshot": "screens/menu-view.png",
+          "screenshotSha256": "324707cb9e231b2c0416495d466a2d1a2154633ac5f6e81de8174ef88010dc72",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "View",
+            "x": 211,
+            "y": 16,
+            "width": 45,
+            "height": 26,
+            "xPercent": 13.1875,
+            "yPercent": 1.6
+          },
+          "annotation": {
+            "left": 184.5,
+            "right": 237.5,
+            "top": 1,
+            "bottom": 33,
+            "startX": 322.5,
+            "startY": 0,
+            "endX": 237.5,
+            "endY": 16,
+            "below": false,
+            "path": "M 322.5 0 L 322.5 0 L 237.5 16"
+          },
+          "narrationDraft": "Open View, or use Classic / Modern. Classic gives you more labelled controls at once. Modern leaves more space for the conversation. Try both with the same conversation and choose the one you find easier.",
+          "checkpoint": "The layout feels comfortable to use.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Choose the colours and text style",
+          "screenshot": "screens/menu-view.png",
+          "screenshotSha256": "324707cb9e231b2c0416495d466a2d1a2154633ac5f6e81de8174ef88010dc72",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "View",
+            "x": 211,
+            "y": 16,
+            "width": 45,
+            "height": 26,
+            "xPercent": 13.1875,
+            "yPercent": 1.6
+          },
+          "annotation": {
+            "left": 184.5,
+            "right": 237.5,
+            "top": 1,
+            "bottom": 33,
+            "startX": 322.5,
+            "startY": 0,
+            "endX": 237.5,
+            "endY": 16,
+            "below": false,
+            "path": "M 322.5 0 L 322.5 0 L 237.5 16"
+          },
+          "narrationDraft": "View → Toggle light / dark theme changes the colour theme. The Genesis text / Compact text choice changes message typography. This is a reading preference, separate from the model’s writing style. Ask Genesis to write more simply if the words themselves are too difficult.",
+          "checkpoint": "You can comfortably read the messages.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Show timestamps when you want them",
+          "screenshot": "screens/system.png",
+          "screenshotSha256": "33eab47a1611c0391ca5ff473a55a230e8bca0234cc75c17550dd1465b37fd36",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Show message times in Chat",
+            "x": 588,
+            "y": 402,
+            "width": 616,
+            "height": 20,
+            "xPercent": 36.75,
+            "yPercent": 40.2
+          },
+          "annotation": {
+            "left": 276,
+            "right": 900,
+            "top": 388,
+            "bottom": 416,
+            "startX": 985,
+            "startY": 0,
+            "endX": 900,
+            "endY": 402,
+            "below": false,
+            "path": "M 985 0 L 985 347 L 900 402"
+          },
+          "narrationDraft": "Open Settings → System → Chat display. Show message times in Chat adds a time beneath chat messages. Activity and memory logs already have times. This display preference takes effect in the interface.",
+          "checkpoint": "You can tell when a message was sent.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Choose how code changes appear",
+          "screenshot": "screens/system.png",
+          "screenshotSha256": "33eab47a1611c0391ca5ff473a55a230e8bca0234cc75c17550dd1465b37fd36",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Expand code changes by default",
+            "x": 621,
+            "y": 333,
+            "width": 682,
+            "height": 20,
+            "xPercent": 38.8125,
+            "yPercent": 33.3
+          },
+          "annotation": {
+            "left": 276,
+            "right": 966,
+            "top": 319,
+            "bottom": 347,
+            "startX": 1051,
+            "startY": 0,
+            "endX": 966,
+            "endY": 333,
+            "below": false,
+            "path": "M 1051 0 L 1051 278 L 966 333"
+          },
+          "narrationDraft": "Expand code changes by default opens change details automatically. Leave it off if you prefer a compact chat and open individual changes yourself. This changes the presentation; it does not approve, test or apply the code.",
+          "checkpoint": "Code details open only as often as you prefer.",
+          "tip": ""
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 14,
+      "kind": "title",
+      "eyebrow": "GENESIS AI · CATEGORY 1",
+      "title": "Find your way\naround Genesis",
+      "body": "Make yourself at home · Part two\nFive lessons for everyday confidence.",
+      "tag": "CATEGORY 1 · PART TWO",
+      "readingWords": 17,
+      "readingSeconds": 6.8,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "GENESIS AI · CATEGORY 1",
+      "title": "Pick up where\nwe left off",
+      "items": [
+        "Video 1 connected a model and began a useful chat",
+        "Now learn the window and everyday controls",
+        "Follow the five lesson chapters in order",
+        "Pause whenever you want to practice",
+        "Category 2 starts in video 3"
+      ],
+      "note": "Have Genesis open. Use a working model for chat practice. This video uses readable text and your selected music.",
+      "readingWords": 61,
+      "readingSeconds": 24.400000000000002,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [],
+      "duration": 16,
+      "kind": "title",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Find your\nway around",
+      "body": "An open Genesis window.\nLearn the map, controls and menus.",
+      "tag": "LESSON 1 OF 5",
+      "readingWords": 14,
+      "readingSeconds": 5.6000000000000005,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 25,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Your left panel\nis the map",
+      "body": "Choose a page on the left. It opens in the main work area. If navigation is hidden, use the three-line icon at the top.",
+      "screen": "chat-modern",
+      "crop": [
+        0,
+        30,
+        330,
+        350
+      ],
+      "highlight": [
+        251,
+        42,
+        26,
+        26
+      ],
+      "callout": "Navigation shows or hides the map",
+      "note": "Start by finding Conversation and Settings.",
+      "contextZoom": true,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 25,
+      "kind": "list",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Four places\nto begin",
+      "items": [
+        "Conversation — everyday chat",
+        "Projects — work organised on a board",
+        "Schedule — timed tasks",
+        "Missions — a bigger objective"
+      ],
+      "note": "Choose the place that fits the job. You will learn the other modes in their own categories.",
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "The rest of\nyour map",
+      "body": "Lower down are Memory, Plugins, Activity, System Feed, Settings and Discoveries. You do not need to memorise them; return to this map when needed.",
+      "screen": "chat-modern",
+      "crop": [
+        0,
+        590,
+        255,
+        245
+      ],
+      "highlight": [
+        12,
+        752,
+        214,
+        34
+      ],
+      "callout": "Settings is on the left",
+      "note": "Practice: open Settings, then return to Conversation.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "The middle is\nyour work area",
+      "body": "Conversation puts replies above the draft. The paperclip adds material, the microphone dictates text, and the round arrow sends your message.",
+      "screen": "chat-modern",
+      "crop": [
+        350,
+        845,
+        1140,
+        145
+      ],
+      "highlight": [
+        370,
+        866,
+        1100,
+        78
+      ],
+      "callout": "The draft and its controls",
+      "note": "Enter sends. Shift+Enter inserts a new line.",
+      "contextZoom": true,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 24,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Find the\nsmall controls",
+      "body": "Hover over an unfamiliar icon to read its name. Small arrows reveal more choices. You can explore the controls without sending a message.",
+      "screen": "chat-modern",
+      "crop": [
+        350,
+        855,
+        520,
+        115
+      ],
+      "highlight": [
+        383,
+        908,
+        27,
+        27
+      ],
+      "callout": "Paperclip: attach files",
+      "note": "Microphone: dictate text. Arrow: send the draft.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 25,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Choose a\nsaved model",
+      "body": "Click the model name below the message box to open the saved model chooser. Choose a working preset when you want to use another model.",
+      "screen": "chat-modern",
+      "crop": [
+        900,
+        845,
+        570,
+        130
+      ],
+      "highlight": [
+        1126,
+        907,
+        81,
+        30
+      ],
+      "callout": "The model name opens your chooser",
+      "note": "Model setup and detailed controls belong to category 2, in video 3.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Open Activity\n& context",
+      "body": "The panel icon at the upper right opens the right-hand activity panel. Open it to see the current tool, context usage and memory totals.",
+      "screen": "chat-modern",
+      "crop": [
+        1370,
+        30,
+        230,
+        175
+      ],
+      "highlight": [
+        1562,
+        42,
+        26,
+        26
+      ],
+      "callout": "Open or close the right panel",
+      "note": "Context is the material a model can hold in one request.",
+      "contextZoom": true,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Read the\nright-hand panel",
+      "body": "Activity & context shows the current tool and the amount of context in use. Memory totals help you see what Genesis has available for the current work.",
+      "screen": "@video2/chat-context",
+      "crop": [
+        1320,
+        30,
+        280,
+        450
+      ],
+      "highlight": null,
+      "note": "This is the right-hand panel, separate from the Activity usage page.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 32,
+      "kind": "compare",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Two different\nActivity views",
+      "cards": [
+        {
+          "title": "ACTIVITY & CONTEXT",
+          "body": "The right panel describes the current work: tools, context usage and memory totals.",
+          "tag": "CURRENT REQUEST"
+        },
+        {
+          "title": "ACTIVITY PAGE",
+          "body": "The page in left navigation shows usage over time, such as totals and daily activity.",
+          "tag": "USAGE OVER TIME"
+        }
+      ],
+      "note": "Practice: open the right panel, close it, then locate Activity in the left panel.",
+      "readingWords": 56,
+      "readingSeconds": 22.400000000000002,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Menus give\nyou a route",
+      "body": "The top menus collect everyday actions. File opens Settings and starts a conversation. Edit handles text actions such as copy and paste.",
+      "screen": "menu-file",
+      "crop": [
+        100,
+        0,
+        350,
+        260
+      ],
+      "highlight": [
+        110,
+        3,
+        38,
+        26
+      ],
+      "callout": "File: conversations and Settings",
+      "note": "Menu arrows and choosers reveal additional options.",
+      "contextZoom": true,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Look and help\nare here",
+      "body": "View changes interface, theme, text style and browser view. Help opens the built-in guide and optional setup extras.",
+      "screen": "menu-view",
+      "crop": [
+        170,
+        0,
+        340,
+        285
+      ],
+      "highlight": [
+        188,
+        3,
+        45,
+        26
+      ],
+      "callout": "View controls the appearance",
+      "note": "Example: use View for colours; use Help when you need a guide.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Classic shows\nmore labels",
+      "body": "Classic presents labelled mode buttons and more controls at once. The Modern switch returns you to the compact arrangement.",
+      "screen": "chat-classic",
+      "crop": [
+        65,
+        30,
+        790,
+        450
+      ],
+      "highlight": [
+        112,
+        52,
+        47,
+        23
+      ],
+      "callout": "Switch back to Modern",
+      "note": "Your conversations and settings belong to the same Genesis.",
+      "contextZoom": true,
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 31,
+      "kind": "compare",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Choose the view\nyou prefer",
+      "cards": [
+        {
+          "title": "MODERN",
+          "body": "Compact icons and menus leave more space for the conversation. Hover when an icon is unfamiliar.",
+          "tag": "MORE OPEN SPACE"
+        },
+        {
+          "title": "CLASSIC",
+          "body": "Labelled mode buttons and more visible controls help you recognise actions at a glance.",
+          "tag": "MORE LABELS"
+        }
+      ],
+      "note": "Try both, then return to your preference. Older installed releases may place a control differently.",
+      "readingWords": 57,
+      "readingSeconds": 22.8,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 1,
+      "lesson": "interface",
+      "sourceSteps": [],
+      "duration": 34,
+      "kind": "list",
+      "eyebrow": "01 / INTERFACE",
+      "title": "Your checkpoint",
+      "items": [
+        "You can open the navigation and find Settings.",
+        "You can identify the attachment, microphone, send and model controls.",
+        "You can open and close the right-hand panel.",
+        "You know where to change the look and where to get help.",
+        "You can switch layouts and return to the one you prefer."
+      ],
+      "note": "Pause here and try these in Genesis. Continue when you can do each one.",
+      "checkpointSteps": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "readingWords": 65,
+      "readingSeconds": 26,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [],
+      "duration": 16,
+      "kind": "title",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "A conversation\nthat helps",
+      "body": "A connected model.\nAsk clearly. Follow up. Keep your place.",
+      "tag": "LESSON 2 OF 5",
+      "readingWords": 14,
+      "readingSeconds": 5.6000000000000005,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 30,
+      "kind": "quote",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Name the\nfinished result",
+      "body": "Give the goal, useful facts and limits. A clear request helps Genesis ask for anything missing.",
+      "quote": "Write a friendly birthday invitation. Keep it short. Ask me for the date and place.",
+      "note": "Example request. You can replace the occasion with your own.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 30,
+      "kind": "compare",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Be clear about\nthe action",
+      "cards": [
+        {
+          "title": "IDEAS ONLY",
+          "body": "Give me three possible invitation openings. Do not create a file yet.",
+          "tag": "ASK FOR OPTIONS"
+        },
+        {
+          "title": "CREATE A FILE",
+          "body": "Save the final invitation as invitation.txt in my chosen Tutorial Practice folder. Tell me the full path.",
+          "tag": "NAME THE FILE AND FOLDER"
+        }
+      ],
+      "note": "Use an actual folder on your computer when asking for a file.",
+      "readingWords": 59,
+      "readingSeconds": 23.599999999999998,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Read the answer\nand tool rows",
+      "body": "Genesis may answer directly or use a tool. A tool is one action: reading a file, searching, or creating something. Expand a tool row to inspect its arguments and result.",
+      "screen": "@video2/tool-collapsed",
+      "crop": [
+        370,
+        110,
+        640,
+        260
+      ],
+      "highlight": null,
+      "callout": "",
+      "note": "The screenshots use clean demonstration data; example exchanges are illustrative.",
+      "contextZoom": true,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Open the\ntool details",
+      "body": "Expand the tool group, then the individual row. Here the path identifies the input file, and the result shows the text that was read.",
+      "screen": "@video2/tool-expanded",
+      "crop": [
+        380,
+        145,
+        640,
+        240
+      ],
+      "highlight": null,
+      "note": "Illustrative tool fixture: garden-notes.txt contains a planting date of 12 October.",
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Check the\nresult itself",
+      "items": [
+        "Read what Genesis says it did",
+        "Open a tool row to see the action and result",
+        "Find the named file or resulting page",
+        "Check that the contents match your request"
+      ],
+      "note": "A completed tool action and a useful finished result are separate things to inspect.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "quote",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "A useful\nfollow-up",
+      "body": "If the invitation is too formal, say what should change. Read the revised answer before using it.",
+      "quote": "Make it warmer and simpler. Keep the date and place exactly as I gave them.",
+      "note": "Illustrative follow-up; no live model result is claimed.",
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "A message can\nwait its turn",
+      "body": "In Modern, sending during work normally queues the message After response. A waiting card appears above your draft. Read its label to know when it will arrive.",
+      "screen": "chat-queue",
+      "crop": [
+        360,
+        730,
+        1090,
+        230
+      ],
+      "highlight": [
+        376,
+        809,
+        1040,
+        43
+      ],
+      "callout": "The waiting card shows delivery",
+      "note": "The current reply can finish before this follow-up is delivered.",
+      "contextZoom": true,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 31,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Send text at\nthe next step",
+      "body": "Send now promotes an eligible text-only message for the next work step. Enter with an empty message box can promote the most recent eligible message.",
+      "screen": "chat-queue",
+      "crop": [
+        1050,
+        750,
+        390,
+        200
+      ],
+      "highlight": [
+        1344,
+        817,
+        68,
+        28
+      ],
+      "callout": "Send now steers the next step",
+      "note": "Files wait until after the reply. Sending now cannot undo a completed action.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 33,
+      "kind": "compare",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Choose when\nto follow up",
+      "cards": [
+        {
+          "title": "AFTER RESPONSE",
+          "body": "Useful for a next question: “Now make the invitation shorter.” Attachments wait for the reply to finish.",
+          "tag": "LET THE REPLY FINISH"
+        },
+        {
+          "title": "DURING WORK",
+          "body": "Useful for a text correction: “Use Saturday, not Sunday.” In Classic, use the Queue selector for delivery choices.",
+          "tag": "STEER THE NEXT STEP"
+        }
+      ],
+      "note": "If no more action should happen before a correction, pause or stop first.",
+      "readingWords": 65,
+      "readingSeconds": 26,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Open the\nQueue view",
+      "body": "In Modern, choose Queue from the conversation view chooser below the message box. In Classic, use the labelled Queue tab.",
+      "screen": "chat-modern",
+      "crop": [
+        350,
+        880,
+        490,
+        120
+      ],
+      "highlight": [
+        422,
+        959,
+        84,
+        17
+      ],
+      "callout": "Conversation view chooser → Queue",
+      "note": "Read the waiting list before letting a long task continue.",
+      "contextZoom": true,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Keep only the\nmessages you want",
+      "body": "Edit a waiting message, move it up or down, or remove it. Clear all removes every waiting message. Choose deliberately before continuing.",
+      "screen": "queue-manager",
+      "crop": [
+        250,
+        130,
+        690,
+        315
+      ],
+      "highlight": [
+        572,
+        208,
+        66,
+        21
+      ],
+      "callout": "Remove one unwanted message",
+      "note": "Practice: spot a duplicate, remove it, and confirm the remaining order.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Start a\nfresh subject",
+      "body": "Use File → New conversation for a new subject. This clears the visible thread for a fresh start while Genesis keeps its long-term memory.",
+      "screen": "menu-file",
+      "crop": [
+        65,
+        0,
+        510,
+        360
+      ],
+      "highlight": [
+        126,
+        46,
+        98,
+        18
+      ],
+      "callout": "File → New conversation",
+      "note": "A new conversation is a fresh thread; it does not erase long-term memory.",
+      "contextZoom": true,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 25,
+      "kind": "screen",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Return to an\nolder conversation",
+      "body": "Open Saved conversations when you want to resume an earlier thread. Choose the relevant conversation rather than mixing unrelated subjects into the new one.",
+      "screen": "chat-modern",
+      "crop": [
+        0,
+        245,
+        255,
+        170
+      ],
+      "highlight": [
+        22,
+        264,
+        194,
+        18
+      ],
+      "callout": "Saved conversations in left navigation",
+      "note": "Practice: locate Saved conversations before starting a new subject.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 2,
+      "lesson": "conversation",
+      "sourceSteps": [],
+      "duration": 35,
+      "kind": "list",
+      "eyebrow": "02 / CONVERSATION",
+      "title": "Your checkpoint",
+      "items": [
+        "Your message clearly names the result you want.",
+        "You know to open a tool row when you want to understand an action.",
+        "You can recognise a waiting message and choose whether to send its text during work.",
+        "Only the messages you still want remain in the queue.",
+        "You can start a fresh thread and find an older one."
+      ],
+      "note": "Pause here and try these in Genesis. Continue when you can do each one.",
+      "checkpointSteps": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "readingWords": 74,
+      "readingSeconds": 29.6,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [],
+      "duration": 16,
+      "kind": "title",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Share the\nright material",
+      "body": "A small file or image you are comfortable sharing with your chosen model.\nChoose a file. Give it a purpose. Send it.",
+      "tag": "LESSON 3 OF 5",
+      "readingWords": 26,
+      "readingSeconds": 10.4,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Attach a small\npractice file",
+      "body": "Click the paperclip, or drag a file onto the conversation. Documents, images and code provide material. A ZIP can hold a whole project.",
+      "screen": "chat-modern",
+      "crop": [
+        350,
+        835,
+        520,
+        125
+      ],
+      "highlight": [
+        383,
+        908,
+        27,
+        27
+      ],
+      "callout": "Attach files beside your draft",
+      "note": "Begin with a short file you are comfortable sharing with the chosen model.",
+      "contextZoom": true,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "The attachment\nis still a draft",
+      "body": "The chosen file appears beside your draft before sending. Check the filename. Selecting a file prepares the request; you still need an instruction and Send.",
+      "screen": "chat-attachments",
+      "crop": [
+        350,
+        790,
+        750,
+        170
+      ],
+      "highlight": [
+        414,
+        821,
+        83,
+        17
+      ],
+      "callout": "garden-notes.txt is staged",
+      "note": "A small practice document is easier to follow than a large folder.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 29,
+      "kind": "quote",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Give the file\na purpose",
+      "body": "The attachment supplies material. Your words explain the job. Ask for a result you can check against the original.",
+      "quote": "Summarise these garden notes in five simple points. Keep any dates exactly as written.",
+      "note": "Example for garden-notes.txt. Check that this is the file attached to your draft.",
+      "readingWords": 51,
+      "readingSeconds": 20.400000000000002,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Match the\nrequest to the file",
+      "items": [
+        "Letter — “Find the date and deadline”",
+        "Error image — “Explain this error message”",
+        "Document — “Summarise this in five simple points”",
+        "Remove a mistaken attachment before sending"
+      ],
+      "note": "Checkpoint: the draft contains the correct file and a clear instruction.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "A screenshot\nneeds Send too",
+      "body": "If you use Appshots, its capture attaches a screenshot to the draft. Check the captured window, write what you want explained, then explicitly Send.",
+      "screen": "chat-attachments",
+      "crop": [
+        350,
+        790,
+        750,
+        170
+      ],
+      "highlight": [
+        414,
+        821,
+        83,
+        17
+      ],
+      "callout": "Check the staged item before sending",
+      "note": "This still illustrates the attachment draft; it is not a live Appshots capture.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Send the\ncomplete request",
+      "body": "Press the arrow or Enter when the file and instruction are ready. The sent message should show the attachment, and Genesis should begin working.",
+      "screen": "chat-attachments",
+      "crop": [
+        1090,
+        810,
+        360,
+        150
+      ],
+      "highlight": [
+        1398,
+        907,
+        30,
+        30
+      ],
+      "callout": "The arrow sends your request",
+      "note": "Open Attachments in the conversation view chooser to inspect attached items later.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 32,
+      "kind": "compare",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Pictures and\nprocessing location",
+      "cards": [
+        {
+          "title": "READING A PICTURE",
+          "body": "Images need a picture-capable model or a secondary vision helper. The Vision lesson covers that setup.",
+          "tag": "CHECK VISION SUPPORT"
+        },
+        {
+          "title": "LOCAL OR CLOUD",
+          "body": "With a cloud model, relevant content can go to that service. Use a local model when you want material processed locally.",
+          "tag": "CHOOSE WHAT YOU SHARE"
+        }
+      ],
+      "note": "Check your chosen model and connected helpers before sharing sensitive material.",
+      "readingWords": 65,
+      "readingSeconds": 26,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "quote",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Ask where the\nresult was saved",
+      "body": "A preview helps you review. A finished file should have a location you can open on your own computer.",
+      "quote": "Create garden-summary.txt in my Tutorial Practice folder. Tell me the full path when it is saved.",
+      "note": "Illustrative request. Use your real folder and inspect the resulting file.",
+      "readingWords": 52,
+      "readingSeconds": 20.8,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Code has its\nown review tools",
+      "body": "Settings → Code offers code folders, history, safe copies and review. For generated code, use these tools and inspect the actual saved changes.",
+      "screen": "code",
+      "crop": [
+        260,
+        150,
+        760,
+        620
+      ],
+      "highlight": [
+        885,
+        167,
+        67,
+        28
+      ],
+      "callout": "Settings → Code",
+      "note": "A preview alone does not prove that a finished file is correct.",
+      "contextZoom": true,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 27,
+      "kind": "list",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Open and\ncheck the output",
+      "items": [
+        "Follow the saved path on your computer",
+        "Open the actual file",
+        "Compare its contents with your request",
+        "Ask for a correction if something is missing"
+      ],
+      "note": "For the garden example, compare the dates and five-point summary against the original notes.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 3,
+      "lesson": "attachments",
+      "sourceSteps": [],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "03 / ATTACHMENTS",
+      "title": "Your checkpoint",
+      "items": [
+        "The file appears beside your draft before you send it.",
+        "The draft contains both the right file and a clear instruction.",
+        "The sent message shows the attachment and Genesis starts working.",
+        "You can locate the resulting file on your computer."
+      ],
+      "note": "Pause here and try these in Genesis. Continue when you can do each one.",
+      "checkpointSteps": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "readingWords": 56,
+      "readingSeconds": 22.400000000000002,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [],
+      "duration": 16,
+      "kind": "title",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Settings, one\nroom at a time",
+      "body": "Settings open from the left panel or File menu.\nFind the section. Save. Try one change.",
+      "tag": "LESSON 4 OF 5",
+      "readingWords": 22,
+      "readingSeconds": 8.8,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 25,
+      "kind": "screen",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Open the\nright room",
+      "body": "Open Settings from left navigation or the File menu. The section names tell you which room owns the change you want.",
+      "screen": "models",
+      "crop": [
+        240,
+        80,
+        1110,
+        180
+      ],
+      "highlight": [
+        263,
+        167,
+        79,
+        28
+      ],
+      "callout": "Settings sections form your map",
+      "note": "You only need to visit the section relevant to your change.",
+      "contextZoom": true,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "The first\nfour rooms",
+      "items": [
+        "Models — the brain that answers",
+        "Voice & Vision — listening, speech and images",
+        "Computer use — control permissions, Appshots and pets",
+        "Plugins — tools, connections, MCP servers and hooks"
+      ],
+      "note": "Example: picture understanding belongs to Voice & Vision; app control belongs to Computer use.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Connections\nand bigger jobs",
+      "items": [
+        "Communications — Telegram and your phone",
+        "Code — folders, history, safe copies and reviews",
+        "Code also holds the GitHub connection",
+        "Missions — bigger-job settings and role models"
+      ],
+      "note": "Example: open Communications for phone pairing, or Code for code history.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Memory and\nSystem",
+      "body": "Memory holds memory options, health and backups. System holds general behaviour, tools and display choices. Use the section that matches your goal.",
+      "screen": "system",
+      "crop": [
+        255,
+        150,
+        850,
+        460
+      ],
+      "highlight": [
+        346,
+        167,
+        78,
+        28
+      ],
+      "callout": "System includes display preferences",
+      "note": "Example: message timestamps belong to System; memory health belongs to Memory.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Try finding\nthe right section",
+      "items": [
+        "A different speaking voice → Voice & Vision",
+        "A phone connection → Communications",
+        "A code safe copy → Code",
+        "Chat timestamps → System",
+        "A memory health check → Memory"
+      ],
+      "note": "Pause and locate each section. You can leave its settings unchanged while learning the map.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Save a form\nthat needs saving",
+      "body": "Most model and voice edits stay in the form until you press Save changes. Look for the saved confirmation after pressing it.",
+      "screen": "model-parsed",
+      "crop": [
+        1120,
+        65,
+        480,
+        260
+      ],
+      "highlight": [
+        1460,
+        101,
+        116,
+        30
+      ],
+      "callout": "Save changes applies the form",
+      "note": "An unsaved switch can look on before the running app has adopted the change.",
+      "contextZoom": true,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 31,
+      "kind": "compare",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Follow the note\nby the control",
+      "cards": [
+        {
+          "title": "SAVE CHANGES",
+          "body": "For a form that needs saving: edit, press Save changes, look for confirmation, then test the result.",
+          "tag": "SAVE, THEN TRY"
+        },
+        {
+          "title": "APPLIES IMMEDIATELY",
+          "body": "Some Computer use and desktop controls say they apply at once. Read the note for that specific control.",
+          "tag": "READ THE LOCAL NOTE"
+        }
+      ],
+      "note": "Do not infer the save behaviour of every setting from one switch.",
+      "readingWords": 64,
+      "readingSeconds": 25.6,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "One change\nat a time",
+      "body": "Try a small task after one change. If something stops working, revisit that change. Keep unfamiliar numbers at the recommended or default setting.",
+      "screen": "model-generation",
+      "crop": [
+        265,
+        185,
+        730,
+        480
+      ],
+      "highlight": [
+        280,
+        210,
+        149,
+        17
+      ],
+      "callout": "Learn before changing unfamiliar numbers",
+      "note": "Detailed model settings belong to video 3. No need to tune them here.",
+      "contextZoom": true,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 29,
+      "kind": "list",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "A simple\nchange-and-try loop",
+      "items": [
+        "Note the original setting",
+        "Change one control",
+        "Save if that control requires it",
+        "Try a small relevant task",
+        "Keep it or return to the original"
+      ],
+      "note": "Example: after changing a voice, try one short sentence before changing anything else.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 4,
+      "lesson": "settings-map",
+      "sourceSteps": [],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "04 / SETTINGS MAP",
+      "title": "Your checkpoint",
+      "items": [
+        "You can find the section for the change you want.",
+        "You can tell which section owns a setting.",
+        "You see a saved confirmation after a change that needs saving.",
+        "You have a simple way to check each change."
+      ],
+      "note": "Pause here and try these in Genesis. Continue when you can do each one.",
+      "checkpointSteps": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "readingWords": 54,
+      "readingSeconds": 21.599999999999998,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [],
+      "duration": 16,
+      "kind": "title",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Make it easy\nto read",
+      "body": "An open Genesis window.\nChoose a layout and a comfortable display.",
+      "tag": "LESSON 5 OF 5",
+      "readingWords": 16,
+      "readingSeconds": 6.4,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Choose a\ncomfortable layout",
+      "body": "Open View, or use Classic / Modern. Classic shows more labelled controls; Modern leaves more space for conversation. Try both with the same thread.",
+      "screen": "menu-view",
+      "crop": [
+        170,
+        0,
+        340,
+        285
+      ],
+      "highlight": [
+        188,
+        3,
+        45,
+        26
+      ],
+      "callout": "View: choose your layout",
+      "note": "Checkpoint: you can find the controls and read your conversation comfortably.",
+      "contextZoom": true,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 29,
+      "kind": "compare",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Try the\nsame task twice",
+      "cards": [
+        {
+          "title": "TRY MODERN",
+          "body": "Locate the draft, attach control, model chooser and conversation view chooser.",
+          "tag": "NOTICE THE OPEN SPACE"
+        },
+        {
+          "title": "TRY CLASSIC",
+          "body": "Locate the same actions using labelled controls and tabs. Return to the arrangement you prefer.",
+          "tag": "NOTICE THE LABELS"
+        }
+      ],
+      "note": "The layout changes presentation while your conversations and settings stay with Genesis.",
+      "readingWords": 54,
+      "readingSeconds": 21.599999999999998,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 25,
+      "kind": "screen",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Choose your\ncolour theme",
+      "body": "Use View → Toggle light / dark theme. Choose the theme that feels comfortable in your room and on your screen.",
+      "screen": "menu-view",
+      "crop": [
+        170,
+        0,
+        340,
+        285
+      ],
+      "highlight": [
+        204,
+        164,
+        216,
+        29
+      ],
+      "callout": "Toggle light / dark theme",
+      "note": "Try reading a longer reply before deciding which theme suits you.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Choose your\nmessage text style",
+      "body": "View offers Genesis text and Compact text. This changes message typography. Try each with the same reply and choose a comfortable reading style.",
+      "screen": "menu-view",
+      "crop": [
+        170,
+        0,
+        340,
+        285
+      ],
+      "highlight": [
+        204,
+        196,
+        216,
+        64
+      ],
+      "callout": "Choose Genesis text or Compact text",
+      "note": "This display preference is separate from the model’s writing style.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "quote",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Simpler words\nneed a request",
+      "body": "If the words themselves are difficult, ask Genesis to rewrite them. Typography makes text look different; your request changes the wording.",
+      "quote": "Explain that in plain words. Use one short example and avoid technical terms.",
+      "note": "Example follow-up. Read the new answer and ask again if needed.",
+      "readingWords": 50,
+      "readingSeconds": 20,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Add message\ntimestamps",
+      "body": "Open Settings → System → Chat display. Show message times in Chat adds a time beneath chat messages.",
+      "screen": "system",
+      "crop": [
+        260,
+        275,
+        740,
+        195
+      ],
+      "highlight": [
+        280,
+        392,
+        616,
+        20
+      ],
+      "callout": "Show message times in Chat",
+      "note": "Activity and memory logs already have times. This is a chat display preference.",
+      "contextZoom": true,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Check the\ntimestamp display",
+      "items": [
+        "Find Chat display in System",
+        "Choose whether chat message times should show",
+        "These chat display switches apply in the interface",
+        "Return to Conversation and look below a message"
+      ],
+      "note": "Checkpoint: you can tell when a message was sent. Times are display information, not a new answer.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Choose when\ncode details open",
+      "body": "Expand code changes by default opens change details automatically. Leave it off for compact chat, then open individual changes yourself.",
+      "screen": "system",
+      "crop": [
+        260,
+        275,
+        740,
+        195
+      ],
+      "highlight": [
+        280,
+        323,
+        682,
+        20
+      ],
+      "callout": "Expand code changes by default",
+      "note": "This changes presentation. It does not approve, test or apply code.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 6
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "compare",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Compact or\nalready expanded",
+      "cards": [
+        {
+          "title": "COMPACT CHAT",
+          "body": "Leave the preference off. Open a particular change when you want to inspect the details.",
+          "tag": "OPEN WHAT YOU NEED"
+        },
+        {
+          "title": "DETAILS OPEN",
+          "body": "Turn it on when you want change details expanded by default. Review the changes carefully.",
+          "tag": "INSPECT THE DETAILS"
+        }
+      ],
+      "note": "Whatever the display preference, code still needs its own review and testing.",
+      "readingWords": 57,
+      "readingSeconds": 22.8,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": "display",
+      "sourceSteps": [],
+      "duration": 30,
+      "kind": "list",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Your checkpoint",
+      "items": [
+        "The layout feels comfortable to use.",
+        "You can comfortably read the messages.",
+        "You can tell when a message was sent.",
+        "Code details open only as often as you prefer."
+      ],
+      "note": "Pause here and try these in Genesis. Continue when you can do each one.",
+      "checkpointSteps": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 34,
+      "kind": "list",
+      "eyebrow": "05 / DISPLAY",
+      "title": "Your everyday\npractice route",
+      "items": [
+        "Find Conversation and the activity panel",
+        "Send one clear request and inspect the result",
+        "Attach a small file, explain the goal, then Send",
+        "Find the right settings section and try one change",
+        "Choose a comfortable layout and display"
+      ],
+      "note": "You have now covered all 22 remaining steps of category 1. Video 1 covered the welcome lesson.",
+      "readingWords": 59,
+      "readingSeconds": 23.599999999999998,
+      "locateSeconds": 3
+    },
+    {
+      "chapter": 5,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "05 / DISPLAY",
+      "title": "You are\nat home",
+      "body": "Keep exploring at your own pace.\nNext in video 3: the complete category “Choose your intelligence”.",
+      "tag": "PAUSE · PRACTICE · RETURN",
+      "readingWords": 20,
+      "readingSeconds": 8,
+      "locateSeconds": 3
+    }
+  ]
+}

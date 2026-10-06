@@ -1,0 +1,2569 @@
+{
+  "captured": "2026-10-02",
+  "origin": "Current Genesis source React/Electron, clean demonstration data. No live backend or model call.",
+  "source": {
+    "settings": "885da8d85d7b7f2661763a7bd83adc1800008712aa2bc7170ff2c606dc98a4eb"
+  },
+  "screens": {
+    "chat-read-aloud": {
+      "file": "chat-read-aloud.png",
+      "width": 1600,
+      "height": 1000,
+      "sha256": "5fa39a294f2d99369f288c231de808febd3eaac9039e1f850736bf480facf1af",
+      "controls": [
+        {
+          "tag": "SPAN",
+          "text": "Genesis AI",
+          "label": "Genesis AI",
+          "x": 64,
+          "y": 16,
+          "w": 56,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "text": "File",
+          "label": "File",
+          "x": 129,
+          "y": 16,
+          "w": 38,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Edit",
+          "label": "Edit",
+          "x": 168,
+          "y": 16,
+          "w": 40,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "View",
+          "label": "View",
+          "x": 211,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Help",
+          "label": "Help",
+          "x": 256,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1520,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1548,
+          "y": 16,
+          "w": 23,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1576,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "STRONG",
+          "text": "G",
+          "label": "G",
+          "x": 20,
+          "y": 60,
+          "w": 13,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Classic",
+          "label": "Classic",
+          "x": 73,
+          "y": 60,
+          "w": 41,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Modern",
+          "label": "Modern",
+          "x": 120,
+          "y": 60,
+          "w": 47,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle theme",
+          "x": 212,
+          "y": 60,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conversation",
+          "label": "Conversation",
+          "x": 119,
+          "y": 115,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Schedule",
+          "label": "Schedule",
+          "x": 119,
+          "y": 151,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Projects",
+          "label": "Projects",
+          "x": 119,
+          "y": 187,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Missions",
+          "label": "Missions",
+          "x": 119,
+          "y": 223,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Saved conversations",
+          "label": "Saved conversations",
+          "x": 119,
+          "y": 273,
+          "w": 194,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "New conversation",
+          "label": "New conversation",
+          "x": 119,
+          "y": 299,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 119,
+          "y": 333,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 111,
+          "y": 333,
+          "w": 118,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Rename Your first conversation",
+          "x": 177,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Delete Your first conversation",
+          "x": 202,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Memory",
+          "label": "Memory",
+          "x": 119,
+          "y": 625,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plugins",
+          "label": "Plugins",
+          "x": 119,
+          "y": 661,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Activity",
+          "label": "Activity",
+          "x": 119,
+          "y": 697,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "System Feed",
+          "label": "System Feed",
+          "x": 119,
+          "y": 733,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "label": "Settings",
+          "x": 119,
+          "y": 769,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Discoveries",
+          "label": "Discoveries",
+          "x": 119,
+          "y": 805,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Comms",
+          "label": "Comms",
+          "x": 119,
+          "y": 854,
+          "w": 214,
+          "h": 19
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Telegram Off",
+          "label": "Telegram off — click to turn on",
+          "x": 119,
+          "y": 881,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "SPAN",
+          "text": "Off",
+          "label": "Off",
+          "x": 209,
+          "y": 881,
+          "w": 14,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Pair Mobile Device",
+          "label": "Pair Mobile Device",
+          "x": 119,
+          "y": 917,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Voice",
+          "label": "Voice conversation",
+          "x": 49,
+          "y": 973,
+          "w": 74,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Open orb conversation",
+          "x": 208,
+          "y": 973,
+          "w": 37,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle navigation",
+          "x": 264,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Chat",
+          "x": 882,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Work",
+          "x": 920,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Autonomy",
+          "x": 958,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle activity",
+          "x": 1575,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "P",
+          "text": "Help me plan a small herb garden for my kitchen window.",
+          "label": "Help me plan a small herb garden for my kitchen window.",
+          "x": 1287,
+          "y": 126,
+          "w": 331,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Read aloud",
+          "x": 376,
+          "y": 216,
+          "w": 13,
+          "h": 13
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "",
+          "label": "Type a message…",
+          "x": 920,
+          "y": 888,
+          "w": 1098,
+          "h": 38
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Attach files (any type, incl. zip)",
+          "x": 396,
+          "y": 922,
+          "w": 27,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "qwen3:8b",
+          "label": "Choose primary model from saved templates",
+          "x": 1167,
+          "y": 922,
+          "w": 81,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Reasoning · Profile",
+          "label": "Reasoning level",
+          "x": 1287,
+          "y": 922,
+          "w": 148,
+          "h": 30
+        },
+        {
+          "tag": "SPAN",
+          "text": "Reasoning · Profile",
+          "label": "Reasoning · Profile",
+          "x": 1288,
+          "y": 922,
+          "w": 98,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Voice input",
+          "x": 1379,
+          "y": 922,
+          "w": 27,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Send message",
+          "x": 1413,
+          "y": 922,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "More composer actions",
+          "x": 1445,
+          "y": 922,
+          "w": 24,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plan",
+          "label": "Plan",
+          "x": 394,
+          "y": 968,
+          "w": 37,
+          "h": 27
+        },
+        {
+          "tag": "SELECT",
+          "text": "ConversationActivityMemoryAttachmentsQueue (0)",
+          "label": "Conversation view",
+          "x": 464,
+          "y": 968,
+          "w": 84,
+          "h": 17
+        },
+        {
+          "tag": "SPAN",
+          "text": "Idle",
+          "label": "Idle",
+          "x": 574,
+          "y": 968,
+          "w": 31,
+          "h": 17
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Backup · Standby",
+          "label": "Using primary. Backup is on standby.",
+          "x": 655,
+          "y": 968,
+          "w": 113,
+          "h": 29
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Stop current reply",
+          "x": 1360,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Stop all work",
+          "x": 1390,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Consolidate memories",
+          "x": 1420,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Override current action",
+          "x": 1450,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        }
+      ]
+    },
+    "appshots-ready": {
+      "file": "appshots-ready.png",
+      "width": 1600,
+      "height": 1000,
+      "sha256": "211347d76a551b104a8547c95eb04db4a110dfca9d07ffb44098e3d8f773c1ac",
+      "controls": [
+        {
+          "tag": "SPAN",
+          "text": "Genesis AI",
+          "label": "Genesis AI",
+          "x": 64,
+          "y": 16,
+          "w": 56,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "text": "File",
+          "label": "File",
+          "x": 129,
+          "y": 16,
+          "w": 38,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Edit",
+          "label": "Edit",
+          "x": 168,
+          "y": 16,
+          "w": 40,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "View",
+          "label": "View",
+          "x": 211,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Help",
+          "label": "Help",
+          "x": 256,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1520,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1548,
+          "y": 16,
+          "w": 23,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1576,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "STRONG",
+          "text": "G",
+          "label": "G",
+          "x": 20,
+          "y": 60,
+          "w": 13,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Classic",
+          "label": "Classic",
+          "x": 73,
+          "y": 60,
+          "w": 41,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Modern",
+          "label": "Modern",
+          "x": 120,
+          "y": 60,
+          "w": 47,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle theme",
+          "x": 212,
+          "y": 60,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conversation",
+          "label": "Conversation",
+          "x": 119,
+          "y": 115,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Schedule",
+          "label": "Schedule",
+          "x": 119,
+          "y": 151,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Projects",
+          "label": "Projects",
+          "x": 119,
+          "y": 187,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Missions",
+          "label": "Missions",
+          "x": 119,
+          "y": 223,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Saved conversations",
+          "label": "Saved conversations",
+          "x": 119,
+          "y": 273,
+          "w": 194,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "New conversation",
+          "label": "New conversation",
+          "x": 119,
+          "y": 299,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 119,
+          "y": 333,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 111,
+          "y": 333,
+          "w": 118,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Rename Your first conversation",
+          "x": 177,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Delete Your first conversation",
+          "x": 202,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Memory",
+          "label": "Memory",
+          "x": 119,
+          "y": 625,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plugins",
+          "label": "Plugins",
+          "x": 119,
+          "y": 661,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Activity",
+          "label": "Activity",
+          "x": 119,
+          "y": 697,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "System Feed",
+          "label": "System Feed",
+          "x": 119,
+          "y": 733,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "label": "Settings",
+          "x": 119,
+          "y": 769,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Discoveries",
+          "label": "Discoveries",
+          "x": 119,
+          "y": 805,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Comms",
+          "label": "Comms",
+          "x": 119,
+          "y": 854,
+          "w": 214,
+          "h": 19
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Telegram Off",
+          "label": "Telegram off — click to turn on",
+          "x": 119,
+          "y": 881,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "SPAN",
+          "text": "Off",
+          "label": "Off",
+          "x": 209,
+          "y": 881,
+          "w": 14,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Pair Mobile Device",
+          "label": "Pair Mobile Device",
+          "x": 119,
+          "y": 917,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Voice",
+          "label": "Voice conversation",
+          "x": 49,
+          "y": 973,
+          "w": 74,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Open orb conversation",
+          "x": 208,
+          "y": 973,
+          "w": 37,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle navigation",
+          "x": 264,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Chat",
+          "x": 882,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Work",
+          "x": 920,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Autonomy",
+          "x": 958,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle activity",
+          "x": 1575,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "H2",
+          "text": "Settings",
+          "label": "Settings",
+          "x": 438,
+          "y": 115,
+          "w": 349,
+          "h": 28
+        },
+        {
+          "tag": "P",
+          "text": "Models, voice, computer use, plugins, code, missions and memory",
+          "label": "Models, voice, computer use, plugins, code, missions and memory",
+          "x": 438,
+          "y": 139,
+          "w": 349,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Finish setting up",
+          "label": "Better voice recognition, your browsers and your phone",
+          "x": 1518,
+          "y": 116,
+          "w": 116,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Models",
+          "label": "Models",
+          "x": 303,
+          "y": 181,
+          "w": 79,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "System",
+          "label": "System",
+          "x": 385,
+          "y": 181,
+          "w": 78,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Computer use",
+          "label": "Computer use",
+          "x": 486,
+          "y": 181,
+          "w": 115,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Voice & Vision",
+          "label": "Voice & Vision",
+          "x": 606,
+          "y": 181,
+          "w": 117,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plugins",
+          "label": "Plugins",
+          "x": 707,
+          "y": 181,
+          "w": 79,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Communications",
+          "label": "Communications",
+          "x": 816,
+          "y": 181,
+          "w": 131,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Code",
+          "label": "Code",
+          "x": 919,
+          "y": 181,
+          "w": 67,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Missions",
+          "label": "Missions",
+          "x": 1000,
+          "y": 181,
+          "w": 86,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Memory",
+          "label": "Memory",
+          "x": 1090,
+          "y": 181,
+          "w": 85,
+          "h": 28
+        },
+        {
+          "tag": "H3",
+          "text": "Computer use",
+          "label": "Computer use",
+          "x": 524,
+          "y": 223,
+          "w": 430,
+          "h": 24
+        },
+        {
+          "tag": "P",
+          "text": "What Genesis may control on this computer, plus Appshots and your desktop pet",
+          "label": "What Genesis may control on this computer, plus Appshots and your desktop pet",
+          "x": 524,
+          "y": 243,
+          "w": 430,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Control",
+          "label": "Control",
+          "x": 295,
+          "y": 285,
+          "w": 65,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Appshots",
+          "label": "Appshots",
+          "x": 369,
+          "y": 285,
+          "w": 75,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Desktop pet",
+          "label": "Desktop pet",
+          "x": 456,
+          "y": 285,
+          "w": 90,
+          "h": 28
+        },
+        {
+          "tag": "P",
+          "text": "Saved on this computer. Changes take effect immediately.",
+          "label": "Saved on this computer. Changes take effect immediately.",
+          "x": 647,
+          "y": 323,
+          "w": 768,
+          "h": 16
+        },
+        {
+          "tag": "P",
+          "text": "Appshots",
+          "label": "Appshots",
+          "x": 647,
+          "y": 384,
+          "w": 726,
+          "h": 32
+        },
+        {
+          "tag": "P",
+          "text": "Show Genesis the app you’re working in. Press both Alt keys to capture its visible window and attach it to your message.",
+          "label": "Show Genesis the app you’re working in. Press both Alt keys to capture its visible window and attach it to your message.",
+          "x": 647,
+          "y": 430,
+          "w": 726,
+          "h": 40
+        },
+        {
+          "tag": "P",
+          "text": "Enable Appshots",
+          "label": "Enable Appshots",
+          "x": 505,
+          "y": 484,
+          "w": 442,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Works while another app is in front. The screenshot waits in your draft until you press Send.",
+          "label": "Works while another app is in front. The screenshot waits in your draft until you press Send.",
+          "x": 505,
+          "y": 502,
+          "w": 442,
+          "h": 17
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Enable Appshots",
+          "x": 992,
+          "y": 492,
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Hotkey",
+          "label": "Hotkey",
+          "x": 486,
+          "y": 536,
+          "w": 403,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Press left Alt and right Alt together. Release both before taking another screenshot.",
+          "label": "Press left Alt and right Alt together. Release both before taking another screenshot.",
+          "x": 486,
+          "y": 554,
+          "w": 403,
+          "h": 17
+        },
+        {
+          "tag": "P",
+          "text": "Appshot destination",
+          "label": "Appshot destination",
+          "x": 410,
+          "y": 589,
+          "w": 252,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Your current conversation, beside the text you write.",
+          "label": "Your current conversation, beside the text you write.",
+          "x": 410,
+          "y": 607,
+          "w": 252,
+          "h": 17
+        },
+        {
+          "tag": "SPAN",
+          "text": "Current chat draft",
+          "label": "Current chat draft",
+          "x": 963,
+          "y": 597,
+          "w": 94,
+          "h": 16
+        },
+        {
+          "tag": "P",
+          "text": "Play sound effect",
+          "label": "Play sound effect",
+          "x": 337,
+          "y": 641,
+          "w": 106,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Play sound effect",
+          "x": 992,
+          "y": 641,
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Shortcut ready",
+          "label": "Shortcut ready",
+          "x": 647,
+          "y": 679,
+          "w": 726,
+          "h": 16
+        }
+      ]
+    },
+    "voice-chooser": {
+      "file": "voice-chooser.png",
+      "width": 1600,
+      "height": 1000,
+      "sha256": "eee595be66881910e560c715668f47bceac62030a1fe887379a902cbfc90f2d3",
+      "controls": [
+        {
+          "tag": "SPAN",
+          "text": "Genesis AI",
+          "label": "Genesis AI",
+          "x": 64,
+          "y": 16,
+          "w": 56,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "text": "File",
+          "label": "File",
+          "x": 129,
+          "y": 16,
+          "w": 38,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Edit",
+          "label": "Edit",
+          "x": 168,
+          "y": 16,
+          "w": 40,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "View",
+          "label": "View",
+          "x": 211,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Help",
+          "label": "Help",
+          "x": 256,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1520,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1548,
+          "y": 16,
+          "w": 23,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1576,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "STRONG",
+          "text": "G",
+          "label": "G",
+          "x": 20,
+          "y": 60,
+          "w": 13,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Classic",
+          "label": "Classic",
+          "x": 73,
+          "y": 60,
+          "w": 41,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Modern",
+          "label": "Modern",
+          "x": 120,
+          "y": 60,
+          "w": 47,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle theme",
+          "x": 212,
+          "y": 60,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conversation",
+          "label": "Conversation",
+          "x": 119,
+          "y": 115,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Schedule",
+          "label": "Schedule",
+          "x": 119,
+          "y": 151,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Projects",
+          "label": "Projects",
+          "x": 119,
+          "y": 187,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Missions",
+          "label": "Missions",
+          "x": 119,
+          "y": 223,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Saved conversations",
+          "label": "Saved conversations",
+          "x": 119,
+          "y": 273,
+          "w": 194,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "New conversation",
+          "label": "New conversation",
+          "x": 119,
+          "y": 299,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 119,
+          "y": 333,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 111,
+          "y": 333,
+          "w": 118,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Rename Your first conversation",
+          "x": 177,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Delete Your first conversation",
+          "x": 202,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Memory",
+          "label": "Memory",
+          "x": 119,
+          "y": 625,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plugins",
+          "label": "Plugins",
+          "x": 119,
+          "y": 661,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Activity",
+          "label": "Activity",
+          "x": 119,
+          "y": 697,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "System Feed",
+          "label": "System Feed",
+          "x": 119,
+          "y": 733,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "label": "Settings",
+          "x": 119,
+          "y": 769,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Discoveries",
+          "label": "Discoveries",
+          "x": 119,
+          "y": 805,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Comms",
+          "label": "Comms",
+          "x": 119,
+          "y": 854,
+          "w": 214,
+          "h": 19
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Telegram Off",
+          "label": "Telegram off — click to turn on",
+          "x": 119,
+          "y": 881,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "SPAN",
+          "text": "Off",
+          "label": "Off",
+          "x": 209,
+          "y": 881,
+          "w": 14,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Pair Mobile Device",
+          "label": "Pair Mobile Device",
+          "x": 119,
+          "y": 917,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Voice",
+          "label": "Voice conversation",
+          "x": 49,
+          "y": 973,
+          "w": 74,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Open orb conversation",
+          "x": 208,
+          "y": 973,
+          "w": 37,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle navigation",
+          "x": 264,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Chat",
+          "x": 882,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Work",
+          "x": 920,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Autonomy",
+          "x": 958,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle activity",
+          "x": 1575,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "H2",
+          "text": "Settings",
+          "label": "Settings",
+          "x": 438,
+          "y": 115,
+          "w": 349,
+          "h": 28
+        },
+        {
+          "tag": "P",
+          "text": "Models, voice, computer use, plugins, code, missions and memory",
+          "label": "Models, voice, computer use, plugins, code, missions and memory",
+          "x": 438,
+          "y": 139,
+          "w": 349,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Finish setting up",
+          "label": "Better voice recognition, your browsers and your phone",
+          "x": 1518,
+          "y": 116,
+          "w": 116,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Models",
+          "label": "Models",
+          "x": 303,
+          "y": 181,
+          "w": 79,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "System",
+          "label": "System",
+          "x": 385,
+          "y": 181,
+          "w": 78,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Computer use",
+          "label": "Computer use",
+          "x": 486,
+          "y": 181,
+          "w": 115,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Voice & Vision",
+          "label": "Voice & Vision",
+          "x": 606,
+          "y": 181,
+          "w": 117,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plugins",
+          "label": "Plugins",
+          "x": 707,
+          "y": 181,
+          "w": 79,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Communications",
+          "label": "Communications",
+          "x": 816,
+          "y": 181,
+          "w": 131,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Code",
+          "label": "Code",
+          "x": 919,
+          "y": 181,
+          "w": 67,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Missions",
+          "label": "Missions",
+          "x": 1000,
+          "y": 181,
+          "w": 86,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Memory",
+          "label": "Memory",
+          "x": 1090,
+          "y": 181,
+          "w": 85,
+          "h": 28
+        },
+        {
+          "tag": "H3",
+          "text": "Voice & Vision",
+          "label": "Voice & Vision",
+          "x": 439,
+          "y": 223,
+          "w": 259,
+          "h": 24
+        },
+        {
+          "tag": "P",
+          "text": "Speech recognition, voices and seeing the screen",
+          "label": "Speech recognition, voices and seeing the screen",
+          "x": 439,
+          "y": 243,
+          "w": 259,
+          "h": 16
+        },
+        {
+          "tag": "P",
+          "text": "Voice — local & free",
+          "label": "Voice — local & free",
+          "x": 647,
+          "y": 296,
+          "w": 734,
+          "h": 17
+        },
+        {
+          "tag": "P",
+          "text": "Enable voice features",
+          "label": "Enable voice features",
+          "x": 386,
+          "y": 333,
+          "w": 211,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Mic input (STT) and spoken responses (TTS)",
+          "label": "Mic input (STT) and spoken responses (TTS)",
+          "x": 386,
+          "y": 351,
+          "w": 211,
+          "h": 17
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 996,
+          "y": 341,
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Voice resources",
+          "label": "Voice resources",
+          "x": 553,
+          "y": 385,
+          "w": 546,
+          "h": 20
+        },
+        {
+          "tag": "SELECT",
+          "text": "Auto · save memoryKeep engines loaded",
+          "label": "Auto · save memoryKeep engines loaded",
+          "x": 928,
+          "y": 402,
+          "w": 172,
+          "h": 35
+        },
+        {
+          "tag": "P",
+          "text": "Speech-to-text",
+          "label": "Speech-to-text",
+          "x": 459,
+          "y": 454,
+          "w": 359,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Local Whisper is the default (browser Web Speech is unreliable in the app)",
+          "label": "Local Whisper is the default (browser Web Speech is unreliable in the app)",
+          "x": 459,
+          "y": 472,
+          "w": 359,
+          "h": 17
+        },
+        {
+          "tag": "SELECT",
+          "text": "Whisper (local, free)OpenAI STT (cloud)Browser (legacy)",
+          "label": "Whisper (local, free)OpenAI STT (cloud)Browser (legacy)",
+          "x": 932,
+          "y": 462,
+          "w": 165,
+          "h": 35
+        },
+        {
+          "tag": "P",
+          "text": "Languages you speak",
+          "label": "Languages you speak",
+          "x": 530,
+          "y": 507,
+          "w": 501,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "English ×",
+          "label": "Remove",
+          "x": 827,
+          "y": 523,
+          "w": 61,
+          "h": 21
+        },
+        {
+          "tag": "SELECT",
+          "text": "Add a language…SlovenianGerman",
+          "label": "Add a language…SlovenianGerman",
+          "x": 939,
+          "y": 523,
+          "w": 150,
+          "h": 35
+        },
+        {
+          "tag": "P",
+          "text": "Whisper model",
+          "label": "Whisper model",
+          "x": 490,
+          "y": 579,
+          "w": 420,
+          "h": 20
+        },
+        {
+          "tag": "SELECT",
+          "text": "Automatic (small for this computer)basesmall · download 462 MB · recommendedlarge-v3-turbo · download 1.6 GB",
+          "label": "Automatic (small for this computer)basesmall · download 462 MB · recommendedlarge-v3-turbo · download 1.6 GB",
+          "x": 865,
+          "y": 583,
+          "w": 298,
+          "h": 35
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Download small (462 MB)",
+          "label": "Download small (462 MB)",
+          "x": 931,
+          "y": 622,
+          "w": 166,
+          "h": 30
+        },
+        {
+          "tag": "SPAN",
+          "text": "In use now: base",
+          "label": "In use now: base",
+          "x": 974,
+          "y": 651,
+          "w": 80,
+          "h": 17
+        },
+        {
+          "tag": "P",
+          "text": "Whisper device",
+          "label": "Whisper device",
+          "x": 480,
+          "y": 685,
+          "w": 401,
+          "h": 20
+        },
+        {
+          "tag": "SELECT",
+          "text": "Automatic (recommended)Processor and normal memoryNVIDIA graphics card",
+          "label": "Automatic (recommended)Processor and normal memoryNVIDIA graphics card",
+          "x": 898,
+          "y": 707,
+          "w": 232,
+          "h": 35
+        },
+        {
+          "tag": "SPAN",
+          "text": "Running on: processor (the graphics card is kept for your local AI)",
+          "label": "Running on: processor (the graphics card is kept for your local AI)",
+          "x": 855,
+          "y": 739,
+          "w": 317,
+          "h": 17
+        },
+        {
+          "tag": "P",
+          "text": "STT API key",
+          "label": "STT API key",
+          "x": 344,
+          "y": 787,
+          "w": 128,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "for OpenAI cloud STT only",
+          "label": "for OpenAI cloud STT only",
+          "x": 344,
+          "y": 805,
+          "w": 128,
+          "h": 17
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "label": "not set",
+          "x": 886,
+          "y": 795,
+          "w": 256,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1000,
+          "y": 795,
+          "w": 13,
+          "h": 13
+        },
+        {
+          "tag": "P",
+          "text": "Text-to-speech",
+          "label": "Text-to-speech",
+          "x": 436,
+          "y": 840,
+          "w": 313,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Piper is a free local neural voice; falls back to Windows / browser",
+          "label": "Piper is a free local neural voice; falls back to Windows / browser",
+          "x": 436,
+          "y": 858,
+          "w": 313,
+          "h": 17
+        },
+        {
+          "tag": "SELECT",
+          "text": "Piper (local neural, free)HAL 9000 — real voice (clone, sidecar)Windows voices (offline)Browser voicesOpenAI (cloud)ElevenLabs (cloud)Azure ",
+          "label": "Piper (local neural, free)HAL 9000 — real voice (clone, sidecar)Windows voices (offline)Browser voicesOpenAI (cloud)ElevenLabs (cloud)Azure ",
+          "x": 875,
+          "y": 848,
+          "w": 278,
+          "h": 35
+        },
+        {
+          "tag": "P",
+          "text": "Voice",
+          "label": "Voice",
+          "x": 511,
+          "y": 904,
+          "w": 462,
+          "h": 20
+        },
+        {
+          "tag": "P",
+          "text": "Installed/known voices for the engine above; choose “Custom…” to type one. Piper voices can be downloaded here.",
+          "label": "Installed/known voices for the engine above; choose “Custom…” to type one. Piper voices can be downloaded here.",
+          "x": 511,
+          "y": 930,
+          "w": 462,
+          "h": 33
+        },
+        {
+          "tag": "SELECT",
+          "text": "Amy · English (US)Custom…",
+          "label": "Amy · English (US)Custom…",
+          "x": 886,
+          "y": 900,
+          "w": 256,
+          "h": 35
+        },
+        {
+          "tag": "SELECT",
+          "text": "Download a voice…Ryan · English (US)",
+          "label": "Download a voice…Ryan · English (US)",
+          "x": 847,
+          "y": 941,
+          "w": 176,
+          "h": 35
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Download",
+          "label": "Download",
+          "x": 978,
+          "y": 941,
+          "w": 73,
+          "h": 27
+        }
+      ]
+    },
+    "appshot-draft": {
+      "file": "appshot-draft.png",
+      "width": 1600,
+      "height": 1000,
+      "sha256": "7a74f3edda6540c59576ac08208a8e4e27bc3a103c7908773b8d5226c6ed856f",
+      "controls": [
+        {
+          "tag": "SPAN",
+          "text": "Genesis AI",
+          "label": "Genesis AI",
+          "x": 64,
+          "y": 16,
+          "w": 56,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "text": "File",
+          "label": "File",
+          "x": 129,
+          "y": 16,
+          "w": 38,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Edit",
+          "label": "Edit",
+          "x": 168,
+          "y": 16,
+          "w": 40,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "View",
+          "label": "View",
+          "x": 211,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Help",
+          "label": "Help",
+          "x": 256,
+          "y": 16,
+          "w": 45,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1520,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1548,
+          "y": 16,
+          "w": 23,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 1576,
+          "y": 16,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "STRONG",
+          "text": "G",
+          "label": "G",
+          "x": 20,
+          "y": 60,
+          "w": 13,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Classic",
+          "label": "Classic",
+          "x": 73,
+          "y": 60,
+          "w": 41,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Modern",
+          "label": "Modern",
+          "x": 120,
+          "y": 60,
+          "w": 47,
+          "h": 23
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle theme",
+          "x": 212,
+          "y": 60,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Conversation",
+          "label": "Conversation",
+          "x": 119,
+          "y": 115,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Schedule",
+          "label": "Schedule",
+          "x": 119,
+          "y": 151,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Projects",
+          "label": "Projects",
+          "x": 119,
+          "y": 187,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Missions",
+          "label": "Missions",
+          "x": 119,
+          "y": 223,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Saved conversations",
+          "label": "Saved conversations",
+          "x": 119,
+          "y": 273,
+          "w": 194,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "New conversation",
+          "label": "New conversation",
+          "x": 119,
+          "y": 299,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 119,
+          "y": 333,
+          "w": 194,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Your first conversation",
+          "label": "Your first conversation",
+          "x": 111,
+          "y": 333,
+          "w": 118,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Rename Your first conversation",
+          "x": 177,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Delete Your first conversation",
+          "x": 202,
+          "y": 333,
+          "w": 25,
+          "h": 25
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Memory",
+          "label": "Memory",
+          "x": 119,
+          "y": 625,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plugins",
+          "label": "Plugins",
+          "x": 119,
+          "y": 661,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Activity",
+          "label": "Activity",
+          "x": 119,
+          "y": 697,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "System Feed",
+          "label": "System Feed",
+          "x": 119,
+          "y": 733,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "label": "Settings",
+          "x": 119,
+          "y": 769,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Discoveries",
+          "label": "Discoveries",
+          "x": 119,
+          "y": 805,
+          "w": 214,
+          "h": 34
+        },
+        {
+          "tag": "SPAN",
+          "text": "Comms",
+          "label": "Comms",
+          "x": 119,
+          "y": 854,
+          "w": 214,
+          "h": 19
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Telegram Off",
+          "label": "Telegram off — click to turn on",
+          "x": 119,
+          "y": 881,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "SPAN",
+          "text": "Off",
+          "label": "Off",
+          "x": 209,
+          "y": 881,
+          "w": 14,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Pair Mobile Device",
+          "label": "Pair Mobile Device",
+          "x": 119,
+          "y": 917,
+          "w": 214,
+          "h": 36
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Voice",
+          "label": "Send or clear your draft and attachments first.",
+          "x": 49,
+          "y": 973,
+          "w": 74,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Open orb conversation",
+          "x": 208,
+          "y": 973,
+          "w": 37,
+          "h": 34
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle navigation",
+          "x": 264,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Chat",
+          "x": 882,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Work",
+          "x": 920,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Autonomy",
+          "x": 958,
+          "y": 55,
+          "w": 32,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle activity",
+          "x": 1575,
+          "y": 55,
+          "w": 26,
+          "h": 26
+        },
+        {
+          "tag": "P",
+          "text": "Help me plan a small herb garden for my kitchen window.",
+          "label": "Help me plan a small herb garden for my kitchen window.",
+          "x": 1287,
+          "y": 126,
+          "w": 331,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Read aloud",
+          "x": 376,
+          "y": 216,
+          "w": 13,
+          "h": 13
+        },
+        {
+          "tag": "P",
+          "text": "Appshot-Tutorial.png",
+          "label": "Appshot-Tutorial.png",
+          "x": 468,
+          "y": 830,
+          "w": 106,
+          "h": 17
+        },
+        {
+          "tag": "P",
+          "text": "23.4 KB",
+          "label": "23.4 KB",
+          "x": 468,
+          "y": 846,
+          "w": 106,
+          "h": 15
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "",
+          "x": 537,
+          "y": 837,
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "TEXTAREA",
+          "text": "Explain this error message.",
+          "label": "Type a message…",
+          "x": 920,
+          "y": 888,
+          "w": 1098,
+          "h": 38
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Attach files (any type, incl. zip)",
+          "x": 396,
+          "y": 922,
+          "w": 27,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "qwen3:8b",
+          "label": "Choose primary model from saved templates",
+          "x": 1167,
+          "y": 922,
+          "w": 81,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Reasoning · Profile",
+          "label": "Reasoning level",
+          "x": 1287,
+          "y": 922,
+          "w": 148,
+          "h": 30
+        },
+        {
+          "tag": "SPAN",
+          "text": "Reasoning · Profile",
+          "label": "Reasoning · Profile",
+          "x": 1288,
+          "y": 922,
+          "w": 98,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Voice input",
+          "x": 1379,
+          "y": 922,
+          "w": 27,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Send message",
+          "x": 1413,
+          "y": 922,
+          "w": 30,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "More composer actions",
+          "x": 1445,
+          "y": 922,
+          "w": 24,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Plan",
+          "label": "Plan",
+          "x": 394,
+          "y": 968,
+          "w": 37,
+          "h": 27
+        },
+        {
+          "tag": "SELECT",
+          "text": "ConversationActivityMemoryAttachmentsQueue (0)",
+          "label": "Conversation view",
+          "x": 464,
+          "y": 968,
+          "w": 84,
+          "h": 17
+        },
+        {
+          "tag": "SPAN",
+          "text": "Idle",
+          "label": "Idle",
+          "x": 574,
+          "y": 968,
+          "w": 31,
+          "h": 17
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Backup · Standby",
+          "label": "Using primary. Backup is on standby.",
+          "x": 655,
+          "y": 968,
+          "w": 113,
+          "h": 29
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Stop current reply",
+          "x": 1360,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Stop all work",
+          "x": 1390,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Consolidate memories",
+          "x": 1420,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Override current action",
+          "x": 1450,
+          "y": 968,
+          "w": 28,
+          "h": 28
+        }
+      ]
+    },
+    "orb-transcript": {
+      "file": "orb-transcript.png",
+      "width": 1600,
+      "height": 1000,
+      "sha256": "aeeb6a4fe66fd46857614215b9c7e56ede6153e785f1c30ce667f9019650b07e",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Exit voice conversation",
+          "x": 37,
+          "y": 31,
+          "w": 38,
+          "h": 30
+        },
+        {
+          "tag": "P",
+          "text": "Help me plan a small herb garden for my kitchen window.",
+          "label": "Help me plan a small herb garden for my kitchen window.",
+          "x": 284,
+          "y": 59,
+          "w": 324,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Read aloud",
+          "x": 34,
+          "y": 210,
+          "w": 35,
+          "h": 27
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle transcript",
+          "x": 506,
+          "y": 500,
+          "w": 36,
+          "h": 36
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Voice orb",
+          "x": 1040,
+          "y": 460,
+          "w": 224,
+          "h": 224
+        },
+        {
+          "tag": "P",
+          "text": "Listening",
+          "label": "Listening",
+          "x": 1040,
+          "y": 596,
+          "w": 48,
+          "h": 18
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Mute microphone",
+          "x": 1018,
+          "y": 635,
+          "w": 37,
+          "h": 29
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Mute speaker",
+          "x": 1063,
+          "y": 635,
+          "w": 37,
+          "h": 29
+        },
+        {
+          "tag": "BUTTON",
+          "text": "",
+          "label": "Toggle browser",
+          "x": 1574,
+          "y": 500,
+          "w": 36,
+          "h": 36
+        }
+      ]
+    }
+  }
+}

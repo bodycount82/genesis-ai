@@ -1,0 +1,5318 @@
+{
+  "title": "Keep Genesis yours",
+  "subtitle": "Complete category 6",
+  "music": "C:/Development-Gen/songs/video 1 song.MP3",
+  "outputFolder": "output/video-07",
+  "filename": "Genesis-Keep-Genesis-Yours.mp4",
+  "lessonIds": [
+    "memory",
+    "backup-data",
+    "activity",
+    "troubleshooting",
+    "system-pace",
+    "memory-options"
+  ],
+  "chapters": [
+    "Introduction",
+    "Understand what Genesis remembers",
+    "Back up Genesis or move computers",
+    "Read activity and usage",
+    "When something does not work",
+    "Understand work limits, sleep and rest",
+    "A gentle tour of advanced memory options"
+  ],
+  "progressLabels": [
+    "MEMORY",
+    "BACKUP & MOVE",
+    "ACTIVITY",
+    "TROUBLESHOOT",
+    "PACE & REST",
+    "MEMORY OPTIONS"
+  ],
+  "sourceLessons": [
+    {
+      "id": "memory",
+      "title": "Understand what Genesis remembers",
+      "group": "care",
+      "coursePosition": 34,
+      "prerequisites": "Settings → Memory. Use ordinary chat for a gentle first example.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Memory and the chat thread are different",
+          "screenshot": "screens/memory-settings.png",
+          "screenshotSha256": "a663370f64ab5d16143ac595ef239a4b428437e6ef07332558dacbd909e988d3",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Memory",
+            "x": 1090,
+            "y": 181,
+            "width": 85,
+            "height": 28,
+            "xPercent": 68.125,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 1043.5,
+            "right": 1136.5,
+            "top": 163,
+            "bottom": 199,
+            "startX": 1221.5,
+            "startY": 0,
+            "endX": 1136.5,
+            "endY": 181,
+            "below": false,
+            "path": "M 1221.5 0 L 1221.5 126 L 1136.5 181"
+          },
+          "narrationDraft": "A conversation is the visible exchange. Long-term memory holds selected information across conversations. Genesis can keep experiences, facts, procedures and active work notes. It does not retain every sentence with perfect recall, and it can make a mistake about an old event.",
+          "checkpoint": "You can distinguish a new chat from deleting memory.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Say clearly what should be remembered",
+          "screenshot": "screens/memory-settings.png",
+          "screenshotSha256": "a663370f64ab5d16143ac595ef239a4b428437e6ef07332558dacbd909e988d3",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Memory",
+            "x": 1090,
+            "y": 181,
+            "width": 85,
+            "height": 28,
+            "xPercent": 68.125,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 1043.5,
+            "right": 1136.5,
+            "top": 163,
+            "bottom": 199,
+            "startX": 1221.5,
+            "startY": 0,
+            "endX": 1136.5,
+            "endY": 181,
+            "below": false,
+            "path": "M 1221.5 0 L 1221.5 126 L 1136.5 181"
+          },
+          "narrationDraft": "Try “Remember that I prefer short shopping lists.” Later ask “What do you remember about how I like shopping lists?” For an important detail, check the saved or recalled result. Correct a wrong fact explicitly: “That date is wrong; the correct date is…”",
+          "checkpoint": "Genesis recalls the intended preference correctly.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Browse memory when you need to check",
+          "screenshot": "screens/chat-modern.png",
+          "screenshotSha256": "909c98bba59136a15cd9a8428f838932ebd8158faff166b782620bcfc6199473",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Memory",
+            "x": 119,
+            "y": 625,
+            "width": 214,
+            "height": 34,
+            "xPercent": 7.4375,
+            "yPercent": 62.5
+          },
+          "annotation": {
+            "left": 8,
+            "right": 230,
+            "top": 604,
+            "bottom": 646,
+            "startX": 315,
+            "startY": 1000,
+            "endX": 230,
+            "endY": 625,
+            "below": true,
+            "path": "M 315 1000 L 315 680 L 230 625"
+          },
+          "narrationDraft": "The Memory page lets you inspect available memory information. Search for a concrete phrase. A summary may be shorter than the original event. Recent and older memories can coexist until a correction is identified; a new statement is not automatically a universal replacement for every similar memory.",
+          "checkpoint": "You can look for the relevant memory and check it.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Health and upkeep",
+          "screenshot": "screens/memory-health.png",
+          "screenshotSha256": "6447850fe494221c9d45a2f437d690f6924f552e357d9799e7871ab1a7982d15",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Health",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "Settings → Memory → Health → Check checks the store’s health. Sleep, rest and consolidation can organise recent material. The memory options are advanced tuning; leave defaults when starting. Do not use deletion, re-embedding or migration as a routine response to one mistaken answer.",
+          "checkpoint": "You know where the health check is and when to use it.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Keep a complete backup",
+          "screenshot": "screens/memory-settings.png",
+          "screenshotSha256": "a663370f64ab5d16143ac595ef239a4b428437e6ef07332558dacbd909e988d3",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Memory",
+            "x": 1090,
+            "y": 181,
+            "width": 85,
+            "height": 28,
+            "xPercent": 68.125,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 1043.5,
+            "right": 1136.5,
+            "top": 163,
+            "bottom": 199,
+            "startX": 1221.5,
+            "startY": 0,
+            "endX": 1136.5,
+            "endY": 181,
+            "below": false,
+            "path": "M 1221.5 0 L 1221.5 126 L 1136.5 181"
+          },
+          "narrationDraft": "Use the Backups section for a complete saved copy of Genesis data. A code snapshot is different. Before a major move or memory operation, check that the backup reports complete. The next lesson covers what the backup and transfer controls actually do.",
+          "checkpoint": "You know how to protect memory before making a larger change.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "backup-data",
+      "title": "Back up Genesis or move computers",
+      "group": "care",
+      "coursePosition": 35,
+      "prerequisites": "Settings → Memory and enough disk space for a backup.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Make a backup now",
+          "screenshot": "screens/memory-backups.png",
+          "screenshotSha256": "1e164430df27e82385650ea9cc154f1652fd9668294f8708c994e90a84dd7167",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Back up now",
+            "x": 327,
+            "y": 350,
+            "width": 94,
+            "height": 28,
+            "xPercent": 20.4375,
+            "yPercent": 35
+          },
+          "annotation": {
+            "left": 276,
+            "right": 378,
+            "top": 332,
+            "bottom": 368,
+            "startX": 463,
+            "startY": 0,
+            "endX": 378,
+            "endY": 350,
+            "below": false,
+            "path": "M 463 0 L 463 295 L 378 350"
+          },
+          "narrationDraft": "Open Settings → Memory → Backups and click Back up now. Wait for the result. A complete backup captures the personal data supported by the backup system. The page shows the stored archives and their location.",
+          "checkpoint": "The result explicitly says the backup is complete.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "An incomplete backup needs attention",
+          "screenshot": "screens/memory-backups.png",
+          "screenshotSha256": "1e164430df27e82385650ea9cc154f1652fd9668294f8708c994e90a84dd7167",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Backups",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "If the result says INCOMPLETE, treat it as incomplete. The memory store may not have copied consistently. The previous complete archive is kept; try again when the system is idle. A ZIP file merely existing is not the same as a verified complete backup.",
+          "checkpoint": "You can identify a complete archive in the list.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Keep a copy outside this computer",
+          "screenshot": "screens/memory-backups.png",
+          "screenshotSha256": "1e164430df27e82385650ea9cc154f1652fd9668294f8708c994e90a84dd7167",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Backups",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "Copy a complete archive to a storage location you control. Automatic backups are useful but still live on the same computer unless you copy them elsewhere. Check the displayed backup path before looking for the file.",
+          "checkpoint": "You have a complete archive on separate storage.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Use transfer options for a move",
+          "screenshot": "screens/memory-transfer.png",
+          "screenshotSha256": "933f8109b449bf589087b929f85be421e252c4c9bbd44135d1298ac5e4666de1",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Move to another computer",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "The Move to another computer section can prepare a transfer package. Read which data, workspace files and secrets you include. Secrets are sensitive and may need platform-specific handling. On the new installation, use the import flow for the transfer or supported old Genesis folder.",
+          "checkpoint": "The package includes the data you actually want to move.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Restoration is not an in-app one-click undo",
+          "screenshot": "screens/memory-backups.png",
+          "screenshotSha256": "1e164430df27e82385650ea9cc154f1652fd9668294f8708c994e90a84dd7167",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Backups",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "The Backups panel states that restoring is done with Genesis closed using the supported restore script. If you are not comfortable with that step, get help with the specific complete archive and destination. Do not restore over a running memory store or guess a data path.",
+          "checkpoint": "You know that creating a backup and restoring it are separate operations.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "activity",
+      "title": "Read activity and usage",
+      "group": "care",
+      "coursePosition": 36,
+      "prerequisites": "Some recorded activity in the current Genesis version.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Open the Activity page",
+          "screenshot": "screens/activity.png",
+          "screenshotSha256": "fa29dba28361d1bc066c123dd15ae39b1f2b0046832f21b7534c7d47fd0ef6c6",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Activity",
+            "x": 119,
+            "y": 697,
+            "width": 214,
+            "height": 34,
+            "xPercent": 7.4375,
+            "yPercent": 69.7
+          },
+          "annotation": {
+            "left": 8,
+            "right": 230,
+            "top": 676,
+            "bottom": 718,
+            "startX": 315,
+            "startY": 1000,
+            "endX": 230,
+            "endY": 697,
+            "below": true,
+            "path": "M 315 1000 L 315 752 L 230 697"
+          },
+          "narrationDraft": "Click Activity in the left panel. It shows local usage totals, task duration, streaks and top tools. Recording begins with the version that provides this feature; it does not recreate a complete history from old chats.",
+          "checkpoint": "You can see the usage page and its recording period.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Explore the calendar",
+          "screenshot": "screens/activity.png",
+          "screenshotSha256": "fa29dba28361d1bc066c123dd15ae39b1f2b0046832f21b7534c7d47fd0ef6c6",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Daily",
+            "x": 1231,
+            "y": 537,
+            "width": 40,
+            "height": 28,
+            "xPercent": 76.9375,
+            "yPercent": 53.7
+          },
+          "annotation": {
+            "left": 1207,
+            "right": 1255,
+            "top": 519,
+            "bottom": 555,
+            "startX": 1340,
+            "startY": 1000,
+            "endX": 1255,
+            "endY": 537,
+            "below": true,
+            "path": "M 1340 1000 L 1340 592 L 1255 537"
+          },
+          "narrationDraft": "Choose Daily, Weekly or Cumulative and click a calendar day. Daily is that day’s usage; Weekly groups a week; Cumulative adds usage over time. A quiet day can be normal if Genesis was not running tasks.",
+          "checkpoint": "You can switch the calendar view and inspect a day.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Measured and estimated are different",
+          "screenshot": "screens/activity.png",
+          "screenshotSha256": "fa29dba28361d1bc066c123dd15ae39b1f2b0046832f21b7534c7d47fd0ef6c6",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Activity",
+            "x": 119,
+            "y": 697,
+            "width": 214,
+            "height": 34,
+            "xPercent": 7.4375,
+            "yPercent": 69.7
+          },
+          "annotation": {
+            "left": 8,
+            "right": 230,
+            "top": 676,
+            "bottom": 718,
+            "startX": 315,
+            "startY": 1000,
+            "endX": 230,
+            "endY": 697,
+            "below": true,
+            "path": "M 315 1000 L 315 752 L 230 697"
+          },
+          "narrationDraft": "A provider may report token counts; Genesis may estimate when it does not. Read those labels. These counters are local activity telemetry, not a billing invoice or a definitive remaining provider quota. Check your provider’s account for its charges and account limits.",
+          "checkpoint": "You can recognise the limits of the usage numbers.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Context and logs answer different questions",
+          "screenshot": "screens/chat-plan.png",
+          "screenshotSha256": "4a610242560377b9cdebaebd3ecfa3ed6df4ec81dafb66c1ccb6d1394ea45e31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Toggle activity",
+            "x": 1575,
+            "y": 55,
+            "width": 26,
+            "height": 26,
+            "xPercent": 98.4375,
+            "yPercent": 5.5
+          },
+          "annotation": {
+            "left": 1558,
+            "right": 1592,
+            "top": 38,
+            "bottom": 72,
+            "startX": 1473,
+            "startY": 0,
+            "endX": 1558,
+            "endY": 55,
+            "below": false,
+            "path": "M 1473 0 L 1473 0 L 1558 55"
+          },
+          "narrationDraft": "The right-hand Activity & context panel describes the current request and tool state. System Feed, the conversation’s Activity / Log, and expandable tool rows help explain what happened. A busy indicator or low context number alone does not prove a task succeeded.",
+          "checkpoint": "You know which view to open for current work versus historical totals.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "title": "When something does not work",
+      "group": "care",
+      "coursePosition": 37,
+      "prerequisites": "The relevant Genesis window and the exact error message, if present.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Start with the exact visible state",
+          "screenshot": "screens/chat-backup.png",
+          "screenshotSha256": "5c5b3d0a38a3b34ae3fe381fa22c52f53611856e56235d0491171bcb5b4bfd5a",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+            "x": 651,
+            "y": 968,
+            "width": 103,
+            "height": 29,
+            "xPercent": 40.6875,
+            "yPercent": 96.8
+          },
+          "annotation": {
+            "left": 595.5,
+            "right": 706.5,
+            "top": 949.5,
+            "bottom": 986.5,
+            "startX": 791.5,
+            "startY": 1000,
+            "endX": 706.5,
+            "endY": 968,
+            "below": true,
+            "path": "M 791.5 1000 L 791.5 1000 L 706.5 968"
+          },
+          "narrationDraft": "Read the status and error text. Is it disconnected, downloading, waiting for you, paused, thinking, or using backup? Copy the error and say what you clicked. Those details help much more than changing several settings at once.",
+          "checkpoint": "You can describe the observed problem in one sentence.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "If the model does not answer",
+          "screenshot": "screens/models.png",
+          "screenshotSha256": "d019c6eabb3ceb009dcf2f9ffd5ebdd90616928c1c87b19593d7abc7fbae0605",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Models",
+            "x": 303,
+            "y": 181,
+            "width": 79,
+            "height": 28,
+            "xPercent": 18.9375,
+            "yPercent": 18.1
+          },
+          "annotation": {
+            "left": 259.5,
+            "right": 346.5,
+            "top": 163,
+            "bottom": 199,
+            "startX": 431.5,
+            "startY": 0,
+            "endX": 346.5,
+            "endY": 181,
+            "below": false,
+            "path": "M 431.5 0 L 431.5 126 L 346.5 181"
+          },
+          "narrationDraft": "Check the selected primary. For a local model, check the running service, address, model name and available memory. For a cloud model, check internet, key, model access and provider quota. A configured backup may continue some failures. A full context or task step limit needs a different response.",
+          "checkpoint": "The connection details match the chosen model.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "If voice is wrong or silent",
+          "screenshot": "screens/voice-local.png",
+          "screenshotSha256": "7399eca91cab79dc655e0db8c6f0ed7bfa24e0dedfee87f7c2102d956d5fc037",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Speech-to-text",
+            "x": 459,
+            "y": 454,
+            "width": 359,
+            "height": 20,
+            "xPercent": 28.6875,
+            "yPercent": 45.4
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 642.5,
+            "top": 440,
+            "bottom": 468,
+            "startX": 727.5,
+            "startY": 0,
+            "endX": 642.5,
+            "endY": 454,
+            "below": false,
+            "path": "M 727.5 0 L 727.5 399 L 642.5 454"
+          },
+          "narrationDraft": "For poor recognition, check microphone, languages and the In use now Whisper size. For silence, check the selected speaking engine, installed voice, mute state and key if cloud. The microphone and speaker can be muted independently in the orb. Try one short test after each change.",
+          "checkpoint": "You have isolated listening or speaking as the problem.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "If an image is not understood",
+          "screenshot": "screens/vision.png",
+          "screenshotSha256": "05028e873c165b104695311848d7cb22178c14fb68e6a9af070e6b044e54a557",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Vision routing",
+            "x": 477,
+            "y": 423,
+            "width": 394,
+            "height": 20,
+            "xPercent": 29.8125,
+            "yPercent": 42.3
+          },
+          "annotation": {
+            "left": 276,
+            "right": 678,
+            "top": 409,
+            "bottom": 437,
+            "startX": 763,
+            "startY": 0,
+            "endX": 678,
+            "endY": 423,
+            "below": false,
+            "path": "M 763 0 L 763 368 L 678 423"
+          },
+          "narrationDraft": "Check that the main model or secondary preset genuinely supports images. Read Effective route, save any edits, and ask for a simple image description. A text-only model without a helper cannot interpret pixels. A cloud helper needs its own valid connection.",
+          "checkpoint": "A simple image works before you try a dense screen.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "If work pauses or remains unfinished",
+          "screenshot": "screens/chat-plan.png",
+          "screenshotSha256": "4a610242560377b9cdebaebd3ecfa3ed6df4ec81dafb66c1ccb6d1394ea45e31",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Plan",
+            "x": 394,
+            "y": 968,
+            "width": 37,
+            "height": 27,
+            "xPercent": 24.625,
+            "yPercent": 96.8
+          },
+          "annotation": {
+            "left": 371.5,
+            "right": 416.5,
+            "top": 950.5,
+            "bottom": 985.5,
+            "startX": 501.5,
+            "startY": 1000,
+            "endX": 416.5,
+            "endY": 968,
+            "below": true,
+            "path": "M 501.5 1000 L 501.5 1000 L 416.5 968"
+          },
+          "narrationDraft": "Read the plan, mission blockers and any needs-you request. Reply to the pending question or resume the correct paused loop. A new question does not automatically mean you wanted old unfinished work restarted. State “Continue the earlier task” when that is your intent.",
+          "checkpoint": "You know why the work stopped and which task should continue.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Use Help and keep your evidence",
+          "screenshot": "screens/menu-help.png",
+          "screenshotSha256": "209268acd4f6942a96fbae475d3d964ba7c8b583503043eb24cc475e018759aa",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Help index",
+            "x": 279,
+            "y": 55,
+            "width": 59,
+            "height": 18,
+            "xPercent": 17.4375,
+            "yPercent": 5.5
+          },
+          "annotation": {
+            "left": 245.5,
+            "right": 312.5,
+            "top": 42,
+            "bottom": 68,
+            "startX": 397.5,
+            "startY": 0,
+            "endX": 312.5,
+            "endY": 55,
+            "below": false,
+            "path": "M 397.5 0 L 397.5 0 L 312.5 55"
+          },
+          "narrationDraft": "Open Help → Help index, How-to guides or Finish setting up…. When asking for help, include the model/provider, exact error, steps taken and relevant tool output. Remove private keys and unrelated personal information before sharing. Make a complete backup before a repair involving personal data.",
+          "checkpoint": "You have enough information to request focused help.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "system-pace",
+      "title": "Understand work limits, sleep and rest",
+      "group": "care",
+      "coursePosition": 38,
+      "prerequisites": "Settings → System. Keep a working configuration before experimenting.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Sleep is a maintenance state",
+          "screenshot": "screens/system-rest.png",
+          "screenshotSha256": "0337e7af7c2680d395e602d2090635d51da2080b37a3b076865e33638b0c4018",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Cognition speed & load",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "In continuous modes, Genesis can pause for rest or sleep to organise memory and manage its working load. The visible state and timer explain this. It is part of the software’s operation; you do not need to interpret a mood number as proof of human feelings. Ordinary Chat is driven by your messages.",
+          "checkpoint": "You can recognise sleep as a deliberate maintenance state.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Zero means the usual setting",
+          "screenshot": "screens/system-rest.png",
+          "screenshotSha256": "0337e7af7c2680d395e602d2090635d51da2080b37a3b076865e33638b0c4018",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Cognitive load speed",
+            "x": 588,
+            "y": 295,
+            "width": 615,
+            "height": 20,
+            "xPercent": 36.75,
+            "yPercent": 29.5
+          },
+          "annotation": {
+            "left": 276.5,
+            "right": 899.5,
+            "top": 281,
+            "bottom": 309,
+            "startX": 984.5,
+            "startY": 0,
+            "endX": 899.5,
+            "endY": 295,
+            "below": false,
+            "path": "M 984.5 0 L 984.5 240 L 899.5 295"
+          },
+          "narrationDraft": "The wide sliders use 0 for the usual setting. Move left for slower load growth or shorter sleep, depending on that slider; move right for the opposite. Read the live explanation beside each one. Each slider has its own purpose—“higher” is not automatically “better”.",
+          "checkpoint": "You can read the effect before saving a change.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "Know the four pace controls",
+          "screenshot": "screens/system-rest.png",
+          "screenshotSha256": "0337e7af7c2680d395e602d2090635d51da2080b37a3b076865e33638b0c4018",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Sleep length",
+            "x": 575,
+            "y": 517,
+            "width": 589,
+            "height": 20,
+            "xPercent": 35.9375,
+            "yPercent": 51.7
+          },
+          "annotation": {
+            "left": 276.5,
+            "right": 873.5,
+            "top": 503,
+            "bottom": 531,
+            "startX": 958.5,
+            "startY": 1000,
+            "endX": 873.5,
+            "endY": 517,
+            "below": true,
+            "path": "M 958.5 1000 L 958.5 572 L 873.5 517"
+          },
+          "narrationDraft": "Cognitive load speed controls how quickly load builds. Tool load influence adds the effect of failed tools and hard loops. Sleep length changes a sleep’s length; Rest length changes a short rest when micro-rests are enabled. Keep defaults until you have observed a specific problem.",
+          "checkpoint": "You know which control relates to your observation.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Sleep thresholds and quiet hours",
+          "screenshot": "screens/system-rest.png",
+          "screenshotSha256": "0337e7af7c2680d395e602d2090635d51da2080b37a3b076865e33638b0c4018",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Sleep threshold (%)",
+            "x": 352,
+            "y": 912,
+            "width": 144,
+            "height": 20,
+            "xPercent": 22,
+            "yPercent": 91.2
+          },
+          "annotation": {
+            "left": 276,
+            "right": 428,
+            "top": 898,
+            "bottom": 926,
+            "startX": 513,
+            "startY": 1000,
+            "endX": 428,
+            "endY": 912,
+            "below": true,
+            "path": "M 513 1000 L 513 967 L 428 912"
+          },
+          "narrationDraft": "Sleep threshold decides when load triggers sleep. Waking span, Sleep share and Max sleep tune the work/sleep balance. Wake when rested may end a sleep early after consolidation; Sleep in my quiet hours adjusts timing around chat habits. Take micro-rests is a separate optional older behaviour.",
+          "checkpoint": "You understand the trade-off between time working and time maintaining memory.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "A step budget limits a turn, not a provider account",
+          "screenshot": "screens/system-budgets.png",
+          "screenshotSha256": "f7acea66ee1d65e35396812aeefee7eea4cf0530d7674a47cccfbd74fe90b18d",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Mode step budgets",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "In Mode step budgets, Chat steps, Work steps and Autonomy steps limit reasoning/tool steps per turn or cycle. Higher budgets let one job do more and can use more tokens. They are different from provider rate limits and context size. A change applies to the next turn or cycle.",
+          "checkpoint": "You can distinguish a work budget from a cloud usage quota.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Managed work waits when the job is done",
+          "screenshot": "screens/system-budgets.png",
+          "screenshotSha256": "f7acea66ee1d65e35396812aeefee7eea4cf0530d7674a47cccfbd74fe90b18d",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Work policy",
+            "x": 544,
+            "y": 389,
+            "width": 529,
+            "height": 20,
+            "xPercent": 34,
+            "yPercent": 38.9
+          },
+          "annotation": {
+            "left": 275.5,
+            "right": 812.5,
+            "top": 375,
+            "bottom": 403,
+            "startX": 897.5,
+            "startY": 0,
+            "endX": 812.5,
+            "endY": 389,
+            "below": false,
+            "path": "M 897.5 0 L 897.5 334 L 812.5 389"
+          },
+          "narrationDraft": "Work policy → Managed waits without new inference when assigned work is finished. Continuous continues making useful work. Choose Managed for a bounded assignment while learning. Save an intended change and check the visible mode and status; the mission recovery choices belong to Missions separately.",
+          "checkpoint": "Your Work policy matches whether you want it to wait or continue.",
+          "tip": ""
+        }
+      ]
+    },
+    {
+      "id": "memory-options",
+      "title": "A gentle tour of advanced memory options",
+      "group": "care",
+      "coursePosition": 39,
+      "prerequisites": "Settings → Memory. A complete backup before any migration or re-embedding.",
+      "steps": [
+        {
+          "step": 1,
+          "title": "Recall is choosing what to bring back",
+          "screenshot": "screens/memory-tuning.png",
+          "screenshotSha256": "3e703b8a26b2ee5f3048ab4e0c117c9cf4b93aa0413c288e49a5ca6501737303",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Memory-first recall",
+            "x": 621,
+            "y": 255,
+            "width": 682,
+            "height": 20,
+            "xPercent": 38.8125,
+            "yPercent": 25.5
+          },
+          "annotation": {
+            "left": 276,
+            "right": 966,
+            "top": 241,
+            "bottom": 269,
+            "startX": 1051,
+            "startY": 0,
+            "endX": 966,
+            "endY": 255,
+            "below": false,
+            "path": "M 1051 0 L 1051 200 L 966 255"
+          },
+          "narrationDraft": "Memory-first recall refreshes relevant memories during multi-step work. Recalls per step controls how many are brought forward; Deliberate pacing adds a reminder to reason from them before acting. More recall can mean a larger context or slower work. It is not a guarantee that the right fact will be found.",
+          "checkpoint": "You understand why adding more memories is not always better.",
+          "tip": ""
+        },
+        {
+          "step": 2,
+          "title": "Capacity and retention are different",
+          "screenshot": "screens/memory-tuning.png",
+          "screenshotSha256": "3e703b8a26b2ee5f3048ab4e0c117c9cf4b93aa0413c288e49a5ca6501737303",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Memory tier caps",
+            "x": 647,
+            "y": 486,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 48.6
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 473.5,
+            "bottom": 498.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 486,
+            "below": false,
+            "path": "M 1103 0 L 1103 431 L 1018 486"
+          },
+          "narrationDraft": "Memory tier caps limit how much each memory store holds. Episodic means experiences; semantic means facts; procedural means methods. Working capacity and Scratch note TTL concern temporary working notes. Capacity is storage space; retention also depends on use, relevance and the forgetting rules.",
+          "checkpoint": "You can distinguish stored knowledge from temporary working notes.",
+          "tip": ""
+        },
+        {
+          "step": 3,
+          "title": "The attention gate chooses lasting material",
+          "screenshot": "screens/memory-tuning.png",
+          "screenshotSha256": "3e703b8a26b2ee5f3048ab4e0c117c9cf4b93aa0413c288e49a5ca6501737303",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Gate threshold",
+            "x": 517,
+            "y": 930,
+            "width": 473,
+            "height": 20,
+            "xPercent": 32.3125,
+            "yPercent": 93
+          },
+          "annotation": {
+            "left": 276.5,
+            "right": 757.5,
+            "top": 916,
+            "bottom": 944,
+            "startX": 842.5,
+            "startY": 1000,
+            "endX": 757.5,
+            "endY": 930,
+            "below": true,
+            "path": "M 842.5 1000 L 842.5 985 L 757.5 930"
+          },
+          "narrationDraft": "Gate threshold controls how salient an event must be to become lasting episodic memory. A less salient event can remain only as a fading working note. Flashbulb threshold helps strongly reinforced memories resist pruning; it does not make recall perfect or a memory permanent.",
+          "checkpoint": "You know why every line of chat is not guaranteed to become a lasting memory.",
+          "tip": ""
+        },
+        {
+          "step": 4,
+          "title": "Consolidation organises recent material",
+          "screenshot": "screens/memory-consolidation.png",
+          "screenshotSha256": "43df5eba69909bfa78c75fb87a485b46f23c83f3fca47a9efb8bb7317a771ffc",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Consolidation & continuity",
+            "x": 647,
+            "y": 219,
+            "width": 734,
+            "height": 17,
+            "xPercent": 40.4375,
+            "yPercent": 21.9
+          },
+          "annotation": {
+            "left": 276,
+            "right": 1018,
+            "top": 206.5,
+            "bottom": 231.5,
+            "startX": 1103,
+            "startY": 0,
+            "endX": 1018,
+            "endY": 219,
+            "below": false,
+            "path": "M 1103 0 L 1103 164 L 1018 219"
+          },
+          "narrationDraft": "Consolidation & continuity controls grouping, summaries, diary timing and carried impressions. Consolidate Chat after inactivity can run one visible consolidation after an idle Chat turn; continued idling does not repeat it endlessly. LLM summaries can use the model; leave budgets and similarity values at defaults while starting.",
+          "checkpoint": "You recognise consolidation as upkeep rather than a new task you requested.",
+          "tip": ""
+        },
+        {
+          "step": 5,
+          "title": "Embedding settings are an advanced migration choice",
+          "screenshot": "screens/memory-advanced.png",
+          "screenshotSha256": "bc10e98e475450cc119a62c13340ad6d5ed5d08f9b6491a7c06b60f94dd911b2",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Embedding model",
+            "x": 337,
+            "y": 723,
+            "width": 114,
+            "height": 20,
+            "xPercent": 21.0625,
+            "yPercent": 72.3
+          },
+          "annotation": {
+            "left": 276,
+            "right": 398,
+            "top": 709,
+            "bottom": 737,
+            "startX": 483,
+            "startY": 1000,
+            "endX": 398,
+            "endY": 723,
+            "below": true,
+            "path": "M 483 1000 L 483 778 L 398 723"
+          },
+          "narrationDraft": "An embedding model turns meaning into numbers used for memory search. The dimension and Vector backend belong to that search representation. Changing an embedding model may require re-embedding old memories. Make a complete backup, read the offered process and track Health → Check before considering it finished. Do not treat the field as an ordinary chat-model selector.",
+          "checkpoint": "You know to plan and verify an index change rather than merely typing a new name.",
+          "tip": ""
+        },
+        {
+          "step": 6,
+          "title": "Leave personality dynamics alone while learning",
+          "screenshot": "screens/memory-dynamics.png",
+          "screenshotSha256": "2c875cfc75d51021f380da4958cf16e491bbd00e347bdbff06e01c99c870bf2b",
+          "width": 1600,
+          "height": 1000,
+          "anchor": {
+            "label": "Boredom rise",
+            "x": 583,
+            "y": 255,
+            "width": 606,
+            "height": 20,
+            "xPercent": 36.4375,
+            "yPercent": 25.5
+          },
+          "annotation": {
+            "left": 276,
+            "right": 890,
+            "top": 241,
+            "bottom": 269,
+            "startX": 975,
+            "startY": 0,
+            "endX": 890,
+            "endY": 255,
+            "below": false,
+            "path": "M 975 0 L 975 200 L 890 255"
+          },
+          "narrationDraft": "Criticality & edge dynamics tunes advisory moods, boredom, wandering and dream recombination. These are experimental behaviour controls, not ways to guarantee reliability or a particular personality. Begin with working defaults; check real behaviour over time before making one deliberate change.",
+          "checkpoint": "You know which options are optional advanced tuning.",
+          "tip": ""
+        }
+      ]
+    }
+  ],
+  "audio": {
+    "repeatStart": 8,
+    "trimEnd": 237,
+    "crossfade": 5,
+    "fadeIn": 4,
+    "fadeOut": 8,
+    "rationale": "Decoded 239.9335 s. Opening 0–8 s is quieter musical material near -22 to -18 dB RMS; retain it once. Established music begins at 8 s near -11 to -13 dB. Repeat 8–237 s, with equal-power 5 s joins across 232–237 s before the native ending drops to -30 dB at 237.5 s and below -63 dB at 239 s. Preserve natural internal dynamics; apply 4 s opening and 8 s closing fades only at video endpoints. Source -13.27 LUFS; final bed normalized toward -20 LUFS / -2 dBTP."
+  },
+  "scenes": [
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "GENESIS AI · CATEGORY 6",
+      "title": "Keep Genesis\nyours.",
+      "body": "Memory, complete backups and useful evidence.\nSix complete lessons, with the care and choices you keep.",
+      "tag": "VIDEO 7 · COMPLETE CATEGORY 6",
+      "readingWords": 19,
+      "readingSeconds": 7.6000000000000005,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "GENESIS AI · CATEGORY 6",
+      "title": "Care for\nyour Genesis",
+      "items": [
+        "Understand what Genesis remembers",
+        "Back up Genesis or move computers",
+        "Read activity and usage"
+      ],
+      "note": "Have Genesis open. Pause to practice. Screens show clean demonstration states; no personal data or live model result is shown.",
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 0,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "GENESIS AI · CATEGORY 6",
+      "title": "Diagnose and\nchoose a pace",
+      "items": [
+        "When something does not work",
+        "Understand work limits, sleep and rest",
+        "A gentle tour of advanced memory options"
+      ],
+      "note": "Have Genesis open. Pause to practice. Screens show clean demonstration states; no personal data or live model result is shown.",
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "01 / MEMORY",
+      "title": "Remember.\nCheck. Protect.",
+      "body": "Understand what Genesis remembers\nSelected information, concrete checks and safe upkeep.",
+      "tag": "LESSON 1 OF 6",
+      "readingWords": 14,
+      "readingSeconds": 5.6000000000000005,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY",
+      "title": "Before\nyou begin",
+      "items": [
+        "Settings → Memory. Use ordinary chat for a gentle first example."
+      ],
+      "note": "Prepare these prerequisites before trying the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 1",
+      "title": "The thread and\nlasting memory",
+      "body": "A conversation is the visible exchange. Long-term memory holds selected information across conversations. Genesis can keep experiences, facts, procedures and active work notes.",
+      "screen": "@video7/memory-top",
+      "crop": [
+        269,
+        185,
+        470,
+        150
+      ],
+      "highlight": [
+        309,
+        235,
+        386,
+        16
+      ],
+      "callout": "How Genesis remembers",
+      "note": "Step 1 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 1",
+      "title": "The thread and\nlasting memory",
+      "body": "It does not retain every sentence with perfect recall, and it can make a mistake about an old event.",
+      "screen": "@video7/memory-top",
+      "crop": [
+        269,
+        185,
+        470,
+        150
+      ],
+      "highlight": [
+        309,
+        235,
+        386,
+        16
+      ],
+      "callout": "How Genesis remembers",
+      "note": "Step 1 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 1",
+      "title": "A fresh\nconversation",
+      "items": [
+        "New chat changes the visible thread",
+        "Selected memory can cross conversations",
+        "Experiences, facts and methods differ",
+        "Recall can be incomplete or mistaken"
+      ],
+      "note": "Example: a shopping-list preference can matter in a later chat. Starting that chat is separate from deleting memories.",
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can distinguish a new chat from deleting memory."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 2",
+      "title": "Ask clearly.\nCheck the result.",
+      "body": "Try “Remember that I prefer short shopping lists.”",
+      "screen": "@video7/memory-search",
+      "crop": [
+        265,
+        285,
+        540,
+        95
+      ],
+      "highlight": [
+        275,
+        301,
+        310,
+        35
+      ],
+      "callout": "Labelled preference example",
+      "note": "Step 2 of 5 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 26,
+      "readingSeconds": 10.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 2",
+      "title": "Ask clearly.\nCheck the result.",
+      "body": "Later ask “What do you remember about how I like shopping lists?” For an important detail, check the saved or recalled result.",
+      "screen": "@video7/memory-search",
+      "crop": [
+        265,
+        285,
+        540,
+        95
+      ],
+      "highlight": [
+        275,
+        301,
+        310,
+        35
+      ],
+      "callout": "Labelled preference example",
+      "note": "Step 2 of 5 · Teaching 2 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 2",
+      "title": "Ask clearly.\nCheck the result.",
+      "body": "Correct a wrong fact explicitly: “That date is wrong; the correct date is…”",
+      "screen": "@video7/memory-search",
+      "crop": [
+        265,
+        285,
+        540,
+        95
+      ],
+      "highlight": [
+        275,
+        301,
+        310,
+        35
+      ],
+      "callout": "Labelled preference example",
+      "note": "Step 2 of 5 · Teaching 3 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 2",
+      "title": "One useful\npreference",
+      "items": [
+        "Say: “Remember my short shopping lists”",
+        "Later ask which list style you prefer",
+        "Compare the actual recalled answer",
+        "Correct a specific wrong fact explicitly"
+      ],
+      "note": "This is an illustrative preference. The displayed memory is a clean fixture; no model recall result is claimed.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "quote",
+      "eyebrow": "01 / MEMORY · STEP 2",
+      "title": "Try one\npreference",
+      "quote": "Remember that I prefer short shopping lists.",
+      "body": "Later, ask what Genesis remembers about your shopping-list style. Compare its actual answer with the preference you intended.",
+      "note": "Illustrative wording only. The shown memory is a labelled fixture, not proof of a live model’s recall.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Genesis recalls the intended preference correctly."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 3",
+      "title": "Browse and\nsearch memory",
+      "body": "The Memory page lets you inspect available memory information. Search for a concrete phrase. A summary may be shorter than the original event.",
+      "screen": "@video7/memory-browse",
+      "crop": [
+        260,
+        150,
+        670,
+        115
+      ],
+      "highlight": [
+        265,
+        171,
+        640,
+        30
+      ],
+      "callout": "Search for a concrete phrase",
+      "note": "Step 3 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 3",
+      "title": "Browse and\nsearch memory",
+      "body": "Recent and older memories can coexist until a correction is identified; a new statement is not automatically a universal replacement for every similar memory.",
+      "screen": "@video7/memory-browse",
+      "crop": [
+        260,
+        150,
+        670,
+        115
+      ],
+      "highlight": [
+        265,
+        171,
+        640,
+        30
+      ],
+      "callout": "Search for a concrete phrase",
+      "note": "Step 3 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 3",
+      "title": "Check a\nconcrete phrase",
+      "items": [
+        "Search for “shopping lists”",
+        "Read the result, not only its heading",
+        "A summary can omit original wording",
+        "Check whether old and new facts coexist"
+      ],
+      "note": "If a date was corrected, inspect which date is recalled. A new sentence does not automatically replace every similar record.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can look for the relevant memory and check it."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 4",
+      "title": "Health checks\nand upkeep",
+      "body": "Settings → Memory → Health → Check checks the store’s health. Sleep, rest and consolidation can organise recent material.",
+      "screen": "@video7/health-ready",
+      "crop": [
+        265,
+        204,
+        770,
+        170
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        135
+      ],
+      "callout": "Health → Check",
+      "note": "Step 4 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 4",
+      "title": "Health checks\nand upkeep",
+      "body": "The memory options are advanced tuning; leave defaults when starting. Do not use deletion, re-embedding or migration as a routine response to one mistaken answer.",
+      "screen": "@video7/health-ready",
+      "crop": [
+        265,
+        204,
+        770,
+        170
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        135
+      ],
+      "callout": "Health → Check",
+      "note": "Step 4 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 4",
+      "title": "A mistaken\nanswer",
+      "items": [
+        "Read the relevant memory first",
+        "Correct the specific fact clearly",
+        "Use Health → Check for store concerns",
+        "Keep defaults while you are learning"
+      ],
+      "note": "A read-only health check is upkeep. One wrong answer is not a reason to delete the store or start a migration.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 4",
+      "title": "Read the\nhealth result",
+      "body": "Check returns the supported read-only health rows. Read any failed row and keep its exact detail before planning a repair.",
+      "screen": "@video7/health-checked",
+      "crop": [
+        265,
+        204,
+        770,
+        300
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        265
+      ],
+      "callout": "Health result and supported checks",
+      "note": "All checks passed is an isolated fixture. It does not certify the owner’s store or authorise deleting data.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know where the health check is and when to use it."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 5",
+      "title": "Protect the\nwhole store",
+      "body": "Use the Backups section for a complete saved copy of Genesis data. A code snapshot is different.",
+      "screen": "@video7/backups-complete",
+      "crop": [
+        265,
+        204,
+        770,
+        230
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        195
+      ],
+      "callout": "Complete result and archive list",
+      "note": "Step 5 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "01 / MEMORY · STEP 5",
+      "title": "Protect the\nwhole store",
+      "body": "Before a major move or memory operation, check that the backup reports complete. The next lesson covers what the backup and transfer controls actually do.",
+      "screen": "@video7/backups-complete",
+      "crop": [
+        265,
+        204,
+        770,
+        230
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        195
+      ],
+      "callout": "Complete result and archive list",
+      "note": "Step 5 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 5",
+      "title": "Before a\nlarger change",
+      "items": [
+        "Choose the Genesis backup controls",
+        "Wait for an explicitly complete result",
+        "Identify the matching complete archive",
+        "Protect that archive before moving data"
+      ],
+      "note": "A code snapshot protects a code folder. Genesis backup covers the app data supported by its backup system.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know how to protect memory before making a larger change."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 1,
+      "lesson": "memory",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "01 / MEMORY",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Read the actual state and relevant result",
+        "Keep a complete backup for larger changes",
+        "Use one safe example at a time",
+        "Keep working defaults while learning"
+      ],
+      "note": "Return to any step using its lesson chapter. Use your own ordinary examples and pause whenever you need.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "02 / BACKUP & MOVE",
+      "title": "A complete copy.\nA planned move.",
+      "body": "Back up Genesis or move computers\nCompleteness, separate storage, transfer and restore.",
+      "tag": "LESSON 2 OF 6",
+      "readingWords": 18,
+      "readingSeconds": 7.199999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE",
+      "title": "Before\nyou begin",
+      "items": [
+        "Settings → Memory and enough disk space for a backup."
+      ],
+      "note": "Prepare these prerequisites before trying the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 27,
+      "readingSeconds": 10.799999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 1",
+      "title": "Create, then\ncheck the result",
+      "body": "Open Settings → Memory → Backups and click Back up now. Wait for the result. A complete backup captures the personal data supported by the backup system.",
+      "screen": "@video7/backups-ready",
+      "crop": [
+        265,
+        270,
+        770,
+        165
+      ],
+      "highlight": [
+        280,
+        285,
+        735,
+        130
+      ],
+      "callout": "Back up now, then wait for the result",
+      "note": "Step 1 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 1",
+      "title": "Create, then\ncheck the result",
+      "body": "The page shows the stored archives and their location.",
+      "screen": "@video7/backups-ready",
+      "crop": [
+        265,
+        270,
+        770,
+        165
+      ],
+      "highlight": [
+        280,
+        285,
+        735,
+        130
+      ],
+      "callout": "Back up now, then wait for the result",
+      "note": "Step 1 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 1",
+      "title": "Read the\nfinished result",
+      "items": [
+        "Open Settings → Memory → Backups",
+        "Use Back up now on your intended store",
+        "Wait while the operation runs",
+        "Read “Backup complete” and its archive"
+      ],
+      "note": "The shown 1.2 MB archive and result are demonstration fixtures. They do not certify a real personal-data backup.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 1",
+      "title": "Complete is\nan explicit result",
+      "body": "The current interface says “Backup complete” after a successful complete run, and marks its archive Complete. Read both the result and the intended archive.",
+      "screen": "@video7/backups-complete",
+      "crop": [
+        265,
+        320,
+        770,
+        115
+      ],
+      "highlight": [
+        280,
+        335,
+        735,
+        80
+      ],
+      "callout": "Backup complete · matching Complete archive",
+      "note": "Clean 1.2 MB demonstration state. No real archive was created; a ZIP’s existence alone cannot certify completeness.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The result explicitly says the backup is complete."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 2",
+      "title": "Incomplete\nneeds attention",
+      "body": "If the result says INCOMPLETE, treat it as incomplete. The memory store may not have copied consistently. The previous complete archive is kept; try again when the system is idle.",
+      "screen": "@video7/backups-incomplete",
+      "crop": [
+        265,
+        320,
+        770,
+        175
+      ],
+      "highlight": [
+        280,
+        335,
+        735,
+        140
+      ],
+      "callout": "Incomplete archive and previous complete copy",
+      "note": "Step 2 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 2",
+      "title": "Incomplete\nneeds attention",
+      "body": "A ZIP file merely existing is not the same as a verified complete backup.",
+      "screen": "@video7/backups-incomplete",
+      "crop": [
+        265,
+        320,
+        770,
+        175
+      ],
+      "highlight": [
+        280,
+        335,
+        735,
+        140
+      ],
+      "callout": "Incomplete archive and previous complete copy",
+      "note": "Step 2 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 2",
+      "title": "Two ZIPs,\ndifferent status",
+      "items": [
+        "INCOMPLETE means the copy needs attention",
+        "The list marks the missing memory store",
+        "Keep the earlier complete archive",
+        "Try again when the system is idle"
+      ],
+      "note": "A file’s name or presence cannot establish completeness. Read the actual result and its list status.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 2",
+      "title": "Keep the earlier\ncomplete archive",
+      "body": "The current list shows an incomplete archive separately from the previous complete one. The incomplete copy lacks the memory store.",
+      "screen": "@video7/backups-incomplete",
+      "crop": [
+        265,
+        320,
+        770,
+        175
+      ],
+      "highlight": [
+        280,
+        335,
+        735,
+        140
+      ],
+      "callout": "Incomplete — no memory store · Complete",
+      "note": "Fixture rows only. Preserve the earlier complete backup and retry when idle; do not use the incomplete ZIP as a verified replacement.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can identify a complete archive in the list."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 3",
+      "title": "A copy outside\nthis computer",
+      "body": "Copy a complete archive to a storage location you control. Automatic backups are useful but still live on the same computer unless you copy them elsewhere.",
+      "screen": "@video7/backups-complete",
+      "crop": [
+        265,
+        330,
+        770,
+        100
+      ],
+      "highlight": [
+        280,
+        345,
+        735,
+        65
+      ],
+      "callout": "Identify the complete archive",
+      "note": "Step 3 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 3",
+      "title": "A copy outside\nthis computer",
+      "body": "Check the displayed backup path before looking for the file.",
+      "screen": "@video7/backups-complete",
+      "crop": [
+        265,
+        330,
+        770,
+        100
+      ],
+      "highlight": [
+        280,
+        345,
+        735,
+        65
+      ],
+      "callout": "Identify the complete archive",
+      "note": "Step 3 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 3",
+      "title": "Protect against\na computer loss",
+      "items": [
+        "Identify a complete archive first",
+        "Check its complete displayed path",
+        "Copy it to storage you control elsewhere",
+        "Confirm the separate copy is present"
+      ],
+      "note": "Example folder: C:/Genesis-Practice/data/backups/\nArchive: genesis-practice-complete.zip.\nHover the archive row for its complete path.",
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You have a complete archive on separate storage."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 4",
+      "title": "A package for\nthe new computer",
+      "body": "The Move to another computer section can prepare a transfer package. Read which data, workspace files and secrets you include.",
+      "screen": "@video7/memory-top",
+      "crop": [
+        265,
+        280,
+        770,
+        190
+      ],
+      "highlight": [
+        280,
+        295,
+        735,
+        155
+      ],
+      "callout": "Transfer contents and import doorway",
+      "note": "Step 4 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 4",
+      "title": "A package for\nthe new computer",
+      "body": "Secrets are sensitive and may need platform-specific handling. On the new installation, use the import flow for the transfer or supported old Genesis folder.",
+      "screen": "@video7/memory-top",
+      "crop": [
+        265,
+        280,
+        770,
+        190
+      ],
+      "highlight": [
+        280,
+        295,
+        735,
+        155
+      ],
+      "callout": "Transfer contents and import doorway",
+      "note": "Step 4 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 4",
+      "title": "Plan the\ntransfer contents",
+      "items": [
+        "Read which personal data is included",
+        "Choose workspace files deliberately",
+        "Review encrypted-key handling separately",
+        "Import on the intended new installation"
+      ],
+      "note": "In this Windows UI, encrypted keys work for this Windows account; re-enter keys on another computer. No secrets are exported here.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 4",
+      "title": "Read the\nkey handling",
+      "body": "The current Windows checkbox explains that encrypted keys are usable by this Windows account. Re-enter keys on another computer.",
+      "screen": "@video7/memory-top",
+      "crop": [
+        265,
+        367,
+        770,
+        100
+      ],
+      "highlight": [
+        280,
+        382,
+        735,
+        65
+      ],
+      "callout": "Workspace and encrypted-key choices",
+      "note": "No transfer package, import or secret copy is executed. Transfer and backup restore use different supported processes.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 4",
+      "title": "Read the\nkey handling",
+      "body": "Decide separately whether to include workspace files.",
+      "screen": "@video7/memory-top",
+      "crop": [
+        265,
+        367,
+        770,
+        100
+      ],
+      "highlight": [
+        280,
+        382,
+        735,
+        65
+      ],
+      "callout": "Workspace and encrypted-key choices",
+      "note": "No transfer package, import or secret copy is executed. Transfer and backup restore use different supported processes.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The package includes the data you actually want to move."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 5",
+      "title": "Backup and\nrestore differ",
+      "body": "The Backups panel states that restoring is done with Genesis closed using the supported restore script.",
+      "screen": "@video7/backups-ready",
+      "crop": [
+        265,
+        204,
+        770,
+        135
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        100
+      ],
+      "callout": "Restore script · Genesis closed",
+      "note": "Step 5 of 5 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 5",
+      "title": "Backup and\nrestore differ",
+      "body": "If you are not comfortable with that step, get help with the specific complete archive and destination. Do not restore over a running memory store or guess a data path.",
+      "screen": "@video7/backups-ready",
+      "crop": [
+        265,
+        204,
+        770,
+        135
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        100
+      ],
+      "callout": "Restore script · Genesis closed",
+      "note": "Step 5 of 5 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 5",
+      "title": "Plan a\nrestoration",
+      "items": [
+        "Identify the exact complete archive",
+        "Confirm the supported destination",
+        "Close Genesis before using the script",
+        "Get focused help if the process is unclear"
+      ],
+      "note": "Current panel names scripts/restore_backup.py. This tutorial does not restore a store or give a guessed personal-data command.",
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know that creating a backup and restoring it are separate operations."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 2,
+      "lesson": "backup-data",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "02 / BACKUP & MOVE",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Read the actual state and relevant result",
+        "Keep a complete backup for larger changes",
+        "Use one safe example at a time",
+        "Keep working defaults while learning"
+      ],
+      "note": "Return to any step using its lesson chapter. Use your own ordinary examples and pause whenever you need.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "03 / ACTIVITY",
+      "title": "Usage you\ncan interpret.",
+      "body": "Read activity and usage\nRecording period, calendar and count labels.",
+      "tag": "LESSON 3 OF 6",
+      "readingWords": 14,
+      "readingSeconds": 5.6000000000000005,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY",
+      "title": "Before\nyou begin",
+      "items": [
+        "Some recorded activity in the current Genesis version."
+      ],
+      "note": "Prepare these prerequisites before trying the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 25,
+      "readingSeconds": 10,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 1",
+      "title": "Your local\nactivity history",
+      "body": "Click Activity in the left panel. It shows local usage totals, task duration, streaks and top tools.",
+      "screen": "@video7/activity-daily",
+      "crop": [
+        425,
+        190,
+        980,
+        300
+      ],
+      "highlight": [
+        440,
+        310,
+        235,
+        30
+      ],
+      "callout": "Local recording period",
+      "note": "Step 1 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 1",
+      "title": "Your local\nactivity history",
+      "body": "Recording begins with the version that provides this feature; it does not recreate a complete history from old chats.",
+      "screen": "@video7/activity-daily",
+      "crop": [
+        425,
+        190,
+        980,
+        300
+      ],
+      "highlight": [
+        440,
+        310,
+        235,
+        30
+      ],
+      "callout": "Local recording period",
+      "note": "Step 1 of 4 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 1",
+      "title": "A local\nrecording period",
+      "items": [
+        "Read Recording since on the page",
+        "Inspect totals, duration and top tools",
+        "Earlier chats do not recreate old totals",
+        "Check when this version began recording"
+      ],
+      "note": "The captured date and small totals are labelled demonstration data. They are not the owner’s account history.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can see the usage page and its recording period."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 2",
+      "title": "Three calendar\nviews",
+      "body": "Choose Daily, Weekly or Cumulative and click a calendar day. Daily is that day’s usage; Weekly groups a week; Cumulative adds usage over time.",
+      "screen": "@video7/activity-daily",
+      "crop": [
+        425,
+        500,
+        985,
+        350
+      ],
+      "highlight": [
+        1208,
+        522,
+        181,
+        30
+      ],
+      "callout": "Daily · Weekly · Cumulative",
+      "note": "Step 2 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 2",
+      "title": "Three calendar\nviews",
+      "body": "A quiet day can be normal if Genesis was not running tasks.",
+      "screen": "@video7/activity-daily",
+      "crop": [
+        425,
+        500,
+        985,
+        350
+      ],
+      "highlight": [
+        1208,
+        522,
+        181,
+        30
+      ],
+      "callout": "Daily · Weekly · Cumulative",
+      "note": "Step 2 of 4 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 2",
+      "title": "A quiet day\nis ordinary",
+      "items": [
+        "Daily: inspect that day’s usage",
+        "Weekly: inspect its grouped week",
+        "Cumulative: inspect the running total",
+        "Click a day to read its detail"
+      ],
+      "note": "Current weekly grouping is Sunday–Saturday. A zero day can simply mean no recorded tasks ran.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 2",
+      "title": "Weekly groups\na week",
+      "body": "Weekly groups the recorded days into a week. The current calendar uses Sunday–Saturday; selecting a day gives its week detail.",
+      "screen": "@video7/activity-weekly",
+      "crop": [
+        425,
+        500,
+        985,
+        350
+      ],
+      "highlight": [
+        1255,
+        522,
+        57,
+        30
+      ],
+      "callout": "Weekly view",
+      "note": "Illustrative activity data. A quiet day is normal when no tasks ran.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 2",
+      "title": "Cumulative adds\nover time",
+      "body": "Cumulative shows the lifetime total through each day. The selected-day detail keeps reported and estimated counts distinct.",
+      "screen": "@video7/activity-detail",
+      "crop": [
+        425,
+        500,
+        985,
+        440
+      ],
+      "highlight": [
+        1313,
+        522,
+        77,
+        30
+      ],
+      "callout": "Cumulative view and selected day",
+      "note": "Fixture totals, not a billing invoice or remaining quota. Recording begins with the feature’s version.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can switch the calendar view and inspect a day."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 3",
+      "title": "Reported and\nestimated counts",
+      "body": "A provider may report token counts; Genesis may estimate when it does not. Read those labels.",
+      "screen": "@video7/activity-daily",
+      "crop": [
+        425,
+        365,
+        985,
+        130
+      ],
+      "highlight": [
+        440,
+        452,
+        949,
+        30
+      ],
+      "callout": "Provider reported · estimated",
+      "note": "Step 3 of 4 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 3",
+      "title": "Reported and\nestimated counts",
+      "body": "These counters are local activity telemetry, not a billing invoice or a definitive remaining provider quota. Check your provider’s account for its charges and account limits.",
+      "screen": "@video7/activity-daily",
+      "crop": [
+        425,
+        365,
+        985,
+        130
+      ],
+      "highlight": [
+        440,
+        452,
+        949,
+        30
+      ],
+      "callout": "Provider reported · estimated",
+      "note": "Step 3 of 4 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 3",
+      "title": "Read both\ncount labels",
+      "items": [
+        "Provider reported: supplied token counts",
+        "Estimated: inferred when counts are absent",
+        "Totals live on this computer",
+        "Account charges and quotas live with provider"
+      ],
+      "note": "The fixture shows 2,400 reported and 200 estimated tokens. Their sum is 2,600; neither number establishes remaining quota.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can recognise the limits of the usage numbers."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 4",
+      "title": "History and\ncurrent work",
+      "body": "The right-hand Activity & context panel describes the current request and tool state.",
+      "screen": "chat-plan",
+      "crop": [
+        1130,
+        0,
+        470,
+        150
+      ],
+      "highlight": [
+        1562,
+        42,
+        26,
+        26
+      ],
+      "callout": "Toggle activity",
+      "note": "Step 4 of 4 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 30,
+      "readingSeconds": 12,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 4",
+      "title": "History and\ncurrent work",
+      "body": "System Feed, the conversation’s Activity / Log, and expandable tool rows help explain what happened.",
+      "screen": "chat-plan",
+      "crop": [
+        1130,
+        0,
+        470,
+        150
+      ],
+      "highlight": [
+        1562,
+        42,
+        26,
+        26
+      ],
+      "callout": "Toggle activity",
+      "note": "Step 4 of 4 · Teaching 2 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "03 / ACTIVITY · STEP 4",
+      "title": "History and\ncurrent work",
+      "body": "A busy indicator or low context number alone does not prove a task succeeded.",
+      "screen": "chat-plan",
+      "crop": [
+        1130,
+        0,
+        470,
+        150
+      ],
+      "highlight": [
+        1562,
+        42,
+        26,
+        26
+      ],
+      "callout": "Toggle activity",
+      "note": "Step 4 of 4 · Teaching 3 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 4",
+      "title": "Choose the\nright evidence",
+      "items": [
+        "Activity page: historical usage totals",
+        "Activity & context: current request state",
+        "System Feed and tool rows: what happened",
+        "Open the actual output to check success"
+      ],
+      "note": "An ended task, busy light, load value or low context number cannot prove that the requested result is correct.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know which view to open for current work versus historical totals."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 3,
+      "lesson": "activity",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "03 / ACTIVITY",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Read the actual state and relevant result",
+        "Keep a complete backup for larger changes",
+        "Use one safe example at a time",
+        "Keep working defaults while learning"
+      ],
+      "note": "Return to any step using its lesson chapter. Use your own ordinary examples and pause whenever you need.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "04 / TROUBLESHOOT",
+      "title": "One problem.\nUseful evidence.",
+      "body": "When something does not work\nVisible state, connection routes and focused help.",
+      "tag": "LESSON 4 OF 6",
+      "readingWords": 16,
+      "readingSeconds": 6.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT",
+      "title": "Before\nyou begin",
+      "items": [
+        "The relevant Genesis window and the exact error message, if present."
+      ],
+      "note": "Prepare these prerequisites before trying the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 1",
+      "title": "Read the\nexact state",
+      "body": "Read the status and error text. Is it disconnected, downloading, waiting for you, paused, thinking, or using backup? Copy the error and say what you clicked.",
+      "screen": "chat-backup",
+      "crop": [
+        559.5,
+        850,
+        470,
+        150
+      ],
+      "highlight": [
+        599.5,
+        953.5,
+        103,
+        29
+      ],
+      "callout": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+      "note": "Step 1 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 1",
+      "title": "Read the\nexact state",
+      "body": "Those details help much more than changing several settings at once.",
+      "screen": "chat-backup",
+      "crop": [
+        559.5,
+        850,
+        470,
+        150
+      ],
+      "highlight": [
+        599.5,
+        953.5,
+        103,
+        29
+      ],
+      "callout": "Using backup: Qwen3 8B (Ollama). Next request will retry primary.",
+      "note": "Step 1 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 1",
+      "title": "One clear\nproblem statement",
+      "items": [
+        "Name the visible status or exact error",
+        "Say which action you just tried",
+        "Identify the selected model and route",
+        "Change one relevant thing at a time"
+      ],
+      "note": "Example: “After Send, the local model shows disconnected.” This is more useful than changing several unrelated settings.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can describe the observed problem in one sentence."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 2",
+      "title": "Check the\nmodel route",
+      "body": "Check the selected primary. For a local model, check the running service, address, model name and available memory.",
+      "screen": "models",
+      "crop": [
+        223.5,
+        117,
+        470,
+        150
+      ],
+      "highlight": [
+        263.5,
+        167,
+        79,
+        28
+      ],
+      "callout": "Models",
+      "note": "Step 2 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 2",
+      "title": "Check the\nmodel route",
+      "body": "For a cloud model, check internet, key, model access and provider quota. A configured backup may continue some failures. A full context or task step limit needs a different response.",
+      "screen": "models",
+      "crop": [
+        223.5,
+        117,
+        470,
+        150
+      ],
+      "highlight": [
+        263.5,
+        167,
+        79,
+        28
+      ],
+      "callout": "Models",
+      "note": "Step 2 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 2",
+      "title": "Local or\ncloud route?",
+      "items": [
+        "Local: service, address and model name",
+        "Local: enough available memory",
+        "Cloud: internet, key, access and quota",
+        "Read backup, step and context states"
+      ],
+      "note": "A backup may handle some provider failures. A turn step limit or full context calls for its own diagnosis.",
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "The connection details match the chosen model."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 3",
+      "title": "Listening or\nspeaking?",
+      "body": "For poor recognition, check microphone, languages and the In use now Whisper size.",
+      "screen": "voice-local",
+      "crop": [
+        239.5,
+        394,
+        470,
+        150
+      ],
+      "highlight": [
+        279.5,
+        444,
+        359,
+        20
+      ],
+      "callout": "Speech-to-text",
+      "note": "Step 3 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 29,
+      "readingSeconds": 11.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 3",
+      "title": "Listening or\nspeaking?",
+      "body": "For silence, check the selected speaking engine, installed voice, mute state and key if cloud. The microphone and speaker can be muted independently in the orb.",
+      "screen": "voice-local",
+      "crop": [
+        239.5,
+        394,
+        470,
+        150
+      ],
+      "highlight": [
+        279.5,
+        444,
+        359,
+        20
+      ],
+      "callout": "Speech-to-text",
+      "note": "Step 3 of 6 · Teaching 2 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 3",
+      "title": "Listening or\nspeaking?",
+      "body": "Try one short test after each change.",
+      "screen": "voice-local",
+      "crop": [
+        239.5,
+        394,
+        470,
+        150
+      ],
+      "highlight": [
+        279.5,
+        444,
+        359,
+        20
+      ],
+      "callout": "Speech-to-text",
+      "note": "Step 3 of 6 · Teaching 3 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 24,
+      "readingSeconds": 9.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 3",
+      "title": "A short\nvoice test",
+      "items": [
+        "Recognition: mic, languages, Whisper size",
+        "Speech: engine, installed voice and key",
+        "Read separate microphone and speaker mutes",
+        "Try one short test after one change"
+      ],
+      "note": "If listening works but speech is silent, inspect speaking controls. Do not assume the microphone caused both problems.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You have isolated listening or speaking as the problem."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 4",
+      "title": "Check genuine\nimage support",
+      "body": "Check that the main model or secondary preset genuinely supports images. Read Effective route, save any edits, and ask for a simple image description.",
+      "screen": "vision",
+      "crop": [
+        240,
+        363,
+        474,
+        150
+      ],
+      "highlight": [
+        280,
+        413,
+        394,
+        20
+      ],
+      "callout": "Vision routing",
+      "note": "Step 4 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 4",
+      "title": "Check genuine\nimage support",
+      "body": "A text-only model without a helper cannot interpret pixels. A cloud helper needs its own valid connection.",
+      "screen": "vision",
+      "crop": [
+        240,
+        363,
+        474,
+        150
+      ],
+      "highlight": [
+        280,
+        413,
+        394,
+        20
+      ],
+      "callout": "Vision routing",
+      "note": "Step 4 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 4",
+      "title": "A simple\nimage first",
+      "items": [
+        "Read the actual Effective route",
+        "Check genuine primary or helper vision",
+        "Save an intended setting change",
+        "Try a simple image description"
+      ],
+      "note": "A text-only model needs a working image helper. A cloud helper needs its own valid connection. No live image test is claimed here.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "A simple image works before you try a dense screen."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 5",
+      "title": "Resume the\nintended task",
+      "body": "Read the plan, mission blockers and any needs-you request. Reply to the pending question or resume the correct paused loop.",
+      "screen": "chat-plan",
+      "crop": [
+        335.5,
+        850,
+        470,
+        150
+      ],
+      "highlight": [
+        375.5,
+        954.5,
+        37,
+        27
+      ],
+      "callout": "Plan",
+      "note": "Step 5 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 5",
+      "title": "Resume the\nintended task",
+      "body": "A new question does not automatically mean you wanted old unfinished work restarted. State “Continue the earlier task” when that is your intent.",
+      "screen": "chat-plan",
+      "crop": [
+        335.5,
+        850,
+        470,
+        150
+      ],
+      "highlight": [
+        375.5,
+        954.5,
+        37,
+        27
+      ],
+      "callout": "Plan",
+      "note": "Step 5 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 5",
+      "title": "Continue the\nright work",
+      "items": [
+        "Read the plan and mission blocker",
+        "Answer the specific pending question",
+        "Resume the correct paused loop",
+        "Name the earlier task you want continued"
+      ],
+      "note": "Try “Continue the earlier task.” A new question may have a different purpose and need not restart old unfinished work.",
+      "readingWords": 47,
+      "readingSeconds": 18.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know why the work stopped and which task should continue."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 6",
+      "title": "Help with\nuseful evidence",
+      "body": "Open Help → Help index, How-to guides or Finish setting up…. When asking for help, include the model/provider, exact error, steps taken and relevant tool output.",
+      "screen": "menu-help",
+      "crop": [
+        209.5,
+        0,
+        470,
+        150
+      ],
+      "highlight": [
+        249.5,
+        46,
+        59,
+        18
+      ],
+      "callout": "Help index",
+      "note": "Step 6 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 6",
+      "title": "Help with\nuseful evidence",
+      "body": "Remove private keys and unrelated personal information before sharing. Make a complete backup before a repair involving personal data.",
+      "screen": "menu-help",
+      "crop": [
+        209.5,
+        0,
+        470,
+        150
+      ],
+      "highlight": [
+        249.5,
+        46,
+        59,
+        18
+      ],
+      "callout": "Help index",
+      "note": "Step 6 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 6",
+      "title": "A useful\nhelp request",
+      "items": [
+        "Model and provider you selected",
+        "Exact error and steps already tried",
+        "Relevant tool output and visible state",
+        "Remove keys and unrelated personal details"
+      ],
+      "note": "Use Help index, How-to guides or Finish setting up. Before a repair involving personal data, make and verify a complete backup.",
+      "readingWords": 48,
+      "readingSeconds": 19.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You have enough information to request focused help."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 4,
+      "lesson": "troubleshooting",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "04 / TROUBLESHOOT",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Read the actual state and relevant result",
+        "Keep a complete backup for larger changes",
+        "Use one safe example at a time",
+        "Keep working defaults while learning"
+      ],
+      "note": "Return to any step using its lesson chapter. Use your own ordinary examples and pause whenever you need.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "05 / PACE & REST",
+      "title": "Work, rest\nand your choice.",
+      "body": "Understand work limits, sleep and rest\nMaintenance, pace controls and per-turn budgets.",
+      "tag": "LESSON 5 OF 6",
+      "readingWords": 17,
+      "readingSeconds": 6.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST",
+      "title": "Before\nyou begin",
+      "items": [
+        "Settings → System. Keep a working configuration before experimenting."
+      ],
+      "note": "Prepare these prerequisites before trying the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 26,
+      "readingSeconds": 10.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 1",
+      "title": "Sleep is\nmaintenance",
+      "body": "In continuous modes, Genesis can pause for rest or sleep to organise memory and manage its working load. The visible state and timer explain this.",
+      "screen": "@video7/system-pace",
+      "crop": [
+        265,
+        204,
+        770,
+        240
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        205
+      ],
+      "callout": "Cognition speed & load",
+      "note": "Step 1 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 1",
+      "title": "Sleep is\nmaintenance",
+      "body": "It is part of the software’s operation; you do not need to interpret a mood number as proof of human feelings. Ordinary Chat is driven by your messages.",
+      "screen": "@video7/system-pace",
+      "crop": [
+        265,
+        204,
+        770,
+        240
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        205
+      ],
+      "callout": "Cognition speed & load",
+      "note": "Step 1 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 1",
+      "title": "Read the\nstate and timer",
+      "items": [
+        "Continuous modes can rest or sleep",
+        "Upkeep can organise recent memory",
+        "The visible timer explains the pause",
+        "Chat waits for your messages"
+      ],
+      "note": "A mood or maintenance state describes software operation. It does not establish human feelings or successful work.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can recognise sleep as a deliberate maintenance state."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 2",
+      "title": "Zero means\nthe usual setting",
+      "body": "The wide sliders use 0 for the usual setting. Move left for slower load growth or shorter sleep, depending on that slider; move right for the opposite.",
+      "screen": "@video7/system-pace",
+      "crop": [
+        265,
+        270,
+        770,
+        115
+      ],
+      "highlight": [
+        280,
+        285,
+        735,
+        80
+      ],
+      "callout": "Zero · live effect · slider",
+      "note": "Step 2 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 45,
+      "readingSeconds": 18,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 2",
+      "title": "Zero means\nthe usual setting",
+      "body": "Read the live explanation beside each one. Each slider has its own purpose—“higher” is not automatically “better”.",
+      "screen": "@video7/system-pace",
+      "crop": [
+        265,
+        270,
+        770,
+        115
+      ],
+      "highlight": [
+        280,
+        285,
+        735,
+        80
+      ],
+      "callout": "Zero · live effect · slider",
+      "note": "Step 2 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 2",
+      "title": "Read each\nslider’s effect",
+      "items": [
+        "Zero is the usual setting",
+        "Each slider has a distinct purpose",
+        "Read its live effect before saving",
+        "Keep the working defaults to begin"
+      ],
+      "note": "A higher value is not automatically better. A pace change should answer an observed problem, not a general wish for more activity.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can read the effect before saving a change."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 3",
+      "title": "Four different\npace controls",
+      "body": "Cognitive load speed controls how quickly load builds. Tool load influence adds the effect of failed tools and hard loops.",
+      "screen": "@video7/system-pace",
+      "crop": [
+        265,
+        380,
+        770,
+        335
+      ],
+      "highlight": [
+        280,
+        395,
+        735,
+        300
+      ],
+      "callout": "Tool load · sleep length · rest length",
+      "note": "Step 3 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 3",
+      "title": "Four different\npace controls",
+      "body": "Sleep length changes a sleep’s length; Rest length changes a short rest when micro-rests are enabled. Keep defaults until you have observed a specific problem.",
+      "screen": "@video7/system-pace",
+      "crop": [
+        265,
+        380,
+        770,
+        335
+      ],
+      "highlight": [
+        280,
+        395,
+        735,
+        300
+      ],
+      "callout": "Tool load · sleep length · rest length",
+      "note": "Step 3 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 3",
+      "title": "Match control\nto observation",
+      "items": [
+        "Load speed: how quickly load builds",
+        "Tool load: failed tools and hard loops",
+        "Sleep length: the length of a sleep",
+        "Rest length: optional short micro-rests"
+      ],
+      "note": "Rest length matters when Take micro-rests is enabled. These four controls do not all change the same part of work.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 3",
+      "title": "Four sliders,\nfour effects",
+      "body": "Read Cognitive load speed, Tool load influence, Sleep length and Rest length as separate controls. Zero retains the usual setting for each.",
+      "screen": "@video7/system-pace",
+      "crop": [
+        265,
+        270,
+        770,
+        440
+      ],
+      "highlight": [
+        280,
+        285,
+        735,
+        405
+      ],
+      "callout": "Four distinct pace sliders",
+      "note": "These are captured defaults. No owner setting is changed or saved.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 37,
+      "readingSeconds": 14.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know which control relates to your observation."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 4",
+      "title": "Thresholds and\nquiet hours",
+      "body": "Sleep threshold decides when load triggers sleep. Waking span, Sleep share and Max sleep tune the work/sleep balance.",
+      "screen": "@video7/system-thresholds",
+      "crop": [
+        265,
+        204,
+        770,
+        545
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        510
+      ],
+      "callout": "Threshold · span · share · timing",
+      "note": "Step 4 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 4",
+      "title": "Thresholds and\nquiet hours",
+      "body": "Wake when rested may end a sleep early after consolidation; Sleep in my quiet hours adjusts timing around chat habits. Take micro-rests is a separate optional older behaviour.",
+      "screen": "@video7/system-thresholds",
+      "crop": [
+        265,
+        204,
+        770,
+        545
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        510
+      ],
+      "callout": "Threshold · span · share · timing",
+      "note": "Step 4 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 4",
+      "title": "Separate\nsleep choices",
+      "items": [
+        "Threshold: when load triggers sleep",
+        "Span, share and max: work/sleep balance",
+        "Wake when rested: possible early wake",
+        "Quiet hours and micro-rests: separate"
+      ],
+      "note": "Read each explanation. Memory maintenance time and time working are a trade-off; defaults are a useful starting point.",
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 4",
+      "title": "Timing and\noptional rest",
+      "body": "Wake when rested, Sleep in my quiet hours and Take micro-rests are independent choices. Read the explanation and preserve a working configuration before experimenting.",
+      "screen": "@video7/system-thresholds",
+      "crop": [
+        265,
+        600,
+        770,
+        185
+      ],
+      "highlight": [
+        280,
+        615,
+        735,
+        150
+      ],
+      "callout": "Wake when rested · quiet hours",
+      "note": "Sleep and advisory mood do not prove feelings or task success. No setting is changed.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You understand the trade-off between time working and time maintaining memory."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 30,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 5",
+      "title": "Steps for a\nturn or cycle",
+      "body": "In Mode step budgets, Chat steps, Work steps and Autonomy steps limit reasoning/tool steps per turn or cycle. Higher budgets let one job do more and can use more tokens.",
+      "screen": "@video7/system-budgets",
+      "crop": [
+        265,
+        204,
+        770,
+        545
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        510
+      ],
+      "callout": "Chat · Work · Autonomy steps",
+      "note": "Step 5 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 5",
+      "title": "Steps for a\nturn or cycle",
+      "body": "They are different from provider rate limits and context size. A change applies to the next turn or cycle.",
+      "screen": "@video7/system-budgets",
+      "crop": [
+        265,
+        204,
+        770,
+        545
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        510
+      ],
+      "callout": "Chat · Work · Autonomy steps",
+      "note": "Step 5 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 5",
+      "title": "Steps and\naccount limits",
+      "items": [
+        "Chat budget: steps in one reply",
+        "Work or Autonomy: steps in a cycle",
+        "More steps can consume more tokens",
+        "New value applies next turn or cycle"
+      ],
+      "note": "The budget is separate from context size, provider rate limits and remaining account quota. An in-flight turn finishes safely.",
+      "readingWords": 49,
+      "readingSeconds": 19.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can distinguish a work budget from a cloud usage quota."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 35,
+      "readingSeconds": 14,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 6",
+      "title": "Finish, then\nwait or continue",
+      "body": "Work policy → Managed waits without new inference when assigned work is finished. Continuous continues making useful work.",
+      "screen": "@video7/system-budgets",
+      "crop": [
+        265,
+        375,
+        770,
+        80
+      ],
+      "highlight": [
+        280,
+        390,
+        735,
+        45
+      ],
+      "callout": "Work policy: Managed or Continuous",
+      "note": "Step 6 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 29,
+      "kind": "screen",
+      "eyebrow": "05 / PACE & REST · STEP 6",
+      "title": "Finish, then\nwait or continue",
+      "body": "Choose Managed for a bounded assignment while learning. Save an intended change and check the visible mode and status; the mission recovery choices belong to Missions separately.",
+      "screen": "@video7/system-budgets",
+      "crop": [
+        265,
+        375,
+        770,
+        80
+      ],
+      "highlight": [
+        280,
+        390,
+        735,
+        45
+      ],
+      "callout": "Work policy: Managed or Continuous",
+      "note": "Step 6 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 6",
+      "title": "A bounded\nassignment",
+      "items": [
+        "Managed works on the assigned job",
+        "Once finished, it waits without inference",
+        "Continuous continues making useful work",
+        "Read the visible mode and saved policy"
+      ],
+      "note": "Choose the policy that matches your intention. Mission recovery settings belong to Missions separately.",
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "Your Work policy matches whether you want it to wait or continue."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 5,
+      "lesson": "system-pace",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "05 / PACE & REST",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Read the actual state and relevant result",
+        "Keep a complete backup for larger changes",
+        "Use one safe example at a time",
+        "Keep working defaults while learning"
+      ],
+      "note": "Return to any step using its lesson chapter. Use your own ordinary examples and pause whenever you need.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 18,
+      "kind": "title",
+      "eyebrow": "06 / MEMORY OPTIONS",
+      "title": "Gentle choices.\nWorking defaults.",
+      "body": "A gentle tour of advanced memory options\nRecall, retention, consolidation and search representation.",
+      "tag": "LESSON 6 OF 6",
+      "readingWords": 17,
+      "readingSeconds": 6.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 24,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS",
+      "title": "Before\nyou begin",
+      "items": [
+        "Settings → Memory. A complete backup before any migration or re-embedding."
+      ],
+      "note": "Prepare these prerequisites before trying the lesson. Pause whenever you need time in Genesis.",
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 1",
+      "title": "Relevant recall\nhas a cost",
+      "body": "Memory-first recall refreshes relevant memories during multi-step work.",
+      "screen": "@video7/memory-recall",
+      "crop": [
+        265,
+        204,
+        770,
+        250
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        215
+      ],
+      "callout": "Recall size and deliberate pacing",
+      "note": "Step 1 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 26,
+      "readingSeconds": 10.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 1",
+      "title": "Relevant recall\nhas a cost",
+      "body": "Recalls per step controls how many are brought forward; Deliberate pacing adds a reminder to reason from them before acting.",
+      "screen": "@video7/memory-recall",
+      "crop": [
+        265,
+        204,
+        770,
+        250
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        215
+      ],
+      "callout": "Recall size and deliberate pacing",
+      "note": "Step 1 of 6 · Teaching 2 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 1",
+      "title": "Relevant recall\nhas a cost",
+      "body": "More recall can mean a larger context or slower work. It is not a guarantee that the right fact will be found.",
+      "screen": "@video7/memory-recall",
+      "crop": [
+        265,
+        204,
+        770,
+        250
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        215
+      ],
+      "callout": "Recall size and deliberate pacing",
+      "note": "Step 1 of 6 · Teaching 3 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 41,
+      "readingSeconds": 16.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        1
+      ],
+      "duration": 29,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 1",
+      "title": "Bring back\nrelevant material",
+      "items": [
+        "Recall refreshes memory during steps",
+        "Recalls per step sets how much returns",
+        "Pacing reminds it to reason from memory",
+        "More recall costs context and possibly time"
+      ],
+      "note": "Adding more memories is not a guarantee that the right fact will be found. Keep defaults until you can identify a specific need.",
+      "readingWords": 53,
+      "readingSeconds": 21.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 1",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You understand why adding more memories is not always better."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        1
+      ],
+      "readingWords": 34,
+      "readingSeconds": 13.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 2",
+      "title": "Capacity and\nretention differ",
+      "body": "Memory tier caps limit how much each memory store holds. Episodic means experiences; semantic means facts; procedural means methods.",
+      "screen": "@video7/memory-capacity",
+      "crop": [
+        265,
+        204,
+        770,
+        365
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        330
+      ],
+      "callout": "Tier caps and temporary working notes",
+      "note": "Step 2 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 27,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 2",
+      "title": "Capacity and\nretention differ",
+      "body": "Working capacity and Scratch note TTL concern temporary working notes. Capacity is storage space; retention also depends on use, relevance and the forgetting rules.",
+      "screen": "@video7/memory-capacity",
+      "crop": [
+        265,
+        204,
+        770,
+        365
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        330
+      ],
+      "callout": "Tier caps and temporary working notes",
+      "note": "Step 2 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 2",
+      "title": "Different\nstorage roles",
+      "items": [
+        "Episodic: remembered experiences",
+        "Semantic: facts and knowledge",
+        "Procedural: methods and skills",
+        "Working capacity and TTL: temporary notes"
+      ],
+      "note": "Capacity limits storage. Retention also depends on use, relevance and forgetting rules; a larger cap does not promise perfect recall.",
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        2
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 2",
+      "title": "Temporary notes\nand reinforcement",
+      "body": "Working capacity limits temporary slots. Scratch note TTL controls fading working notes. Flashbulb threshold gives graded resistance to pruning.",
+      "screen": "@video7/memory-capacity",
+      "crop": [
+        265,
+        405,
+        770,
+        170
+      ],
+      "highlight": [
+        280,
+        420,
+        735,
+        135
+      ],
+      "callout": "Working capacity · TTL · flashbulb",
+      "note": "Retention is separate from tier capacity. No setting can promise permanent, perfect recall.",
+      "contextZoom": false,
+      "supplemental": true,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 2",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You can distinguish stored knowledge from temporary working notes."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        2
+      ],
+      "readingWords": 33,
+      "readingSeconds": 13.2,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 3",
+      "title": "What becomes\nlasting material",
+      "body": "Gate threshold controls how salient an event must be to become lasting episodic memory. A less salient event can remain only as a fading working note.",
+      "screen": "@video7/memory-gate",
+      "crop": [
+        265,
+        204,
+        770,
+        115
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        80
+      ],
+      "callout": "Gate threshold",
+      "note": "Step 3 of 6 · Teaching 1 of 2. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 43,
+      "readingSeconds": 17.2,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 3",
+      "title": "What becomes\nlasting material",
+      "body": "Flashbulb threshold helps strongly reinforced memories resist pruning; it does not make recall perfect or a memory permanent.",
+      "screen": "@video7/memory-gate",
+      "crop": [
+        265,
+        204,
+        770,
+        115
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        80
+      ],
+      "callout": "Gate threshold",
+      "note": "Step 3 of 6 · Teaching 2 of 2. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        3
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 3",
+      "title": "Selection and\nreinforcement",
+      "items": [
+        "Gate threshold concerns event salience",
+        "Less salient material can remain temporary",
+        "Flashbulb reinforcement resists pruning",
+        "Resistance is not permanence or perfection"
+      ],
+      "note": "Not every chat line becomes a lasting memory. Check actual saved or recalled material when the detail matters.",
+      "readingWords": 42,
+      "readingSeconds": 16.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 23,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 3",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know why every line of chat is not guaranteed to become a lasting memory."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        3
+      ],
+      "readingWords": 39,
+      "readingSeconds": 15.600000000000001,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 4",
+      "title": "Organise\nrecent material",
+      "body": "Consolidation & continuity controls grouping, summaries, diary timing and carried impressions.",
+      "screen": "@video7/memory-consolidation",
+      "crop": [
+        265,
+        204,
+        770,
+        510
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        475
+      ],
+      "callout": "Consolidation and idle Chat upkeep",
+      "note": "Step 4 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 27,
+      "readingSeconds": 10.799999999999999,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 4",
+      "title": "Organise\nrecent material",
+      "body": "Consolidate Chat after inactivity can run one visible consolidation after an idle Chat turn; continued idling does not repeat it endlessly.",
+      "screen": "@video7/memory-consolidation",
+      "crop": [
+        265,
+        204,
+        770,
+        510
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        475
+      ],
+      "callout": "Consolidation and idle Chat upkeep",
+      "note": "Step 4 of 6 · Teaching 2 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 4",
+      "title": "Organise\nrecent material",
+      "body": "LLM summaries can use the model; leave budgets and similarity values at defaults while starting.",
+      "screen": "@video7/memory-consolidation",
+      "crop": [
+        265,
+        204,
+        770,
+        510
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        475
+      ],
+      "callout": "Consolidation and idle Chat upkeep",
+      "note": "Step 4 of 6 · Teaching 3 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        4
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 4",
+      "title": "Upkeep after\nrecent activity",
+      "items": [
+        "Consolidation groups and summarises",
+        "Continuity carries supported impressions",
+        "Idle Chat consolidation runs once per turn",
+        "LLM summaries can use the model"
+      ],
+      "note": "Continued idling does not endlessly repeat the same Chat consolidation. Leave budgets and similarity values at defaults while starting.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 4",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You recognise consolidation as upkeep rather than a new task you requested."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        4
+      ],
+      "readingWords": 36,
+      "readingSeconds": 14.399999999999999,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 5",
+      "title": "Plan an\nindex change",
+      "body": "An embedding model turns meaning into numbers used for memory search. The dimension and Vector backend belong to that search representation.",
+      "screen": "@video7/memory-embeddings",
+      "crop": [
+        265,
+        645,
+        770,
+        300
+      ],
+      "highlight": [
+        280,
+        660,
+        735,
+        265
+      ],
+      "callout": "Embedding model · dim · vector backend",
+      "note": "Step 5 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 38,
+      "readingSeconds": 15.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 5",
+      "title": "Plan an\nindex change",
+      "body": "Changing an embedding model may require re-embedding old memories. Make a complete backup, read the offered process and track Health → Check before considering it finished.",
+      "screen": "@video7/memory-embeddings",
+      "crop": [
+        265,
+        645,
+        770,
+        300
+      ],
+      "highlight": [
+        280,
+        660,
+        735,
+        265
+      ],
+      "callout": "Embedding model · dim · vector backend",
+      "note": "Step 5 of 6 · Teaching 2 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 5",
+      "title": "Plan an\nindex change",
+      "body": "Do not treat the field as an ordinary chat-model selector.",
+      "screen": "@video7/memory-embeddings",
+      "crop": [
+        265,
+        645,
+        770,
+        300
+      ],
+      "highlight": [
+        280,
+        660,
+        735,
+        265
+      ],
+      "callout": "Embedding model · dim · vector backend",
+      "note": "Step 5 of 6 · Teaching 3 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        5
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 5",
+      "title": "An advanced\nsearch change",
+      "items": [
+        "Embeddings represent meaning as numbers",
+        "Model, dimension and backend work together",
+        "Old memories may need re-embedding",
+        "Plan a complete backup and Health checks"
+      ],
+      "note": "This field selects memory-search representation. It is separate from the chat model. No migration is performed in this tutorial.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 23,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 5",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know to plan and verify an index change rather than merely typing a new name."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        5
+      ],
+      "readingWords": 40,
+      "readingSeconds": 16,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 6",
+      "title": "Optional\nadvanced tuning",
+      "body": "Criticality & edge dynamics tunes advisory moods, boredom, wandering and dream recombination.",
+      "screen": "@video7/memory-dynamics",
+      "crop": [
+        265,
+        204,
+        770,
+        400
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        365
+      ],
+      "callout": "Experimental advisory controls",
+      "note": "Step 6 of 6 · Teaching 1 of 3. Locate the highlighted control.",
+      "contextZoom": false,
+      "readingWords": 28,
+      "readingSeconds": 11.200000000000001,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 6",
+      "title": "Optional\nadvanced tuning",
+      "body": "These are experimental behaviour controls, not ways to guarantee reliability or a particular personality.",
+      "screen": "@video7/memory-dynamics",
+      "crop": [
+        265,
+        204,
+        770,
+        400
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        365
+      ],
+      "callout": "Experimental advisory controls",
+      "note": "Step 6 of 6 · Teaching 2 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 26,
+      "kind": "screen",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 6",
+      "title": "Optional\nadvanced tuning",
+      "body": "Begin with working defaults; check real behaviour over time before making one deliberate change.",
+      "screen": "@video7/memory-dynamics",
+      "crop": [
+        265,
+        204,
+        770,
+        400
+      ],
+      "highlight": [
+        280,
+        219,
+        735,
+        365
+      ],
+      "callout": "Experimental advisory controls",
+      "note": "Step 6 of 6 · Teaching 3 of 3. Read this distinction before acting.",
+      "contextZoom": false,
+      "readingWords": 31,
+      "readingSeconds": 12.4,
+      "locateSeconds": 7
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [
+        6
+      ],
+      "duration": 28,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 6",
+      "title": "Observe before\nyou tune",
+      "items": [
+        "Criticality and moods are advisory",
+        "Boredom and wandering are experimental",
+        "Dream recombination is optional tuning",
+        "Check real behaviour over time"
+      ],
+      "note": "Defaults are the starting point. One deliberate change should have an observable purpose; it cannot guarantee a personality or reliability.",
+      "readingWords": 44,
+      "readingSeconds": 17.6,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 22,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS · STEP 6",
+      "title": "Pause and\ncheck this",
+      "items": [
+        "You know which options are optional advanced tuning."
+      ],
+      "note": "Try it in Genesis. Pause for as long as you need. Continue when you can explain or confirm this result.",
+      "checkpointSteps": [
+        6
+      ],
+      "readingWords": 32,
+      "readingSeconds": 12.8,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": "memory-options",
+      "sourceSteps": [],
+      "duration": 26,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS",
+      "title": "Lesson\ncomplete",
+      "items": [
+        "Read the actual state and relevant result",
+        "Keep a complete backup for larger changes",
+        "Use one safe example at a time",
+        "Keep working defaults while learning"
+      ],
+      "note": "Return to any step using its lesson chapter. Use your own ordinary examples and pause whenever you need.",
+      "readingWords": 46,
+      "readingSeconds": 18.4,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 31,
+      "kind": "list",
+      "eyebrow": "06 / MEMORY OPTIONS",
+      "title": "Your care\nchecklist",
+      "items": [
+        "Check the memory or recalled result you need",
+        "Verify backup completeness before a larger change",
+        "Keep a complete copy on separate storage",
+        "Read count labels and exact visible errors",
+        "Observe actual work before advanced tuning"
+      ],
+      "note": "All six lessons and all 32 steps of “Keep Genesis yours” are covered. The current course ends here.",
+      "readingWords": 56,
+      "readingSeconds": 22.400000000000002,
+      "locateSeconds": 4
+    },
+    {
+      "chapter": 6,
+      "lesson": null,
+      "sourceSteps": [],
+      "duration": 20,
+      "kind": "title",
+      "eyebrow": "06 / MEMORY OPTIONS",
+      "title": "Your Genesis.\nYour next step.",
+      "body": "Return to a chapter whenever you need it.\nPause, practice and keep the choices that suit you.",
+      "tag": "SERIES COMPLETE · OWNER REVIEW",
+      "readingWords": 22,
+      "readingSeconds": 8.8,
+      "locateSeconds": 4
+    }
+  ]
+}
