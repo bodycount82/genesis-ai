@@ -244,7 +244,7 @@
   var releaseFiles={
     windows:{url:R.windows&&R.windows.url,title:"Before downloading Genesis AI",button:"Download for Windows · v"+(R.windows&&R.windows.version),intro:"The Windows application can act on your computer. Please read the terms before continuing."},
     android:{url:R.android&&R.android.url,title:"Before downloading the companion",button:"Download Android APK · v"+(R.android&&R.android.version),intro:"The Android companion connects to a Genesis AI instance. Please read the terms before continuing."},
-    extension:{url:R.extension&&R.extension.url,title:"Before downloading the Browser Bridge",button:"Download Browser Bridge · v"+(R.extension&&R.extension.version),intro:"The Browser Bridge lets Genesis act inside your own browser, with your sign-ins. Unzip it, then choose Load unpacked on your browser\u2019s extensions page. Please read the terms before continuing."}
+    extension:{url:R.extension&&R.extension.url,title:"Before downloading the Browser Bridge",button:"Download Browser Bridge · v"+(R.extension&&R.extension.version),intro:"The Browser Bridge lets Genesis act inside your own browser, with your sign-ins. Run the small setup: it opens your browser\u2019s extensions page and a short guide, and you add the Bridge with Load unpacked. Please read the terms before continuing."}
   };
   Object.keys(releaseFiles).forEach(function(kind){releaseFiles[kind].filename=fileName(releaseFiles[kind].url);});
   document.querySelectorAll("[data-release]").forEach(function(el){var r=R[el.getAttribute("data-release")];if(r)el.textContent="v"+r.version+" · "+r.platform;});
