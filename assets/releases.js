@@ -4,12 +4,12 @@
      /android/Genesis-Android-<ver>.apk
      /extension/Genesis-Browser-Bridge-Setup-<ver>.exe  (zip kept as zipUrl)
    Versioning: all three share the Genesis release number (a "release train").
-   A companion-only fix adds a fourth number (2.1.1.1, 2.1.1.2 ...) and still pairs
-   with Genesis 2.1.1; when Genesis moves, everything moves with it. */
+   A companion-only fix adds a fourth number (2.1.2.1, 2.1.2.2 ...) and still pairs
+   with Genesis 2.1.2; when Genesis moves, everything moves with it. */
 (function () {
   "use strict";
   var bucket = "https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev";
-  var train = "2.1.1";
+  var train = "2.1.2";
 
   window.GENESIS_RELEASES = {
     train: train,
