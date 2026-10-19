@@ -29,6 +29,12 @@
   .download-trigger { font:inherit; }
   .download-jump { flex-direction:column; align-items:flex-start; gap:4px; padding-top:11px; padding-bottom:11px; }
   .download-jump small { font:7.5px/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; opacity:.62; }
+  /* bottom-align the tier buttons: cards are equal height, so pin the CTA to the
+     bottom edge instead of letting longer copy push it down out of line */
+  #acquire .dl-card > a.btn { margin-top:auto; }
+  /* the primary tier drops its border, which makes it 1px shorter than its
+     siblings and knocks the row out of true alignment — match the box */
+  #acquire .dl-card > a.btn.primary { border:1px solid transparent; }
   .follow-row { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:14px; }
   .follow-pill { display:inline-flex; align-items:center; gap:8px; padding:7px 14px 7px 11px; border:1px solid var(--hairline-bright); border-radius:999px; background:rgba(6,6,8,.55); color:var(--ink-dim); font:11px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; text-decoration:none; transition:color .25s, border-color .25s, background .25s; }
   .follow-pill:hover { color:var(--ink); border-color:var(--gold); background:rgba(216,169,78,.08); }
@@ -168,6 +174,59 @@
           <div class="hud hud-1 hide" aria-hidden="true"></div>
           <div class="hud hud-2 hide" aria-hidden="true"></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEG 5.5 · COMMERCIAL — restored 2026-10-19, copy verbatim from 6ffc479 -->
+  <section class="leg" id="acquire" data-leg="commercial">
+    <div class="inner">
+      <p class="kicker">choose the level of help</p>
+      <h2 class="display">Try it yourself—<br>or deploy it <em>with its builder</em>.</h2>
+      <p class="lede">The application remains available as a free self-serve download. Paid options fund hands-on onboarding, workflow design, and commercial integration.</p>
+
+      <div class="download-grid" style="margin-top:38px">
+
+        <div class="dl-card">
+          <span class="k">Self-serve</span>
+          <b>Genesis — free</b>
+          <span class="v">No cost</span>
+          <span class="p">For technical early adopters who want to evaluate the current Windows release themselves.</span>
+          <span class="p" style="color:var(--ink-dim)">Windows application and Android companion · local or configured cloud models · community-stage software, provided as is</span>
+          <a class="btn" href="#download">Download the release</a>
+        </div>
+
+        <div class="dl-card primary">
+          <span class="k">Founding user</span>
+          <b>Assisted Setup</b>
+          <span class="v">€149 one time</span>
+          <span class="p">For an individual who wants Genesis configured around their machine, model, and first useful workflow.</span>
+          <span class="p" style="color:var(--ink-dim)">Remote onboarding and model selection · permission and backup review · one real workflow configured with you · 30 days of priority email support</span>
+          <a class="btn primary" href="mailto:damirderganc@gmail.com?subject=Genesis%20Founding%20User&amp;body=I%27d%20like%20assisted%20Genesis%20setup.%20My%20Windows%20PC%20and%20intended%20workflow%20are%3A%20">Request a slot</a>
+        </div>
+
+        <div class="dl-card">
+          <span class="k">Teams and AI companies</span>
+          <b>Persistent Agent Pilot</b>
+          <span class="v">From €2,500</span>
+          <span class="p">A focused 14-day pilot to evaluate Genesis memory and agent continuity around one defined workflow or model.</span>
+          <span class="p" style="color:var(--ink-dim)">Integration and deployment session · acceptance criteria and evaluation report · commercial, white-label, or source licensing discussion · pilot fee credited toward an agreed license</span>
+          <a class="btn" href="mailto:damirderganc@gmail.com?subject=Genesis%20Persistent%20Agent%20Pilot&amp;body=Organization%3A%20%0AWorkflow%20or%20model%20to%20evaluate%3A%20%0AWhat%20must%20persist%20across%20sessions%3A%20">Discuss a pilot</a>
+        </div>
+
+      </div>
+
+      <!-- acquisition banner, expressed in the page's existing gate/clause idiom -->
+      <div class="cta-panel wide" style="margin-top:34px; text-align:left">
+        <div class="gate-clause" style="grid-template-columns:1fr">
+          <div>
+            <b style="color:var(--gold); font:9px/1.5 var(--mono); letter-spacing:.18em; text-transform:uppercase">Strategic acquisition</b>
+            <h3 style="margin-top:8px; color:var(--ink); font:400 clamp(21px,2.4vw,30px)/1.15 var(--serif); letter-spacing:-.02em">The complete Genesis project is available for acquisition.</h3>
+            <p style="margin-top:12px; color:var(--ink-dim); font-size:13.5px; line-height:1.65">The builder is open to a negotiated full sale and transition—not only a pilot or source-code license. An agreed transaction can include the Windows application, Python backend, full Android companion, memory and autonomy architecture, tests, documentation, build and release systems, website and brand assets, and transition support. Exact IP and asset scope is subject to due diligence and the final agreement.</p>
+            <a class="btn primary" href="mailto:damirderganc@gmail.com?subject=Genesis%20Full%20Project%20Acquisition&amp;body=Organization%3A%20%0AWhat%20interests%20you%20about%20Genesis%3A%20%0APreferred%20next%20step%3A%20" style="margin-top:18px">Discuss full acquisition</a>
+          </div>
+        </div>
+        <p style="margin-top:18px; color:var(--ink-faint); font:9px/1.6 var(--mono); letter-spacing:.12em; text-transform:uppercase">Source licensing and white-label arrangements remain available too. Consciousness is not sold as a product claim; Genesis provides an experimental architecture for persistent AI identity and autonomy.</p>
       </div>
     </div>
   </section>
