@@ -9,7 +9,7 @@
 (function () {
   "use strict";
   var bucket = "https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev";
-  var train = "2.2.0";
+  var train = "2.2.1";
 
   window.GENESIS_RELEASES = {
     train: train,
