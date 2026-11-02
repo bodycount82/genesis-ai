@@ -10,6 +10,7 @@
   "use strict";
   var bucket = "https://pub-d9b3fb0b9c9f4e1a9eb645d1b333650a.r2.dev";
   var train = "2.3.5";
+  var bridge = "2.3.5.1";   // Browser Bridge-only fix, pairs with Genesis 2.3.5
 
   window.GENESIS_RELEASES = {
     train: train,
@@ -27,9 +28,9 @@
     },
     extension: {
       label: "Browser Bridge",
-      version: train,
-      url: bucket + "/extension/Genesis-Browser-Bridge-Setup-" + train + ".exe",
-      zipUrl: bucket + "/extension/Genesis-Browser-Bridge-" + train + ".zip",
+      version: bridge,
+      url: bucket + "/extension/Genesis-Browser-Bridge-Setup-" + bridge + ".exe",
+      zipUrl: bucket + "/extension/Genesis-Browser-Bridge-" + bridge + ".zip",
       platform: "Chrome · Edge · Brave · Opera · Vivaldi"
     }
   };
